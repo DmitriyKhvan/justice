@@ -1,0 +1,63 @@
+<div class="step">
+  <div class="divider" *ngIf="(currentStep === stepNumber) || !isLast" [class.divider-current]="(currentStep === stepNumber)"></div>
+  <div class="header">
+    <div class="indicator mr-2" [class.current-step]="(currentStep === stepNumber)">
+      <ng-container
+        *ngIf="(currentStep <= stepNumber) ||
+             (currentStep > stepNumber && isLast) ; else stepDone">
+      </ng-container>
+      <ng-template #stepDone>
+        <div class="check">
+          <i class="uil-check"></i>
+        </div>
+      </ng-template>
+      {{stepNumber}}
+    </div>
+    <div class="title">
+      <ng-content select="[step-title]"></ng-content>
+    </div>
+  </div>
+  <ng-container *ngIf="
+            (currentStep === stepNumber) ||
+            (currentStep > stepNumber && isLast) ||
+            (currentStep < stepNumber && isFirst)">
+<!--    <div class="divider mr-3">-->
+<!--      <div class="line" *ngIf="!isLast"></div>-->
+<!--    </div>-->
+    <div class="content pl-5">
+      <ng-content select="[step-content]"></ng-content>
+      <ng-content select="[step-action]"></ng-content>
+    </div>
+  </ng-container>
+<!--  {{currentStep}}-->
+</div>
+<!--<div class="grid">-->
+<!--  <div class="indicator">-->
+<!--    <ng-container-->
+<!--      *ngIf="(currentStep <= stepNumber) ||-->
+<!--             (currentStep > stepNumber && isLast) ; then stepOngoing; else stepDone">-->
+<!--    </ng-container>-->
+<!--    <ng-template #stepOngoing>-->
+<!--      {{stepNumber}}-->
+<!--    </ng-template>-->
+<!--    <ng-template #stepDone>-->
+<!--      <div class="check"></div>-->
+<!--    </ng-template>-->
+<!--  </div>-->
+<!--  <div class="title">-->
+<!--    <ng-content select="[step-title]"></ng-content>-->
+<!--  </div>-->
+<!--  <ng-container *ngIf="-->
+<!--            (currentStep === stepNumber) ||-->
+<!--            (currentStep > stepNumber && isLast) ||-->
+<!--            (currentStep < stepNumber && isFirst)">-->
+<!--    <div class="divider">-->
+<!--      <div class="line" *ngIf="!isLast"></div>-->
+<!--    </div>-->
+<!--    <div class="content">-->
+<!--      <ng-content select="[step-content]"></ng-content>-->
+<!--      <ng-content select="[step-action]"></ng-content>-->
+<!--    </div>-->
+<!--  </ng-container>-->
+<!--&lt;!&ndash;  {{currentStep}}&ndash;&gt;-->
+<!--</div>-->
