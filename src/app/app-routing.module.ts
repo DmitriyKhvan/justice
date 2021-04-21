@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { ClientsListComponent } from './pages/clients-list/clients-list.component';
 import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.component';
-import {DamageClaimsComponent} from './pages/damage-claims/damage-claims.component';
+import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
 
 const routes: Routes = [
   {
