@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -25,7 +25,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     ]),
   ],
 })
-export class ClientsListComponent implements OnInit {
+export class ClientsListComponent implements OnInit, DoCheck {
   range: any = [];
 
   selectedItem = null;
@@ -38,8 +38,13 @@ export class ClientsListComponent implements OnInit {
     }
   }
 
-  selectItem(idx: any): void {
+  ngDoCheck(): void {
+  }
+
+  selectItem(pld: any, idx: any): void {
     this.selectedItem = idx;
+
+    this.router.navigate([], {queryParams: {...this.route.snapshot.queryParams, contract: pld}});
   }
 
   get stateName(): any {
@@ -47,6 +52,6 @@ export class ClientsListComponent implements OnInit {
   }
 
   showDetails(): void {
-    this.router.navigate(['clients/detail']);
+    this.router.navigate(['clients/detail'], {queryParams: {...this.route.snapshot.queryParams}});
   }
 }

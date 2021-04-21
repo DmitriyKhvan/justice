@@ -7,7 +7,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { StepperComponent } from '../stepper.component';
-
+declare var $: any;
 @Component({
   selector: 'app-step',
   templateUrl: './step.component.html',
@@ -22,5 +22,6 @@ export class StepComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    console.log('step');
   }
 }

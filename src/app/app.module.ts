@@ -10,11 +10,9 @@ import { ContentComponent } from './layouts/content/content.component';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { ClientsListComponent } from './pages/clients-list/clients-list.component';
 import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.component';
-import { StepperComponent } from './pages/clients-detail/components/stepper/stepper.component';
-import { StepComponent } from './pages/clients-detail/components/stepper/step/step.component';
-import { UploadBtnComponent } from './components/forms/upload-btn/upload-btn.component';
+import { StepperComponent } from './components/stepper/stepper.component';
+import { StepComponent } from './components/stepper/step/step.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import { FormComponent } from './components/forms/form/form.component';
 import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
 
 @NgModule({
@@ -27,8 +25,6 @@ import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.compo
     ClientsDetailComponent,
     StepperComponent,
     StepComponent,
-    UploadBtnComponent,
-    FormComponent,
     DamageClaimsComponent,
   ],
   imports: [

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {
   trigger,
   state,
@@ -31,7 +31,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     ]),
   ],
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent implements OnInit, DoCheck {
   mainList = [
     {
       region_name: 'Андижанское отделение',
@@ -117,19 +117,27 @@ export class ClientsComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngDoCheck(): void {
+    if (this.route.snapshot.queryParams.region) {
+      this.branchList = this.mainList.find(
+        (el) => el.region_code === this.route.snapshot.queryParams.region
+      )?.branch_offices;
+    } else {
+      this.branchList = [];
+    }
+  }
+
   get stateName(): any {
     return this.branchList.length ? 'show' : 'hide';
   }
 
   getBranchList(pld: any, idx: any): void {
-    this.branchList = this.mainList.find(
-      (el) => el.region_code === pld
-    )?.branch_offices;
+    this.router.navigate([], {queryParams: {region: pld}});
 
     this.regListItemIdx = this.branchList.length ? idx : null;
   }
 
-  getList(): void {
-    this.router.navigate(['clients/list']);
+  getList(mfo: any): void {
+    this.router.navigate(['clients/list'], {queryParams: {mfo}});
   }
 }

@@ -3,7 +3,7 @@
     class="page-header row no-gutters justify-content-between align-items-center"
   >
     <div class="page-title">
-      <i class="uil-arrow-left"></i>
+      <i class="uil-arrow-left" (click)="goToBack()"></i>
       Назад к списку кредитов
     </div>
     <div class="page-header__text">
@@ -105,317 +105,172 @@
     </div>
 
     <div class="page-stepper">
-      <app-stepper #stepper [(counter)]="counter">
-        <app-step>
-          <div step-title>Отправка оповещения должнику</div>
-          <div step-content>
-            <app-form>
-              <form action="" class="page-form">
-                <div class="file_field">
-                  <div class="file-field__title mb-1">
-                    Прикрепить скан документа
-                  </div>
-                  <div class="file-field__list mb-2">
-                    <div *ngFor="let item of uploadFiles; index as i" class="file-field__list_item py-1">
-                      <svg viewBox="0 0 36 36" class="circular-chart default" *ngIf="item.fileUploaded < 100">
-                        <path
-                          class="circle-bg"
-                          d="M18 2.0845
+      <details class="step step-current" open>
+<!--        <div class="divider divider-current"></div>-->
+        <summary class="header">
+          <div class="indicator mr-2 current-step">
+              <div class="check">
+                <i class="uil-check"></i>
+              </div>
+            1
+          </div>
+          <div class="title">
+            Отправка оповещения должнику
+          </div>
+        </summary>
+        <div class="content pl-5">
+          <form action="" class="page-form">
+            <div class="file_field">
+              <div class="file-field__title mb-1">
+                Прикрепить скан документа
+              </div>
+              <div class="file-field__list mb-2">
+                <div *ngFor="let item of uploadFiles; index as i" class="file-field__list_item py-1">
+                  <svg viewBox="0 0 36 36" class="circular-chart default" *ngIf="item.fileUploaded < 100">
+                    <path
+                      class="circle-bg"
+                      d="M18 2.0845
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
-                        ></path>
-                        <path
-                          class="circle"
-                          attr.stroke-dasharray="{{item.fileUploaded}}, 100"
-                          d="M18 2.0845
+                    ></path>
+                    <path
+                      class="circle"
+                      attr.stroke-dasharray="{{item.fileUploaded}}, 100"
+                      d="M18 2.0845
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
-                        ></path>
-                      </svg>
-                      <i *ngIf="item.fileUploaded === 100" class="icon-attach mr-1"></i>
-                      <div class="file-field__list_text ml-1">
-                        {{ item.fileName }}
+                    ></path>
+                  </svg>
+                  <i *ngIf="item.fileUploaded === 100" class="icon-attach mr-1"></i>
+                  <div class="file-field__list_text ml-1">
+                    {{ item.fileName }}
+                  </div>
+                  <div class="position-relative">
+                    <i
+                      class="icon-close_2 ml-1"
+                      (click)="showTooltip($event)"
+                    ></i>
+                    <div class="tooltip tooltip-right">
+                      <div class="tooltip-content">
+                        Удалить файл?
                       </div>
-                      <div class="position-relative">
-                        <i
-                          class="icon-close_2 ml-1"
-                          (click)="showTooltip($event)"
-                        ></i>
-                        <div class="tooltip tooltip-right">
-                            <div class="tooltip-content">
-                              Удалить файл?
-                            </div>
-                            <div class="tooltip-action">
-                              <button
-                                class="btn btn-outlined-white mx-1"
-                                (click)="hideTooltip($event)"
-                              >
-                                Нет
-                              </button>
-                              <button class="btn btn-filled-white">Да</button>
-                            </div>
-                        </div>
+                      <div class="tooltip-action">
+                        <button
+                          class="btn btn-outlined-white mx-1"
+                          (click)="hideTooltip($event)"
+                        >
+                          Нет
+                        </button>
+                        <button class="btn btn-filled-white">Да</button>
                       </div>
                     </div>
                   </div>
-                  <label class="file-field__uploadbtn mb-2">
-                    Добавить файл
-                    <input type="file" multiple (change)="fileUploadService.poster($event)"/>
-                  </label>
-                  <button
-                    class="page-form__actionbtn text-uppercase"
-                    (click)="stepper.nextStep()"
-                  >
-                    отправить оповещение
-                  </button>
                 </div>
-              </form>
-<!--              <div form-field-title>Прикрепить скан документа</div>-->
-<!--              <div form-field-file-items>-->
-<!--                <div-->
-<!--                  *ngFor="let item of uploadFiles; index as i"-->
-<!--                  class="file-field__list_item py-1"-->
-<!--                >-->
-<!--                  <svg-->
-<!--                    viewBox="0 0 36 36"-->
-<!--                    class="circular-chart default"-->
-<!--                    *ngIf="item.fileUploaded < 100"-->
-<!--                  >-->
-<!--                    <path-->
-<!--                      class="circle-bg"-->
-<!--                      d="M18 2.0845-->
-<!--                    a 15.9155 15.9155 0 0 1 0 31.831-->
-<!--                    a 15.9155 15.9155 0 0 1 0 -31.831"-->
-<!--                    ></path>-->
-<!--                    <path-->
-<!--                      class="circle"-->
-<!--                      attr.stroke-dasharray="{{ item.fileUploaded }}, 100"-->
-<!--                      d="M18 2.0845-->
-<!--                    a 15.9155 15.9155 0 0 1 0 31.831-->
-<!--                    a 15.9155 15.9155 0 0 1 0 -31.831"-->
-<!--                    ></path>-->
-<!--                  </svg>-->
-<!--                  <i-->
-<!--                    *ngIf="item.fileUploaded === 100"-->
-<!--                    class="icon-attach mr-1"-->
-<!--                  ></i>-->
-<!--                  <div class="file-field__list_text ml-1">-->
-<!--                    {{ item.fileName }}-->
-<!--                  </div>-->
-<!--                  <div class="position-relative">-->
-<!--                    <i-->
-<!--                      class="icon-close_2 ml-1"-->
-<!--                      (click)="showTooltip($event)"-->
-<!--                    ></i>-->
-<!--                    <div class="tooltip tooltip-right">-->
-<!--                      <div class="tooltip-content">Удалить файл?</div>-->
-<!--                      <div class="tooltip-action">-->
-<!--                        <button-->
-<!--                          class="btn btn-outlined-white mx-1"-->
-<!--                          (click)="hideTooltip($event)"-->
-<!--                        >-->
-<!--                          Нет-->
-<!--                        </button>-->
-<!--                        <button class="btn btn-filled-white">Да</button>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div form-field-file>-->
-<!--                <label class="file-field__uploadbtn mb-2">-->
-<!--                  Добавить файл-->
-<!--                  <input-->
-<!--                    type="file"-->
-<!--                    multiple-->
-<!--                    (change)="fileUploadService.poster($event)"-->
-<!--                  />-->
-<!--                </label>-->
-<!--              </div>-->
-<!--              <div form-field-action>-->
-<!--                <button-->
-<!--                  class="page-form__actionbtn text-uppercase"-->
-<!--                  (click)="stepper.nextStep()"-->
-<!--                >-->
-<!--                  отправить оповещение-->
-<!--                </button>-->
-<!--              </div>-->
-            </app-form>
-            <!--            <form action="" class="page-form">-->
-            <!--              <div class="file_field">-->
-            <!--                <div class="file-field__title mb-1">-->
-            <!--                  Прикрепить скан документа-->
-            <!--                </div>-->
-            <!--                <div class="file-field__list mb-2">-->
-            <!--                  <div *ngFor="let item of uploadFiles; index as i" class="file-field__list_item py-1">-->
-            <!--                    <svg viewBox="0 0 36 36" class="circular-chart default" *ngIf="item.fileUploaded < 100">-->
-            <!--                      <path-->
-            <!--                        class="circle-bg"-->
-            <!--                        d="M18 2.0845-->
-            <!--                    a 15.9155 15.9155 0 0 1 0 31.831-->
-            <!--                    a 15.9155 15.9155 0 0 1 0 -31.831"-->
-            <!--                      ></path>-->
-            <!--                      <path-->
-            <!--                        class="circle"-->
-            <!--                        attr.stroke-dasharray="{{item.fileUploaded}}, 100"-->
-            <!--                        d="M18 2.0845-->
-            <!--                    a 15.9155 15.9155 0 0 1 0 31.831-->
-            <!--                    a 15.9155 15.9155 0 0 1 0 -31.831"-->
-            <!--                      ></path>-->
-            <!--                    </svg>-->
-            <!--                    <i *ngIf="item.fileUploaded === 100" class="icon-attach mr-1"></i>-->
-            <!--                    <div class="file-field__list_text ml-1">-->
-            <!--                      {{ item.fileName }}-->
-            <!--                    </div>-->
-            <!--                    <div class="position-relative">-->
-            <!--                      <i-->
-            <!--                        class="icon-close_2 ml-1"-->
-            <!--                        (click)="showTooltip($event)"-->
-            <!--                      ></i>-->
-            <!--                      <div class="tooltip tooltip-right">-->
-            <!--                          <div class="tooltip-content">-->
-            <!--                            Удалить файл?-->
-            <!--                          </div>-->
-            <!--                          <div class="tooltip-action">-->
-            <!--                            <button-->
-            <!--                              class="btn btn-outlined-white mx-1"-->
-            <!--                              (click)="hideTooltip($event)"-->
-            <!--                            >-->
-            <!--                              Нет-->
-            <!--                            </button>-->
-            <!--                            <button class="btn btn-filled-white">Да</button>-->
-            <!--                          </div>-->
-            <!--                      </div>-->
-            <!--                    </div>-->
-            <!--                  </div>-->
-            <!--                </div>-->
-            <!--                <label class="file-field__uploadbtn mb-2">-->
-            <!--                  Добавить файл-->
-            <!--                  <input type="file" multiple (change)="fileUploadService.poster($event)"/>-->
-            <!--                </label>-->
-            <!--                <button-->
-            <!--                  class="page-form__actionbtn text-uppercase"-->
-            <!--                  (click)="stepper.nextStep()"-->
-            <!--                >-->
-            <!--                  отправить оповещение-->
-            <!--                </button>-->
-            <!--              </div>-->
-            <!--            </form>-->
+              </div>
+              <label class="file-field__uploadbtn mb-2">
+                Добавить файл
+                <input type="file" multiple (change)="fileUploadService.poster($event)"/>
+              </label>
+              <button
+                class="page-form__actionbtn text-uppercase"
+              >
+                отправить оповещение
+              </button>
+            </div>
+          </form>
+        </div>
+      </details>
+      <details class="step" open>
+<!--        <div class="divider divider-current"></div>-->
+        <summary class="header">
+          <div class="indicator mr-2 current-step">
+              <div class="check">
+                <i class="uil-check"></i>
+              </div>
+            2
           </div>
-        </app-step>
-        <app-step>
-          <div step-title>Отправка заявки в палату</div>
-          <div step-content>
-            <app-form>
-              <form action="" class="page-form">
-                <div class="row no-gutters justify-content-between">
-                  <div class="input-field mr-1">
-                    <div class="input-field__title">№ исходящего документа</div>
-                    <label class="input-field__label">
-                      <input type="text" autocomplete="off" />
-                    </label>
+          <div class="title">
+            Отправка заявки в палату
+          </div>
+        </summary>
+        <div class="content pl-5">
+          <form action="" class="page-form">
+            <div class="row no-gutters justify-content-between mb-2">
+              <div class="input-field mr-1">
+                <div class="input-field__title">№ исходящего документа</div>
+                <label class="input-field__label">
+                  <input type="text" autocomplete="off" />
+                </label>
+              </div>
+              <div class="input-field ml-1">
+                <div class="input-field__title">Дата исх. документа</div>
+                <label class="input-field__label">
+                  <input type="text" class="outDocDate" readonly/>
+                  <i class="icon-calendar"></i>
+                </label>
+              </div>
+            </div>
+            <div class="file_field">
+              <div class="file-field__title mb-1">
+                Прикрепить скан документа
+              </div>
+              <div class="file-field__list mb-2">
+                <div *ngFor="let item of uploadFiles; index as i" class="file-field__list_item py-1">
+                  <svg viewBox="0 0 36 36" class="circular-chart default" *ngIf="item.fileUploaded < 100">
+                    <path
+                      class="circle-bg"
+                      d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    ></path>
+                    <path
+                      class="circle"
+                      attr.stroke-dasharray="{{item.fileUploaded}}, 100"
+                      d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    ></path>
+                  </svg>
+                  <i *ngIf="item.fileUploaded === 100" class="icon-attach mr-1"></i>
+                  <div class="file-field__list_text ml-1">
+                    {{ item.fileName }}
                   </div>
-                  <div class="input-field ml-1">
-                    <div class="input-field__title">Дата исх. документа</div>
-                    <label class="input-field__label">
-                      <input type="text" class="outDocDate" autocomplete="off" />
-                      <i class="icon-calendar"></i>
-                    </label>
-                  </div>
-                </div>
-                <div class="file_field">
-                  <div class="file-field__title mb-1">
-                    Прикрепить скан документа
-                  </div>
-                  <div class="file-field__list mb-2">
-                    <div class="file-field__list_item py-1">
-                      <i class="icon-attach mr-1"></i>
-                      Название выбранного файла можеть быть очень длин...
-                      <div class="position-relative">
-                        <i
-                          class="icon-close_2 ml-1"
-                          (click)="showTooltip($event)"
-                        ></i>
-                        <div class="tooltip tooltip-right">
-                          <div class="tooltip-content">Удалить файл?</div>
-                          <div class="tooltip-action">
-                            <button
-                              class="btn btn-outlined-white mx-1"
-                              (click)="hideTooltip($event)"
-                            >
-                              Нет
-                            </button>
-                            <button class="btn btn-filled-white">Да</button>
-                          </div>
-                        </div>
+                  <div class="position-relative">
+                    <i
+                      class="icon-close_2 ml-1"
+                      (click)="showTooltip($event)"
+                    ></i>
+                    <div class="tooltip tooltip-right">
+                      <div class="tooltip-content">
+                        Удалить файл?
                       </div>
-                    </div>
-                    <div class="file-field__list_item py-1">
-                      <svg viewBox="0 0 36 36" class="circular-chart default">
-                        <path
-                          class="circle-bg"
-                          d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                        ></path>
-                        <path
-                          class="circle"
-                          attr.stroke-dasharray="10, 100"
-                          d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                        ></path>
-                      </svg>
-                      Название выбранного файла можеть быть очень длин...
-                      <div class="position-relative">
-                        <i
-                          class="icon-close_2 ml-1"
-                          (click)="showTooltip($event)"
-                        ></i>
-                        <div class="tooltip tooltip-right">
-                          <div class="tooltip-content">Удалить файл?</div>
-                          <div class="tooltip-action">
-                            <button
-                              class="btn btn-outlined-white mx-1"
-                              (click)="hideTooltip($event)"
-                            >
-                              Нет
-                            </button>
-                            <button class="btn btn-filled-white">Да</button>
-                          </div>
-                        </div>
+                      <div class="tooltip-action">
+                        <button
+                          class="btn btn-outlined-white mx-1"
+                          (click)="hideTooltip($event)"
+                        >
+                          Нет
+                        </button>
+                        <button class="btn btn-filled-white">Да</button>
                       </div>
                     </div>
                   </div>
-                  <label class="file-field__uploadbtn mb-2">
-                    Добавить файл
-                    <input type="file" multiple />
-                  </label>
-                  <button
-                    class="page-form__actionbtn text-uppercase"
-                    (click)="stepper.nextStep()"
-                  >
-                    отправить оповещение
-                  </button>
                 </div>
-              </form>
-            </app-form>
-          </div>
-          <!--          <div step-action>-->
-          <!--            <button (click)="stepper.prevStep()">prevStep</button>-->
-          <!--            <button (click)="stepper.nextStep()">nextStep</button>-->
-          <!--          </div>-->
-        </app-step>
-        <app-step>
-          <div step-title>Внесение решения палаты</div>
-          <div step-content>content 3</div>
-          <div step-action>
-            <button (click)="stepper.prevStep()">prevStep</button>
-            <button (click)="stepper.nextStep()">nextStep</button>
-          </div>
-        </app-step>
-      </app-stepper>
-      <!--      Counter ion-app: {{counter}}<br>-->
+              </div>
+              <label class="file-field__uploadbtn mb-2">
+                Добавить файл
+                <input type="file" multiple (change)="fileUploadService.poster($event)"/>
+              </label>
+              <button
+                class="page-form__actionbtn text-uppercase"
+              >
+                отправить оповещение
+              </button>
+            </div>
+          </form>
+        </div>
+      </details>
+
     </div>
   </div>
 </div>

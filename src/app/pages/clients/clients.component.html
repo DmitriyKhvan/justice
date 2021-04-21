@@ -46,7 +46,7 @@
           <div
             class="main-list_table__tr py-1 px-2"
             *ngFor="let branch of branchList"
-            (click)="getList()"
+            (click)="getList(branch.mfo)"
           >
             <div class="main-list_table__td">{{ branch?.mfo }}</div>
             <div class="main-list_table__td">{{ branch?.branch_name}}</div>
