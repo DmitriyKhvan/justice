@@ -52,6 +52,6 @@ export class ClientsListComponent implements OnInit, DoCheck {
   }
 
   showDetails(): void {
-    this.router.navigate(['clients/detail'], {queryParams: {...this.route.snapshot.queryParams}});
+    this.router.navigate(['clients/detail'], {queryParams: {...this.route.snapshot.queryParams, step: 1}});
   }
 }

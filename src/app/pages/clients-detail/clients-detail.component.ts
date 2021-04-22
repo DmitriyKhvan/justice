@@ -1,7 +1,16 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import {
+  ContentChildren,
+  QueryList,
+  Component,
+  DoCheck,
+  OnInit, OnChanges, Output, EventEmitter,
+} from '@angular/core';
 import { FileUploadService } from '../../services/file-upload.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 import { MainService } from '../../services/main.service';
+
+import {filter, pairwise} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
 
 declare var $: any;
 
@@ -11,9 +20,12 @@ declare var $: any;
   styleUrls: ['./clients-detail.component.scss'],
 })
 export class ClientsDetailComponent implements OnInit, DoCheck {
+  currentStep!: any;
+
+  steps!: any;
+
   show = false;
   counter = 1;
-  // counter2 = 1;
 
   previousUrl = '';
   currentUrl = '';
@@ -27,7 +39,13 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   uploadFiles!: Array<any>;
 
+
   ngOnInit(): void {
+    this.route.queryParams.subscribe((val) => {
+      this.currentStep = val.step;
+    });
+    // console.log(this.route);
+
     this.fileUploadService.currentUploaderFiles.subscribe((data) => {
       this.uploadFiles = data;
     });
@@ -39,23 +57,29 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
       this.currentUrl = val;
     });
 
-    $('.outDocDate').datepicker({
-      // minDate: new Date(),
-      inline: false,
-      todayButton: new Date(),
-      autoClose: true,
-      dateFormat: 'dd.mm.yyyy',
-      navTitles: {
-        days: 'MM, <span>yyyy</span>',
-        months: 'yyyy',
-        years: 'yyyy1 - yyyy2'
-      }
-      // timepicker: true,
-      // timeFormat: 'hh:ii AA',
-      // onSelect: function onSelect(fd: string, date: any, inst: object): void {
-      //   setTaskDeadline(date);
-      // },
+    const steps = document.querySelectorAll('.step');
+    this.steps = steps;
+    steps.forEach((step, i) => {
+      step.setAttribute('stepNumber', String(i + 1));
     });
+
+    // $('.outDocDate').datepicker({
+    //   // minDate: new Date(),
+    //   inline: false,
+    //   todayButton: new Date(),
+    //   autoClose: true,
+    //   dateFormat: 'dd.mm.yyyy',
+    //   navTitles: {
+    //     days: 'MM, <span>yyyy</span>',
+    //     months: 'yyyy',
+    //     years: 'yyyy1 - yyyy2',
+    //   },
+    //   // timepicker: true,
+    //   // timeFormat: 'hh:ii AA',
+    //   // onSelect: function onSelect(fd: string, date: any, inst: object): void {
+    //   //   setTaskDeadline(date);
+    //   // },
+    // });
 
     // console.log(this.route);
   }
@@ -93,6 +117,31 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   }
 
   goToBack(): void {
-    this.router.navigate(['clients/list'], {queryParams: {mfo: this.route.snapshot.queryParams.mfo}});
+    this.router.navigate(['clients/list'], {
+      queryParams: { mfo: this.route.snapshot.queryParams.mfo },
+    });
+  }
+
+  nextStep(): void {
+    this.currentStep++;
+    if (this.currentStep > this.steps.length) {
+      this.currentStep = this.steps.length;
+    }
+    this.router.navigate([], {
+      queryParams: { ...this.route.snapshot.queryParams, step: this.currentStep },
+    });
+  }
+  prevStep(): void {
+    this.currentStep--;
+    if (this.currentStep < 1) {
+      this.currentStep = 1;
+    }
+    this.router.navigate([], {
+      queryParams: { ...this.route.snapshot.queryParams, step: this.currentStep },
+    });
+  }
+
+  logger(pld: any): void {
+    console.log(pld);
   }
 }
