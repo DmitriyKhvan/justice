@@ -13,6 +13,9 @@ import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.co
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
 import { DatepickerComponent } from './components/formFields/datepicker/datepicker.component';
+import { SendAlertStepComponent } from './pages/clients-detail/step-forms/send-alert-step/send-alert-step.component';
+import { FileUploaderComponent } from './components/formFields/file-uploader/file-uploader.component';
+import { SendApplicationStepComponent } from './pages/clients-detail/step-forms/send-application-step/send-application-step.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { DatepickerComponent } from './components/formFields/datepicker/datepick
     ClientsDetailComponent,
     DamageClaimsComponent,
     DatepickerComponent,
+    SendAlertStepComponent,
+    FileUploaderComponent,
+    SendApplicationStepComponent,
   ],
   imports: [
     TooltipModule,

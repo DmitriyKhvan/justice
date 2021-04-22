@@ -181,8 +181,42 @@
 
 .page-form {
   width: 492px;
+  & .text-field {
+    flex: 1;
+    &__title {
+      margin-bottom: 12px;
+    }
+    &__label {
+      border: 1px solid rgba(16, 39, 74, 0.3);
+      width: 100%;
+      height: 120px;
+      border-radius: 5px;
+      overflow: hidden;
+      & textarea {
+        padding: 15px;
+        width: 100%;
+        height: 100%;
+        resize: none;
+        color: #10274a;
+        outline: none;
+        border: none;
+        //font-family: 'SFCompactDisplay', sans-serif;
+        &::placeholder {
+          color: rgba(16, 39, 74, 0.6);
+        }
+        &::-webkit-scrollbar { width: 0;
+          background: transparent;}
+        &::-webkit-scrollbar { width: 10px; height: 100%; }
+        &::-webkit-scrollbar-track {  background-color: rgba(42, 61, 116, 0.2);}
+        &::-webkit-scrollbar-thumb { background-color: rgba(32, 60, 103, 0.61); border-radius: 5px;}
+      }
+    }
+  }
   & .input-field {
     flex: 1;
+    &__title {
+      margin-bottom: 12px;
+    }
     &__label {
       border: 1px solid rgba(16, 39, 74, 0.3);
       width: 100%;
@@ -190,13 +224,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 15px;
+      //padding: 0 15px;
       border-radius: 5px;
       & i {
         font-size: 20px;
         cursor: pointer;
+        margin-right: 15px;
       }
       & input {
+        padding: 0 15px;
         border: none;
         outline: none;
         color: #10274a;
@@ -205,6 +241,7 @@
   }
   & .file-field {
     &__title {
+      margin-bottom: 12px;
     }
     &__list {
       &_text {
@@ -260,20 +297,26 @@
 .step {
   padding-bottom: 10px;
   position: relative;
-  &::before {
-    content: '';
+  &:last-child {
+    padding-bottom: 0;
+  }
+  & .divider {
+    //content: '';
     position: absolute;
     left: 12px;
     top: 24px;
     width: 2px;
     height: calc(100% - 24px);
     background: rgba(16, 39, 74, 0.3);
-  }
-  &-current {
-    &::before {
+    &-current {
       background: rgba(16, 39, 74, 1);
     }
   }
+  //&-current {
+  //  & .divider {
+  //    background: rgba(16, 39, 74, 1);
+  //  }
+  //}
   & .header {
     display: flex;
     align-items: center;
