@@ -12,8 +12,11 @@ import { ClientsListComponent } from './pages/clients-list/clients-list.componen
 import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { StepComponent } from './components/stepper/step/step.component';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
+import { ApplicationComponent } from './pages/application/application.component';
+import { Step1Component } from './pages/application/shared/components/step1/step1.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.compo
     StepperComponent,
     StepComponent,
     DamageClaimsComponent,
+    ApplicationComponent,
+    Step1Component,
   ],
   imports: [
     TooltipModule,
@@ -33,10 +38,10 @@ import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.compo
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [
-    HttpClient
-  ],
-  bootstrap: [AppComponent]
+  providers: [HttpClient],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
