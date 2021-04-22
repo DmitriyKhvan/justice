@@ -10,13 +10,12 @@ import { ContentComponent } from './layouts/content/content.component';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { ClientsListComponent } from './pages/clients-list/clients-list.component';
 import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.component';
-import { StepperComponent } from './components/stepper/stepper.component';
-import { StepComponent } from './components/stepper/step/step.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
 import { ApplicationComponent } from './pages/application/application.component';
 import { Step1Component } from './pages/application/shared/components/step1/step1.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DatepickerComponent } from './components/formFields/datepicker/datepicker.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +25,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ClientsComponent,
     ClientsListComponent,
     ClientsDetailComponent,
-    StepperComponent,
-    StepComponent,
     DamageClaimsComponent,
     ApplicationComponent,
     Step1Component,
+    DatepickerComponent,
   ],
   imports: [
     TooltipModule,

@@ -311,9 +311,13 @@
     }
   }
   & .content {
+    display: block;
     //background: red;
     padding-top: 15px;
     position: relative;
+    &-active {
+      display: block;
+    }
     //&::before {
     //  content: '';
     //  position: absolute;
