@@ -9,9 +9,6 @@ import { FileUploadService } from '../../services/file-upload.service';
 import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
 import { MainService } from '../../services/main.service';
 
-import {filter, pairwise} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs';
-
 declare var $: any;
 
 @Component({
@@ -94,26 +91,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     evt.preventDefault();
     evt.target.offsetParent.classList.remove('tooltip-active');
     // console.dir(evt.target.offsetParent);
-  }
-
-  loadFiles(evt: any): void {
-    if (!evt.target.files.length) {
-      return;
-    }
-
-    const files = Array.from(evt.target.files);
-
-    files.forEach((file) => {
-      // const reader = new FileReader();
-      // reader.onload = (ev: any) => {
-      //   console.log(ev.target.result);
-      //   evt.target.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}"></iframe>`);
-      // };
-      // // @ts-ignore
-      // reader.readAsDataURL(file);
-    });
-
-    // console.log(files);
   }
 
   goToBack(): void {
