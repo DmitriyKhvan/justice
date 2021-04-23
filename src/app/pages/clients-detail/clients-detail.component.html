@@ -220,13 +220,13 @@
                 </label>
               </div>
               <app-datepicker></app-datepicker>
-<!--              <div class="input-field ml-1">-->
-<!--                <div class="input-field__title">Дата исх. документа</div>-->
-<!--                <label class="input-field__label">-->
-<!--                  <input type="text" class="outDocDate" readonly />-->
-<!--                  <i class="icon-calendar"></i>-->
-<!--                </label>-->
-<!--              </div>-->
+              <!--              <div class="input-field ml-1">-->
+              <!--                <div class="input-field__title">Дата исх. документа</div>-->
+              <!--                <label class="input-field__label">-->
+              <!--                  <input type="text" class="outDocDate" readonly />-->
+              <!--                  <i class="icon-calendar"></i>-->
+              <!--                </label>-->
+              <!--              </div>-->
             </div>
             <div class="file_field">
               <div class="file-field__title mb-1">
@@ -291,7 +291,10 @@
                   (change)="fileUploadService.poster($event)"
                 />
               </label>
-              <div class="page-form__actionbtn text-uppercase" (click)="nextStep()">
+              <div
+                class="page-form__actionbtn text-uppercase"
+                (click)="nextStep()"
+              >
                 отправить заявку
               </div>
             </div>

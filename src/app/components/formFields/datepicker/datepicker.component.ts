@@ -3,7 +3,7 @@ declare var $: any;
 @Component({
   selector: 'app-datepicker',
   template: `
-    <div class="input-field ml-1">
+    <div class="input-field">
       <div class="input-field__title">Дата исх. документа</div>
       <label class="input-field__label">
         <input type="text" class="outDocDate" readonly />
