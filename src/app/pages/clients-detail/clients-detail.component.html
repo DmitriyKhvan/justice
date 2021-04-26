@@ -7,7 +7,7 @@
       Назад к списку кредитов
     </div>
     <div class="page-header__text">
-      Шаг 1. Отправка оповещения должнику. Исполнитель
+      Шаг {{ clientService.currentStep }}. {{ clientService.currentStepTitle }}
     </div>
     <div
       class="page-actions row no-gutters justify-content-between align-items-center"
@@ -104,203 +104,31 @@
       </div>
     </div>
 
-    <div class="page-stepper" [ngSwitch]="currentStep">
-      <div class="step step-current" #step>
-        <div class="header">
-          <div
-            class="indicator mr-2"
-            [class.current-step]="
-              currentStep === step.getAttribute('stepnumber')
-            "
-          >
-            <div class="check">
-              <i class="uil-check"></i>
-            </div>
-            {{ step.getAttribute("stepnumber") }}
-          </div>
-          <div class="title">Отправка оповещения должнику</div>
+    <app-stepper-wrapper class="page-stepper">
+      <app-step
+        [stepTitle]="'Отправка оповещения должнику'"
+        [stepDoneText]="'Должник оповещен'"
+      >
+        <div step-content>
+          <app-send-alert-step></app-send-alert-step>
         </div>
-        <div class="content pl-5" *ngSwitchCase="1">
-          <form action="" class="page-form">
-            <div class="file_field">
-              <div class="file-field__title mb-1">
-                Прикрепить скан документа
-              </div>
-              <div class="file-field__list mb-2">
-                <div
-                  *ngFor="let item of uploadFiles; index as i"
-                  class="file-field__list_item py-1"
-                >
-                  <svg
-                    viewBox="0 0 36 36"
-                    class="circular-chart default"
-                    *ngIf="item.fileUploaded < 100"
-                  >
-                    <path
-                      class="circle-bg"
-                      d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                    ></path>
-                    <path
-                      class="circle"
-                      attr.stroke-dasharray="{{ item.fileUploaded }}, 100"
-                      d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                    ></path>
-                  </svg>
-                  <i
-                    *ngIf="item.fileUploaded === 100"
-                    class="icon-attach mr-1"
-                  ></i>
-                  <div class="file-field__list_text ml-1">
-                    {{ item.fileName }}
-                  </div>
-                  <div class="position-relative">
-                    <i
-                      class="icon-close_2 ml-1"
-                      (click)="showTooltip($event)"
-                    ></i>
-                    <div class="tooltip tooltip-right">
-                      <div class="tooltip-content">Удалить файл?</div>
-                      <div class="tooltip-action">
-                        <button
-                          class="btn btn-outlined-white mx-1"
-                          (click)="hideTooltip($event)"
-                        >
-                          Нет
-                        </button>
-                        <button class="btn btn-filled-white">Да</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <label class="file-field__uploadbtn mb-2">
-                Добавить файл
-                <input
-                  type="file"
-                  multiple
-                  (change)="fileUploadService.poster($event)"
-                />
-              </label>
-              <button
-                class="page-form__actionbtn text-uppercase"
-                (click)="nextStep()"
-              >
-                отправить оповещение
-              </button>
-            </div>
-          </form>
+      </app-step>
+      <app-step
+        [stepTitle]="'Отправка заявки в палату'"
+        [stepDoneText]="'Заявка отравлена в палату'"
+      >
+        <div step-content>
+          <app-send-application-step></app-send-application-step>
         </div>
-      </div>
-      <div class="step step-current" #step2>
-        <div class="header">
-          <div
-            class="indicator mr-2"
-            [class.current-step]="
-              currentStep === step2.getAttribute('stepnumber')
-            "
-          >
-            <div class="check" *ngIf="currentStep > 2">
-              <i class="uil-check"></i>
-            </div>
-            {{ step2.getAttribute("stepnumber") }}
-          </div>
-          <div class="title">Отправка заявки в палату</div>
+      </app-step>
+      <app-step
+        [stepTitle]="'Внесение решения палаты'"
+        [stepDoneText]="'Принято решение о передаче дела в суд'"
+      >
+        <div step-content>
+          <app-chambers-decision-step></app-chambers-decision-step>
         </div>
-        <div class="content pl-5" *ngSwitchCase="2">
-          <form action="" class="page-form">
-            <div class="row no-gutters justify-content-between mb-2">
-              <div class="input-field mr-1">
-                <div class="input-field__title">№ исходящего документа</div>
-                <label class="input-field__label">
-                  <input type="text" autocomplete="off" />
-                </label>
-              </div>
-              <app-datepicker></app-datepicker>
-              <!--              <div class="input-field ml-1">-->
-              <!--                <div class="input-field__title">Дата исх. документа</div>-->
-              <!--                <label class="input-field__label">-->
-              <!--                  <input type="text" class="outDocDate" readonly />-->
-              <!--                  <i class="icon-calendar"></i>-->
-              <!--                </label>-->
-              <!--              </div>-->
-            </div>
-            <div class="file_field">
-              <div class="file-field__title mb-1">
-                Прикрепить скан документа
-              </div>
-              <div class="file-field__list mb-2">
-                <div
-                  *ngFor="let item of uploadFiles; index as i"
-                  class="file-field__list_item py-1"
-                >
-                  <svg
-                    viewBox="0 0 36 36"
-                    class="circular-chart default"
-                    *ngIf="item.fileUploaded < 100"
-                  >
-                    <path
-                      class="circle-bg"
-                      d="M18 2.0845
-                                              a 15.9155 15.9155 0 0 1 0 31.831
-                                              a 15.9155 15.9155 0 0 1 0 -31.831"
-                    ></path>
-                    <path
-                      class="circle"
-                      attr.stroke-dasharray="{{ item.fileUploaded }}, 100"
-                      d="M18 2.0845
-                                              a 15.9155 15.9155 0 0 1 0 31.831
-                                              a 15.9155 15.9155 0 0 1 0 -31.831"
-                    ></path>
-                  </svg>
-                  <i
-                    *ngIf="item.fileUploaded === 100"
-                    class="icon-attach mr-1"
-                  ></i>
-                  <div class="file-field__list_text ml-1">
-                    {{ item.fileName }}
-                  </div>
-                  <div class="position-relative">
-                    <i
-                      class="icon-close_2 ml-1"
-                      (click)="showTooltip($event)"
-                    ></i>
-                    <div class="tooltip tooltip-right">
-                      <div class="tooltip-content">Удалить файл?</div>
-                      <div class="tooltip-action">
-                        <button
-                          class="btn btn-outlined-white mx-1"
-                          (click)="hideTooltip($event)"
-                        >
-                          Нет
-                        </button>
-                        <button class="btn btn-filled-white">Да</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <label class="file-field__uploadbtn mb-2">
-                Добавить файл
-                <input
-                  type="file"
-                  multiple
-                  (change)="fileUploadService.poster($event)"
-                />
-              </label>
-              <div
-                class="page-form__actionbtn text-uppercase"
-                (click)="nextStep()"
-              >
-                отправить заявку
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+      </app-step>
+    </app-stepper-wrapper>
   </div>
 </div>

@@ -1,0 +1,118 @@
+<form
+  action=""
+  class="page-form"
+  [formGroup]="dateForm"
+  *ngIf="mainService.role === 'lawyer'"
+>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исходящего документа</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата исх. документа</div>
+        <label class="input-field__label">
+          <input type="text" id="outDocDate" readonly />
+          <i class="icon-calendar"></i>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <app-file-uploader></app-file-uploader>
+
+  <div class="text-field mb-2">
+    <div class="text-field__title">Дополнительная информация</div>
+    <label class="text-field__label">
+      <textarea placeholder="Уточните детали"></textarea>
+    </label>
+  </div>
+
+  <div class="page-form__actionbtn text-uppercase" (click)="showForm()">
+    <!--    (click)="clientDetail.nextStep()"-->
+    отправить заявку
+  </div>
+</form>
+
+<div class="row no-gutters" *ngIf="mainService.role === 'headLawyer'">
+  <form action="" class="page-form">
+    <div class="select-field mb-2">
+      <div class="select-field__title">Ваше решение</div>
+      <ng-select
+        class="custom-select"
+        appearance="outline"
+        [items]="opinion"
+        bindLabel="label"
+        bindValue="id"
+        placeholder="Выберите решение"
+        name="qwe"
+        [(ngModel)]="selectedOpinion"
+        [loadingText]="'Загружается'"
+        [searchable]="false"
+        [clearable]="false"
+      ></ng-select>
+      <!--      [disabled]=""-->
+      <!--      [loading]=""-->
+    </div>
+
+    <div class="text-field mb-2">
+      <div class="text-field__title">Дополнительная информация</div>
+      <label class="text-field__label">
+        <textarea placeholder="Уточните детали"></textarea>
+      </label>
+    </div>
+
+    <div class="page-form__actionbtn text-uppercase">
+      <!--    (click)="clientDetail.nextStep()"-->
+      отправить заявку
+    </div>
+  </form>
+
+  <div class="info-card ml-4">
+    <div class="info-card__title mb-2">Данные полученные  от исполнителя</div>
+    <div class="info-card__data">
+      <span>№ исходящего документа</span>
+      <span>123123</span>
+    </div>
+    <div class="info-card__data">
+      <span>Дата исх. документа</span>
+      <span>28.12.2019</span>
+    </div>
+    <div class="info-card__data">
+      <span>Дополнительная информация</span>
+    </div>
+
+    <div class="info-card__docs mt-2">
+      <div class="info-card__docs_title mb-1">Прикрепленные документы</div>
+      <div class="info-card__docs_list">
+        <div class="info-card__docs_list_item">
+          <i class="icon-image"></i>
+          <a href="">
+            <i class="icon-attach"></i>
+            скачать
+          </a>
+        </div>
+        <div class="info-card__docs_list_item">
+          <i class="icon-document_alt"></i>
+          <a href="">
+            <i class="icon-attach"></i>
+            скачать
+          </a>
+        </div>
+        <div class="info-card__docs_list_item">
+          <i class="icon-table"></i>
+          <a href="">
+            <i class="icon-attach"></i>
+            скачать
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

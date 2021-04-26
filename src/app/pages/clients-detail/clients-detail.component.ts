@@ -3,11 +3,17 @@ import {
   QueryList,
   Component,
   DoCheck,
-  OnInit, OnChanges, Output, EventEmitter,
+  OnInit,
+  OnChanges,
+  Output,
+  EventEmitter,
+  AfterContentInit,
 } from '@angular/core';
 import { FileUploadService } from '../../services/file-upload.service';
-import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { MainService } from '../../services/main.service';
+import { ClientsService } from '../../services/clients.service';
+import { StepComponent } from '../../components/step/step.component';
 
 declare var $: any;
 
@@ -17,17 +23,19 @@ declare var $: any;
   styleUrls: ['./clients-detail.component.scss'],
 })
 export class ClientsDetailComponent implements OnInit, DoCheck {
+  counter = 1;
+
   currentStep!: any;
 
   steps!: any;
 
   show = false;
-  counter = 1;
 
   previousUrl = '';
   currentUrl = '';
 
   constructor(
+    public clientService: ClientsService,
     public mainService: MainService,
     public fileUploadService: FileUploadService,
     private router: Router,
@@ -36,10 +44,9 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   uploadFiles!: Array<any>;
 
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
-      this.currentStep = val.step;
+      this.clientService.currentStep = val.step;
     });
     // console.log(this.route);
 
@@ -100,21 +107,27 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   }
 
   nextStep(): void {
-    this.currentStep++;
-    if (this.currentStep > this.steps.length) {
-      this.currentStep = this.steps.length;
+    if (this.clientService.currentStep > this.steps.length) {
+      this.clientService.currentStep++;
+      this.clientService.currentStep = this.steps.length;
     }
     this.router.navigate([], {
-      queryParams: { ...this.route.snapshot.queryParams, step: this.currentStep },
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        step: this.clientService.currentStep,
+      },
     });
   }
   prevStep(): void {
-    this.currentStep--;
-    if (this.currentStep < 1) {
-      this.currentStep = 1;
+    this.clientService.currentStep--;
+    if (this.clientService.currentStep < 1) {
+      this.clientService.currentStep = 1;
     }
     this.router.navigate([], {
-      queryParams: { ...this.route.snapshot.queryParams, step: this.currentStep },
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        step: this.clientService.currentStep,
+      },
     });
   }
 

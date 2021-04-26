@@ -5,6 +5,7 @@ import {Observable, BehaviorSubject} from 'rxjs';
   providedIn: 'root'
 })
 export class MainService {
+  public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
   constructor() { }
 

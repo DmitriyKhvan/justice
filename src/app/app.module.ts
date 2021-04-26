@@ -16,6 +16,14 @@ import { Step1Component } from './pages/application/shared/components/step1/step
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DatepickerComponent } from './components/formFields/datepicker/datepicker.component';
+import { SendAlertStepComponent } from './pages/clients-detail/step-forms/send-alert-step/send-alert-step.component';
+import { FileUploaderComponent } from './components/formFields/file-uploader/file-uploader.component';
+import { SendApplicationStepComponent } from './pages/clients-detail/step-forms/send-application-step/send-application-step.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StepComponent } from './components/step/step.component';
+import { StepperWrapperComponent } from './components/stepper-wrapper/stepper-wrapper.component';
+import { ChambersDecisionStepComponent } from './pages/clients-detail/step-forms/chambers-decision-step/chambers-decision-step.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +37,12 @@ import { DatepickerComponent } from './components/formFields/datepicker/datepick
     ApplicationComponent,
     Step1Component,
     DatepickerComponent,
+    SendAlertStepComponent,
+    FileUploaderComponent,
+    SendApplicationStepComponent,
+    StepComponent,
+    StepperWrapperComponent,
+    ChambersDecisionStepComponent,
   ],
   imports: [
     TooltipModule,
@@ -37,6 +51,7 @@ import { DatepickerComponent } from './components/formFields/datepicker/datepick
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgSelectModule,
     ReactiveFormsModule,
   ],
   providers: [HttpClient],

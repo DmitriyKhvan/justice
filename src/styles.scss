@@ -1,3 +1,6 @@
+//@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "assets/scss/ng-select/default.theme";
+
 .text-danger {
   color: #ff0000;
 }
@@ -181,8 +184,51 @@
 
 .page-form {
   width: 492px;
+  & .text-field {
+    flex: 1;
+    &__title {
+      margin-bottom: 12px;
+    }
+    &__label {
+      border: 1px solid rgba(16, 39, 74, 0.3);
+      width: 100%;
+      height: 120px;
+      border-radius: 5px;
+      overflow: hidden;
+      & textarea {
+        padding: 15px;
+        width: 100%;
+        height: 100%;
+        resize: none;
+        color: #10274a;
+        outline: none;
+        border: none;
+        //font-family: 'SFCompactDisplay', sans-serif;
+        &::placeholder {
+          color: rgba(16, 39, 74, 0.6);
+        }
+        &::-webkit-scrollbar { width: 0;
+          background: transparent;}
+        &::-webkit-scrollbar { width: 10px; height: 100%; }
+        &::-webkit-scrollbar-track {  background-color: rgba(42, 61, 116, 0.2);}
+        &::-webkit-scrollbar-thumb { background-color: rgba(32, 60, 103, 0.61); border-radius: 5px;}
+      }
+    }
+  }
+  & .select-field {
+    flex: 1;
+    &__title {
+      margin-bottom: 12px;
+    }
+    & .ng-select.custom-select {
+
+    }
+  }
   & .input-field {
     flex: 1;
+    &__title {
+      margin-bottom: 12px;
+    }
     &__label {
       border: 1px solid rgba(16, 39, 74, 0.3);
       width: 100%;
@@ -190,13 +236,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 15px;
+      //padding: 0 15px;
       border-radius: 5px;
       & i {
         font-size: 20px;
         cursor: pointer;
+        margin-right: 15px;
       }
       & input {
+        padding: 0 15px;
         border: none;
         outline: none;
         color: #10274a;
@@ -205,6 +253,7 @@
   }
   & .file-field {
     &__title {
+      margin-bottom: 12px;
     }
     &__list {
       &_text {
@@ -238,6 +287,36 @@
       }
     }
   }
+  & .checkbox-field {
+    &__label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      & input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+        &:checked + span i{
+          transform: scale(1);
+        }
+      }
+      & .custom-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #10274A;
+        cursor: pointer;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & i {
+          font-size: 20px;
+          transition: transform 0.2s;
+          transform: scale(0);
+        }
+      }
+    }
+  }
   &__actionbtn {
     padding: 0 28px;
     width: 100%;
@@ -257,17 +336,80 @@
   }
 }
 
+.info-card {
+  flex: 0 1 360px;
+  background: rgba(232, 241, 253, 0.3);
+  border: 1px dashed rgba(16, 39, 74, 0.3);
+  border-radius: 5px;
+  padding: 30px;
+  &__title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  &__data {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+    & span {
+      &:nth-child(2) {
+        flex: 0 1 75px;
+      }
+    }
+  }
+  &__docs {
+    &_title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    &_list {
+      &_item {
+        border: 1px solid rgba(16, 39, 74, 0.3);
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 15px;
+        margin-bottom: 5px;
+        & i {
+          font-size: 30px;
+          opacity: 0.3;
+        }
+        & a {
+          display: flex;
+          align-items: center;
+          text-transform: uppercase;
+          font-weight: 600;
+          & i {
+            opacity: 1;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .step {
   padding-bottom: 10px;
   position: relative;
+  &-last {
+    padding-bottom: 0;
+  }
+  //&:last-child {
+  //  padding-bottom: 0;
+  //}
   &::before {
     content: '';
     position: absolute;
-    left: 12px;
+    left: 11px;
     top: 24px;
     width: 2px;
     height: calc(100% - 24px);
     background: rgba(16, 39, 74, 0.3);
+    //&-current {
+    //  background: rgba(16, 39, 74, 1);
+    //}
   }
   &-current {
     &::before {
@@ -278,7 +420,15 @@
     display: flex;
     align-items: center;
     & .title {
+      width: 100%;
       font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & span {
+        font-weight: 400;
+        color: rgba(16, 39, 74, 0.5);
+      }
     }
   }
   & .indicator {

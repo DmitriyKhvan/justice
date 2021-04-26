@@ -4,5 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ClientsService {
+  currentStep!: any;
+  public currentStepTitle = '';
+
+
   constructor() {}
 }
