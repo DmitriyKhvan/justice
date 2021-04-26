@@ -1,5 +1,6 @@
 //@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "assets/scss/ng-select/default.theme";
+@import "assets/scss/my-datepicker";
 
 .text-danger {
   color: #ff0000;
@@ -238,6 +239,7 @@
       justify-content: space-between;
       //padding: 0 15px;
       border-radius: 5px;
+      position: relative;
       & i {
         font-size: 20px;
         cursor: pointer;
