@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TooltipModule } from 'ng2-tooltip-directive';
 
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -54,6 +56,7 @@ import { Step2Component } from './pages/application/shared/components/step2/step
     FormsModule,
     NgSelectModule,
     ReactiveFormsModule,
+    AngularMyDatePickerModule,
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent],

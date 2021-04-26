@@ -67,25 +67,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
       step.setAttribute('stepNumber', String(i + 1));
     });
 
-    // $('.outDocDate').datepicker({
-    //   // minDate: new Date(),
-    //   inline: false,
-    //   todayButton: new Date(),
-    //   autoClose: true,
-    //   dateFormat: 'dd.mm.yyyy',
-    //   navTitles: {
-    //     days: 'MM, <span>yyyy</span>',
-    //     months: 'yyyy',
-    //     years: 'yyyy1 - yyyy2',
-    //   },
-    //   // timepicker: true,
-    //   // timeFormat: 'hh:ii AA',
-    //   // onSelect: function onSelect(fd: string, date: any, inst: object): void {
-    //   //   setTaskDeadline(date);
-    //   // },
-    // });
-
-    // console.log(this.route);
   }
 
   ngDoCheck(): void {}
