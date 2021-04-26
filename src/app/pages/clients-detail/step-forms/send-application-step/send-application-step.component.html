@@ -4,20 +4,24 @@
   [formGroup]="dateForm"
   *ngIf="mainService.role === 'lawyer'"
 >
-  <div class="row no-gutters justify-content-between mb-2">
-    <div class="input-field mr-1">
-      <div class="input-field__title">№ исходящего документа</div>
-      <label class="input-field__label">
-        <input type="text" autocomplete="off" />
-      </label>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исходящего документа</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
     </div>
 
-    <div class="input-field ml-1">
-      <div class="input-field__title">Дата исх. документа</div>
-      <label class="input-field__label">
-        <input type="text" id="outDocDate" readonly />
-        <i class="icon-calendar"></i>
-      </label>
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата исх. документа</div>
+        <label class="input-field__label">
+          <input type="text" id="outDocDate" readonly />
+          <i class="icon-calendar"></i>
+        </label>
+      </div>
     </div>
   </div>
 

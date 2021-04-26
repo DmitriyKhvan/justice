@@ -11,13 +11,16 @@
       </label>
     </div>
 
-    <div class="input-field ml-1">
-      <div class="input-field__title">Дата исх. документа</div>
-      <label class="input-field__label">
-        <input type="text" id="outDocDate" readonly />
-        <i class="icon-calendar"></i>
-      </label>
-    </div>
+    <app-datepicker [title]="'Дата вх. документа'" [field]="'first'" (onselect)="logger($event)"></app-datepicker>
+    <app-datepicker [title]="'Дата вх. документа'" [field]="'second'" (onselect)="logger2($event)"></app-datepicker>
+
+<!--    <div class="input-field ml-1">-->
+<!--      <div class="input-field__title">Дата исх. документа</div>-->
+<!--      <label class="input-field__label">-->
+<!--        <input type="text" id="outDocDate" readonly />-->
+<!--        <i class="icon-calendar"></i>-->
+<!--      </label>-->
+<!--    </div>-->
   </div>
 
 

@@ -8,7 +8,7 @@ declare var $: any;
 })
 export class ChambersDecisionStepComponent implements OnInit {
 
-  constructor(public mainService: MainService,) { }
+  constructor(public mainService: MainService) { }
 
   ngOnInit(): void {
     $('#outDocDate').datepicker({
@@ -30,4 +30,10 @@ export class ChambersDecisionStepComponent implements OnInit {
     });
   }
 
+  logger(evt: any): void {
+    console.log('1', evt);
+  }
+  logger2(evt: any): void {
+    console.log('2', evt);
+  }
 }

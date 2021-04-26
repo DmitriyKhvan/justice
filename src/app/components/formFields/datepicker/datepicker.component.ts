@@ -6,7 +6,7 @@ declare var $: any;
     <div class="input-field">
       <div class="input-field__title">{{ title }}</div>
       <label class="input-field__label">
-        <input type="text" [id]="fieldId" class="datepicker-here" readonly />
+        <input type="text" [class]="field" readonly />
         <i class="icon-calendar"></i>
       </label>
     </div>
@@ -15,15 +15,14 @@ declare var $: any;
 })
 export class DatepickerComponent implements OnInit {
   @Input() title: any;
-
-  @Input() fieldId: any;
+  @Input() field: any;
 
   @Output() onselect: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
 
   ngOnInit(): void {
-    $('.datepicker-here').datepicker({
+    $('.' + $(this)[0].field).datepicker({
       // minDate: new Date(),
       inline: false,
       todayButton: new Date(),
@@ -42,9 +41,10 @@ export class DatepickerComponent implements OnInit {
     });
     const selected = (pld: any) => {
       const data = {
+        field: this.field,
         date: pld,
       };
-      this.onselect.emit(pld);
+      this.onselect.emit(data);
     };
   }
 }
