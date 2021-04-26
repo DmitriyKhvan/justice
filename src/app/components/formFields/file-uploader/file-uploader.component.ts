@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FileUploadService} from '../../../services/file-upload.service';
-import {ClientsDetailComponent} from '../../../pages/clients-detail/clients-detail.component';
+import { FileUploadService } from '../../../services/file-upload.service';
+import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-detail.component';
 
 @Component({
   selector: 'app-file-uploader',
@@ -20,15 +20,15 @@ import {ClientsDetailComponent} from '../../../pages/clients-detail/clients-deta
             <path
               class="circle-bg"
               d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"
             ></path>
             <path
               class="circle"
               attr.stroke-dasharray="{{ item.fileUploaded }}, 100"
               d="M18 2.0845
-                                    a 15.9155 15.9155 0 0 1 0 31.831
-                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"
             ></path>
           </svg>
           <i *ngIf="item.fileUploaded === 100" class="icon-attach mr-1"></i>
@@ -65,7 +65,10 @@ import {ClientsDetailComponent} from '../../../pages/clients-detail/clients-deta
   styles: [],
 })
 export class FileUploaderComponent implements OnInit {
-  constructor(public fileUploadService: FileUploadService, public clientDetail: ClientsDetailComponent) {}
+  constructor(
+    public fileUploadService: FileUploadService,
+    public clientDetail: ClientsDetailComponent
+  ) {}
 
   uploadFiles!: Array<any>;
 
