@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 declare var $: any;
 
 @Component({
@@ -11,7 +12,7 @@ export class Step1Component implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-  constructor() {}
+  constructor(public fileUploadservice: FileUploadService) {}
 
   ngOnInit(): void {
     $('.outDocDate').datepicker({
@@ -68,6 +69,7 @@ export class Step1Component implements OnInit {
 
     this.form = new FormGroup({
       numberLetter: new FormControl(null, [Validators.required]),
+      numberCriminalCase: new FormControl(null, [Validators.required]),
       outDocDate: new FormControl(null, Validators.required),
       criminalCasecDate: new FormControl(null, Validators.required),
     });
@@ -78,7 +80,7 @@ export class Step1Component implements OnInit {
       return;
     }
 
-    //this.submitted = true;
+    this.submitted = true;
 
     console.log(this.form.value.numberLetter);
     console.log(this.form.value.outDocDate);

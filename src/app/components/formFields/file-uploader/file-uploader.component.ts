@@ -66,9 +66,9 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
 })
 export class FileUploaderComponent implements OnInit {
   constructor(
-    public fileUploadService: FileUploadService,
-    public clientDetail: ClientsDetailComponent
-  ) {}
+    public fileUploadService: FileUploadService
+  ) // public clientDetail: ClientsDetailComponent
+  {}
 
   uploadFiles!: Array<any>;
 

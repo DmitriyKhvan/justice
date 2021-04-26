@@ -13,7 +13,6 @@ import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.co
 import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
 import { ApplicationComponent } from './pages/application/application.component';
 import { Step1Component } from './pages/application/shared/components/step1/step1.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DatepickerComponent } from './components/formFields/datepicker/datepicker.component';
 import { SendAlertStepComponent } from './pages/clients-detail/step-forms/send-alert-step/send-alert-step.component';
@@ -24,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StepComponent } from './components/step/step.component';
 import { StepperWrapperComponent } from './components/stepper-wrapper/stepper-wrapper.component';
 import { ChambersDecisionStepComponent } from './pages/clients-detail/step-forms/chambers-decision-step/chambers-decision-step.component';
+import { Step2Component } from './pages/application/shared/components/step2/step2.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +43,7 @@ import { ChambersDecisionStepComponent } from './pages/clients-detail/step-forms
     StepComponent,
     StepperWrapperComponent,
     ChambersDecisionStepComponent,
+    Step2Component,
   ],
   imports: [
     TooltipModule,

@@ -1,60 +1,72 @@
-<div class="step step-current" #step>
-  <div class="header">
-    <div class="indicator mr-2" [class.current-step]="true">
-      <div class="check">
-        <i class="uil-check"></i>
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исходящего письма</div>
+        <label class="input-field__label">
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="numberLetter"
+          />
+        </label>
       </div>
-      1
     </div>
-    <div class="title">Отправка оповещения должнику</div>
-  </div>
-  <!-- условие из адресной строки -->
-  <div class="content pl-5">
-    <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
-      <div class="row no-gutters justify-content-between mb-2">
-        <div class="input-field mr-1">
-          <div class="input-field__title">№ исходящего письма</div>
-          <label class="input-field__label">
-            <input
-              type="text"
-              autocomplete="off"
-              formControlName="numberLetter"
-            />
-          </label>
-        </div>
-        <div class="input-field ml-1">
-          <div class="input-field__title">Дата исходящего письма</div>
-          <label class="input-field__label">
-            <input type="text" class="outDocDate" readonly />
-            <i class="icon-calendar"></i>
-          </label>
-        </div>
-      </div>
 
-      <div class="row no-gutters justify-content-between mb-2">
-        <div class="input-field mr-1">
-          <div class="input-field__title">№ уголовного дела</div>
-          <label class="input-field__label">
-            <input
-              type="text"
-              autocomplete="off"
-              formControlName="numberLetter"
-            />
-          </label>
-        </div>
-        <div class="input-field ml-1">
-          <div class="input-field__title">Дата возб. уголовного дела</div>
-          <label class="input-field__label">
-            <input type="text" class="criminalCasecDate" readonly />
-            <i class="icon-calendar"></i>
-          </label>
-        </div>
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата исходящего письма</div>
+        <label class="input-field__label">
+          <input type="text" class="outDocDate" readonly />
+          <i class="icon-calendar"></i>
+        </label>
       </div>
-      <!-- <app-datepicker class="row no-gutters"></app-datepicker> -->
-
-      <button type="submit" [disabled]="form.invalid || submitted">
-        Подать заявку
-      </button>
-    </form>
+    </div>
   </div>
-</div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ уголовного дела</div>
+        <label class="input-field__label">
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="numberCriminalCase"
+          />
+        </label>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата возб. уголовного дела</div>
+        <label class="input-field__label">
+          <input type="text" class="criminalCasecDate" readonly />
+          <i class="icon-calendar"></i>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Подать заявку
+  </button>
+</form>

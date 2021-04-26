@@ -207,11 +207,21 @@
         &::placeholder {
           color: rgba(16, 39, 74, 0.6);
         }
-        &::-webkit-scrollbar { width: 0;
-          background: transparent;}
-        &::-webkit-scrollbar { width: 10px; height: 100%; }
-        &::-webkit-scrollbar-track {  background-color: rgba(42, 61, 116, 0.2);}
-        &::-webkit-scrollbar-thumb { background-color: rgba(32, 60, 103, 0.61); border-radius: 5px;}
+        &::-webkit-scrollbar {
+          width: 0;
+          background: transparent;
+        }
+        &::-webkit-scrollbar {
+          width: 10px;
+          height: 100%;
+        }
+        &::-webkit-scrollbar-track {
+          background-color: rgba(42, 61, 116, 0.2);
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: rgba(32, 60, 103, 0.61);
+          border-radius: 5px;
+        }
       }
     }
   }
@@ -221,7 +231,6 @@
       margin-bottom: 12px;
     }
     & .ng-select.custom-select {
-
     }
   }
   & .input-field {
@@ -296,14 +305,14 @@
         position: absolute;
         opacity: 0;
         z-index: -1;
-        &:checked + span i{
+        &:checked + span i {
           transform: scale(1);
         }
       }
       & .custom-checkbox {
         width: 20px;
         height: 20px;
-        border: 2px solid #10274A;
+        border: 2px solid #10274a;
         cursor: pointer;
         border-radius: 4px;
         display: flex;
@@ -400,7 +409,7 @@
   //  padding-bottom: 0;
   //}
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 11px;
     top: 24px;
@@ -447,7 +456,7 @@
     align-items: center;
 
     & .check {
-      background: #00A71A;
+      background: #00a71a;
       position: absolute;
       top: -7px;
       right: -7px;
@@ -539,19 +548,19 @@
 
 .tooltip {
   min-width: 300px;
-  background: #10274A;
+  background: #10274a;
   border-radius: 5px;
   color: #ffffff;
   display: flex;
   align-items: center;
   padding: 5px 15px;
   position: absolute;
-  &::before{
-    content: '';
+  &::before {
+    content: "";
     position: absolute;
     width: 10px;
     height: 10px;
-    background: #10274A;
+    background: #10274a;
     border-radius: 0.5px;
     transform: rotate(-45deg);
     z-index: -1;
@@ -665,3 +674,10 @@
 //    margin-left: 1px;
 //  }
 //}
+
+// disable button
+.disableBtn {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: no-drop;
+}
