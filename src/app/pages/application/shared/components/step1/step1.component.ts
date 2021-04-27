@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { FileUploadService } from 'src/app/services/file-upload.service';
+import { datepickerSettings } from '../../settings';
 
 @Component({
   selector: 'app-step1',
@@ -11,12 +12,9 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 export class Step1Component implements OnInit {
   form!: FormGroup;
   submitted = false;
+  submitSucces = false;
 
-  myDpOptions: IAngularMyDpOptions = {
-    dateRange: false,
-    dateFormat: 'dd.mm.yyyy',
-    closeSelectorOnDateSelect: false,
-  };
+  myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
   constructor(public fileUploadservice: FileUploadService) {}
 
@@ -27,31 +25,37 @@ export class Step1Component implements OnInit {
     let model: IMyDateModel = {
       isRange: false,
       // singleDate: { jsDate: d },
-      dateRange: null,
+      // dateRange: null,
     };
 
     this.form = new FormGroup({
-      numberLetter: new FormControl(null, Validators.required),
+      numberLetter: new FormControl(
+        { value: null, disabled: this.submitted },
+        // null,
+        Validators.required
+      ),
       numberCriminalCase: new FormControl(null, Validators.required),
-      outDocDate: new FormControl(model, Validators.required),
-      // criminalCasecDate: new FormControl(null, Validators.required),
+      outDocDate: new FormControl(null, Validators.required),
+      criminalCasecDate: new FormControl(null, Validators.required),
     });
   }
 
   submit() {
-    console.log(this.form);
     if (this.form.invalid) {
       return;
     }
-
     this.submitted = true;
 
-    console.log(this.form.value.numberLetter);
-    console.log(this.form.value.outDocDate);
-    console.log(this.form.value.criminalCasecDate);
-  }
+    this.form.get('numberLetter').disable();
 
-  logger(evt: any) {
-    console.log(evt);
+    console.log('form', this.form);
+
+    console.log('numberLetter', this.form.value.numberLetter);
+    console.log('numberCriminalCase', this.form.value.numberCriminalCase);
+    console.log('outDocDate', this.form.value.outDocDate.singleDate.jsDate);
+    console.log(
+      'criminalCasecDate',
+      this.form.value.criminalCasecDate.singleDate.jsDate
+    );
   }
 }

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormControlName,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { datepickerSettings } from '../../settings';
 
 @Component({
   selector: 'app-step2',
@@ -10,14 +16,19 @@ export class Step2Component implements OnInit {
   form!: FormGroup;
   submitted = false;
 
+  myDpOptions = datepickerSettings;
+
   constructor() {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({});
-  }
-
-  logger(event: any) {
-    console.log(event);
+    this.form = new FormGroup({
+      dateVictim: new FormControl(null, Validators.required),
+      fioAccused: new FormControl(null, Validators.required),
+      preventiveMeasure: new FormControl(null, Validators.required),
+      amountDamage: new FormControl(null, Validators.required),
+      dateFailure: new FormControl(null, Validators.required),
+      dateArrest: new FormControl(null, Validators.required),
+    });
   }
 
   submit() {
@@ -25,6 +36,8 @@ export class Step2Component implements OnInit {
       return;
     }
 
-    this.submitted = true;
+    // this.submitted = true;
+
+    console.log(this.form);
   }
 }

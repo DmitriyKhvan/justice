@@ -33,29 +33,38 @@
             class="input-box"
             angular-mydatepicker
             name="reactiveFormsDate"
-            name="mydate"
-            (click)="dp.toggleCalendar()"
             formControlName="outDocDate"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
             [locale]="'ru'"
           />
-          <i class="icon-calendar"></i>
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
 
-        <!-- <div
+        <div
           *ngIf="
             form.get('outDocDate').touched && form.get('outDocDate').invalid
           "
           class="validation"
         >
-          <small *ngIf="form.get('outDocDate').errors.required">
+          <small
+            *ngIf="
+              form.controls.outDocDate.errors &&
+              form.controls.outDocDate.errors.required &&
+              !form.controls.outDocDate.errors.invalidDateFormat
+            "
+          >
             Введите данные
           </small>
-        </div> -->
-        {{ form.controls | json }}
-        <!-- <p class="error" *ngIf="myForm.controls.myDate.errors && myForm.controls.myDate.errors.required">Date is required!</p>
-          <p class="error" *ngIf="myForm.controls.myDate.errors && myForm.controls.myDate.errors.invalidDateFormat">Invalid date format!</p> -->
+          <small
+            *ngIf="
+              form.controls.outDocDate.errors &&
+              form.controls.outDocDate.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
       </div>
     </div>
   </div>
@@ -77,14 +86,65 @@
             formControlName="numberCriminalCase"
           />
         </label>
+
+        <div
+          *ngIf="
+            form.get('numberCriminalCase').touched &&
+            form.get('numberCriminalCase').invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('numberCriminalCase').errors.required">
+            Введите данные
+          </small>
+        </div>
       </div>
     </div>
 
     <div class="col-6">
-      <app-datepicker
-        [title]="'Дата возб. уголовного дела'"
-        (onselect)="logger($event)"
-      ></app-datepicker>
+      <div class="input-field">
+        <div class="input-field__title">Дата возб. уголовного дела</div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            name="mydate"
+            formControlName="criminalCasecDate"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('criminalCasecDate').touched &&
+            form.get('criminalCasecDate').invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.criminalCasecDate.errors &&
+              form.controls.criminalCasecDate.errors.required &&
+              !form.controls.criminalCasecDate.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.criminalCasecDate.errors &&
+              form.controls.criminalCasecDate.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
     </div>
   </div>
 
