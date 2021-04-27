@@ -1,26 +1,22 @@
 <form
   action=""
   class="page-form"
+  *ngIf="mainService.role === 'lawyer'"
 >
-  <div class="row no-gutters justify-content-between mb-2">
-    <div class="input-field mr-1">
-      <div class="input-field__title">№ исходящего документа</div>
-      <label class="input-field__label">
-        <input type="text" autocomplete="off" />
-      </label>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исходящего документа</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
     </div>
 
-    <app-datepicker [title]="'Дата вх. документа'" (onselect)="logger($event, 'first')"></app-datepicker>
-
-<!--    <div class="input-field ml-1">-->
-<!--      <div class="input-field__title">Дата исх. документа</div>-->
-<!--      <label class="input-field__label">-->
-<!--        <input type="text" class="datepicker-here" readonly />-->
-<!--        <i class="icon-calendar"></i>-->
-<!--      </label>-->
-<!--    </div>-->
+    <div class="col-6">
+      <app-datepicker [title]="'Дата вх. документа'" (onselect)="logger($event)"></app-datepicker>
+    </div>
   </div>
-
 
   <div class="checkbox-field mb-2">
     <label class="checkbox-field__label">
@@ -29,6 +25,78 @@
         <i class="uil-check"></i>
       </span>
       <span>Передача дела в суд</span>
+    </label>
+  </div>
+
+  <div class="page-form__actionbtn text-uppercase">
+    <!--    (click)="clientDetail.nextStep()"-->
+    следующий шаг
+  </div>
+</form>
+
+<form
+  action=""
+  class="page-form"
+  *ngIf="mainService.role === 'headLawyer'"
+>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исходящего документа</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <app-datepicker [title]="'Дата вх. документа'" (onselect)="logger($event)"></app-datepicker>
+    </div>
+  </div>
+
+  <div class="checkbox-field mb-2">
+    <label class="checkbox-field__label">
+      <input type="checkbox">
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Передача дела в суд</span>
+    </label>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="select-field mb-2">
+        <div class="select-field__title">Причина отсрочки</div>
+        <ng-select
+          class="custom-select"
+          appearance="outline"
+          [items]="opinion"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Выберите решение"
+          name="qwe"
+          [(ngModel)]="selectedOpinion"
+          [loadingText]="'Загружается'"
+          [searchable]="false"
+          [clearable]="false"
+        ></ng-select>
+        <!--      [disabled]=""-->
+        <!--      [loading]=""-->
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <app-datepicker [title]="'Выберите день'" (onselect)="logger($event)"></app-datepicker>
+    </div>
+  </div>
+
+  <div class="text-field mb-2">
+    <div class="text-field__title">Дополнительная информация</div>
+    <label class="text-field__label">
+      <textarea placeholder="Уточните детали"></textarea>
     </label>
   </div>
 

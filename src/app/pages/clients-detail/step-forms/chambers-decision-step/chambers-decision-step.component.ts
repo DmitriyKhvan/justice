@@ -9,12 +9,18 @@ declare var $: any;
 export class ChambersDecisionStepComponent implements OnInit {
   constructor(public mainService: MainService) { }
 
+  selectedOpinion: any;
+
+  opinion = [
+    { id: 1, label: 'Одобрить' },
+    { id: 2, label: 'Отказать' },
+    { id: 3, label: 'Пересмотреть' },
+    { id: 4, label: 'Проверить' },
+  ];
+
   ngOnInit(): void {}
 
-  logger(evt: any, field: any): void {
-    console.log(field, evt);
-  }
-  logger2(evt: any): void {
-    console.log('2', evt);
+  logger(evt: any): void {
+    console.log(evt);
   }
 }

@@ -33,7 +33,7 @@ export class StepperWrapperComponent implements OnInit, AfterContentInit {
     this.stepComponent.last.isLast = true;
     this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
       step.currentStep = this.currentStep;
-      step.stepNumber = idx + 1;
+      step.stepNumber = step.step;
     });
   }
 }

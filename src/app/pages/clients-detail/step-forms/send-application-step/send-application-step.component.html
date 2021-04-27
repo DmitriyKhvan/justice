@@ -15,13 +15,7 @@
     </div>
 
     <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Дата исх. документа</div>
-        <label class="input-field__label">
-          <input type="text" id="outDocDate" readonly />
-          <i class="icon-calendar"></i>
-        </label>
-      </div>
+      <app-datepicker [title]="'Дата исх. документа'"></app-datepicker>
     </div>
   </div>
 
@@ -42,23 +36,27 @@
 
 <div class="row no-gutters" *ngIf="mainService.role === 'headLawyer'">
   <form action="" class="page-form">
-    <div class="select-field mb-2">
-      <div class="select-field__title">Ваше решение</div>
-      <ng-select
-        class="custom-select"
-        appearance="outline"
-        [items]="opinion"
-        bindLabel="label"
-        bindValue="id"
-        placeholder="Выберите решение"
-        name="qwe"
-        [(ngModel)]="selectedOpinion"
-        [loadingText]="'Загружается'"
-        [searchable]="false"
-        [clearable]="false"
-      ></ng-select>
-      <!--      [disabled]=""-->
-      <!--      [loading]=""-->
+    <div class="row">
+      <div class="col-6">
+        <div class="select-field mb-2">
+          <div class="select-field__title">Ваше решение</div>
+          <ng-select
+            class="custom-select"
+            appearance="outline"
+            [items]="opinion"
+            bindLabel="label"
+            bindValue="id"
+            placeholder="Выберите решение"
+            name="qwe"
+            [(ngModel)]="selectedOpinion"
+            [loadingText]="'Загружается'"
+            [searchable]="false"
+            [clearable]="false"
+          ></ng-select>
+          <!--      [disabled]=""-->
+          <!--      [loading]=""-->
+        </div>
+      </div>
     </div>
 
     <div class="text-field mb-2">
