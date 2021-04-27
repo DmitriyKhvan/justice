@@ -10,6 +10,17 @@
             formControlName="numberLetter"
           />
         </label>
+
+        <div
+          *ngIf="
+            form.get('numberLetter').touched && form.get('numberLetter').invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('numberLetter').errors.required">
+            Введите данные
+          </small>
+        </div>
       </div>
     </div>
 
@@ -17,9 +28,34 @@
       <div class="input-field">
         <div class="input-field__title">Дата исходящего письма</div>
         <label class="input-field__label">
-          <input type="text" class="outDocDate" readonly />
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            name="mydate"
+            (click)="dp.toggleCalendar()"
+            formControlName="outDocDate"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
           <i class="icon-calendar"></i>
         </label>
+
+        <!-- <div
+          *ngIf="
+            form.get('outDocDate').touched && form.get('outDocDate').invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('outDocDate').errors.required">
+            Введите данные
+          </small>
+        </div> -->
+        {{ form.controls | json }}
+        <!-- <p class="error" *ngIf="myForm.controls.myDate.errors && myForm.controls.myDate.errors.required">Date is required!</p>
+          <p class="error" *ngIf="myForm.controls.myDate.errors && myForm.controls.myDate.errors.invalidDateFormat">Invalid date format!</p> -->
       </div>
     </div>
   </div>
@@ -45,13 +81,10 @@
     </div>
 
     <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Дата возб. уголовного дела</div>
-        <label class="input-field__label">
-          <input type="text" class="criminalCasecDate" readonly />
-          <i class="icon-calendar"></i>
-        </label>
-      </div>
+      <app-datepicker
+        [title]="'Дата возб. уголовного дела'"
+        (onselect)="logger($event)"
+      ></app-datepicker>
     </div>
   </div>
 

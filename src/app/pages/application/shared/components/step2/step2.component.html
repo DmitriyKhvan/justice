@@ -1,8 +1,8 @@
 <form class="page-form" [formGroup]="form">
-  <div class="row justify-content-betwee mb-2">
+  <div class="row justify-content-betwee align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">№ исходящего письма</div>
+        <div class="input-field__title">ФИО обвиняемого</div>
         <label class="input-field__label">
           <input type="text" autocomplete="off" />
         </label>
@@ -11,30 +11,7 @@
 
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">№ исходящего письма</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-betwee mb-2">
-    <div class="col-12">
-      <div class="input-field">
-        <div class="input-field__title">Дата исходящего письма</div>
-        <label class="input-field__label">
-          <input type="text" class="outDocDate" readonly />
-          <i class="icon-calendar"></i>
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-betwee mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ исходящего письма</div>
+        <div class="input-field__title">Назначаемые меры пересечения</div>
         <label class="input-field__label">
           <input type="text" autocomplete="off" />
         </label>
@@ -44,11 +21,21 @@
 
   <div class="row justify-content-betwee mb-2">
     <div class="col-12">
+      <app-datepicker
+        [title]="
+          'Дата внесения, когда Банк был привлечен потерпевшем или гражд. истцом'
+        "
+        (onselect)="logger($event)"
+      ></app-datepicker>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Дата исходящего письма</div>
+        <div class="input-field__title">Сумма причененного ущерба</div>
         <label class="input-field__label">
-          <input type="text" class="outDocDate" readonly />
-          <i class="icon-calendar"></i>
+          <input type="text" autocomplete="off" />
         </label>
       </div>
     </div>
@@ -56,13 +43,19 @@
 
   <div class="row justify-content-betwee mb-2">
     <div class="col-12">
-      <div class="input-field">
-        <div class="input-field__title">Дата исходящего письма</div>
-        <label class="input-field__label">
-          <input type="text" class="outDocDate" readonly />
-          <i class="icon-calendar"></i>
-        </label>
-      </div>
+      <app-datepicker
+        [title]="'Дата возб. уголовного дела либо об отказе уголовного дела'"
+        (onselect)="logger($event)"
+      ></app-datepicker>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-12">
+      <app-datepicker
+        [title]="'Дата принятия постановления об аресте имущества обвиняемого'"
+        (onselect)="logger($event)"
+      ></app-datepicker>
     </div>
   </div>
 
@@ -75,6 +68,7 @@
   <button
     type="submit"
     class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
     Следующий шаг

@@ -16,6 +16,10 @@ export class Step2Component implements OnInit {
     this.form = new FormGroup({});
   }
 
+  logger(event: any) {
+    console.log(event);
+  }
+
   submit() {
     if (this.form.invalid) {
       return;
