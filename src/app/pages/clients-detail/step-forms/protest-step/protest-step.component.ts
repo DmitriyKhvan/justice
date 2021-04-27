@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {MainService} from '../../../../services/main.service';
 
 @Component({
-  selector: 'app-appeal-step',
-  templateUrl: './appeal-step.component.html',
-  styleUrls: ['./appeal-step.component.scss']
+  selector: 'app-protest-step',
+  templateUrl: './protest-step.component.html',
+  styleUrls: ['./protest-step.component.scss']
 })
-export class AppealStepComponent implements OnInit {
+export class ProtestStepComponent implements OnInit {
 
   constructor(public mainService: MainService) { }
 
@@ -18,7 +18,6 @@ export class AppealStepComponent implements OnInit {
     { id: 3, label: 'Пересмотреть' },
     { id: 4, label: 'Проверить' },
   ];
-
 
   ngOnInit(): void {
   }

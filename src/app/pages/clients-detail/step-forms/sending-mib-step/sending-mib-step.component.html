@@ -7,108 +7,114 @@
   <div class="row justify-content-between mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">№ дела</div>
-        <label class="input-field__label readonly">
-          <input type="text" readonly autocomplete="off" />
+        <div class="input-field__title">Исходящий номер</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
         </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Вид суда</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Наименование филиала</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Наименование суда</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Вид жалобы</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
       </div>
     </div>
   </div>
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
-      <app-datepicker [title]="'Выберите дату внесения в суд'"></app-datepicker>
+      <app-datepicker [title]="'Выберите дату'"></app-datepicker>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-8">
+      <div class="select-field mb-2">
+        <div class="select-field__title">Наименование судебного исполнителя (МИБ)</div>
+        <ng-select
+          class="custom-select"
+          appearance="outline"
+          [items]="opinion"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Выберите решение"
+          name="qwe"
+          [(ngModel)]="selectedOpinion"
+          [loadingText]="'Загружается'"
+          [searchable]="false"
+          [clearable]="false"
+        ></ng-select>
+        <!--      [disabled]=""-->
+        <!--      [loading]=""-->
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Номер дела (МИБ)</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
     </div>
 
     <div class="col-6">
-      <app-datepicker [title]="'Срок контроля'"></app-datepicker>
+      <app-datepicker [title]="'Дата дела (МИБ)'"></app-datepicker>
     </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-8">
+      <div class="input-field">
+        <div class="input-field__title">Взыскатель</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-start align-items-end mb-2">
+    <div class="col-8">
+      <div class="input-field">
+        <div class="input-field__title">Должник</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="btn btn-dashed">Добавить</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <div class="select-field mb-2">
+        <div class="select-field__title">Выберите залог</div>
+        <ng-select
+          class="custom-select"
+          appearance="outline"
+          [items]="opinion"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Выберите решение"
+          name="qwe"
+          [(ngModel)]="selectedOpinion"
+          [loadingText]="'Загружается'"
+          [searchable]="false"
+          [clearable]="false"
+        ></ng-select>
+        <!--      [disabled]=""-->
+        <!--      [loading]=""-->
+      </div>
+    </div>
+  </div>
+
+
+  <div class="text-field mb-2">
+    <div class="text-field__title">Комментарий</div>
+    <label class="text-field__label">
+      <textarea placeholder="Уточните детали"></textarea>
+    </label>
   </div>
 
   <app-file-uploader [title]="'Прикрепить файл'"></app-file-uploader>
@@ -118,7 +124,6 @@
     следующий шаг
   </div>
 </form>
-
 
 <div class="row no-gutters" *ngIf="mainService.role === 'headLawyer'">
   <form
@@ -146,9 +151,6 @@
           <!--      [disabled]=""-->
           <!--      [loading]=""-->
         </div>
-      </div>
-      <div class="col-6">
-        <app-datepicker [title]="'Срок контроля'"></app-datepicker>
       </div>
     </div>
 

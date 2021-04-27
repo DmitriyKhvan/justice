@@ -35,7 +35,8 @@ export class SendApplicationStepComponent implements OnInit {
     });
   }
 
-  firstDatePicker(evt: any): void {
+  firstDatePicker(evt: any, elem: any): void {
+    console.log(elem);
     console.log(evt);
   }
 

@@ -140,6 +140,26 @@
           <app-appeal-step></app-appeal-step>
         </div>
       </app-step>
+      <app-step [stepTitle]="'Надзор / Протест'" [stepDoneText]="'Шаг пройден'" [step]="6.2">
+        <div step-content>
+          <app-protest-step></app-protest-step>
+        </div>
+      </app-step>
+      <app-step [stepTitle]="'Подготовка дела для отправки в МИБ'" [stepDoneText]="'Дело подготовлено'" [step]="7">
+        <div step-content>
+          <app-sending-mib-step></app-sending-mib-step>
+        </div>
+      </app-step>
+      <app-step [stepTitle]="'Получение и внесение ответа от МИБ'" [stepDoneText]="'Ответ внесен'" [step]="8">
+        <div step-content>
+          <app-response-mib-step></app-response-mib-step>
+        </div>
+      </app-step>
+      <app-step [stepTitle]="'Внесение данных о выставленных залогов клиента в аукционах #1'" [stepDoneText]="'Данные внесены'" [step]="9">
+        <div step-content>
+          <app-outstanding-auction-step></app-outstanding-auction-step>
+        </div>
+      </app-step>
     </app-stepper-wrapper>
 
   </div>

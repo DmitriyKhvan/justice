@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ClientsService {
   currentStep!: any;
-  public currentStepTitle = '';
+  public currentStepTitle: any;
 
 
   constructor() {}

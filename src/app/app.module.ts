@@ -27,6 +27,10 @@ import { SendingCourtStepComponent } from './pages/clients-detail/step-forms/sen
 import { ResponseCourtStepComponent } from './pages/clients-detail/step-forms/response-court-step/response-court-step.component';
 import { FirstInstanceStepComponent } from './pages/clients-detail/step-forms/first-instance-step/first-instance-step.component';
 import { AppealStepComponent } from './pages/clients-detail/step-forms/appeal-step/appeal-step.component';
+import { ProtestStepComponent } from './pages/clients-detail/step-forms/protest-step/protest-step.component';
+import { SendingMibStepComponent } from './pages/clients-detail/step-forms/sending-mib-step/sending-mib-step.component';
+import { ResponseMibStepComponent } from './pages/clients-detail/step-forms/response-mib-step/response-mib-step.component';
+import { OutstandingAuctionStepComponent } from './pages/clients-detail/step-forms/outstanding-auction-step/outstanding-auction-step.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,10 @@ import { AppealStepComponent } from './pages/clients-detail/step-forms/appeal-st
     ResponseCourtStepComponent,
     FirstInstanceStepComponent,
     AppealStepComponent,
+    ProtestStepComponent,
+    SendingMibStepComponent,
+    ResponseMibStepComponent,
+    OutstandingAuctionStepComponent,
   ],
   imports: [
     TooltipModule,
