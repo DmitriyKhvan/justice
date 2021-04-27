@@ -23,6 +23,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { StepComponent } from './components/step/step.component';
 import { StepperWrapperComponent } from './components/stepper-wrapper/stepper-wrapper.component';
 import { ChambersDecisionStepComponent } from './pages/clients-detail/step-forms/chambers-decision-step/chambers-decision-step.component';
+import { SendingCourtStepComponent } from './pages/clients-detail/step-forms/sending-court-step/sending-court-step.component';
+import { ResponseCourtStepComponent } from './pages/clients-detail/step-forms/response-court-step/response-court-step.component';
+import { FirstInstanceStepComponent } from './pages/clients-detail/step-forms/first-instance-step/first-instance-step.component';
+import { AppealStepComponent } from './pages/clients-detail/step-forms/appeal-step/appeal-step.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +44,10 @@ import { ChambersDecisionStepComponent } from './pages/clients-detail/step-forms
     StepComponent,
     StepperWrapperComponent,
     ChambersDecisionStepComponent,
+    SendingCourtStepComponent,
+    ResponseCourtStepComponent,
+    FirstInstanceStepComponent,
+    AppealStepComponent,
   ],
   imports: [
     TooltipModule,

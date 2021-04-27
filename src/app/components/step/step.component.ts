@@ -41,6 +41,8 @@ export class StepComponent implements OnInit, AfterContentChecked{
   isFirst = false;
   currentStep = 1;
 
+  @Input() step: any = 0;
+
   constructor(private router: Router, private route: ActivatedRoute, private clientService: ClientsService) {}
 
   @Input() stepTitle = '';

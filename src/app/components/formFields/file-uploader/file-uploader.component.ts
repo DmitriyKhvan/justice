@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-detail.component';
 
@@ -6,7 +6,7 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
   selector: 'app-file-uploader',
   template: `
     <div class="file_field">
-      <div class="file-field__title mb-1">Прикрепить скан документа</div>
+      <div class="file-field__title mb-1">{{ title }}</div>
       <div class="file-field__list mb-2">
         <div
           *ngFor="let item of uploadFiles; index as i"
@@ -69,6 +69,8 @@ export class FileUploaderComponent implements OnInit {
     public fileUploadService: FileUploadService,
     public clientDetail: ClientsDetailComponent
   ) {}
+
+  @Input() title: any = 'Прикрепить скан документа';
 
   uploadFiles!: Array<any>;
 
