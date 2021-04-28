@@ -9,6 +9,6 @@ export class MainService {
 
   constructor() { }
 
-  public previousUrl = new BehaviorSubject('');
+  public previousUrl = new BehaviorSubject({});
   public currentUrl = new BehaviorSubject('');
 }

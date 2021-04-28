@@ -15,10 +15,12 @@ export class AppComponent implements OnInit, DoCheck{
     this.router.events
       .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
       .subscribe((events: RoutesRecognized[]) => {
+        // console.log(events);
         this.mainService.previousUrl.subscribe();
-        this.mainService.previousUrl.next(events[0].urlAfterRedirects);
-        this.mainService.currentUrl.subscribe();
-        this.mainService.currentUrl.next(events[1].urlAfterRedirects);
+        this.mainService.previousUrl.next(events[0].state);
+
+        // this.mainService.currentUrl.subscribe();
+        // this.mainService.currentUrl.next(events[1].urlAfterRedirects);
       });
   }
 
