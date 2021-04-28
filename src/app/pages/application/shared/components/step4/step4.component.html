@@ -1,5 +1,11 @@
-<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
-  <h2></h2>
+<ng-template></ng-template>
+<form
+  *ngif="true; else elseForm"
+  class="page-form"
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+>
+  <h2 class="title_form">Подраздел 1 (отказано в назначение дела)</h2>
   <div class="row justify-content-betwee mb-2">
     <div class="col-6">
       <app-file-uploader></app-file-uploader>
@@ -43,7 +49,7 @@
 </form>
 
 <!-- else -->
-<form class="page-form" [formGroup]="form2" (ngSubmit)="submit2()">
+<form #elseForm class="page-form" [formGroup]="form2" (ngSubmit)="submit2()">
   <div class="row justify-content-between mb-2">
     <div class="col-6">
       <div class="input-field">
@@ -144,8 +150,8 @@
   <button
     type="submit"
     class="page-form__actionbtn text-uppercase"
-    [ngClass]="{ disableBtn: form.invalid || submitted }"
-    [disabled]="form.invalid || submitted"
+    [ngClass]="{ disableBtn: form2.invalid || submitted }"
+    [disabled]="form2.invalid || submitted"
   >
     Следующий шаг
   </button>
