@@ -1,0 +1,133 @@
+<form
+  action=""
+  class="page-form pb-2"
+  *ngIf="mainService.role === 'lawyer'"
+>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ лота</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <app-datepicker [title]="'Дата начала лота'"></app-datepicker>
+    </div>
+
+    <div class="col-6">
+      <app-datepicker [title]="'Дата окончания лота'"></app-datepicker>
+    </div>
+  </div>
+
+  <div class="checkbox-field mb-2">
+    <div class="text-field__title">Залог должника</div>
+    <label class="checkbox-field__label mb-1">
+      <input type="checkbox">
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Залог номер 1</span>
+    </label>
+    <label class="checkbox-field__label mb-1">
+      <input type="checkbox">
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Залог номер 2</span>
+    </label>
+    <label class="checkbox-field__label mb-1">
+      <input type="checkbox">
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Залог номер 3</span>
+    </label>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <div class="select-field mb-2">
+        <div class="select-field__title">Реализовано/не реализовано</div>
+        <ng-select
+          class="custom-select"
+          appearance="outline"
+          [items]="opinion"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Выберите решение"
+          name="qwe"
+          [(ngModel)]="selectedOpinion"
+          [loadingText]="'Загружается'"
+          [searchable]="false"
+          [clearable]="false"
+        ></ng-select>
+        <!--      [disabled]=""-->
+        <!--      [loading]=""-->
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Сумма реализации</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-form__actionbtn text-uppercase">
+    <!--    (click)="clientDetail.nextStep()"-->
+    следующий шаг
+  </div>
+</form>
+
+<form
+  action=""
+  class="page-form"
+  *ngIf="mainService.role === 'headLawyer'"
+>
+  <div class="checkbox-field mb-2">
+    <label class="checkbox-field__label">
+      <input type="checkbox">
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Проведение суда</span>
+    </label>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ дела</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <app-file-uploader [title]="'Прикрепить файл'"></app-file-uploader>
+
+  <div class="row justify-content-start align-items-end mb-2">
+    <div class="col-6">
+      <app-datepicker [title]="'Выберите день'"></app-datepicker>
+    </div>
+    <div class="col-3">
+      <div class="btn btn-dashed">Добавить</div>
+    </div>
+  </div>
+
+  <div class="page-form__actionbtn text-uppercase">
+    <!--    (click)="clientDetail.nextStep()"-->
+    следующий шаг
+  </div>
+</form>

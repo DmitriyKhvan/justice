@@ -40,6 +40,10 @@ import { Step7Component } from './pages/application/shared/components/step7/step
 import { Step8Component } from './pages/application/shared/components/step8/step8.component';
 import { Step9Component } from './pages/application/shared/components/step9/step9.component';
 import { Step10Component } from './pages/application/shared/components/step10/step10.component';
+import { ProtestStepComponent } from './pages/clients-detail/step-forms/protest-step/protest-step.component';
+import { SendingMibStepComponent } from './pages/clients-detail/step-forms/sending-mib-step/sending-mib-step.component';
+import { ResponseMibStepComponent } from './pages/clients-detail/step-forms/response-mib-step/response-mib-step.component';
+import { OutstandingAuctionStepComponent } from './pages/clients-detail/step-forms/outstanding-auction-step/outstanding-auction-step.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +78,10 @@ import { Step10Component } from './pages/application/shared/components/step10/st
     Step8Component,
     Step9Component,
     Step10Component,
+    ProtestStepComponent,
+    SendingMibStepComponent,
+    ResponseMibStepComponent,
+    OutstandingAuctionStepComponent,
   ],
   imports: [
     TooltipModule,

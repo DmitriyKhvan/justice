@@ -52,6 +52,8 @@ export class StepComponent implements OnInit, AfterContentChecked{
     this.route.queryParams.subscribe((val) => {
       this.currentStep = val.step;
     });
+
+
   }
 
   ngAfterContentChecked(): void {
@@ -59,6 +61,7 @@ export class StepComponent implements OnInit, AfterContentChecked{
 
   detailsTrigger(evt: any, step: any): void {
     evt.preventDefault();
+    evt.target.offsetParent.open ? evt.target.offsetParent.open = false : evt.target.offsetParent.open = true;
     this.router.navigate([], {
       queryParams: {
         ...this.route.snapshot.queryParams,

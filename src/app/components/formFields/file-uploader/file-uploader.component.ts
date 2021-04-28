@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-detail.component';
 
@@ -53,7 +53,12 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
         </div>
       </div>
       <label class="file-field__uploadbtn mb-2">
-        Добавить файл
+        <ng-container
+          *ngIf="uploadFiles.length; then elseBtnText; else btnText"
+        >
+        </ng-container>
+        <ng-template #btnText> Добавить файл </ng-template>
+        <ng-template #elseBtnText> Добавить еще один файл </ng-template>
         <input
           type="file"
           multiple

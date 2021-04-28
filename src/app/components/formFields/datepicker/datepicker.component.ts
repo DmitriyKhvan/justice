@@ -36,8 +36,8 @@ export class DatepickerComponent implements OnInit {
   myDpOptions: IAngularMyDpOptions = {
     dateRange: false,
     dateFormat: 'dd.mm.yyyy',
-    closeSelectorOnDateSelect: true,
-    openSelectorTopOfInput: true,
+    closeSelectorOnDateSelect: false,
+    openSelectorTopOfInput: false,
   };
 
   model!: IMyDateModel;
