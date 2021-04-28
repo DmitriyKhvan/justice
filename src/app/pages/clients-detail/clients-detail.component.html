@@ -12,182 +12,237 @@
     <div
       class="page-actions row no-gutters justify-content-between align-items-center"
     >
-      <div class="page-action__item mr-2">
+      <div class="page-action__item mr-2" (click)="showHistory()">
         <i class="far fa-clock"></i>
         История
       </div>
     </div>
   </div>
 
-  <div class="page-content row no-gutters align-items-start">
-    <div class="page-card">
-      <div class="page-card__header px-3 pt-2">Проблемный кредит #45032</div>
-      <div class="page-card__body">
-        <div class="page-card__details px-3">
-          <span>Сумма кредита по договору</span>
-          <span>5 000 000,00</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Дата начала кредита</span>
-          <span>29.01.2017</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Дата окончания кредита</span>
-          <span>29.01.2017</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Валюта кредита</span>
-          <span>UZS</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Процентная ставка</span>
-          <span>9 %</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Статус наращивания/ненаращивания</span>
-          <span>Статус наращивания</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Остаток текущего долга</span>
-          <span>0,00</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Остаток просроченного основного долга</span>
-          <span>291 000,00</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Остаток начисленных %</span>
-          <span>0,00</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Остаток просроченных %</span>
-          <span>1 503,76</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Остаток начисленных % по просроченному  основному долгу</span>
-          <span>0,00</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>ФИО заемщика</span>
-          <span>Yunushodjaeva Shakhnoza Faruh...</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>ФИО поручителя</span>
-          <span>Yunushodjaeva Shakhnoza Faruh...</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Номер договора</span>
-          <span>45032</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Дата заключения договора</span>
-          <span>29.01.2017</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Вид залога</span>
-          <span>Недвижимость</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>Наименование залога</span>
-          <span>Мой дом на мальдивах</span>
+  <div class="page-content">
+    <div class="row align-items-start">
+      <div class="col-lg-4 col-md-5 page-sticky">
+        <div class="page-card">
+          <div class="page-card__header px-3 pt-2">
+            Проблемный кредит #45032
+          </div>
+          <div class="page-card__body">
+            <div class="page-card__details px-3">
+              <span>Сумма кредита по договору</span>
+              <span>5 000 000,00</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Дата начала кредита</span>
+              <span>29.01.2017</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Дата окончания кредита</span>
+              <span>29.01.2017</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Валюта кредита</span>
+              <span>UZS</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Процентная ставка</span>
+              <span>9 %</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Статус наращивания/ненаращивания</span>
+              <span>Статус наращивания</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Остаток текущего долга</span>
+              <span>0,00</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Остаток просроченного основного долга</span>
+              <span>291 000,00</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Остаток начисленных %</span>
+              <span>0,00</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Остаток просроченных %</span>
+              <span>1 503,76</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span
+                >Остаток начисленных % по просроченному  основному долгу</span
+              >
+              <span>0,00</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>ФИО заемщика</span>
+              <span>Yunushodjaeva Shakhnoza Faruh...</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>ФИО поручителя</span>
+              <span>Yunushodjaeva Shakhnoza Faruh...</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Номер договора</span>
+              <span>45032</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Дата заключения договора</span>
+              <span>29.01.2017</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Вид залога</span>
+              <span>Недвижимость</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>Наименование залога</span>
+              <span>Мой дом на мальдивах</span>
+            </div>
+          </div>
+          <div class="page-card__footer py-1">
+            <div class="page-card__details px-3">
+              <span>ИТОГО задолженность</span>
+              <span class="text-danger">292 503,76</span>
+            </div>
+            <div class="page-card__details px-3">
+              <span>ИТОГО задолженность</span>
+              <span>292 503,76</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="page-card__footer py-1">
-        <div class="page-card__details px-3">
-          <span>ИТОГО задолженность</span>
-          <span class="text-danger">292 503,76</span>
-        </div>
-        <div class="page-card__details px-3">
-          <span>ИТОГО задолженность</span>
-          <span>292 503,76</span>
-        </div>
+
+      <div class="col-lg-8 col-md-7">
+        <app-stepper-wrapper class="page-stepper">
+          <app-step
+            [stepTitle]="'Отправка оповещения должнику'"
+            [stepDoneText]="'Должник оповещен'"
+            [step]="1"
+          >
+            <div step-content>
+              <app-send-alert-step></app-send-alert-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Отправка заявки в палату'"
+            [stepDoneText]="'Заявка отравлена в палату'"
+            [step]="2"
+          >
+            <div step-content>
+              <app-send-application-step></app-send-application-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Внесение решения палаты'"
+            [stepDoneText]="'Принято решение о передаче дела в суд'"
+            [step]="3"
+          >
+            <div step-content>
+              <app-chambers-decision-step></app-chambers-decision-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Подготовка дела для отправки в суд'"
+            [stepDoneText]="'Дело отправлено в суд'"
+            [step]="4"
+          >
+            <div step-content>
+              <app-sending-court-step></app-sending-court-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Получение и внесение ответа от суда'"
+            [stepDoneText]="'Получено решение суда'"
+            [step]="5"
+          >
+            <div step-content>
+              <app-response-court-step></app-response-court-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Ответ суда первой инстанции'"
+            [stepDoneText]="'Ответ получен'"
+            [step]="6"
+          >
+            <div step-content>
+              <app-first-instance-step></app-first-instance-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Апелляция / Кассация'"
+            [stepDoneText]="'Шаг пройден'"
+            [step]="6.1"
+          >
+            <div step-content>
+              <app-appeal-step></app-appeal-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Надзор / Протест'"
+            [stepDoneText]="'Шаг пройден'"
+            [step]="6.2"
+          >
+            <div step-content>
+              <app-protest-step></app-protest-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Подготовка дела для отправки в МИБ'"
+            [stepDoneText]="'Дело подготовлено'"
+            [step]="7"
+          >
+            <div step-content>
+              <app-sending-mib-step></app-sending-mib-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Получение и внесение ответа от МИБ'"
+            [stepDoneText]="'Ответ внесен'"
+            [step]="8"
+          >
+            <div step-content>
+              <app-response-mib-step></app-response-mib-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="
+              'Внесение данных о выставленных залогов клиента в аукционах #1'
+            "
+            [stepDoneText]="'Данные внесены'"
+            [step]="9"
+          >
+            <div step-content>
+              <app-outstanding-auction-step></app-outstanding-auction-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Прекращение исполнительного производства'"
+            [stepDoneText]="'Шаг пройден'"
+            [step]="10"
+          >
+            <div step-content>
+              <app-terminate-process-step></app-terminate-process-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Принятие имущества на баланс'"
+            [stepDoneText]="'Шаг пройден'"
+            [step]="11"
+          >
+            <div step-content>
+              <app-accept-property-step></app-accept-property-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Итог дела'"
+            [stepDoneText]="'Шаг пройден'"
+            [step]="12"
+          >
+            <div step-content>
+              <app-final-step></app-final-step>
+            </div>
+          </app-step>
+        </app-stepper-wrapper>
       </div>
     </div>
-
-    <app-stepper-wrapper class="page-stepper">
-      <app-step
-        [stepTitle]="'Отправка оповещения должнику'"
-        [stepDoneText]="'Должник оповещен'"
-        [step]="1"
-      >
-        <div step-content>
-          <app-send-alert-step></app-send-alert-step>
-        </div>
-      </app-step>
-      <app-step
-        [stepTitle]="'Отправка заявки в палату'"
-        [stepDoneText]="'Заявка отравлена в палату'"
-        [step]="2"
-      >
-        <div step-content>
-          <app-send-application-step></app-send-application-step>
-        </div>
-      </app-step>
-      <app-step
-        [stepTitle]="'Внесение решения палаты'"
-        [stepDoneText]="'Принято решение о передаче дела в суд'"
-        [step]="3"
-      >
-        <div step-content>
-          <app-chambers-decision-step></app-chambers-decision-step>
-        </div>
-      </app-step>
-      <app-step
-        [stepTitle]="'Подготовка дела для отправки в суд'"
-        [stepDoneText]="'Дело отправлено в суд'"
-        [step]="4"
-      >
-        <div step-content>
-          <app-sending-court-step></app-sending-court-step>
-        </div>
-      </app-step>
-      <app-step
-        [stepTitle]="'Получение и внесение ответа от суда'"
-        [stepDoneText]="'Получено решение суда'"
-        [step]="5"
-      >
-        <div step-content>
-          <app-response-court-step></app-response-court-step>
-        </div>
-      </app-step>
-      <app-step
-        [stepTitle]="'Ответ суда первой инстанции'"
-        [stepDoneText]="'Ответ получен'"
-        [step]="6"
-      >
-        <div step-content>
-          <app-first-instance-step></app-first-instance-step>
-        </div>
-      </app-step>
-      <app-step
-        [stepTitle]="'Апелляция / Кассация'"
-        [stepDoneText]="'Шаг пройден'"
-        [step]="6.1"
-      >
-        <div step-content>
-          <app-appeal-step></app-appeal-step>
-        </div>
-      </app-step>
-      <app-step [stepTitle]="'Надзор / Протест'" [stepDoneText]="'Шаг пройден'" [step]="6.2">
-        <div step-content>
-          <app-protest-step></app-protest-step>
-        </div>
-      </app-step>
-      <app-step [stepTitle]="'Подготовка дела для отправки в МИБ'" [stepDoneText]="'Дело подготовлено'" [step]="7">
-        <div step-content>
-          <app-sending-mib-step></app-sending-mib-step>
-        </div>
-      </app-step>
-      <app-step [stepTitle]="'Получение и внесение ответа от МИБ'" [stepDoneText]="'Ответ внесен'" [step]="8">
-        <div step-content>
-          <app-response-mib-step></app-response-mib-step>
-        </div>
-      </app-step>
-      <app-step [stepTitle]="'Внесение данных о выставленных залогов клиента в аукционах #1'" [stepDoneText]="'Данные внесены'" [step]="9">
-        <div step-content>
-          <app-outstanding-auction-step></app-outstanding-auction-step>
-        </div>
-      </app-step>
-    </app-stepper-wrapper>
   </div>
 </div>

@@ -30,7 +30,7 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   selectedItem = null;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
     for (let i = 0; i < 99; i++) {
@@ -53,5 +53,9 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   showDetails(): void {
     this.router.navigate(['clients/detail'], {queryParams: {...this.route.snapshot.queryParams, step: 1}});
+  }
+
+  showHistory(): void {
+    this.router.navigate(['clients/history'], {queryParams: {...this.route.snapshot.queryParams}});
   }
 }

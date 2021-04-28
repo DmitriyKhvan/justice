@@ -31,7 +31,7 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   show = false;
 
-  previousUrl = '';
+  prevUrl: any;
   currentUrl = '';
 
   constructor(
@@ -55,7 +55,7 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     });
 
     this.mainService.previousUrl.subscribe((val) => {
-      this.previousUrl = val;
+      this.prevUrl = val;
     });
     this.mainService.currentUrl.subscribe((val) => {
       this.currentUrl = val;
@@ -66,7 +66,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     steps.forEach((step, i) => {
       step.setAttribute('stepNumber', String(i + 1));
     });
-
   }
 
   ngDoCheck(): void {}
@@ -114,5 +113,15 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   logger(pld: any): void {
     console.log(pld);
+  }
+
+  showHistory(): void {
+    this.router.navigate(['clients/history'], {
+      queryParams: {
+        fr: 'detail',
+        mfo: this.route.snapshot.queryParams.mfo,
+        contract: this.route.snapshot.queryParams.contract,
+      },
+    });
   }
 }

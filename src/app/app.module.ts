@@ -44,6 +44,10 @@ import { ProtestStepComponent } from './pages/clients-detail/step-forms/protest-
 import { SendingMibStepComponent } from './pages/clients-detail/step-forms/sending-mib-step/sending-mib-step.component';
 import { ResponseMibStepComponent } from './pages/clients-detail/step-forms/response-mib-step/response-mib-step.component';
 import { OutstandingAuctionStepComponent } from './pages/clients-detail/step-forms/outstanding-auction-step/outstanding-auction-step.component';
+import { TerminateProcessStepComponent } from './pages/clients-detail/step-forms/terminate-process-step/terminate-process-step.component';
+import { AcceptPropertyStepComponent } from './pages/clients-detail/step-forms/accept-property-step/accept-property-step.component';
+import { FinalStepComponent } from './pages/clients-detail/step-forms/final-step/final-step.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +86,10 @@ import { OutstandingAuctionStepComponent } from './pages/clients-detail/step-for
     SendingMibStepComponent,
     ResponseMibStepComponent,
     OutstandingAuctionStepComponent,
+    TerminateProcessStepComponent,
+    AcceptPropertyStepComponent,
+    FinalStepComponent,
+    HistoryComponent,
   ],
   imports: [
     TooltipModule,
