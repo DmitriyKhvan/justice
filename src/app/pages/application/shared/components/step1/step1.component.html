@@ -13,11 +13,12 @@
 
         <div
           *ngIf="
-            form.get('numberLetter').touched && form.get('numberLetter').invalid
+            form.get('numberLetter')?.touched &&
+            form.get('numberLetter')?.invalid
           "
           class="validation"
         >
-          <small *ngIf="form.get('numberLetter').errors.required">
+          <small *ngIf="form.get('numberLetter')?.errors?.required">
             Введите данные
           </small>
         </div>
@@ -43,7 +44,7 @@
 
         <div
           *ngIf="
-            form.get('outDocDate').touched && form.get('outDocDate').invalid
+            form.get('outDocDate')?.touched && form.get('outDocDate')?.invalid
           "
           class="validation"
         >
@@ -89,12 +90,12 @@
 
         <div
           *ngIf="
-            form.get('numberCriminalCase').touched &&
-            form.get('numberCriminalCase').invalid
+            form.get('numberCriminalCase')?.touched &&
+            form.get('numberCriminalCase')?.invalid
           "
           class="validation"
         >
-          <small *ngIf="form.get('numberCriminalCase').errors.required">
+          <small *ngIf="form.get('numberCriminalCase')?.errors?.required">
             Введите данные
           </small>
         </div>
@@ -121,8 +122,8 @@
 
         <div
           *ngIf="
-            form.get('criminalCasecDate').touched &&
-            form.get('criminalCasecDate').invalid
+            form.get('criminalCasecDate')?.touched &&
+            form.get('criminalCasecDate')?.invalid
           "
           class="validation"
         >

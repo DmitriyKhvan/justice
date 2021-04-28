@@ -30,6 +30,16 @@ import { SendingCourtStepComponent } from './pages/clients-detail/step-forms/sen
 import { ResponseCourtStepComponent } from './pages/clients-detail/step-forms/response-court-step/response-court-step.component';
 import { FirstInstanceStepComponent } from './pages/clients-detail/step-forms/first-instance-step/first-instance-step.component';
 import { AppealStepComponent } from './pages/clients-detail/step-forms/appeal-step/appeal-step.component';
+import { Step3Component } from './pages/application/shared/components/step3/step3.component';
+import { Step4Component } from './pages/application/shared/components/step4/step4.component';
+import { Step5Component } from './pages/application/shared/components/step5/step5.component';
+import { Step5_1Component } from './pages/application/shared/components/step5.1/step5.1.component';
+import { Step5_2Component } from './pages/application/shared/components/step5.2/step5.2.component';
+import { Step6Component } from './pages/application/shared/components/step6/step6.component';
+import { Step7Component } from './pages/application/shared/components/step7/step7.component';
+import { Step8Component } from './pages/application/shared/components/step8/step8.component';
+import { Step9Component } from './pages/application/shared/components/step9/step9.component';
+import { Step10Component } from './pages/application/shared/components/step10/step10.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +64,16 @@ import { AppealStepComponent } from './pages/clients-detail/step-forms/appeal-st
     ResponseCourtStepComponent,
     FirstInstanceStepComponent,
     AppealStepComponent,
+    Step3Component,
+    Step4Component,
+    Step5Component,
+    Step5_1Component,
+    Step5_2Component,
+    Step6Component,
+    Step7Component,
+    Step8Component,
+    Step9Component,
+    Step10Component,
   ],
   imports: [
     TooltipModule,

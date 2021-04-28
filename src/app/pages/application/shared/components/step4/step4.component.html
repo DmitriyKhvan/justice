@@ -1,0 +1,152 @@
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h2></h2>
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field mb-2">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Следующий шаг
+  </button>
+</form>
+
+<!-- else -->
+<form class="page-form" [formGroup]="form2" (ngSubmit)="submit2()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Наименование суда</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="nameCourt" />
+        </label>
+
+        <div
+          *ngIf="
+            form2.get('nameCourt')?.touched && form2.get('nameCourt')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form2.get('nameCourt')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ дела</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="numberCase" />
+        </label>
+
+        <div
+          *ngIf="
+            form2.get('numberCase')?.touched && form2.get('numberCase')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form2.get('numberCase')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">
+          Дата и время назначения судебного заседания; и последующих назначений
+        </div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            name="mydate"
+            formControlName="dateCourt"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form2.get('dateCourt')?.touched && form2.get('dateCourt')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form2.controls.dateCourt.errors &&
+              form2.controls.dateCourt.errors.required &&
+              !form2.controls.dateCourt.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form2.controls.dateCourt.errors &&
+              form2.controls.dateCourt.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Следующий шаг
+  </button>
+</form>

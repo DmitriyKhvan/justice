@@ -46,7 +46,7 @@ export class Step1Component implements OnInit {
     }
     this.submitted = true;
 
-    this.form.get('numberLetter').disable();
+    // this.form.get('numberLetter').disable();
 
     console.log('form', this.form);
 

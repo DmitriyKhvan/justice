@@ -1,0 +1,108 @@
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">
+          Дата внесения, когда Банк был привлечен потерпевшем или гражд. истцом
+        </div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="dateCompleteCriminalCase"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('dateCompleteCriminalCase')?.touched &&
+            form.get('dateCompleteCriminalCase')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateCompleteCriminalCase.errors &&
+              form.controls.dateCompleteCriminalCase.errors.required &&
+              !form.controls.dateCompleteCriminalCase.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateCompleteCriminalCase.errors &&
+              form.controls.dateCompleteCriminalCase.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата передачи дела в суд</div>
+        <label class="input-field__label">
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="dateCase"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="form.get('dateCase')?.touched && form.get('dateCase')?.invalid"
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateCase.errors &&
+              form.controls.dateCase.errors.required &&
+              !form.controls.dateCase.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateCase.errors &&
+              form.controls.dateCase.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Следующий шаг
+  </button>
+</form>

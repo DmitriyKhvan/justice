@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { IAngularMyDpOptions } from 'angular-mydatepicker';
 import { datepickerSettings } from '../../settings';
 
 @Component({
@@ -16,7 +17,7 @@ export class Step2Component implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-  myDpOptions = datepickerSettings;
+  myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
   constructor() {}
 

@@ -10,7 +10,7 @@
   <div class="page-content row justify-content-center">
     <app-stepper-wrapper>
       <app-step
-        [stepTitle]="'Подача заявления в прокуратуру '"
+        [stepTitle]="'Подача заявления в прокуратуру'"
         [stepDoneText]="'Заявка подана'"
         [step]="1"
       >
@@ -20,12 +20,32 @@
       </app-step>
 
       <app-step
-        [stepTitle]="'Подача заявления в прокуратуру '"
-        [stepDoneText]="'Заявка подана'"
+        [stepTitle]="'Рассмотрение заявления в правоохранительных органах'"
+        [stepDoneText]="'Заявление отправлено'"
         [step]="2"
       >
         <div step-content>
           <app-step2></app-step2>
+        </div>
+      </app-step>
+
+      <app-step
+        [stepTitle]="'Решения по уголовному делу'"
+        [stepDoneText]="'Дело не отправлено в суд'"
+        [step]="3"
+      >
+        <div step-content>
+          <app-step3></app-step3>
+        </div>
+      </app-step>
+
+      <app-step
+        [stepTitle]="'Получение и внесение ответа от суда'"
+        [stepDoneText]="'Получено решение суда'"
+        [step]="4"
+      >
+        <div step-content>
+          <app-step4></app-step4>
         </div>
       </app-step>
     </app-stepper-wrapper>
