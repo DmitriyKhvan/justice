@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, DoCheck, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ClientsService} from '../../services/clients.service';
+import {ClientsService} from '../../../services/clients.service';
 
 @Component({
   selector: 'app-step',

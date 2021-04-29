@@ -6,11 +6,203 @@
       <i class="uil-arrow-left" (click)="goToBack()"></i>
       Назад к списку кредитов
     </div>
-
   </div>
 
   <div class="page-content">
+    <div class="row">
+      <div class="col-xl-8 col-lg-9">
+        <div class="page-content__title">История дела</div>
+        <app-accordion-wrapper>
+          <app-accordion-item
+            [accordionTitle]="'Отправка оповещения должнику'"
+            [accordionDoneText]="'Должник оповещен'"
+            [step]="1"
+          >
+            <div accordion-content>
+              <div class="page-form">
+                <div class="file_field">
+                  <div class="file-field__title mb-1">Скан письма от МИБ</div>
+                  <div class="file-field__list mb-2">
+                    <div class="file-field__list_item py-1">
+                      <i class="icon-attach mr-1"></i>
+                      <div class="file-field__list_text ml-1">Файл. PDF</div>
+                    </div>
+                  </div>
+                </div>
 
+                <div class="row justify-content-between mb-2">
+                  <div class="col-6">
+                    <div class="input-field">
+                      <div class="input-field__title">№ акта</div>
+                      <label class="input-field__label readonly">
+                        <input
+                          type="text"
+                          readonly
+                          autocomplete="off"
+                          value="28.12.2019"
+                        />
+                      </label>
+                    </div>
+                  </div>
 
+                  <div class="col-6">
+                    <div class="input-field">
+                      <div class="input-field__title">Дата</div>
+                      <label class="input-field__label readonly">
+                        <input
+                          type="text"
+                          readonly
+                          autocomplete="off"
+                          value="28.12.2019"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row justify-content-between mb-2">
+                  <div class="col-12">
+                    <div class="input-field">
+                      <div class="input-field__title">Выбранное действие</div>
+                      <label class="input-field__label readonly">
+                        <input
+                          type="text"
+                          readonly
+                          autocomplete="off"
+                          value="Принять предложенные товары"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="checkbox-field mb-2">
+                  <div class="text-field__title">Залог должника</div>
+                  <label class="checkbox-field__label mb-1">
+                    <input type="checkbox" checked disabled />
+                    <span class="custom-checkbox mr-2">
+                      <i class="uil-check"></i>
+                    </span>
+                    <span>Залог номер 1</span>
+                  </label>
+                  <label class="checkbox-field__label mb-1">
+                    <input type="checkbox" checked disabled />
+                    <span class="custom-checkbox mr-2">
+                      <i class="uil-check"></i>
+                    </span>
+                    <span>Залог номер 2</span>
+                  </label>
+                  <label class="checkbox-field__label mb-1">
+                    <input type="checkbox" checked disabled />
+                    <span class="custom-checkbox mr-2">
+                      <i class="uil-check"></i>
+                    </span>
+                    <span>Залог номер 3</span>
+                  </label>
+                </div>
+
+                <div class="text-field mb-2">
+                  <div class="text-field__title">Дополнительная информация</div>
+                  <label class="text-field__label readonly">
+                    <textarea
+                      [value]="
+                        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad autem consectetur consequatur dolore earum esse, excepturi fuga ipsa itaque laborum magni nostrum odit officia possimus tempora velit, vero. Dolorum itaque maxime nemo qui saepe sed voluptatem!'
+                      "
+                      readonly
+                    >
+                    </textarea>
+                  </label>
+                </div>
+              </div>
+            </div>
+<!--            <div accordion-footer>-->
+<!--              <form action="" class="page-form">-->
+<!--                <div class="text-field mb-2">-->
+<!--                  <div class="text-field__title">Комментарий</div>-->
+<!--                  <label class="text-field__label bg-white">-->
+<!--                    <textarea placeholder="Уточните детали"></textarea>-->
+<!--                  </label>-->
+<!--                </div>-->
+
+<!--                <div class="row">-->
+<!--                  <div class="col-6">-->
+<!--                    <div class="page-form__actionbtn text-uppercase bg-white">-->
+<!--                      &lt;!&ndash;    (click)="clientDetail.nextStep()"&ndash;&gt;-->
+<!--                      отправить заявку-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </form>-->
+<!--            </div>-->
+          </app-accordion-item>
+          <app-accordion-item
+            [accordionTitle]="'Отправка оповещения должнику'"
+            [accordionDoneText]="'Должник оповещен'"
+            [step]="2"
+          >
+            <div accordion-content>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad
+              autem consectetur consequatur dolore earum esse, excepturi fuga
+              ipsa itaque laborum magni nostrum odit officia possimus tempora
+              velit, vero. Dolorum itaque maxime nemo qui saepe sed voluptatem!
+              Delectus impedit iure laboriosam maxime nesciunt quos rem
+              reprehenderit suscipit. Deleniti dolorem eveniet ipsum mollitia
+              omnis quidem soluta vel. Accusantium amet at, aut blanditiis
+              corporis doloribus ea eius exercitationem facilis fugiat illo
+              impedit ipsa iure iusto laudantium magni maxime minus molestiae
+              molestias mollitia neque nesciunt odit optio perferendis possimus
+              qui ratione sed sequi sint sit ut velit veniam vitae. Dolorem eius
+              nemo quasi.
+            </div>
+            <div accordion-footer>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad
+              autem consectetur consequatur dolore earum esse, excepturi fuga
+              ipsa itaque laborum magni nostrum odit officia possimus tempora
+              velit, vero. Dolorum itaque maxime nemo qui saepe sed voluptatem!
+              Delectus impedit iure laboriosam maxime nesciunt quos rem
+              reprehenderit suscipit. Deleniti dolorem eveniet ipsum mollitia
+              omnis quidem soluta vel. Accusantium amet at, aut blanditiis
+              corporis doloribus ea eius exercitationem facilis fugiat illo
+              impedit ipsa iure iusto laudantium magni maxime minus molestiae
+              molestias mollitia neque nesciunt odit optio perferendis possimus
+              qui ratione sed sequi sint sit ut velit veniam vitae. Dolorem eius
+              nemo quasi.
+            </div>
+          </app-accordion-item>
+        </app-accordion-wrapper>
+      </div>
+      <div class="col-xl-4 col-lg-3">
+        <div class="page-content__title">Документы дела</div>
+
+        <div class="info-card__docs">
+          <div class="info-card__docs_list">
+            <div class="info-card__docs_list_item">
+              <i class="icon-image"></i>
+              <span>Скан письма #3</span>
+              <a href="">
+                <i class="icon-attach"></i>
+                скачать
+              </a>
+            </div>
+            <div class="info-card__docs_list_item">
+              <i class="icon-document_alt"></i>
+              <span>Копия договора от 28.10.2019</span>
+              <a href="">
+                <i class="icon-attach"></i>
+                скачать
+              </a>
+            </div>
+            <div class="info-card__docs_list_item">
+              <i class="icon-table"></i>
+              <span>Вторая копия договора от 12.12.2019</span>
+              <a href="">
+                <i class="icon-attach"></i>
+                скачать
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
