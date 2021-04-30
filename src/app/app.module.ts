@@ -48,6 +48,14 @@ import { TerminateProcessStepComponent } from './pages/clients-detail/step-forms
 import { AcceptPropertyStepComponent } from './pages/clients-detail/step-forms/accept-property-step/accept-property-step.component';
 import { FinalStepComponent } from './pages/clients-detail/step-forms/final-step/final-step.component';
 import { HistoryComponent } from './pages/history/history.component';
+import { LawyerFormStep6Component } from './pages/application/shared/components/step6/components/lawyer-form/lawyer-form.component';
+import { HeadLawyerFormStep6Component } from './pages/application/shared/components/step6/components/head-lawyer-form/head-lawyer-form.component';
+import { HeadLawyerFormStep7SuccessComponent } from './pages/application/shared/components/step7/components/head-lawyer-form-step7-success/head-lawyer-form-step7-success.component';
+import { HeadLawyerFormStep7FailureComponent } from './pages/application/shared/components/step7/components/head-lawyer-form-step7-failure/head-lawyer-form-step7-failure.component';
+import { LawyerFormStep7FailureComponent } from './pages/application/shared/components/step7/components/lawyer-form-step7-failure/lawyer-form-step7-failure.component';
+import { LawyerFormStep7SuccessComponent } from './pages/application/shared/components/step7/components/lawyer-form-step7-success/lawyer-form-step7-success.component';
+import { LawyerFormStep8SuccesComponent } from './pages/application/shared/components/step8/components/lawyer-form-step8-succes/lawyer-form-step8-success.component';
+import { LawyerFormStep8FailureComponent } from './pages/application/shared/components/step8/components/lawyer-form-step8-failure/lawyer-form-step8-failure.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +98,14 @@ import { HistoryComponent } from './pages/history/history.component';
     AcceptPropertyStepComponent,
     FinalStepComponent,
     HistoryComponent,
+    LawyerFormStep6Component,
+    HeadLawyerFormStep6Component,
+    HeadLawyerFormStep7SuccessComponent,
+    HeadLawyerFormStep7FailureComponent,
+    LawyerFormStep7FailureComponent,
+    LawyerFormStep7SuccessComponent,
+    LawyerFormStep8SuccesComponent,
+    LawyerFormStep8FailureComponent,
   ],
   imports: [
     TooltipModule,

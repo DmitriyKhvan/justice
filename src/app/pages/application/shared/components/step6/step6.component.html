@@ -1,1 +1,4 @@
-<p>step6 works!</p>
+<app-lawyer-form-step6 *ngIf="false; else elseForm"></app-lawyer-form-step6>
+<ng-template #elseForm>
+  <app-head-lawyer-form-step6></app-head-lawyer-form-step6>
+</ng-template>

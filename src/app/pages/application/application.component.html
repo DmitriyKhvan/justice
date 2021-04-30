@@ -8,46 +8,120 @@
   </div>
 
   <div class="page-content row justify-content-center">
-    <app-stepper-wrapper>
-      <app-step
-        [stepTitle]="'Подача заявления в прокуратуру'"
-        [stepDoneText]="'Заявка подана'"
-        [step]="1"
-      >
-        <div step-content>
-          <app-step1></app-step1>
-        </div>
-      </app-step>
+    <div class="col-8">
+      <app-stepper-wrapper>
+        <app-step
+          [stepTitle]="'Подача заявления в прокуратуру'"
+          [stepDoneText]="'Заявка подана'"
+          [step]="1"
+        >
+          <div step-content>
+            <app-step1></app-step1>
+          </div>
+        </app-step>
 
-      <app-step
-        [stepTitle]="'Рассмотрение заявления в правоохранительных органах'"
-        [stepDoneText]="'Заявление отправлено'"
-        [step]="2"
-      >
-        <div step-content>
-          <app-step2></app-step2>
-        </div>
-      </app-step>
+        <app-step
+          [stepTitle]="'Рассмотрение заявления в правоохранительных органах'"
+          [stepDoneText]="'Заявление отправлено'"
+          [step]="2"
+        >
+          <div step-content>
+            <app-step2></app-step2>
+          </div>
+        </app-step>
 
-      <app-step
-        [stepTitle]="'Решения по уголовному делу'"
-        [stepDoneText]="'Дело не отправлено в суд'"
-        [step]="3"
-      >
-        <div step-content>
-          <app-step3></app-step3>
-        </div>
-      </app-step>
+        <app-step
+          [stepTitle]="'Решения по уголовному делу'"
+          [stepDoneText]="'Дело не отправлено в суд'"
+          [step]="3"
+        >
+          <div step-content>
+            <app-step3></app-step3>
+          </div>
+        </app-step>
 
-      <app-step
-        [stepTitle]="'Получение и внесение ответа от суда'"
-        [stepDoneText]="'Получено решение суда'"
-        [step]="4"
-      >
-        <div step-content>
-          <app-step4></app-step4>
-        </div>
-      </app-step>
-    </app-stepper-wrapper>
+        <app-step
+          [stepTitle]="'Получение и внесение ответа от суда'"
+          [stepDoneText]="'Получено решение суда'"
+          [step]="4"
+        >
+          <div step-content>
+            <app-step4></app-step4>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="'Решение суда первой инстанции'"
+          [stepDoneText]="'Ответ получен'"
+          [step]="5"
+        >
+          <div step-content>
+            <app-step5></app-step5>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="'Апелляция/Кассация'"
+          [stepDoneText]="'Шаг пройден'"
+          [step]="5.1"
+        >
+          <div step-content>
+            <app-step5_1></app-step5_1>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="'Надзор/Протест'"
+          [stepDoneText]="'Шаг пройден'"
+          [step]="5.2"
+        >
+          <div step-content>
+            <app-step5_2></app-step5_2>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="'Подготовка дела для отправки в МИБ'"
+          [stepDoneText]="'Дело подготовлено'"
+          [step]="6"
+        >
+          <div step-content>
+            <app-step6></app-step6>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="'Получение и внесение ответа от МИБ'"
+          [stepDoneText]="'Дело подготовлено'"
+          [step]="7"
+        >
+          <div step-content>
+            <app-step7></app-step7>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="
+            'Внесение данных о выставленных залогов клиента в аукционах #1'
+          "
+          [stepDoneText]="'Данные внесены'"
+          [step]="8"
+        >
+          <div step-content>
+            <app-step8></app-step8>
+          </div>
+        </app-step>
+
+        <app-step
+          [stepTitle]="'Прекращение исполнительного производства'"
+          [stepDoneText]="'Шаг пройден'"
+          [step]="9"
+        >
+          <div step-content>
+            <app-step9></app-step9>
+          </div>
+        </app-step>
+      </app-stepper-wrapper>
+    </div>
   </div>
 </div>

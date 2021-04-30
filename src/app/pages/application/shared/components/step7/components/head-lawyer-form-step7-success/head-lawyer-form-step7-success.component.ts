@@ -2,26 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-step5_2',
-  templateUrl: './step5.2.component.html',
-  styleUrls: ['./step5.2.component.scss'],
+  selector: 'app-head-lawyer-form-step7-success',
+  templateUrl: './head-lawyer-form-step7-success.component.html',
+  styleUrls: ['./head-lawyer-form-step7-success.component.scss'],
 })
-export class Step5_2Component implements OnInit {
+export class HeadLawyerFormStep7SuccessComponent implements OnInit {
   form!: FormGroup;
-  form2!: FormGroup;
   submitted = false;
-
   options = [
-    { id: 1, label: 'Одобрить' },
-    { id: 2, label: 'Отказать' },
-    { id: 3, label: 'Пересмотреть' },
-    { id: 4, label: 'Проверить' },
+    { id: 1, label: 'решение1' },
+    { id: 2, label: 'решение2' },
+    { id: 3, label: 'решение3' },
+    { id: 4, label: 'решение4' },
   ];
+
   constructor() {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({});
-    this.form2 = new FormGroup({
+    this.form = new FormGroup({
       decision: new FormControl(null, Validators.required),
       additionalInfo: new FormControl(null, Validators.required),
     });
@@ -31,8 +29,6 @@ export class Step5_2Component implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
-    console.log(this.form2);
 
     this.submitted = true;
   }

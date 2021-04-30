@@ -50,15 +50,11 @@
     }
   }
 }
-.page-sticky {
-  position: sticky;
-  top: 0;
-}
+
 .page-content {
   height: calc(100% - 60px);
   padding: 24px 80px;
   overflow-y: auto;
-  position: relative;
   &::-webkit-scrollbar {
     width: 0;
     background: transparent;
@@ -77,10 +73,12 @@
 }
 
 .page-card {
-  width: 100%;
+  width: 492px;
   background: #f4f6f8;
   border-radius: 15px;
   overflow: hidden;
+  position: sticky;
+  top: 0;
   &__header {
     font-size: 18px;
     font-weight: 600;
@@ -142,9 +140,6 @@
     background: #ffffff;
     & .page-table__tr__wrapper {
       border-bottom: 2px solid #10274a;
-      &:hover {
-        background: none;
-      }
     }
   }
   &__body {
@@ -212,7 +207,7 @@
     flex: 1;
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     &__label {
       border: 1px solid rgba(16, 39, 74, 0.3);
@@ -254,7 +249,10 @@
     flex: 1;
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
+    }
+    &__title.add {
+      min-height: 32px;
     }
     & .ng-select.custom-select {
     }
@@ -263,7 +261,7 @@
     flex: 1;
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     &__label {
       border: 1px solid rgba(16, 39, 74, 0.3);
@@ -296,7 +294,7 @@
   & .file-field {
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     &__list {
       &_text {
@@ -581,6 +579,10 @@
   border: 1px dashed rgba(16, 39, 74, 0.3);
 }
 
+.btn-dashed.add {
+  width: 100%;
+}
+
 .position-absolute {
   position: absolute !important;
 }
@@ -729,4 +731,10 @@
 
 .validation {
   color: red;
+}
+
+.title_form {
+  font-size: 20px;
+  font-weight: normal;
+  color: #ff0000;
 }

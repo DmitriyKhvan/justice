@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {Observable, BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MainService {
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
-  constructor() { }
+  constructor() {}
 
   public previousUrl = new BehaviorSubject({});
   public currentUrl = new BehaviorSubject('');

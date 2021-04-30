@@ -1,0 +1,230 @@
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h2 class="title_form">Если реализовано</h2>
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field mb-2">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkbox-field mb-2" formArrayName="pledgeDebtors">
+    <div class="text-field__title">Залог должника</div>
+    <label
+      class="checkbox-field__label mb-1"
+      *ngFor="let pledgeDebtor of pledgeDebtors.controls; let idx = index"
+    >
+      <input type="checkbox" [formControlName]="idx" />
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Залог номер {{ idx + 1 }}</span>
+    </label>
+    <!-- <label class="checkbox-field__label mb-1">
+      <input type="checkbox" />
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Залог номер 2</span>
+    </label>
+    <label class="checkbox-field__label mb-1">
+      <input type="checkbox" />
+      <span class="custom-checkbox mr-2">
+        <i class="uil-check"></i>
+      </span>
+      <span>Залог номер 3</span>
+    </label> -->
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ лота</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="numberLot" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('numberLot')?.touched && form.get('numberLot')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('numberLot')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата начала лота</div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            name="mydate"
+            formControlName="dateLotStart"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('dateLotStart')?.touched &&
+            form.get('dateLotStart')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateLotStart.errors &&
+              form.controls.dateLotStart.errors.required &&
+              !form.controls.dateLotStart.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateLotStart.errors &&
+              form.controls.dateLotStart.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата окончания лота</div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            name="mydate"
+            formControlName="dateLotEnd"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('dateLotEnd')?.touched && form.get('dateLotEnd')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateLotEnd.errors &&
+              form.controls.dateLotEnd.errors.required &&
+              !form.controls.dateLotEnd.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateLotEnd.errors &&
+              form.controls.dateLotEnd.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Результат аукциона</div>
+        <ng-select
+          appearance="outline"
+          [items]="options"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Ваш результат"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="resultAuction"
+        ></ng-select>
+        <div
+          *ngIf="
+            form.get('resultAuction')?.touched &&
+            form.get('resultAuction')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('resultAuction')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Сумма реализации</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="amountSales" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('amountSales')?.touched && form.get('amountSales')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('amountSales')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Следующий шаг
+  </button>
+</form>
