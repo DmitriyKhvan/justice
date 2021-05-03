@@ -56,6 +56,9 @@ import { LawyerFormStep7FailureComponent } from './pages/application/shared/comp
 import { LawyerFormStep7SuccessComponent } from './pages/application/shared/components/step7/components/lawyer-form-step7-success/lawyer-form-step7-success.component';
 import { LawyerFormStep8SuccesComponent } from './pages/application/shared/components/step8/components/lawyer-form-step8-succes/lawyer-form-step8-success.component';
 import { LawyerFormStep8FailureComponent } from './pages/application/shared/components/step8/components/lawyer-form-step8-failure/lawyer-form-step8-failure.component';
+import { LawerFormStep10Component } from './pages/application/shared/components/step10/lawer-form-step10/lawer-form-step10.component';
+import { HeadLawerFormStep10Component } from './pages/application/shared/components/step10/head-lawer-form-step10/head-lawer-form-step10.component';
+import { FinishFormStep10Component } from './pages/application/shared/components/step10/finish-form-step10/finish-form-step10.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +109,9 @@ import { LawyerFormStep8FailureComponent } from './pages/application/shared/comp
     LawyerFormStep7SuccessComponent,
     LawyerFormStep8SuccesComponent,
     LawyerFormStep8FailureComponent,
+    LawerFormStep10Component,
+    HeadLawerFormStep10Component,
+    FinishFormStep10Component,
   ],
   imports: [
     TooltipModule,
