@@ -1,0 +1,36 @@
+.alert-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(7, 18, 34, 0.85);
+  z-index: 10;
+
+  .alert {
+    position: fixed;
+    padding: 20px;
+    background-color: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 200px;
+    border-radius: 5px;
+
+    p {
+      margin: 0;
+    }
+
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: none;
+      background: none;
+      outline: none;
+      padding: 0;
+      width: 22px;
+      height: 22px;
+    }
+  }
+}

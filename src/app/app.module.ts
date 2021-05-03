@@ -66,6 +66,7 @@ import { LawyerFormStep8FailureComponent } from './pages/application/shared/comp
 import { LawerFormStep10Component } from './pages/application/shared/components/step10/lawer-form-step10/lawer-form-step10.component';
 import { HeadLawerFormStep10Component } from './pages/application/shared/components/step10/head-lawer-form-step10/head-lawer-form-step10.component';
 import { FinishFormStep10Component } from './pages/application/shared/components/step10/finish-form-step10/finish-form-step10.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { FinishFormStep10Component } from './pages/application/shared/components
     FinishFormStep10Component,
     AccordionWrapperComponent,
     AccordionItemComponent,
+    AlertComponent,
   ],
   imports: [
     TooltipModule,

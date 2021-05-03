@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { datepickerSettings } from '../../settings';
 
@@ -16,7 +17,10 @@ export class Step1Component implements OnInit {
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
-  constructor(public fileUploadservice: FileUploadService) {}
+  constructor(
+    public fileUploadservice: FileUploadService,
+    private alert: AlertService
+  ) {}
 
   ngOnInit(): void {
     console.log('onInit(): SampleDatePickerReacticeForms');
@@ -44,9 +48,11 @@ export class Step1Component implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.submitted = true;
+    // this.submitted = true;
 
     // this.form.get('numberLetter').disable();
+
+    this.alert.success('Форма оформлена');
 
     console.log('form', this.form);
 
