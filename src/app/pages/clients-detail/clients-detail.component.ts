@@ -13,7 +13,7 @@ import { FileUploadService } from '../../services/file-upload.service';
 import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
-import { StepComponent } from '../../components/step/step.component';
+import { StepComponent } from '../../components/stepper/step/step.component';
 
 declare var $: any;
 
@@ -117,11 +117,7 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   showHistory(): void {
     this.router.navigate(['clients/history'], {
-      queryParams: {
-        fr: 'detail',
-        mfo: this.route.snapshot.queryParams.mfo,
-        contract: this.route.snapshot.queryParams.contract,
-      },
+      queryParams: {...this.route.snapshot.queryParams},
     });
   }
 }

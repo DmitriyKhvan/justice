@@ -2,9 +2,43 @@
 @import "assets/scss/ng-select/default.theme";
 @import "assets/scss/my-datepicker";
 
-.text-danger {
-  color: #ff0000;
+.text-primary {
+  color: #10274A !important;
 }
+.text-secondary {
+  color: rgba(16, 39, 74, 0.5) !important;
+}
+.text-danger {
+  color: #ea0000 !important;
+}
+.text-success {
+  color: #00a71a !important;
+}
+.text-warning {
+  color: #e59e00 !important;
+}
+.text-white {
+  color: #ffffff !important;
+}
+.bg-primary {
+  background: #10274A !important;
+}
+.bg-secondary {
+  background: rgba(16, 39, 74, 0.5) !important;
+}
+.bg-danger {
+  background: #ea0000 !important;
+}
+.bg-success {
+  background: #00a71a !important;
+}
+.bg-warning {
+  background: #e59e00 !important;
+}
+.bg-white {
+  background: #ffffff !important;
+}
+
 
 .fw-normal {
   font-weight: 400;
@@ -69,6 +103,11 @@
   &::-webkit-scrollbar-thumb {
     background-color: rgba(16, 39, 74, 1);
     border-radius: 5px;
+  }
+  &__title {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 20px;
   }
 }
 
@@ -223,6 +262,7 @@
         color: #10274a;
         outline: none;
         border: none;
+        background: transparent;
         //font-family: 'SFCompactDisplay', sans-serif;
         &::placeholder {
           color: rgba(16, 39, 74, 0.6);
@@ -242,6 +282,10 @@
           background-color: rgba(32, 60, 103, 0.61);
           border-radius: 5px;
         }
+      }
+      &.readonly {
+        border: 1px solid rgba(16, 39, 74, 0.05);
+        background: rgba(16, 39, 74, 0.05);
       }
     }
   }
@@ -279,6 +323,7 @@
         margin-right: 15px;
       }
       & input {
+        flex: 1;
         padding: 0 15px;
         border: none;
         outline: none;
@@ -301,7 +346,7 @@
         flex: 1;
       }
       &_item {
-        border-bottom: 1px solid rgba(16, 39, 74, 0.1);
+        border-bottom: 1px solid rgba(16, 39, 74, 0.01);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -340,6 +385,9 @@
         &:checked + span i {
           transform: scale(1);
         }
+      }
+      input[type="checkbox"][readonly] {
+        pointer-events: none !important;
       }
       & .custom-checkbox {
         width: 20px;
@@ -412,9 +460,14 @@
         align-items: center;
         padding: 6px 15px;
         margin-bottom: 5px;
+        position: relative;
         & i {
+          position: absolute;
           font-size: 30px;
           opacity: 0.3;
+        }
+        & span {
+          margin-left: 16px;
         }
         & a {
           display: flex;
@@ -422,6 +475,7 @@
           text-transform: uppercase;
           font-weight: 600;
           & i {
+            position: static;
             opacity: 1;
             margin-right: 10px;
           }

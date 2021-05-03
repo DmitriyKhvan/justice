@@ -14,20 +14,17 @@ export class HistoryComponent implements OnInit {
     public mainService: MainService
   ) {}
 
-  prevUrl: any;
+  params: any;
 
   ngOnInit(): void {
-    this.mainService.previousUrl.subscribe((url) => {
-      this.prevUrl = url;
+    this.route.queryParams.subscribe((value) => {
+      this.params = value;
     });
   }
 
   goToBack(): void {
-    const path = this.prevUrl.url?.split('?')[0];
-    const params = this.prevUrl.root?.queryParams;
-
-    this.router.navigate([ path ? path : 'clients/list' ], {
-      queryParams: params ? {  ...params } : { ...this.route.snapshot.queryParams },
+    this.router.navigate([`clients/${this.params.step ? 'detail' : 'list'}`], {
+      queryParams: { ...this.route.snapshot.queryParams },
     });
   }
 }
