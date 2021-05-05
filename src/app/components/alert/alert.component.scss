@@ -9,6 +9,7 @@
 
   .alert {
     position: fixed;
+    min-width: 300px;
     padding: 20px;
     background-color: #fff;
     left: 50%;
@@ -17,8 +18,10 @@
     max-width: 200px;
     border-radius: 5px;
 
-    p {
+    .alert-text {
       margin: 0;
+      font-size: 24px;
+      text-align: center;
     }
 
     .close {
@@ -29,8 +32,28 @@
       background: none;
       outline: none;
       padding: 0;
-      width: 22px;
-      height: 22px;
+      font-size: 20px;
+    }
+
+    .icon-result {
+      display: flex;
+      justify-content: center;
+
+      i {
+        font-size: 50px;
+      }
+
+      &.alert-success {
+        color: green;
+      }
+
+      &.alert-warning {
+        color: orange;
+      }
+
+      &.alert-danger {
+        color: red;
+      }
     }
   }
 }

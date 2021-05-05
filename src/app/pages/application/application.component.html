@@ -4,7 +4,16 @@
       <i class="icon-back"></i><small>Создание новой заявки</small>
     </a>
     <h4 class="stepNum">Шаг 1. Подача заявления в прокуратуру</h4>
-    <div class="moc"></div>
+    <div class="history">
+      <a
+        class="page-action__item"
+        [routerLink]="['/clients/history']"
+        [queryParams]="route.snapshot.queryParams"
+      >
+        <i class="far fa-clock"></i>
+        История
+      </a>
+    </div>
   </div>
 
   <div class="page-content">

@@ -1,13 +1,17 @@
 <div class="alert-wrap" *ngIf="text">
-  <div
-    class="alert"
-    [ngClass]="{
-      'alert-success': type === 'success',
-      'alert-warning': type === 'warning',
-      'alert-danger': type === 'danger'
-    }"
-  >
+  <div class="alert">
     <button class="close"><i class="uil-times" (click)="close()"></i></button>
-    <p>{{ text }}</p>
+    <div *ngIf="type === 'success'" class="icon-result alert-success">
+      <i class="uil-check-circle"></i>
+    </div>
+
+    <div *ngIf="type === 'warning'" class="icon-result alert-warning">
+      <i class="uil-exclamation-triangle"></i>
+    </div>
+
+    <div *ngIf="type === 'danger'" class="icon-result alert-danger">
+      <i class="uil-exclamation-circle"></i>
+    </div>
+    <p class="alert-text">{{ text }}</p>
   </div>
 </div>

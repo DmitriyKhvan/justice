@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { CustomValidators } from 'src/app/custom.validators';
 import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { datepickerSettings } from '../../settings';
@@ -38,7 +39,11 @@ export class Step1Component implements OnInit {
         // null,
         Validators.required
       ),
-      numberCriminalCase: new FormControl(null, Validators.required),
+      numberCriminalCase: new FormControl(null, [
+        Validators.required,
+        // Validators.maxLength(6),
+        // CustomValidators.uppercaseText,
+      ]),
       outDocDate: new FormControl(null, Validators.required),
       criminalCasecDate: new FormControl(null, Validators.required),
     });

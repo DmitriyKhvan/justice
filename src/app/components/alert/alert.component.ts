@@ -36,8 +36,6 @@ export class AlertComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    console.log('close');
-
     this.text = '';
   }
 }
