@@ -1,5 +1,5 @@
-<div class="alert-wrap" *ngIf="text">
-  <div class="alert">
+<div class="alert-wrap" *ngIf="text" (click)="animationAlert()">
+  <div class="alert" [@wrapAlert]="wrapAlertState">
     <button class="close"><i class="uil-times" (click)="close()"></i></button>
     <div *ngIf="type === 'success'" class="icon-result alert-success">
       <i class="uil-check-circle"></i>

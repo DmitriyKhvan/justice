@@ -1,4 +1,13 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+  useAnimation,
+} from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { bounce, tada } from 'ng-animate';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 
@@ -6,12 +15,16 @@ import { AlertService } from 'src/app/services/alert.service';
   selector: 'app-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
+  animations: [
+    trigger('wrapAlert', [transition('* => *', useAnimation(bounce))]),
+  ],
 })
 export class AlertComponent implements OnInit, OnDestroy {
   // @Input() delay = 1000000;
 
   public text!: string;
   public type = 'success';
+  wrapAlertState = 'end';
 
   aSub!: Subscription;
 
@@ -37,5 +50,9 @@ export class AlertComponent implements OnInit, OnDestroy {
 
   close() {
     this.text = '';
+  }
+
+  animationAlert() {
+    this.wrapAlertState = this.wrapAlertState === 'end'  ? 'start' : 'end';
   }
 }

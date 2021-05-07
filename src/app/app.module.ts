@@ -12,8 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { NavbarComponent } from './layouts/navbar/navbar.component';
-import { ContentComponent } from './layouts/content/content.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ContentComponent } from './components/content/content.component';
 
 import { DatepickerComponent } from './components/formFields/datepicker/datepicker.component';
 import { FileUploaderComponent } from './components/formFields/file-uploader/file-uploader.component';
@@ -67,6 +67,9 @@ import { LawerFormStep10Component } from './pages/application/shared/components/
 import { HeadLawerFormStep10Component } from './pages/application/shared/components/step10/head-lawer-form-step10/head-lawer-form-step10.component';
 import { FinishFormStep10Component } from './pages/application/shared/components/step10/finish-form-step10/finish-form-step10.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { ApplicationListComponent } from './pages/damage-claims/shared/components/application-list/application-list.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MainComponent } from './layouts/main/main.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +126,9 @@ import { AlertComponent } from './components/alert/alert.component';
     AccordionWrapperComponent,
     AccordionItemComponent,
     AlertComponent,
+    ApplicationListComponent,
+    LoginComponent,
+    MainComponent,
   ],
   imports: [
     TooltipModule,
