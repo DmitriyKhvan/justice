@@ -1,8 +1,8 @@
 export interface User {
-  login: string;
+  username: string;
   password: string;
 }
 
 export interface AuthResponse {
-  tokenData: string
+  tokenData: object;
 }
