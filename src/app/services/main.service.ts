@@ -16,8 +16,10 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  public previousUrl = new BehaviorSubject({});
-  public currentUrl = new BehaviorSubject('');
+  // public previousUrl = new BehaviorSubject({});
+  // public currentUrl = new BehaviorSubject('');
+
+
 
   regionList: any;
 
@@ -25,4 +27,5 @@ export class MainService {
     return this.http
       .get<any>(this.baseURL + `dictionary/mfo`);
   }
+
 }

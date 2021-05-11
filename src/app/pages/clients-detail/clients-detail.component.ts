@@ -25,17 +25,17 @@ declare var $: any;
 export class ClientsDetailComponent implements OnInit, DoCheck {
   counter = 1;
 
-  currentStep!: any;
+  // currentStep!: any;
 
-  steps!: any;
+  // steps!: any;
 
   show = false;
 
-  prevUrl: any;
-  currentUrl = '';
+  // prevUrl: any;
+  // currentUrl = '';
 
   constructor(
-    public clientService: ClientsService,
+    public clientsService: ClientsService,
     public mainService: MainService,
     public fileUploadService: FileUploadService,
     private router: Router,
@@ -46,7 +46,18 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
-      this.clientService.currentStep = val.step;
+      this.clientsService.currentStep = val.step;
+
+      this.clientsService
+        .contractDetails(val.contract)
+        .subscribe((value) => {
+          this.router.navigate([], {
+            queryParams: {
+              ...this.route.snapshot.queryParams,
+              step: value.tasks[0].task,
+            },
+          });
+        });
     });
     // console.log(this.route);
 
@@ -54,18 +65,18 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
       this.uploadFiles = data;
     });
 
-    this.mainService.previousUrl.subscribe((val) => {
-      this.prevUrl = val;
-    });
-    this.mainService.currentUrl.subscribe((val) => {
-      this.currentUrl = val;
-    });
+    // this.mainService.previousUrl.subscribe((val) => {
+    //   this.prevUrl = val;
+    // });
+    // this.mainService.currentUrl.subscribe((val) => {
+    //   this.currentUrl = val;
+    // });
 
-    const steps = document.querySelectorAll('.step');
-    this.steps = steps;
-    steps.forEach((step, i) => {
-      step.setAttribute('stepNumber', String(i + 1));
-    });
+    // const steps = document.querySelectorAll('.step');
+    // this.steps = steps;
+    // steps.forEach((step, i) => {
+    //   step.setAttribute('stepNumber', String(i + 1));
+    // });
   }
 
   ngDoCheck(): void {}
@@ -86,37 +97,37 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     });
   }
 
-  nextStep(): void {
-    if (this.clientService.currentStep > this.steps.length) {
-      this.clientService.currentStep++;
-      this.clientService.currentStep = this.steps.length;
-    }
-    this.router.navigate([], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        step: this.clientService.currentStep,
-      },
-    });
-  }
-  prevStep(): void {
-    this.clientService.currentStep--;
-    if (this.clientService.currentStep < 1) {
-      this.clientService.currentStep = 1;
-    }
-    this.router.navigate([], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        step: this.clientService.currentStep,
-      },
-    });
-  }
+  // nextStep(): void {
+  //   if (this.clientsService.currentStep > this.steps.length) {
+  //     this.clientsService.currentStep++;
+  //     this.clientsService.currentStep = this.steps.length;
+  //   }
+  //   this.router.navigate([], {
+  //     queryParams: {
+  //       ...this.route.snapshot.queryParams,
+  //       step: this.clientsService.currentStep,
+  //     },
+  //   });
+  // }
+  // prevStep(): void {
+  //   this.clientsService.currentStep--;
+  //   if (this.clientsService.currentStep < 1) {
+  //     this.clientsService.currentStep = 1;
+  //   }
+  //   this.router.navigate([], {
+  //     queryParams: {
+  //       ...this.route.snapshot.queryParams,
+  //       step: this.clientsService.currentStep,
+  //     },
+  //   });
+  // }
 
   logger(pld: any): void {
     console.log(pld);
   }
 
   showHistory(): void {
-    console.log(this.route.snapshot.queryParams);
+    // console.log(this.route.snapshot.queryParams);
 
     this.router.navigate(['clients/history'], {
       queryParams: { ...this.route.snapshot.queryParams },

@@ -8,6 +8,7 @@ import {
 } from '@angular/animations';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MainService} from '../../services/main.service';
+import {ClientsService} from '../../services/clients.service';
 
 @Component({
   selector: 'app-clients',
@@ -116,7 +117,7 @@ export class ClientsComponent implements OnInit, DoCheck {
   branchList: any = [];
   regListItemIdx = null;
 
-  constructor(public mainService: MainService, private router: Router, public route: ActivatedRoute) {}
+  constructor(public mainService: MainService, public clientsService: ClientsService, private router: Router, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.mainService.getMfo().subscribe(resp => {
@@ -144,6 +145,12 @@ export class ClientsComponent implements OnInit, DoCheck {
   }
 
   getList(mfo: any): void {
+
+
     this.router.navigate(['clients/list'], {queryParams: {mfo}});
   }
+
+  // getCountOfList(mfo: any): any {
+  //   return this.clientsService.getListByMfo(mfo).subscribe();
+  // }
 }

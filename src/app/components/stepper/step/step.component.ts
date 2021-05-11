@@ -15,22 +15,22 @@ import { ClientsService } from '../../../services/clients.service';
     <details
       class="step"
       [class.step-last]="isLast"
-      [class.step-current]="currentStep == stepNumber"
-      [open]="currentStep == stepNumber"
+      [class.step-current]="currentStep == step"
+      [open]="currentStep == step"
     >
-      <summary class="header" (click)="detailsTrigger($event, stepNumber)">
+      <summary class="header" (click)="detailsTrigger($event, step)">
         <div
           class="indicator mr-2"
-          [class.current-step]="currentStep == stepNumber"
+          [class.current-step]="currentStep == step"
         >
-          <div class="check" *ngIf="currentStep > stepNumber">
+          <div class="check" *ngIf="currentStep > step">
             <i class="uil-check"></i>
           </div>
-          {{ stepNumber }}
+          {{ step }}
         </div>
         <div class="title">
           {{ stepTitle }}
-          <span *ngIf="currentStep > stepNumber">
+          <span *ngIf="currentStep > step">
             {{ stepDoneText }}
           </span>
         </div>
@@ -60,6 +60,7 @@ export class StepComponent implements OnInit, AfterContentChecked {
   @Input() stepDoneText = '';
 
   ngOnInit(): void {
+    // this.step = this.step;
     this.route.queryParams.subscribe((val) => {
       this.currentStep = val.step;
     });
@@ -78,6 +79,8 @@ export class StepComponent implements OnInit, AfterContentChecked {
         step,
       },
     });
-    this.clientService.currentStepTitle = this.stepTitle;
+    if (this.currentStep === step){
+      this.clientService.currentStepTitle = this.stepTitle;
+    }
   }
 }

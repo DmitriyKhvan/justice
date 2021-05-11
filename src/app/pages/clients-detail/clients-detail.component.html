@@ -7,7 +7,7 @@
       Назад к списку кредитов
     </div>
     <div class="page-header__text">
-      Шаг {{ clientService.currentStep }}. {{ clientService.currentStepTitle }}
+      Шаг {{ clientsService.currentStep }}. {{ clientsService.currentStepTitle }}
     </div>
     <div
       class="page-actions row no-gutters justify-content-between align-items-center"
@@ -111,7 +111,7 @@
         </div>
       </div>
 
-      <div class="col-lg-8 col-md-7">
+      <div class="col-lg-8 col-md-7 bg-white">
         <app-stepper-wrapper class="page-stepper">
           <app-step
             [stepTitle]="'Отправка оповещения должнику'"

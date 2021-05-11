@@ -22,9 +22,9 @@ export class StepperWrapperComponent implements OnInit, AfterContentInit {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.currentStep = val.step;
-    });
+    // this.route.queryParams.subscribe((val) => {
+    //   this.currentStep = val.step;
+    // });
   }
 
   ngAfterContentInit(): void {
@@ -32,8 +32,8 @@ export class StepperWrapperComponent implements OnInit, AfterContentInit {
     this.stepComponent.first.isFirst = true;
     this.stepComponent.last.isLast = true;
     this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
-      step.currentStep = this.currentStep;
-      step.stepNumber = step.step;
+      // step.currentStep = this.currentStep;
+      // step.stepNumber = step.step;
     });
   }
 }

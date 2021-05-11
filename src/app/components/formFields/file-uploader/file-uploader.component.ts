@@ -61,6 +61,7 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
         <ng-template #elseBtnText> Добавить еще один файл </ng-template>
         <input
           type="file"
+          accept="image/jpeg, image/jpg, application/pdf"
           multiple
           (change)="fileUploadService.poster($event)"
         />
@@ -76,6 +77,8 @@ export class FileUploaderComponent implements OnInit {
   {}
 
   @Input() title: any = 'Прикрепить скан документа';
+
+  acceptList = [];
 
   uploadFiles!: Array<any>;
 
