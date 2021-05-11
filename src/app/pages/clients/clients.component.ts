@@ -7,6 +7,7 @@ import {
   transition,
 } from '@angular/animations';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MainService} from '../../services/main.service';
 
 @Component({
   selector: 'app-clients',
@@ -110,31 +111,36 @@ export class ClientsComponent implements OnInit, DoCheck {
     },
   ];
 
+  regionList: Array<any> = [];
+
   branchList: any = [];
   regListItemIdx = null;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(public mainService: MainService, private router: Router, public route: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mainService.getMfo().subscribe(resp => {
+      this.regionList = resp;
+      // console.log(resp);
+    });
+  }
 
   ngDoCheck(): void {
     if (this.route.snapshot.queryParams.region) {
-      this.branchList = this.mainList.find(
-        (el) => el.region_code === this.route.snapshot.queryParams.region
-      )?.branch_offices;
+      this.branchList = this.regionList?.find( el => String(el.region_id) === this.route.snapshot.queryParams.region)?.branches;
     } else {
       this.branchList = [];
     }
   }
 
   get stateName(): any {
-    return this.branchList.length ? 'show' : 'hide';
+    return this.branchList?.length ? 'show' : 'hide';
   }
 
   getBranchList(pld: any, idx: any): void {
     this.router.navigate([], {queryParams: {region: pld}});
 
-    this.regListItemIdx = this.branchList.length ? idx : null;
+    // this.regListItemIdx = this.branchList.length ? idx : null;
   }
 
   getList(mfo: any): void {

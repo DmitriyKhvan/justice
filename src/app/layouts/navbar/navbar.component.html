@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="app-navbar_wrapper row no-gutters justify-content-between">
-    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)">
+    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)" routerLink="/search">
       <i class="uil-search mr-1"></i>
       Поиск
     </div>
@@ -27,14 +27,14 @@
       <i class="icon-user notification mr-1"></i>
       Исполнитель юрист
     </div>
-    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)">
-      <i class="far fa-bell notification"></i>
+    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)" (click)="showNotifications()">
+      <i class="icon-notification notification"></i>
     </div>
     <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)">
-      <i class="fas fa-cog"></i>
+      <i class="icon-setting"></i>
     </div>
     <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)">
-      <i class="fas fa-power-off"></i>
+      <i class="icon-power"></i>
     </div>
   </div>
 </div>

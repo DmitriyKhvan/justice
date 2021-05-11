@@ -13,7 +13,7 @@ import { ClientsService } from '../../../services/clients.service';
   selector: 'app-accordion-item',
   template: `
     <details
-      class="accordion mb-2"
+      class="accordion mb-1"
       [class.accordion-last]="isLast"
       [class.accordion-current]="currentStep == stepNumber"
       [open]="currentStep == stepNumber"
@@ -66,10 +66,10 @@ import { ClientsService } from '../../../services/clients.service';
           </div>
 
           <div class="row">
-            <div class="col-6">
+            <div class="col-7">
               <div class="page-form__actionbtn text-uppercase bg-white">
                 <!--    (click)="clientDetail.nextStep()"-->
-                отправить заявку
+                добавить комментарий
               </div>
             </div>
           </div>

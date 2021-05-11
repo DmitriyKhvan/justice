@@ -41,6 +41,8 @@ import { TerminateProcessStepComponent } from './pages/clients-detail/step-forms
 import { AcceptPropertyStepComponent } from './pages/clients-detail/step-forms/accept-property-step/accept-property-step.component';
 import { FinalStepComponent } from './pages/clients-detail/step-forms/final-step/final-step.component';
 import { HistoryComponent } from './pages/history/history.component';
+import { SearchComponent } from './pages/search/search.component';
+import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -73,6 +75,8 @@ import { HistoryComponent } from './pages/history/history.component';
     HistoryComponent,
     AccordionWrapperComponent,
     AccordionItemComponent,
+    SearchComponent,
+    SidebarComponent,
   ],
   imports: [
     TooltipModule,

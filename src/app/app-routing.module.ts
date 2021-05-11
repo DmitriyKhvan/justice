@@ -5,6 +5,7 @@ import { ClientsListComponent } from './pages/clients-list/clients-list.componen
 import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.component';
+import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'claims',
     component: DamageClaimsComponent,
+  },
+  {
+    path: 'search',
+    component: SearchComponent,
   }
 ];
 

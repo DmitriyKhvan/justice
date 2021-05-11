@@ -1,6 +1,7 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MainService} from '../../services/main.service';
 
 @Component({
   selector: 'app-clients-list',
@@ -30,12 +31,13 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   selectedItem = null;
 
-  constructor(private router: Router, public route: ActivatedRoute) {}
+  constructor(public mainService: MainService, private router: Router, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
     for (let i = 0; i < 99; i++) {
       this.range.push(i);
     }
+
   }
 
   ngDoCheck(): void {
