@@ -1,0 +1,17 @@
+<div class="alert-wrap" *ngIf="text" (click)="animationAlert()">
+  <div class="alert" [@wrapAlert]="wrapAlertState">
+    <button class="close"><i class="uil-times" (click)="close()"></i></button>
+    <div *ngIf="type === 'success'" class="icon-result alert-success">
+      <i class="uil-check-circle"></i>
+    </div>
+
+    <div *ngIf="type === 'warning'" class="icon-result alert-warning">
+      <i class="uil-exclamation-triangle"></i>
+    </div>
+
+    <div *ngIf="type === 'danger'" class="icon-result alert-danger">
+      <i class="uil-exclamation-circle"></i>
+    </div>
+    <p class="alert-text">{{ text }}</p>
+  </div>
+</div>

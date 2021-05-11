@@ -37,7 +37,7 @@ export class DatepickerComponent implements OnInit {
     dateRange: false,
     dateFormat: 'dd.mm.yyyy',
     closeSelectorOnDateSelect: false,
-    openSelectorTopOfInput: false
+    openSelectorTopOfInput: false,
   };
 
   model!: IMyDateModel;

@@ -1,0 +1,247 @@
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исходящего письма</div>
+        <label class="input-field__label">
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="numberLetter"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('numberLetter')?.touched &&
+            form.get('numberLetter')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('numberLetter')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата исходящего письма</div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="outDocDate"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('outDocDate')?.touched && form.get('outDocDate')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.outDocDate.errors &&
+              form.controls.outDocDate.errors.required &&
+              !form.controls.outDocDate.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.outDocDate.errors &&
+              form.controls.outDocDate.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Взыскатель</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="claimant" />
+        </label>
+
+        <div
+          *ngIf="form.get('claimant')?.touched && form.get('claimant')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('claimant')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="select-field">
+        <div class="select-field__title">
+          Наименование судебного исполнителя (МИБ)
+        </div>
+        <ng-select
+          appearance="outline"
+          [items]="options"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Наименование судебного исполнителя"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="bailiff"
+        ></ng-select>
+        <div
+          *ngIf="form.get('bailiff')?.touched && form.get('bailiff')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('bailiff')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row justify-content-between mb-2"
+    formArrayName="debtors"
+    *ngFor="let debtor of debtors.controls; let idx = index"
+  >
+    <div class="col-8">
+      <div class="input-field">
+        <div class="input-field__title">Должник/Заемщик {{ idx + 1 }}</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" [formControlName]="idx" />
+        </label>
+
+        <div *ngIf="debtor.touched && debtor.invalid" class="validation">
+          <small *ngIf="debtor.errors?.required"> Введите данные </small>
+        </div>
+      </div>
+    </div>
+    <div class="col-4" *ngIf="idx > 0">
+      <div class="input-field__title">&nbsp;</div>
+      <button class="btn btn-dashed add" (click)="removeDebtor(idx)">
+        Удалить
+      </button>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-4">
+      <!-- <div class="input-field__title">&nbsp;</div> -->
+      <button class="btn btn-dashed add" (click)="addDebtor()">Добавить</button>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Наименование обеспечения</div>
+        <ng-select
+          appearance="outline"
+          [items]="options2"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Наименование обеспечения"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="security"
+        ></ng-select>
+        <div
+          *ngIf="form.get('security')?.touched && form.get('security')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('security')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Вид залога</div>
+        <ng-select
+          appearance="outline"
+          [items]="options3"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Вид залога"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="pledge"
+        ></ng-select>
+        <div
+          *ngIf="form.get('pledge')?.touched && form.get('pledge')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('pledge')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field mb-2">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Следующий шаг
+  </button>
+</form>

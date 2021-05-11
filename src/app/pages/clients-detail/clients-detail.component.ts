@@ -116,8 +116,10 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   }
 
   showHistory(): void {
+    console.log(this.route.snapshot.queryParams);
+
     this.router.navigate(['clients/history'], {
-      queryParams: {...this.route.snapshot.queryParams},
+      queryParams: { ...this.route.snapshot.queryParams },
     });
   }
 }

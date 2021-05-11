@@ -84,15 +84,11 @@
     }
   }
 }
-.page-sticky {
-  position: sticky;
-  top: 0;
-}
+
 .page-content {
   height: calc(100% - 60px);
   padding: 24px 80px;
   overflow-y: auto;
-  position: relative;
   &::-webkit-scrollbar {
     width: 0;
     background: transparent;
@@ -116,10 +112,12 @@
 }
 
 .page-card {
-  width: 100%;
+  width: 492px;
   background: #f4f6f8;
   border-radius: 15px;
   overflow: hidden;
+  position: sticky;
+  top: 0;
   &__header {
     font-size: 18px;
     font-weight: 600;
@@ -181,9 +179,6 @@
     background: #ffffff;
     & .page-table__tr__wrapper {
       border-bottom: 2px solid #10274a;
-      &:hover {
-        background: none;
-      }
     }
   }
   &__body {
@@ -251,7 +246,7 @@
     flex: 1;
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     &__label {
       border: 1px solid rgba(16, 39, 74, 0.3);
@@ -298,22 +293,28 @@
     flex: 1;
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
+    }
+    &__title.add {
+      min-height: 32px;
+    }
+    & .ng-select.custom-select {
     }
   }
   & .input-field {
     flex: 1;
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     &__label {
       border: 1px solid rgba(16, 39, 74, 0.3);
       width: 100%;
-      height: 36px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      //padding: 0 15px;
       border-radius: 5px;
       position: relative;
       & i {
@@ -322,7 +323,6 @@
         margin-right: 15px;
       }
       & input {
-        width: 100%;
         flex: 1;
         padding: 0 15px;
         border: none;
@@ -339,7 +339,7 @@
   & .file-field {
     &__title {
       font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     &__list {
       &_text {
@@ -357,7 +357,7 @@
     }
     &__uploadbtn {
       padding: 0 28px;
-      height: 36px;
+      height: 40px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -409,7 +409,7 @@
   &__actionbtn {
     padding: 0 28px;
     width: 100%;
-    height: 36px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -606,7 +606,7 @@
 
 .btn {
   min-width: 72px;
-  height: 36px;
+  height: 38px;
   border-radius: 5px;
   text-align: center;
   background: none;
@@ -629,13 +629,12 @@
   color: #ffffff;
 }
 
-.btn-outlined-primary {
-  border: 2px solid #10274a;
-  color: #10274a;
-}
-
 .btn-dashed {
   border: 1px dashed rgba(16, 39, 74, 0.3);
+}
+
+.btn-dashed.add {
+  width: 100%;
 }
 
 .position-absolute {
@@ -688,4 +687,112 @@
   transform-origin: top left;
   transition: transform 0.3s;
   transform: scale(1) translate(15px, -50%);
+}
+
+//$height: 24px;
+//.grid{
+//  display: grid;
+//  grid-template-columns:  $height 1fr;
+//  grid-template-rows: $height 1fr;
+//  grid-gap:5px 10px;
+//  .indicator{
+//    background-color: lightblue;
+//    border-radius: 50%;
+//    line-height: $height;
+//    text-align: center;
+//    font-size: 12px;
+//  }
+//  .title{
+//    line-height: $height;
+//    font-weight: bold;
+//  }
+//  .content{
+//    margin-bottom: 10px;
+//  }
+//  .divider{
+//    position: relative;
+//  }
+//  .line{
+//    position: absolute;
+//    top: 0px;
+//    bottom: 0;
+//    width: 1px;
+//    background-color: lightblue;
+//    box-sizing: border-box;
+//    left: 50%;
+//  }
+//  .check{
+//    border-right: 2px solid white;
+//    border-bottom: 2px solid white;
+//    height: 10px;
+//    width: 5px;
+//    transform: rotate(45deg);
+//    display: inline-block;
+//    margin-top: 3px;
+//    margin-left: 1px;
+//  }
+//}$height: 24px;
+//.grid{
+//  display: grid;
+//  grid-template-columns:  $height 1fr;
+//  grid-template-rows: $height 1fr;
+//  grid-gap:5px 10px;
+//  .indicator{
+//    background-color: lightblue;
+//    border-radius: 50%;
+//    line-height: $height;
+//    text-align: center;
+//    font-size: 12px;
+//  }
+//  .title{
+//    line-height: $height;
+//    font-weight: bold;
+//  }
+//  .content{
+//    margin-bottom: 10px;
+//  }
+//  .divider{
+//    position: relative;
+//  }
+//  .line{
+//    position: absolute;
+//    position: absolute;
+//    top: 0px;
+//    bottom: 0;
+//    width: 1px;
+//    background-color: lightblue;
+//    box-sizing: border-box;
+//    left: 50%;
+//  }
+//  .check{
+//    border-right: 2px solid white;
+//    border-bottom: 2px solid white;
+//    height: 10px;
+//    width: 5px;
+//    transform: rotate(45deg);
+//    display: inline-block;
+//    margin-top: 3px;
+//    margin-left: 1px;
+//  }
+//}
+
+// disable button
+.disableBtn {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: no-drop;
+}
+
+.validation {
+  color: red;
+}
+
+.title_form {
+  font-size: 20px;
+  font-weight: normal;
+  color: #ff0000;
+
+  &.add {
+    color: #000;
+  }
 }

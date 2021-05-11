@@ -1,6 +1,13 @@
-import {Component, OnInit, Input, DoCheck, AfterContentChecked} from '@angular/core';
+import { ConstantPool } from '@angular/compiler';
+import {
+  Component,
+  OnInit,
+  Input,
+  DoCheck,
+  AfterContentChecked,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ClientsService} from '../../../services/clients.service';
+import { ClientsService } from '../../../services/clients.service';
 
 @Component({
   selector: 'app-step',
@@ -35,7 +42,7 @@ import {ClientsService} from '../../../services/clients.service';
   `,
   styles: [],
 })
-export class StepComponent implements OnInit, AfterContentChecked{
+export class StepComponent implements OnInit, AfterContentChecked {
   stepNumber = 0;
   isLast = false;
   isFirst = false;
@@ -43,7 +50,11 @@ export class StepComponent implements OnInit, AfterContentChecked{
 
   @Input() step: any = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute, private clientService: ClientsService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private clientService: ClientsService
+  ) {}
 
   @Input() stepTitle = '';
   @Input() stepDoneText = '';
@@ -52,16 +63,15 @@ export class StepComponent implements OnInit, AfterContentChecked{
     this.route.queryParams.subscribe((val) => {
       this.currentStep = val.step;
     });
-
-
   }
 
-  ngAfterContentChecked(): void {
-  }
+  ngAfterContentChecked(): void {}
 
   detailsTrigger(evt: any, step: any): void {
     evt.preventDefault();
-    evt.target.offsetParent.open ? evt.target.offsetParent.open = false : evt.target.offsetParent.open = true;
+    evt.target.offsetParent.open
+      ? (evt.target.offsetParent.open = false)
+      : (evt.target.offsetParent.open = true);
     this.router.navigate([], {
       queryParams: {
         ...this.route.snapshot.queryParams,

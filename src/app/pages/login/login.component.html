@@ -1,0 +1,68 @@
+<div class="login-wrap row justify-content-center">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="page-form add">
+    <h2 class="login-title mb-3">Вход в кабинет</h2>
+
+    <div class="row justify-content-between mb-3">
+      <div class="col-12">
+        <div class="input-field">
+          <div class="input-field__title">Логин</div>
+          <label class="input-field__label">
+            <input type="text" autocomplete="off" formControlName="username" />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('username')?.touched && form.get('username')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('username')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between mb-3">
+      <div class="col-12">
+        <div class="input-field">
+          <div class="input-field__title">Пароль</div>
+          <label class="input-field__label">
+            <input
+              type="password"
+              autocomplete="off"
+              formControlName="password"
+              #password
+            />
+            <i [class]="type" (click)="lookPass()"></i>
+          </label>
+
+          <div
+            *ngIf="
+              form.get('password')?.touched && form.get('password')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('password')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="page-form__actionbtn text-uppercase mt-3"
+      [ngClass]="{ disableBtn: form.invalid || submitted }"
+      [disabled]="form.invalid || submitted"
+    >
+      войти в кабинет
+    </button>
+
+    <a class="password-restore row justify-content-center mt-4" routerLink="/"
+      >Восстановить пароль</a
+    >
+  </form>
+</div>

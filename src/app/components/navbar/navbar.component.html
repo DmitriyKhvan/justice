@@ -1,0 +1,64 @@
+<div
+  class="app-navbar row no-gutters justify-content-between align-items-stretch"
+>
+  <div class="app-navbar_wrapper row no-gutters justify-content-between">
+    <div
+      class="app-navbar_item px-2"
+      style="
+        margin-left: 186px;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      "
+      routerLink="clients"
+    >
+      <i class="icon-group mr-1" style="font-size: 38px"></i>
+      Клиенты
+    </div>
+    <div class="app-navbar_item px-2" style="">
+      <i class="icon-document_1 mr-1"></i>
+      Документы
+      <i class="uil-angle-down"></i>
+    </div>
+    <div class="app-navbar_item px-2">
+      <i class="icon-pie_chart mr-1"></i>
+      Статистика
+    </div>
+    <div class="app-navbar_item px-2" routerLink="claims">
+      <i class="icon-list mr-1"></i>
+      Заявки по ущербам
+    </div>
+  </div>
+  <div class="app-navbar_wrapper row no-gutters justify-content-between">
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+    >
+      <i class="uil-search mr-1"></i>
+      Поиск
+    </div>
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+    >
+      <i class="icon-user notification mr-1"></i>
+      Исполнитель юрист
+    </div>
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+    >
+      <i class="far fa-bell notification"></i>
+    </div>
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+    >
+      <i class="fas fa-cog"></i>
+    </div>
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+    >
+      <i class="fas fa-power-off" (click)="logout()"></i>
+    </div>
+  </div>
+</div>

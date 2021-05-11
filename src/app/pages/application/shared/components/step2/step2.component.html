@@ -1,0 +1,234 @@
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">ФИО обвиняемого</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="fioAccused" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('fioAccused')?.touched && form.get('fioAccused')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('fioAccused')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Назначаемые меры пересечения</div>
+        <label class="input-field__label">
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="preventiveMeasure"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('preventiveMeasure')?.touched &&
+            form.get('preventiveMeasure')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('preventiveMeasure')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">
+          Дата внесения, когда Банк был привлечен потерпевшем или гражд. истцом
+        </div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="dateVictim"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('dateVictim')?.touched && form.get('dateVictim')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateVictim.errors &&
+              form.controls.dateVictim.errors.required &&
+              !form.controls.dateVictim.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateVictim.errors &&
+              form.controls.dateVictim.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Сумма причененного ущерба</div>
+        <label class="input-field__label">
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="amountDamage"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('amountDamage')?.touched &&
+            form.get('amountDamage')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('amountDamage')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">
+          Дата возб. уголовного дела либо об отказе уголовного дела
+        </div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="dateFailure"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('dateFailure')?.touched && form.get('dateFailure')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateFailure.errors &&
+              form.controls.dateFailure.errors.required &&
+              !form.controls.dateFailure.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateFailure.errors &&
+              form.controls.dateFailure.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">
+          Дата принятия постановления об аресте имущества обвиняемого
+        </div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="dateArrest"
+            [options]="myDpOptions"
+            #dp3="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp3.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('dateArrest')?.touched && form.get('dateArrest')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateArrest.errors &&
+              form.controls.dateArrest.errors.required &&
+              !form.controls.dateArrest.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateArrest.errors &&
+              form.controls.dateArrest.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-betwee mb-2">
+    <div class="col-6">
+      <app-file-uploader></app-file-uploader>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Следующий шаг
+  </button>
+</form>
