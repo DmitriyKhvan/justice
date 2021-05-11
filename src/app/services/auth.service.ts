@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  get token(): string | null {
+  get token(): string {
     const expDate = new Date(Number(localStorage.getItem('tokenExp')));
     console.log('expDate', expDate);
 
@@ -20,7 +20,7 @@ export class AuthService {
       this.logout();
       return '';
     }
-    return localStorage.getItem('tokenExp');
+    return JSON.stringify(localStorage.getItem('tokenId'));
   }
 
   login(user: User): Observable<any> {
@@ -31,6 +31,15 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse) {
     console.log('error', error);
+    const { message } = error.error;
+    switch (message) {
+      case 'INVALID_LOGIN':
+        this.error$.next('Неверный логин');
+        break;
+      case 'INVALID_PASSWORD':
+        this.error$.next('Неверный пароль');
+        break;
+    }
 
     return throwError(error);
   }
@@ -46,13 +55,11 @@ export class AuthService {
   private setToken(response: any) {
     if (response) {
       const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(
-        response.access_token.access_token
-      );
+      const decodedToken = helper.decodeToken(response.access_token);
 
       console.log('response', response);
 
-      localStorage.setItem('tokenId', response.access_token.refresh_token);
+      localStorage.setItem('tokenId', response.refresh_token);
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
     } else {
       localStorage.clear();
