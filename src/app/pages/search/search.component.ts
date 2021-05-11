@@ -45,14 +45,17 @@ import { Component, OnInit } from '@angular/core';
                 <div class="col-6">
                   <div class="input-field">
                     <div class="input-field__title">Сумма кредита</div>
-                    <div class="row flex-nowrap align-items-center no-gutters">
+                    <div class="d-flex flex-nowrap align-items-center no-gutters w-100">
                       <div class="flex-fill">
                         <label class="input-field__label">
                           <span class="ml-1">От</span>
                           <input type="text" autocomplete="off" />
                         </label>
                       </div>
-                      <div class="bg-primary mx-1" style="width: 20px; height: 1px;"></div>
+                      <div
+                        class="bg-primary mx-1"
+                        style="flex: 0 1 20px; height: 1px;"
+                      ></div>
                       <div class="flex-fill">
                         <label class="input-field__label">
                           <span class="ml-1">До</span>
