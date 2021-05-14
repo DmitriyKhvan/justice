@@ -75,7 +75,7 @@ export class AuthService {
   }
 
   refreshToken(tokenData: any): Observable<any> {
-    debugger;
+    // debugger;
     this.logout();
     return this.http
       .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))
