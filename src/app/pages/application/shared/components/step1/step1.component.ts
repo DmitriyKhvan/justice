@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { throwError } from 'rxjs';
 import { CustomValidators } from 'src/app/custom.validators';
 import { AlertService } from 'src/app/services/alert.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { Step1Service } from '../../services/step1.service';
 import { datepickerSettings } from '../../settings';
@@ -22,6 +24,7 @@ export class Step1Component implements OnInit {
   constructor(
     public fileUploadservice: FileUploadService,
     private stepService: Step1Service,
+    private auth: AuthService,
     private alert: AlertService
   ) {}
 
@@ -67,7 +70,6 @@ export class Step1Component implements OnInit {
       },
       (error) => {
         console.log(error);
-
         this.submitted = false;
       }
     );
