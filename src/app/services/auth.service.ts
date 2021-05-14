@@ -4,7 +4,7 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
-import { AuthResponse, RefreshTokenContent, User } from '../interfaces';
+import { AuthResponse, refreshTokenContent, User } from '../interfaces';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
@@ -75,7 +75,7 @@ export class AuthService {
   }
 
   refreshToken(tokenData: any): Observable<any> {
-    // debugger;
+    debugger;
     this.logout();
     return this.http
       .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))

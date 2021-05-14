@@ -11,13 +11,17 @@ export class MainService {
 
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
+  public ROLE = 'IY'; // IY - исполнительный юрист ---- GY - главный юрист
+
   public sidebar = false;
   public sidebarDetail = false;
 
   constructor(private http: HttpClient) { }
 
-  public previousUrl = new BehaviorSubject({});
-  public currentUrl = new BehaviorSubject('');
+  // public previousUrl = new BehaviorSubject({});
+  // public currentUrl = new BehaviorSubject('');
+
+
 
   regionList: any;
 
@@ -25,4 +29,5 @@ export class MainService {
     return this.http
       .get<any>(this.baseURL + `dictionary/mfo`);
   }
+
 }

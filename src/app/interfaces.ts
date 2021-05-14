@@ -7,7 +7,7 @@ export interface AuthResponse {
   tokenData: object;
 }
 
-export interface RefreshTokenContent {
+export interface refreshTokenContent {
   access_token: string;
   refresh_token: string;
 }

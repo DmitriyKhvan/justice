@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { first, mergeMap, map, catchError } from 'rxjs/operators';
+import {ClientsService} from './clients.service';
 
 export interface FileError {
   status: boolean;
@@ -33,7 +34,7 @@ export class FileUploadService {
   public FileBaseUrl = 'http://10.1.1.165:9001';
   private BaseUrl = 'http://10.1.1.165:88';
 
-  constructor(private xhttp: HttpClient) {}
+  constructor(private xhttp: HttpClient, public clientsService: ClientsService) {}
 
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
   currentUploaderFiles = this.UploaderFiles.asObservable();
@@ -145,7 +146,7 @@ export class FileUploadService {
         this.UploaderFiles.value[i].filePayload,
         i
       );
-      console.log(uploaded);
+      // console.log(uploaded);
     }
   }
 }

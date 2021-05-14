@@ -1,9 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { throwError } from 'rxjs';
 import { CustomValidators } from 'src/app/custom.validators';
 import { AlertService } from 'src/app/services/alert.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
+import { Step1Service } from '../../services/step1.service';
 import { datepickerSettings } from '../../settings';
 
 @Component({
@@ -20,6 +23,8 @@ export class Step1Component implements OnInit {
 
   constructor(
     public fileUploadservice: FileUploadService,
+    private stepService: Step1Service,
+    private auth: AuthService,
     private alert: AlertService
   ) {}
 
@@ -57,16 +62,16 @@ export class Step1Component implements OnInit {
 
     // this.form.get('numberLetter').disable();
 
-    this.alert.success('Форма оформлена');
-
     console.log('form', this.form);
 
-    console.log('numberLetter', this.form.value.numberLetter);
-    console.log('numberCriminalCase', this.form.value.numberCriminalCase);
-    console.log('outDocDate', this.form.value.outDocDate.singleDate.jsDate);
-    console.log(
-      'criminalCasecDate',
-      this.form.value.criminalCasecDate.singleDate.jsDate
+    this.stepService.submit().subscribe(
+      () => {
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        console.log(error);
+        this.submitted = false;
+      }
     );
   }
 }

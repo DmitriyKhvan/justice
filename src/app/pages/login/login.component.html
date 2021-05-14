@@ -2,6 +2,14 @@
   <form [formGroup]="form" (ngSubmit)="submit()" class="page-form add">
     <h2 class="login-title mb-3">Вход в кабинет</h2>
 
+    <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
+      {{ error }}
+    </div>
+
+    <div class="alert alert-info" *ngIf="message">
+      {{ message }}
+    </div>
+
     <div class="row justify-content-between mb-3">
       <div class="col-12">
         <div class="input-field">

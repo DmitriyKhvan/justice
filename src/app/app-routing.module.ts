@@ -9,7 +9,7 @@ import { ApplicationComponent } from './pages/application/application.component'
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
 import { AuthGuard } from './services/auth.guard';
-import {SearchComponent} from './pages/search/search.component';
+import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
   {
@@ -31,6 +31,7 @@ const routes: Routes = [
       {
         path: 'clients/detail',
         component: ClientsDetailComponent,
+        data: {taskInfo : {}}
       },
       {
         path: 'clients/history',

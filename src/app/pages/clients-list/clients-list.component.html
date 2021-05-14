@@ -50,21 +50,24 @@
     <div class="page-table__body">
       <div
         class="page-table__tr"
-        *ngFor="let el of range; index as i"
+        *ngFor="let contract of contractList; index as i"
         [class.page-table__tr__active]="selectedItem === i"
-        (click)="selectItem(el, i)"
+        (click)="selectItem(contract, i)"
       >
         <div class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100">
-          <div class="page-table__td">{{ i + 1 }}</div>
-          <div class="page-table__td text-capitalize">yunushodjaeva shakhnoza farruho…</div>
-          <div class="page-table__td">490300203</div>
-          <div class="page-table__td">Физическое лицо</div>
-          <div class="page-table__td">200331</div>
-          <div class="page-table__td">150 000 000,00</div>
-          <div class="page-table__td">UZS</div>
-          <div class="page-table__td">29.01.2017</div>
-          <div class="page-table__td">29.01.2019</div>
-          <div class="page-table__td">154 931 506,85</div>
+          <div class="page-table__td">{{ contract.client_id }}</div>
+          <div class="page-table__td text-capitalize">{{ contract.client_name }}</div>
+          <div class="page-table__td">{{ contract.client_inn }}</div>
+          <div class="page-table__td" [ngSwitch]="contract.client_type">
+            <span *ngSwitchCase="'F'"> Физическое лицо </span>
+            <span *ngSwitchCase="'Y'"> Юридическое лицо </span>
+          </div>
+          <div class="page-table__td">{{ contract.contract_id }}</div>
+          <div class="page-table__td">{{ contract.credit_summ }}</div>
+          <div class="page-table__td">{{ contract.credit_currency_code }}</div>
+          <div class="page-table__td">{{ contract.credit_start_date }}</div>
+          <div class="page-table__td">{{ contract.credit_end_date }}</div>
+          <div class="page-table__td">{{ contract.total_debt }}</div>
           <div class="page-table__td text-danger fw-bold">-302 дня</div>
         </div>
       </div>

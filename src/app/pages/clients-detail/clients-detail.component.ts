@@ -23,19 +23,10 @@ declare var $: any;
   styleUrls: ['./clients-detail.component.scss'],
 })
 export class ClientsDetailComponent implements OnInit, DoCheck {
-  counter = 1;
-
-  currentStep!: any;
-
-  steps!: any;
-
   show = false;
 
-  prevUrl: any;
-  currentUrl = '';
-
   constructor(
-    public clientService: ClientsService,
+    public clientsService: ClientsService,
     public mainService: MainService,
     public fileUploadService: FileUploadService,
     private router: Router,
@@ -46,39 +37,20 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
-      this.clientService.currentStep = val.step;
+      this.clientsService.currentStep = val.step;
+      // this.clientsService
+      //   .contractDetails(val.contract)
+      //   .subscribe((value) => {
+      //     console.log(value);
+      //   });
     });
-    // console.log(this.route);
 
     this.fileUploadService.currentUploaderFiles.subscribe((data) => {
       this.uploadFiles = data;
     });
-
-    this.mainService.previousUrl.subscribe((val) => {
-      this.prevUrl = val;
-    });
-    this.mainService.currentUrl.subscribe((val) => {
-      this.currentUrl = val;
-    });
-
-    const steps = document.querySelectorAll('.step');
-    this.steps = steps;
-    steps.forEach((step, i) => {
-      step.setAttribute('stepNumber', String(i + 1));
-    });
   }
 
   ngDoCheck(): void {}
-
-  showTooltip(evt: any): void {
-    evt.target.nextElementSibling.classList.add('tooltip-active');
-  }
-
-  hideTooltip(evt: any): void {
-    evt.preventDefault();
-    evt.target.offsetParent.classList.remove('tooltip-active');
-    // console.dir(evt.target.offsetParent);
-  }
 
   goToBack(): void {
     this.router.navigate(['clients/list'], {
@@ -86,38 +58,7 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     });
   }
 
-  nextStep(): void {
-    if (this.clientService.currentStep > this.steps.length) {
-      this.clientService.currentStep++;
-      this.clientService.currentStep = this.steps.length;
-    }
-    this.router.navigate([], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        step: this.clientService.currentStep,
-      },
-    });
-  }
-  prevStep(): void {
-    this.clientService.currentStep--;
-    if (this.clientService.currentStep < 1) {
-      this.clientService.currentStep = 1;
-    }
-    this.router.navigate([], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        step: this.clientService.currentStep,
-      },
-    });
-  }
-
-  logger(pld: any): void {
-    console.log(pld);
-  }
-
   showHistory(): void {
-    console.log(this.route.snapshot.queryParams);
-
     this.router.navigate(['clients/history'], {
       queryParams: { ...this.route.snapshot.queryParams },
     });

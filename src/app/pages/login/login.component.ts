@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { User } from 'src/app/interfaces';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   type = 'uil-eye';
   submitted = false;
+  message!: string;
 
   constructor(
     public auth: AuthService,
@@ -23,6 +24,13 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params['loginAgain']) {
+        this.message = 'Пожалуйста введите данные';
+      } else if (params['authFailed']) {
+        this.message = 'Сессия истекла. Введите данные заного';
+      }
+    });
     this.form = new FormGroup({
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),

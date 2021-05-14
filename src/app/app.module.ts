@@ -1,9 +1,13 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Provider } from '@angular/core';
 
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
@@ -70,8 +74,15 @@ import { AlertComponent } from './components/alert/alert.component';
 import { ApplicationListComponent } from './pages/damage-claims/shared/components/application-list/application-list.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
-import {SidebarComponent} from './components/sidebar/sidebar.component';
-import {SearchComponent} from './pages/search/search.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SearchComponent } from './pages/search/search.component';
+import { AuthIntercepter } from './auth.intercepter';
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  multi: true,
+  useClass: AuthIntercepter,
+};
 
 @NgModule({
   declarations: [
@@ -145,8 +156,8 @@ import {SearchComponent} from './pages/search/search.component';
     ReactiveFormsModule,
     AngularMyDatePickerModule,
   ],
-  providers: [HttpClient],
+  providers: [HttpClient, INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
