@@ -65,7 +65,7 @@ export class AuthService {
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(response.access_token);
 
-      console.log('response', response);
+      // console.log('response', response);
 
       localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
@@ -75,7 +75,7 @@ export class AuthService {
   }
 
   refreshToken(tokenData: any): Observable<any> {
-    debugger;
+    // debugger;
     this.logout();
     return this.http
       .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))

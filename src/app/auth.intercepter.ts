@@ -22,7 +22,7 @@ export class AuthIntercepter implements HttpInterceptor {
     // debugger;
     if (this.auth.isAuthenticated()) {
       const expDate = new Date(Number(localStorage.getItem('tokenExp')));
-      console.log('expDate', expDate);
+      // console.log('expDate', expDate);
       if (new Date() > expDate) {
         // debugger;
         this.auth
