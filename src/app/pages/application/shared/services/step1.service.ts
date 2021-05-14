@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -8,6 +9,7 @@ export class Step1Service {
   constructor(private http: HttpClient) {}
 
   submit(): Observable<any> {
-    return this.http.get(`${environment.dbUrl}/user/users`).pipe();
+    // return throwError({ error: { status: 403 } });
+    return this.http.get(`${environment.dbUrl}/user/users`);
   }
 }

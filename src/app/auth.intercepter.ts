@@ -8,7 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 
 @Injectable()
@@ -19,13 +19,27 @@ export class AuthIntercepter implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    debugger;
     if (this.auth.isAuthenticated()) {
+      const expDate = new Date(Number(localStorage.getItem('tokenExp')));
+      console.log('expDate', expDate);
+      if (new Date() > expDate) {
+        debugger;
+        this.auth
+          .refreshToken(
+            JSON.parse(JSON.stringify(localStorage.getItem('tokenData')))
+          )
+          .subscribe();
+      }
+
       req = req.clone({
-        setParams: {
-          auth: this.auth.token,
-        },
+        headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
       });
     }
+
+    // req = req.clone({
+    //   headers: req.headers.append('Auth', this.auth.token),
+    // });
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
