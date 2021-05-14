@@ -4,23 +4,25 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
-import { AuthResponse, User } from '../interfaces';
+import { AuthResponse, RefreshTokenContent, User } from '../interfaces';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public error$: Subject<string> = new Subject<string>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   get token(): string | null {
-    const expDate = new Date(Number(localStorage.getItem('tokenExp')));
-    console.log('expDate', expDate);
+    // const expDate = new Date(Number(localStorage.getItem('tokenExp')));
+    // console.log('expDate', expDate);
 
-    if (new Date() > expDate) {
-      this.logout();
-      return '';
-    }
-    return localStorage.getItem('tokenExp');
+    // if (new Date() > expDate && !!localStorage.getItem('tokenExp')) {
+    //   debugger;
+    //   // this.logout();
+    //   // return '';
+    // }
+    return localStorage.getItem('tokenData');
   }
 
   login(user: User): Observable<any> {
@@ -29,8 +31,23 @@ export class AuthService {
       .pipe(tap(this.setToken), catchError(this.handleError.bind(this)));
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): any {
     console.log('error', error);
+    const { message } = error.error;
+    switch (message) {
+      case 'INVALID_LOGIN':
+        this.error$.next('Неверный логин');
+        break;
+      case 'INVALID_PASSWORD':
+        this.error$.next('Неверный пароль');
+        break;
+      case 'Tokens not found':
+        this.error$.next('Токен не найден');
+        break;
+    }
+
+    // this.logout();
+    // this.router.navigate(['/login']);
 
     return throwError(error);
   }
@@ -46,16 +63,25 @@ export class AuthService {
   private setToken(response: any) {
     if (response) {
       const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(
-        response.access_token.access_token
-      );
+      const decodedToken = helper.decodeToken(response.access_token);
 
-      console.log('response', response);
+      // console.log('response', response);
 
-      localStorage.setItem('tokenId', response.access_token.refresh_token);
+      localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
     } else {
       localStorage.clear();
     }
+  }
+
+  refreshToken(tokenData: any): Observable<any> {
+    // debugger;
+    this.logout();
+    return this.http
+      .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))
+      .pipe(
+        tap(this.setToken)
+        // catchError(this.handleError.bind(this))
+      );
   }
 }

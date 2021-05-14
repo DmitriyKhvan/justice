@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       password: this.form.value.password,
     };
 
-    console.log(user);
+    // console.log(user);
 
     this.auth.login(user).subscribe(
       () => {
