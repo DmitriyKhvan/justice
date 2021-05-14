@@ -14,7 +14,7 @@ export class AuthService {
 
   get token(): string {
     const expDate = new Date(Number(localStorage.getItem('tokenExp')));
-    console.log('expDate', expDate);
+    // console.log('expDate', expDate);
 
     if (new Date() > expDate) {
       this.logout();

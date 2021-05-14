@@ -11,6 +11,8 @@ export class MainService {
 
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
+  public ROLE = 'IY'; // IY - исполнительный юрист ---- GY - главный юрист
+
   public sidebar = false;
   public sidebarDetail = false;
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import {MainService} from './main.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class ClientsService {
 
   public listByMfo = new BehaviorSubject([]);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private mainService: MainService) {}
 
   getListByMfo(mfo: any): Observable<any> {
     return this.http.get<any>(
@@ -29,5 +30,13 @@ export class ClientsService {
     return this.http.post(`${this.baseURL}process/open`, {
       case_id: id,
     });
+  }
+
+  completeTaskStep(body: object): Observable<any> {
+    return this.http.post(`${this.baseURL}process/task/send?role=${this.mainService.ROLE}`, body);
+  }
+
+  getTask(taskId: number, step: number ): Observable<any> {
+    return this.http.get(`${this.baseURL}process/task/get?task_id=${taskId}&step=${step}`);
   }
 }

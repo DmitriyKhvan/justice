@@ -105,10 +105,21 @@ export class ClientsListComponent implements OnInit, DoCheck {
   }
 
   showDetails(): void {
-    this.router.navigate(['clients/detail'], {
-      queryParams: { ...this.route.snapshot.queryParams },
+    this.route.queryParams.subscribe((val) => {
+      this.clientsService
+        .contractDetails(val.contract)
+        .subscribe((value) => {
+          this.router.navigate(['clients/detail'], {
+            queryParams: {
+              ...this.route.snapshot.queryParams,
+              step: value.current_task.task_step,
+            },
+          });
+        });
     });
-
+    // this.router.navigate(['clients/detail'], {
+    //   queryParams: { ...this.route.snapshot.queryParams },
+    // });
   }
 
   showHistory(): void {

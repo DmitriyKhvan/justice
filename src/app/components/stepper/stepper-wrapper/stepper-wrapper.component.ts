@@ -1,12 +1,14 @@
 import {
   AfterContentInit,
   Component,
-  ContentChildren,
+  ContentChildren, Input,
   OnInit,
   QueryList,
 } from '@angular/core';
 import { StepComponent } from '../step/step.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import {ClientsService} from '../../../services/clients.service';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-stepper-wrapper',
@@ -16,24 +18,33 @@ import { ActivatedRoute, Router } from '@angular/router';
   styles: [],
 })
 export class StepperWrapperComponent implements OnInit, AfterContentInit {
-  @ContentChildren(StepComponent) stepComponent!: QueryList<StepComponent>;
+
+  taskInfo!: any;
   currentStep = 1;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  @ContentChildren(StepComponent) stepComponent!: QueryList<StepComponent>;
 
-  ngOnInit(): void {
-    // this.route.queryParams.subscribe((val) => {
-    //   this.currentStep = val.step;
-    // });
-  }
+  constructor(private router: Router, private route: ActivatedRoute, private clientsService: ClientsService) {}
+
+  ngOnInit(): void {}
 
   ngAfterContentInit(): void {
-    // console.log(this.stepComponent);
     this.stepComponent.first.isFirst = true;
     this.stepComponent.last.isLast = true;
-    this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
-      // step.currentStep = this.currentStep;
-      // step.stepNumber = step.step;
+
+
+    this.route.queryParams.subscribe((val) => {
+      if (this.route.snapshot.routeConfig?.path === 'clients/detail') {
+        this.clientsService.contractDetails(val.contract).subscribe(value => {
+          this.taskInfo = value;
+
+          this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
+            step.currentStep = Number(val.step);
+            step.status = value.tasks.find((el: any) => el.task_step === step.step)?.task_status;
+            step.currentTaskStep = value.current_task.task_step;
+          });
+        });
+      }
     });
   }
 }
