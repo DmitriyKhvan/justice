@@ -42,7 +42,7 @@ export class SendAlertStepComponent implements OnInit {
           this.clientsService
             .getTask(this.taskId, this.step)
             .subscribe((value2) => {
-              this.uploadFiles = JSON.parse(value2.files);
+              this.uploadFiles = value2.body.files;
             });
         });
     });

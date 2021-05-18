@@ -25,24 +25,25 @@ import { ClientsService } from '../../../services/clients.service';
         >
           <div
             class="badge"
-            [class.bg-success]="status === 1"
+            [class.bg-danger]="status === -1"
+            [class.bg-success]="status === 1 || status === 3"
             [class.bg-warning]="status === 2"
-            [class.bg-danger]="status === 3"
             [ngSwitch]="status"
             *ngIf="status"
           >
+            <i class="uil-times" *ngSwitchCase="-1"></i>
             <i class="uil-check" *ngSwitchCase="1"></i>
             <i class="icon-clock" *ngSwitchCase="2"></i>
-            <i class="uil-times" *ngSwitchCase="3"></i>
+            <i class="uil-info-circle" *ngSwitchCase="3"></i>
           </div>
           {{ step }}
         </div>
         <div class="title">
           {{ stepTitle }}
           <span
-            [class.text-success]="status === 1"
+            [class.text-danger]="status === -1"
+            [class.text-success]="status === 1 || status === 3"
             [class.text-warning]="status === 2"
-            [class.text-danger]="status === 3"
             *ngIf="status"
           >
             {{ stepDoneText }}

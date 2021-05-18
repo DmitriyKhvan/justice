@@ -1,114 +1,191 @@
-<form
-  action=""
-  class="page-form"
-  [formGroup]="dateForm"
-  *ngIf="mainService.role === 'lawyer'"
->
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ исходящего документа</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
+<div class="row flex-nowrap" *ngIf="mainService.ROLE === 'IY'">
+  <div class="col-6">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="stepStatus === 2 || stepStatus === 3"
+    >
+      <div class="mb-1">Прикрепленные файлы</div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of taskInfo?.body?.files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="mb-1">Дополнительная информация</div>
+        <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+          {{ taskInfo?.main_law_info }}
+        </div>
+      </div>
+    </div>
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="appForm"
+      [ngSwitch]="stepStatus"
+      (ngSubmit)="nextStep()"
+      *ngIf="stepStatus !== 2"
+    >
+      <app-file-uploader
+        *ngSwitchCase="0 || -1"
+        (fileSelected)="disabled = $event"
+      ></app-file-uploader>
+
+      <div class="row justify-content-between mb-2" *ngSwitchCase="3">
+        <div class="col-6">
+          <div class="input-field">
+            <div class="input-field__title">№ исходящего документа</div>
+            <label class="input-field__label">
+              <input type="text" autocomplete="off" />
+            </label>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <app-datepicker [title]="'Дата исх. документа'"></app-datepicker>
+        </div>
+      </div>
+
+      <div class="text-field mb-2">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+        <textarea
+          placeholder="Уточните детали"
+          formControlName="comment"
+        ></textarea>
         </label>
       </div>
-    </div>
 
-    <div class="col-6">
-      <app-datepicker [title]="'Дата исх. документа'"></app-datepicker>
-    </div>
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="!disabled"
+      >
+        <!--    (click)="clientDetail.nextStep()"-->
+        отправить заявку
+      </button>
+    </form>
   </div>
 
-  <app-file-uploader></app-file-uploader>
-
-  <div class="text-field mb-2">
-    <div class="text-field__title">Дополнительная информация</div>
-    <label class="text-field__label">
-      <textarea placeholder="Уточните детали"></textarea>
-    </label>
-  </div>
-
-  <div class="page-form__actionbtn text-uppercase" (click)="showForm()">
-    <!--    (click)="clientDetail.nextStep()"-->
-    отправить заявку
-  </div>
-</form>
-
-<div class="row no-gutters" *ngIf="mainService.role === 'headLawyer'">
-  <form action="" class="page-form">
-    <div class="row">
-      <div class="col-6">
-        <div class="select-field mb-2">
-          <div class="select-field__title">Ваше решение</div>
-          <ng-select
-            class="custom-select"
-            appearance="outline"
-            [items]="opinion"
-            bindLabel="label"
-            bindValue="id"
-            placeholder="Выберите решение"
-            name="qwe"
-            [(ngModel)]="selectedOpinion"
-            [loadingText]="'Загружается'"
-            [searchable]="false"
-            [clearable]="false"
-          ></ng-select>
-          <!--      [disabled]=""-->
-          <!--      [loading]=""-->
+  <div class="col-5">
+    <div class="info-card" *ngIf="stepStatus === 2 || stepStatus === -1 || stepStatus === 3">
+      <div class="info-card__title mb-2">Данные полученные  от главного юриста</div>
+      <div class="d-flex justify-content-between align-items-center">
+        <div>Решение</div>
+        <div class="d-flex align-items-center text-danger" [class]="setClass('text')">
+          <i class="fas fa-circle mr-1" style="font-size: 8px"></i>
+          <span>{{ getStatusText() }}</span>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="text-field mb-2">
-      <div class="text-field__title">Дополнительная информация</div>
-      <label class="text-field__label">
-        <textarea placeholder="Уточните детали"></textarea>
-      </label>
-    </div>
-
-    <div class="page-form__actionbtn text-uppercase">
-      <!--    (click)="clientDetail.nextStep()"-->
-      отправить заявку
-    </div>
-  </form>
-
-  <div class="info-card ml-4">
-    <div class="info-card__title mb-2">Данные полученные  от исполнителя</div>
-    <div class="info-card__data">
-      <span>№ исходящего документа</span>
-      <span>123123</span>
-    </div>
-    <div class="info-card__data">
-      <span>Дата исх. документа</span>
-      <span>28.12.2019</span>
-    </div>
-    <div class="info-card__data">
-      <span>Дополнительная информация</span>
-    </div>
-
-    <div class="info-card__docs mt-2">
-      <div class="info-card__docs_title mb-1">Прикрепленные документы</div>
-      <div class="info-card__docs_list">
-        <div class="info-card__docs_list_item">
-          <i class="icon-image"></i>
-          <a href="">
-            <i class="icon-attach"></i>
-            скачать
-          </a>
+<div class="row flex-nowrap" *ngIf="mainService.ROLE === 'GY'">
+  <div class="col-6">
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="appForm"
+      (ngSubmit)="nextStep()"
+    >
+      <div class="row">
+        <div class="col-6">
+          <div class="select-field mb-2">
+            <div class="select-field__title">Ваше решение</div>
+            <ng-select
+              class="custom-select"
+              appearance="outline"
+              [items]="opinion"
+              bindLabel="label"
+              bindValue="id"
+              placeholder="Выберите решение"
+              [(ngModel)]="selectedOpinion"
+              [ngModelOptions]="{ standalone: true }"
+              [loadingText]="'Загружается'"
+              [searchable]="false"
+              [clearable]="false"
+            ></ng-select>
+            <!--      [disabled]=""-->
+            <!--      [loading]=""-->
+          </div>
         </div>
-        <div class="info-card__docs_list_item">
-          <i class="icon-document_alt"></i>
-          <a href="">
-            <i class="icon-attach"></i>
-            скачать
-          </a>
-        </div>
-        <div class="info-card__docs_list_item">
-          <i class="icon-table"></i>
-          <a href="">
-            <i class="icon-attach"></i>
-            скачать
-          </a>
+      </div>
+
+      <div class="text-field mb-2">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+        <textarea
+          placeholder="Уточните детали"
+          formControlName="comment"
+          [required]="selectedOpinion === -1"
+        ></textarea>
+          <div *ngIf="selectedOpinion === -1" class="validation">
+            <small> Введите причину отклонения </small>
+          </div>
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="!selectedOpinion || appForm.invalid"
+      >
+        отправить заявку
+      </button>
+    </form>
+  </div>
+
+  <div class="col-5">
+    <div class="info-card">
+      <div class="info-card__title mb-2">Данные полученные  от исполнителя</div>
+      <div class="info-card__data" *ngIf="taskInfo?.out_doc_number">
+        <span>№ исходящего документа</span>
+        <span>{{ taskInfo?.out_doc_number }}</span>
+      </div>
+      <div class="info-card__data">
+        <span *ngIf="taskInfo?.out_doc_number">Дата исх. документа</span>
+        <span>{{ taskInfo?.out_doc_number }}</span>
+      </div>
+      <div class="info-card__data">
+        <span>Дополнительная информация</span>
+      </div>
+
+      <div class="info-card__docs mt-2">
+        <div class="info-card__docs_title mb-1">Прикрепленные документы</div>
+        <div class="info-card__docs_list">
+          <div
+            class="info-card__docs_list_item"
+            *ngFor="let file of taskInfo?.body?.files"
+          >
+            <i class="icon-image" *ngIf="file.type === 'image/jpeg'"></i>
+            <i
+              class="icon-document_alt"
+              *ngIf="file.type === 'application/pdf'"
+            ></i>
+            <i
+              class="icon-table"
+              *ngIf="
+              [
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-excel',
+                'application/vnd.ms-excel.sheet.macroEnabled.12'
+              ].includes(file.type)
+            "
+            ></i>
+            {{ file.name }}
+            <a href="">
+              <i class="icon-attach"></i>
+              скачать
+            </a>
+          </div>
         </div>
       </div>
     </div>
