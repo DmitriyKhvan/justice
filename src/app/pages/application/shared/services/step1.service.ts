@@ -10,6 +10,13 @@ export class Step1Service {
 
   submit(): Observable<any> {
     // return throwError({ error: { status: 403 } });
-    return this.http.get(`${environment.dbUrl}/user/users`);
+    return this.http
+      .get(`${environment.dbUrl}/user/users`)
+      .pipe(tap(this.testFn));
+  }
+
+  testFn() {
+    debugger;
+    console.log('testFn');
   }
 }

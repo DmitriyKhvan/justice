@@ -20,18 +20,12 @@ export class AuthIntercepter implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     debugger;
-    if (this.auth.isAuthenticated()) {
-      const expDate = new Date(Number(localStorage.getItem('tokenExp')));
-      console.log('expDate', expDate);
-      if (new Date() > expDate) {
-        debugger;
-        this.auth
-          .refreshToken(
-            JSON.parse(JSON.stringify(localStorage.getItem('tokenData')))
-          )
-          .subscribe();
-      }
+    console.log('reqqq', req.url.match(/refreshToken/));
+    if (!req.url.match(/refreshToken/)) {
+      this.auth.fetchWithAuth();
+    }
 
+    if (this.auth.isAuthenticated()) {
       req = req.clone({
         headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
       });

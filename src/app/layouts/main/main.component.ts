@@ -1,15 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
+  subscription!: Subscription;
+  time: any;
 
-  constructor() { }
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
+    if (this.auth.isAuthenticated()) {
+      this.inactivityTime();
+    }
   }
 
+  inactivityTime() {
+    this.resetTimer();
+    this.subscription = fromEvent(document, 'mousemove').subscribe((e) => {
+      console.log(e);
+      this.resetTimer();
+    });
+  }
+
+  resetTimer() {
+    clearTimeout(this.time);
+    this.time = setTimeout(this.alertUser.bind(this), 1000 * 10);
+  }
+
+  alertUser() {
+    this.subscription.unsubscribe();
+    alert('User is inactive');
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

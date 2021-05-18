@@ -1,19 +1,22 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { filter, pairwise } from 'rxjs/operators';
-import {ActivatedRoute, Router, RoutesRecognized} from '@angular/router';
-import {MainService} from './services/main.service';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
+import { MainService } from './services/main.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, DoCheck{
+export class AppComponent implements OnInit {
   title = 'justice-front';
 
-  constructor(public mainService: MainService, private router: Router, private route: ActivatedRoute) {
+  constructor(public mainService: MainService, private router: Router) {
     this.router.events
-      .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+      .pipe(
+        filter((evt: any) => evt instanceof RoutesRecognized),
+        pairwise()
+      )
       .subscribe((events: RoutesRecognized[]) => {
         // console.log(events);
         this.mainService.previousUrl.subscribe();
@@ -24,9 +27,10 @@ export class AppComponent implements OnInit, DoCheck{
       });
   }
 
-  ngOnInit(): void {
-  }
+  // @HostListener('mousemove', ['$event'])
+  //   onMousemove(event: MouseEvent) {
+  //     console.log(1);
+  //   }
 
-  ngDoCheck(): void {
-  }
+  ngOnInit(): void {}
 }

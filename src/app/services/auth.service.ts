@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { AuthResponse, refreshTokenContent, User } from '../interfaces';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public error$: Subject<string> = new Subject<string>();
+  private timer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,7 +30,10 @@ export class AuthService {
     debugger;
     return this.http
       .post(`${environment.dbUrl}/user/login`, user)
-      .pipe(tap(this.setToken), catchError(this.handleError.bind(this)));
+      .pipe(
+        tap(this.setToken.bind(this)),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -55,13 +59,15 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    debugger;
+    // debugger;
     return !!this.token;
   }
 
-  logout() {
+  logout(): void {
     debugger;
     this.setToken(null);
+    this.stopTimerLogout();
+    this.router.navigate(['/login']);
   }
 
   private setToken(response: any) {
@@ -71,10 +77,11 @@ export class AuthService {
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(response.access_token);
 
-      console.log('response', response);
+      console.log('decodedToken', decodedToken);
 
       localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
+      this.startTimerLogout(decodedToken.user.user_exp);
     } else {
       localStorage.clear();
     }
@@ -82,12 +89,41 @@ export class AuthService {
 
   refreshToken(tokenData: any): Observable<any> {
     debugger;
-    this.logout();
+
     return this.http
       .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))
       .pipe(
+        shareReplay(),
         tap(this.setToken)
         // catchError(this.handleError.bind(this))
       );
+  }
+
+  fetchWithAuth(): void {
+    const loginUrl = '/login';
+    let tokenData = null;
+
+    if (localStorage.getItem('tokenData')) {
+      tokenData = localStorage.getItem('tokenData');
+
+      const expDate = new Date(Number(localStorage.getItem('tokenExp')));
+      console.log('expDate', expDate);
+      if (new Date() > expDate) {
+        debugger;
+        this.refreshToken(localStorage.getItem('tokenData')).subscribe();
+      }
+    } else {
+      this.router.navigate([loginUrl]);
+    }
+  }
+
+  startTimerLogout(time: number) {
+    console.log('time', time);
+
+    this.timer = setTimeout(() => this.logout(), 100000);
+  }
+
+  private stopTimerLogout() {
+    clearTimeout(this.timer);
   }
 }
