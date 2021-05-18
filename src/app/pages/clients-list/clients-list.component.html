@@ -53,6 +53,7 @@
         *ngFor="let contract of contractList; index as i"
         [class.page-table__tr__active]="selectedItem === i"
         (click)="selectItem(contract, i)"
+        (dblclick)="showDetails()"
       >
         <div class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100">
           <div class="page-table__td">{{ contract.client_id }}</div>
