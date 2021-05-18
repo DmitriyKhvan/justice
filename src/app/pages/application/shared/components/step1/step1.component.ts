@@ -54,7 +54,7 @@ export class Step1Component implements OnInit {
     });
   }
 
-  submit() {
+  submit(): any {
     if (this.form.invalid) {
       return;
     }

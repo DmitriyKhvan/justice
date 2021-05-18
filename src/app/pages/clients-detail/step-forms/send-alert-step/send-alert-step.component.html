@@ -1,9 +1,29 @@
-<form action="" class="page-form">
-  <app-file-uploader></app-file-uploader>
-  <button
-    class="page-form__actionbtn text-uppercase"
-    (click)="clientDetail.nextStep()"
-  >
-    отправить оповещение
-  </button>
-</form>
+<div class="row flex-nowrap" [ngSwitch]="stepStatus">
+  <div class="col-6">
+    <form action="" class="page-form" *ngSwitchDefault>
+      <app-file-uploader (fileSelected)="isSelected = $event"></app-file-uploader>
+      <button
+        class="page-form__actionbtn text-uppercase"
+        (click)="nextStep()"
+        [disabled]="!isSelected"
+      >
+        отправить оповещение
+      </button>
+    </form>
+
+    <div class="file_field" *ngSwitchCase="1">
+      <div class="file-field__title mb-1">Прикрепленные файлы</div>
+      <div class="file-field__list mb-2">
+        <div
+          *ngFor="let item of uploadFiles; index as i"
+          class="file-field__list_item py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="file-field__list_text ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

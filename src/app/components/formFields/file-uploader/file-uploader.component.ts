@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-detail.component';
 
@@ -46,7 +46,7 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
                 >
                   Нет
                 </button>
-                <button class="btn btn-filled-white">Да</button>
+                <button class="btn btn-filled-white" (click)="deleteFile(item.fileId)">Да</button>
               </div>
             </div>
           </div>
@@ -61,8 +61,9 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
         <ng-template #elseBtnText> Добавить еще один файл </ng-template>
         <input
           type="file"
+          accept="image/jpeg, image/jpg, application/pdf"
           multiple
-          (change)="fileUploadService.poster($event)"
+          (change)="fileUploadService.poster($event); changed()"
         />
       </label>
     </div>
@@ -77,7 +78,11 @@ export class FileUploaderComponent implements OnInit {
 
   @Input() title: any = 'Прикрепить скан документа';
 
-  uploadFiles!: Array<any>;
+  @Output() fileSelected: EventEmitter<any> = new EventEmitter();
+
+  acceptList = [];
+
+  uploadFiles: Array<any> = [];
 
   ngOnInit(): void {
     this.fileUploadService.currentUploaderFiles.subscribe((data) => {
@@ -93,5 +98,14 @@ export class FileUploaderComponent implements OnInit {
     evt.preventDefault();
     evt.target.offsetParent.classList.remove('tooltip-active');
     // console.dir(evt.target.offsetParent);
+  }
+
+  changed(): void {
+    this.uploadFiles.length ? this.fileSelected.emit(true) : this.fileSelected.emit(false);
+  }
+
+  deleteFile(fileId: any): void {
+    this.uploadFiles.splice(this.uploadFiles.findIndex(el => el.fileId === fileId), 1);
+    // console.log(this.uploadFiles.findIndex(el => el.fileId === fileId));
   }
 }

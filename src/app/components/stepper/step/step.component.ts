@@ -15,22 +15,37 @@ import { ClientsService } from '../../../services/clients.service';
     <details
       class="step"
       [class.step-last]="isLast"
-      [class.step-current]="currentStep == stepNumber"
-      [open]="currentStep == stepNumber"
+      [class.step-current]="step <= currentTaskStep"
+      [open]="isOpen()"
     >
-      <summary class="header" (click)="detailsTrigger($event, stepNumber)">
+      <summary class="header" (click)="detailsTrigger($event, step)">
         <div
           class="indicator mr-2"
-          [class.current-step]="currentStep == stepNumber"
+          [class.current-step]="step <= currentTaskStep"
         >
-          <div class="check" *ngIf="currentStep > stepNumber">
-            <i class="uil-check"></i>
+          <div
+            class="badge"
+            [class.bg-danger]="status === -1"
+            [class.bg-success]="status === 1 || status === 3"
+            [class.bg-warning]="status === 2"
+            [ngSwitch]="status"
+            *ngIf="status"
+          >
+            <i class="uil-times" *ngSwitchCase="-1"></i>
+            <i class="uil-check" *ngSwitchCase="1"></i>
+            <i class="icon-clock" *ngSwitchCase="2"></i>
+            <i class="uil-info-circle" *ngSwitchCase="3"></i>
           </div>
-          {{ stepNumber }}
+          {{ step }}
         </div>
         <div class="title">
           {{ stepTitle }}
-          <span *ngIf="currentStep > stepNumber">
+          <span
+            [class.text-danger]="status === -1"
+            [class.text-success]="status === 1 || status === 3"
+            [class.text-warning]="status === 2"
+            *ngIf="status"
+          >
             {{ stepDoneText }}
           </span>
         </div>
@@ -43,41 +58,62 @@ import { ClientsService } from '../../../services/clients.service';
   styles: [],
 })
 export class StepComponent implements OnInit, AfterContentChecked {
-  stepNumber = 0;
   isLast = false;
   isFirst = false;
   currentStep = 1;
+
+  currentTaskStep = 1;
+
+  status = 0;
 
   @Input() step: any = 0;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private clientService: ClientsService
   ) {}
 
   @Input() stepTitle = '';
   @Input() stepDoneText = '';
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.currentStep = val.step;
-    });
-  }
+  ngOnInit(): void {}
 
   ngAfterContentChecked(): void {}
 
   detailsTrigger(evt: any, step: any): void {
     evt.preventDefault();
-    evt.target.offsetParent.open
-      ? (evt.target.offsetParent.open = false)
-      : (evt.target.offsetParent.open = true);
-    this.router.navigate([], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        step,
-      },
-    });
-    this.clientService.currentStepTitle = this.stepTitle;
+
+    if (step <= this.currentTaskStep) {
+      this.clientService.currentStepTitle = this.stepTitle;
+      evt.target.offsetParent.open
+        ? (evt.target.offsetParent.open = false)
+        : (evt.target.offsetParent.open = true);
+      this.router.navigate([], {
+        queryParams: {
+          ...this.route.snapshot.queryParams,
+          step,
+        },
+      });
+    }
+
+    // if (this.currentStep < step) {
+    //   evt.preventDefault();
+    // } else if (this.currentStep === step) {
+    //   this.clientService.currentStepTitle = this.stepTitle;
+    //   evt.target.offsetParent.open
+    //     ? (evt.target.offsetParent.open = false)
+    //     : (evt.target.offsetParent.open = true);
+    //   this.router.navigate([], {
+    //     queryParams: {
+    //       ...this.route.snapshot.queryParams,
+    //       step,
+    //     },
+    //   });
+    // }
+  }
+
+  isOpen(): any {
+    return this.currentStep === this.step && this.step <= this.currentTaskStep;
   }
 }

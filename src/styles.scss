@@ -3,7 +3,7 @@
 @import "assets/scss/my-datepicker";
 
 .text-primary {
-  color: #10274A !important;
+  color: #10274a !important;
 }
 .text-secondary {
   color: rgba(16, 39, 74, 0.5) !important;
@@ -21,7 +21,7 @@
   color: #ffffff !important;
 }
 .bg-primary {
-  background: #10274A !important;
+  background: #10274a !important;
 }
 .bg-secondary {
   background: rgba(16, 39, 74, 0.5) !important;
@@ -38,7 +38,12 @@
 .bg-white {
   background: #ffffff !important;
 }
-
+.bg-gray-primary {
+  background: #f4f6f8 !important;
+}
+.bg-gray-secondary {
+  background: rgba(16, 39, 74, 0.05) !important;
+}
 
 .fw-normal {
   font-weight: 400;
@@ -241,7 +246,7 @@
 }
 
 .page-form {
-  width: 492px;
+  //width: 492px;
   & .text-field {
     flex: 1;
     &__title {
@@ -253,7 +258,6 @@
       width: 100%;
       height: 120px;
       border-radius: 5px;
-      overflow: hidden;
       & textarea {
         padding: 15px;
         width: 100%;
@@ -423,11 +427,16 @@
     font-size: 15px;
     font-weight: 600;
     color: #10274a;
+    &[disabled] {
+      cursor: not-allowed;
+      border-color: rgba(16, 39, 74, 0.5);
+      color: rgba(16, 39, 74, 0.5);
+    }
   }
 }
 
 .info-card {
-  flex: 0 1 360px;
+  flex: 1;
   background: rgba(232, 241, 253, 0.3);
   border: 1px dashed rgba(16, 39, 74, 0.3);
   border-radius: 5px;
@@ -545,8 +554,8 @@
     justify-content: center;
     align-items: center;
 
-    & .check {
-      background: #00a71a;
+    & .badge {
+      background: transparent;
       position: absolute;
       top: -7px;
       right: -7px;

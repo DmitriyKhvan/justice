@@ -27,7 +27,6 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
-    debugger;
     return this.http
       .post(`${environment.dbUrl}/user/login`, user)
       .pipe(
@@ -38,7 +37,6 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse) {
     console.log('error', error);
-    debugger;
     const { message } = error.error;
     switch (message) {
       case 'INVALID_LOGIN':
@@ -71,9 +69,7 @@ export class AuthService {
   }
 
   private setToken(response: any) {
-    debugger;
     if (response) {
-      debugger;
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(response.access_token);
 

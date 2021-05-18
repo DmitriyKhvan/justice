@@ -11,26 +11,22 @@ import { MainService } from './services/main.service';
 export class AppComponent implements OnInit {
   title = 'justice-front';
 
-  constructor(public mainService: MainService, private router: Router) {
-    this.router.events
-      .pipe(
-        filter((evt: any) => evt instanceof RoutesRecognized),
-        pairwise()
-      )
-      .subscribe((events: RoutesRecognized[]) => {
-        // console.log(events);
-        this.mainService.previousUrl.subscribe();
-        this.mainService.previousUrl.next(events[0].state);
-
-        // this.mainService.currentUrl.subscribe();
-        // this.mainService.currentUrl.next(events[1].urlAfterRedirects);
-      });
+  constructor(
+    public mainService: MainService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    // this.router.events
+    //   .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+    //   .subscribe((events: RoutesRecognized[]) => {
+    //     // console.log(events);
+    //     this.mainService.previousUrl.subscribe();
+    //     this.mainService.previousUrl.next(events[0].state);
+    //
+    //     // this.mainService.currentUrl.subscribe();
+    //     // this.mainService.currentUrl.next(events[1].urlAfterRedirects);
+    //   });
   }
-
-  // @HostListener('mousemove', ['$event'])
-  //   onMousemove(event: MouseEvent) {
-  //     console.log(1);
-  //   }
 
   ngOnInit(): void {}
 }
