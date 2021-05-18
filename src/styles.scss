@@ -341,43 +341,7 @@
       }
     }
   }
-  & .file-field {
-    &__title {
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-    &__list {
-      &_text {
-        flex: 1;
-      }
-      &_item {
-        border-bottom: 1px solid rgba(16, 39, 74, 0.01);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        & i {
-          font-size: 20px;
-        }
-      }
-    }
-    &__uploadbtn {
-      padding: 0 28px;
-      height: 40px;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px dashed rgba(16, 39, 74, 0.3);
-      border-radius: 5px;
-      background: none;
-      outline: none;
-      position: relative;
-      cursor: pointer;
-      font-size: 15px;
-      & input[type="file"] {
-        display: none;
-      }
-    }
-  }
+
   & .checkbox-field {
     &__label {
       position: relative;
@@ -431,6 +395,44 @@
       cursor: not-allowed;
       border-color: rgba(16, 39, 74, 0.5);
       color: rgba(16, 39, 74, 0.5);
+    }
+  }
+}
+
+.file-field {
+  &__title {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  &__list {
+    &_text {
+      flex: 1;
+    }
+    &_item {
+      border-bottom: 1px solid rgba(16, 39, 74, 0.01);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & i {
+        font-size: 20px;
+      }
+    }
+  }
+  &__uploadbtn {
+    padding: 0 28px;
+    height: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed rgba(16, 39, 74, 0.3);
+    border-radius: 5px;
+    background: none;
+    outline: none;
+    position: relative;
+    cursor: pointer;
+    font-size: 15px;
+    & input[type="file"] {
+      display: none;
     }
   }
 }

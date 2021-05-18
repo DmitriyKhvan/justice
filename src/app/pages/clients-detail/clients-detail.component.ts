@@ -63,4 +63,8 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
       queryParams: { ...this.route.snapshot.queryParams },
     });
   }
+
+  logger(evt: any): void {
+    console.log('emitted', evt);
+  }
 }

@@ -1,4 +1,11 @@
-import { AfterContentInit, Component, Input, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FileUploadService } from '../../../../services/file-upload.service';
 import { ClientsDetailComponent } from '../../clients-detail.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,23 +18,21 @@ declare var $: any;
   templateUrl: './send-application-step.component.html',
   styleUrls: ['./send-application-step.component.scss'],
 })
-export class SendApplicationStepComponent implements OnInit, AfterContentInit {
+export class SendApplicationStepComponent implements OnInit {
   @Input() step!: any;
+  @Output() status: EventEmitter<any> = new EventEmitter();
 
   stepStatus = 0;
 
   taskId!: any;
 
-  disabled = false;
+  disabled = true;
 
   selectedOpinion: any;
 
   taskInfo: any;
 
-  opinion = [
-    { id: 3, label: 'Одобрить' },
-    { id: -1, label: 'Отклонить' },
-  ];
+  uploadedFiles: any = [];
 
   classByStatus = [
     {
@@ -87,10 +92,12 @@ export class SendApplicationStepComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.appForm = new FormGroup({
-      outDate: new FormControl(''),
-      inDate: new FormControl(''),
+      outDocNumber: new FormControl('', Validators.required),
+      outDocDate: new FormControl('', Validators.required),
       comment: new FormControl(''),
     });
+
+    // console.log(this.appForm.get('outDocDate')?.errors?.required);
 
     this.route.queryParams.subscribe((value) => {
       this.clientsService
@@ -102,25 +109,19 @@ export class SendApplicationStepComponent implements OnInit, AfterContentInit {
           this.taskId = value1.tasks.find(
             (el: any) => el.task_step === this.step
           )?.task_id;
-
-          console.log('step', this.step);
-          console.log('status', this.stepStatus);
-          console.log('taskId', this.taskId);
-          console.log('details', value1);
           if (this.taskId) {
             this.clientsService
               .getTask(this.taskId, this.step)
               .subscribe((value2) => {
-                console.log('val', value2);
                 this.taskInfo = value2;
               });
           }
         });
     });
-    console.log('init');
-  }
-  ngAfterContentInit(): void {
-    console.log('id', this.taskId);
+
+    this.fileUploadService.currentUploaderFiles.subscribe((data) => {
+      this.uploadedFiles = data;
+    });
   }
 
   nextStep(): void {
@@ -150,7 +151,16 @@ export class SendApplicationStepComponent implements OnInit, AfterContentInit {
         main_law_decision: this.selectedOpinion,
         main_law_info: this.appForm.value.comment,
       };
-      console.log(reqBody);
+      // console.log(reqBody);
+      this.complete(reqBody);
+    } else if (this.stepStatus === 3) {
+      const reqBody = {
+        task_id: this.taskId,
+        task_number: this.step,
+        out_doc_number: this.appForm.value.outDocNumber,
+        out_doc_date: '12.05.2021',
+      };
+      // console.log(reqBody);
       this.complete(reqBody);
     }
   }
@@ -165,21 +175,40 @@ export class SendApplicationStepComponent implements OnInit, AfterContentInit {
       this.appForm.reset();
       this.taskId = val.current_task.task_id;
       this.stepStatus = val.current_task.task_status;
-      this.step = val.current_task.task_step;
-      console.log(val);
+      this.taskInfo = val;
+      // this.step = val.current_task.task_step;
+      this.router.navigate([], {
+        queryParams: {
+          ...this.route.snapshot.queryParams,
+          step: val.current_task.task_step,
+        },
+      });
+      this.status.emit(this.stepStatus);
     });
   }
 
   setClass(pld: string): any {
-    if (pld === 'text') {
-      return `text-${
-        this.classByStatus.find((el) => el.key === this.stepStatus)?.value
-      }`;
-    }
-    // return pld === 'text' ? `text-${this.classByStatus.find(el => el.key === this.stepStatus)?.value}` : '';
+    return `${pld}-${
+      this.classByStatus.find((el) => el.key === this.stepStatus)?.value
+    }`;
   }
 
   getStatusText(): any {
-    return this.statusDict.find((el) => el.key === this.stepStatus)?.value;
+    return this.statusDict.find((el: any) => el.key === this.stepStatus)?.value;
+  }
+
+  getBtnStatus(): any {
+    if (this.stepStatus === 0 || this.stepStatus === -1) {
+      return !this.uploadedFiles.length;
+    } else if (this.stepStatus === 3) {
+      return (
+        this.appForm.get('outDocNumber')?.errors?.required &&
+        this.appForm.get('outDocDate')?.errors?.required
+      );
+    }
+  }
+
+  logger(pld: any): void {
+    console.log(pld);
   }
 }

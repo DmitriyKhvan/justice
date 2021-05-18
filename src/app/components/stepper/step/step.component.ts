@@ -64,7 +64,7 @@ export class StepComponent implements OnInit, AfterContentChecked {
 
   currentTaskStep = 1;
 
-  status = 0;
+  @Input() status: any = 0;
 
   @Input() step: any = 0;
 

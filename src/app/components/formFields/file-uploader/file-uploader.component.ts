@@ -63,7 +63,7 @@ import { ClientsDetailComponent } from '../../../pages/clients-detail/clients-de
           type="file"
           accept="image/jpeg, image/jpg, application/pdf"
           multiple
-          (change)="fileUploadService.poster($event); changed()"
+          (input)="fileUploadService.poster($event); changed()"
         />
       </label>
     </div>
