@@ -77,6 +77,7 @@ import { MainComponent } from './layouts/main/main.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SearchComponent } from './pages/search/search.component';
 import { AuthIntercepter } from './auth.intercepter';
+import { AlertInfoComponent } from './components/alert-info/alert-info.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -144,6 +145,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MainComponent,
     SidebarComponent,
     SearchComponent,
+    AlertInfoComponent,
   ],
   imports: [
     TooltipModule,

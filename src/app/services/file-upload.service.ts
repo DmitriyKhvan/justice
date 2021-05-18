@@ -136,11 +136,11 @@ export class FileUploadService {
   }
 
   async startUpload(): Promise<void> {
-    const total = this.UploaderFiles.value
-      .map((el) => el.fileSize)
-      .reduce((a, b) => {
-        return a + b;
-      });
+    // const total = this.UploaderFiles.value
+    //   .map((el) => el.fileSize)
+    //   .reduce((a, b) => {
+    //     return a + b;
+    //   });
     for (let i = 0; i < this.UploaderFiles.value.length; i++) {
       const uploaded = await this.uploadFile(
         this.UploaderFiles.value[i].filePayload,

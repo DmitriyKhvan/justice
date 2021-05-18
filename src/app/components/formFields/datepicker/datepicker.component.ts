@@ -19,6 +19,7 @@ declare var $: any;
           #dp="angular-mydatepicker"
           (dateChanged)="onDateChanged($event)"
           [locale]="'ru'"
+          autocomplete="off"
         />
         <i class="icon-calendar"></i>
       </label>

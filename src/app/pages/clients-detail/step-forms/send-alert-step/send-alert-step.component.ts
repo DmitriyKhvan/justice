@@ -4,6 +4,7 @@ import { ClientsService } from '../../../../services/clients.service';
 import { FileUploaderComponent } from '../../../../components/formFields/file-uploader/file-uploader.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parseJson } from '@angular/cli/utilities/json-file';
+import {MainService} from '../../../../services/main.service';
 
 @Component({
   selector: 'app-send-alert-step',
@@ -18,9 +19,11 @@ export class SendAlertStepComponent implements OnInit {
   taskId!: any;
 
   uploadFiles = [{ id: '', name: '', type: '' }];
+
   isSelected = false;
 
   constructor(
+    public mainService: MainService,
     public fileUploadService: FileUploadService,
     public clientsService: ClientsService,
     private router: Router,
@@ -59,23 +62,24 @@ export class SendAlertStepComponent implements OnInit {
         });
       });
     });
-    this.clientsService
-      .contractDetails(this.route.snapshot.queryParams.contract)
-      .subscribe((value) => {
-        const reqBody = {
-          task_number: value.current_task.task_step,
-          task_id: value.current_task.task_id,
-          body: uploadFiles,
-        };
-        this.clientsService.completeTaskStep(reqBody).subscribe((val) => {
-          this.router.navigate([], {
-            queryParams: {
-              ...this.route.snapshot.queryParams,
-              step: val.current_task.task_step,
-            },
-          });
-        });
+    const reqBody = {
+      task_number: this.step,
+      task_id: this.taskId,
+      body: uploadFiles,
+    };
+    this.clientsService.completeTaskStep(reqBody).subscribe((val) => {
+      this.router.navigate([], {
+        queryParams: {
+          ...this.route.snapshot.queryParams,
+          step: val.current_task.task_step,
+        },
       });
+    });
+    // this.clientsService
+    //   .contractDetails(this.route.snapshot.queryParams.contract)
+    //   .subscribe((value) => {
+    //
+    //   });
     this.fileUploadService.UploaderFiles.next([]);
   }
 

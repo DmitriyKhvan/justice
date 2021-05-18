@@ -1,4 +1,4 @@
-<div class="row flex-nowrap" [ngSwitch]="stepStatus">
+<div class="row flex-nowrap" [ngSwitch]="stepStatus" *ngIf="mainService.ROLE === 'IY'">
   <div class="col-6">
     <form action="" class="page-form" *ngSwitchDefault>
       <app-file-uploader (fileSelected)="isSelected = $event"></app-file-uploader>
@@ -11,7 +11,7 @@
       </button>
     </form>
 
-    <div class="file_field" *ngSwitchCase="1">
+    <div class="file_field bg-gray-secondary p-2" *ngSwitchCase="1" style="border-radius: 5px">
       <div class="file-field__title mb-1">Прикрепленные файлы</div>
       <div class="file-field__list mb-2">
         <div
@@ -27,3 +27,10 @@
     </div>
   </div>
 </div>
+
+<app-alert-info
+  [text]="'Подождите, данные еще не отправлены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+></app-alert-info>
