@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   public error$: Subject<string> = new Subject<string>();
   private timer: any;
+  private time: number = 1000 * 10;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -72,12 +73,13 @@ export class AuthService {
     if (response) {
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(response.access_token);
+      //this.time = decodedToken.user.user_exp;
 
       console.log('decodedToken', decodedToken);
 
       localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
-      this.startTimerLogout(decodedToken.user.user_exp);
+      this.startTimerLogout();
     } else {
       localStorage.clear();
     }
@@ -113,10 +115,10 @@ export class AuthService {
     }
   }
 
-  startTimerLogout(time: number) {
-    console.log('time', time);
-
-    this.timer = setTimeout(() => this.logout(), 100000);
+  startTimerLogout() {
+    console.log('time', this.time);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.logout(), this.time);
   }
 
   private stopTimerLogout() {
