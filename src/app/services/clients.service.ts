@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import {MainService} from './main.service';
+import { MainService } from './main.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,10 +34,15 @@ export class ClientsService {
   }
 
   completeTaskStep(body: object): Observable<any> {
-    return this.http.post(`${this.baseURL}process/task/send?role=${this.mainService.ROLE}`, body);
+    return this.http.post(
+      `${this.baseURL}process/task/send?role=${this.mainService.ROLE}`,
+      body
+    );
   }
 
-  getTask(taskId: number, step: number ): Observable<any> {
-    return this.http.get(`${this.baseURL}process/task/get?task_id=${taskId}&step=${step}`);
+  getTask(taskId: number, step: number): Observable<any> {
+    return this.http.get(
+      `${this.baseURL}process/task/get?task_id=${taskId}&step=${step}`
+    );
   }
 }
