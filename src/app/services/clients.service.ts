@@ -8,7 +8,8 @@ import {MainService} from './main.service';
   providedIn: 'root',
 })
 export class ClientsService {
-  baseURL = 'http://10.1.1.165:3000/';
+  // baseURL = 'http://10.1.1.165:3000/';
+  baseURL = 'http://10.1.1.226:3001/';
 
   tablePage = 1;
   tableCount = 1000;

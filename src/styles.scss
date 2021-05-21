@@ -117,7 +117,7 @@
 }
 
 .page-card {
-  width: 492px;
+  //width: 492px;
   background: #f4f6f8;
   border-radius: 15px;
   overflow: hidden;
@@ -145,11 +145,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    & span {
-      flex: 1;
-      &:nth-child(1) {
-        flex: 0 1 200px;
-      }
+    & div {
       &:nth-child(2) {
         font-weight: 600;
       }

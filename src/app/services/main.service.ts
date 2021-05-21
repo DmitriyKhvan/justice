@@ -7,7 +7,8 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class MainService {
-  baseURL = 'http://10.1.1.165:3000/';
+  // baseURL = 'http://10.1.1.165:3000/';
+  baseURL = 'http://10.1.1.226:3001/';
 
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 

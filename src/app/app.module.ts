@@ -78,6 +78,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SearchComponent } from './pages/search/search.component';
 import { AuthIntercepter } from './auth.intercepter';
 import { AlertInfoComponent } from './components/alert-info/alert-info.component';
+import { CustomToggleComponent } from './components/checkboxes/custom-toggle/custom-toggle.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -146,6 +147,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SidebarComponent,
     SearchComponent,
     AlertInfoComponent,
+    CustomToggleComponent,
   ],
   imports: [
     TooltipModule,
