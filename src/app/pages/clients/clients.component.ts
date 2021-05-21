@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import {
   trigger,
   state,
@@ -6,9 +6,10 @@ import {
   animate,
   transition,
 } from '@angular/animations';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MainService} from '../../services/main.service';
-import {ClientsService} from '../../services/clients.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MainService } from '../../services/main.service';
+import { ClientsService } from '../../services/clients.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-clients',
@@ -117,17 +118,24 @@ export class ClientsComponent implements OnInit, DoCheck {
   branchList: any = [];
   regListItemIdx = null;
 
-  constructor(public mainService: MainService, public clientsService: ClientsService, private router: Router, public route: ActivatedRoute) {}
+  constructor(
+    public mainService: MainService,
+    public clientsService: ClientsService,
+    private router: Router,
+    public route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.mainService.getMfo().subscribe(resp => {
+    this.mainService.getMfo().subscribe((resp) => {
       this.regionList = resp.data;
     });
   }
 
   ngDoCheck(): void {
     if (this.route.snapshot.queryParams.region) {
-      this.branchList = this.regionList?.find( el => String(el.region_id) === this.route.snapshot.queryParams.region)?.branches;
+      this.branchList = this.regionList?.find(
+        (el) => String(el.region_id) === this.route.snapshot.queryParams.region
+      )?.branches;
     } else {
       this.branchList = [];
     }
@@ -138,15 +146,13 @@ export class ClientsComponent implements OnInit, DoCheck {
   }
 
   getBranchList(pld: any, idx: any): void {
-    this.router.navigate([], {queryParams: {region: pld}});
+    this.router.navigate([], { queryParams: { region: pld } });
 
     // this.regListItemIdx = this.branchList.length ? idx : null;
   }
 
   getList(mfo: any): void {
-
-
-    this.router.navigate(['clients/list'], {queryParams: {mfo}});
+    this.router.navigate(['clients/list'], { queryParams: { mfo } });
   }
 
   // getCountOfList(mfo: any): any {
