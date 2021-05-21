@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { from, fromEvent, Subscription } from 'rxjs';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -20,24 +21,18 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   inactivityTime() {
-    this.resetTimer();
-    this.subscription = fromEvent(document, 'mousemove').subscribe((e) => {
-      console.log(e);
-      this.resetTimer();
-    });
-  }
+    const events = ['keyup', 'mousemove', 'wheel'];
 
-  resetTimer() {
-    clearTimeout(this.time);
-    this.time = setTimeout(this.alertUser.bind(this), 1000 * 10);
-  }
-
-  alertUser() {
-    this.subscription.unsubscribe();
-    alert('User is inactive');
+    this.subscription = from(events)
+      .pipe(
+        mergeMap((event) => fromEvent(document, event)),
+        debounceTime(1000)
+      )
+      .subscribe(() => this.auth.startTimerLogout());
   }
 
   ngOnDestroy(): void {
+    console.log('destroy');
     this.subscription.unsubscribe();
   }
 }

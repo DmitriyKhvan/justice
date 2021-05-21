@@ -19,32 +19,23 @@ export class AuthIntercepter implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    debugger;
-    console.log('reqqq', req.url.match(/refreshToken/));
-    if (!req.url.match(/refreshToken/)) {
-      this.auth.fetchWithAuth();
-    }
+    // debugger;
+    // if (!req.url.match(/refreshToken/) && !req.url.match(/login/)) {
+    //   debugger;
+    //   this.auth.fetchWithAuth();
+    // }
 
     if (this.auth.isAuthenticated()) {
       req = req.clone({
         headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
       });
     }
-
-    // req = req.clone({
-    //   headers: req.headers.append('Auth', this.auth.token),
-    // });
-
     return next.handle(req).pipe(
+      tap((res) => console.log('res', res)),
       catchError((error: HttpErrorResponse) => {
         console.log('[Intercepter Error]: ', error);
         if (error.status === 403) {
-          this.auth.logout();
-          this.router.navigate(['/login'], {
-            queryParams: {
-              authFailed: true,
-            },
-          });
+          this.auth.logout('authFailed');
         }
 
         return throwError(error);

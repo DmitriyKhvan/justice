@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpRequest,
+} from '@angular/common/http';
 import { HostListener, Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, shareReplay, tap } from 'rxjs/operators';
@@ -11,18 +15,11 @@ import { Router } from '@angular/router';
 export class AuthService {
   public error$: Subject<string> = new Subject<string>();
   private timer: any;
+  private time: number = 1000 * 1000;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   get token(): string | null {
-    // const expDate = new Date(Number(localStorage.getItem('tokenExp')));
-    // console.log('expDate', expDate);
-
-    // if (new Date() > expDate && !!localStorage.getItem('tokenExp')) {
-    //   debugger;
-    //   // this.logout();
-    //   // return '';
-    // }
     return localStorage.getItem('tokenData');
   }
 
@@ -49,43 +46,43 @@ export class AuthService {
         this.error$.next('Токен не найден');
         break;
     }
-
-    // this.logout();
-    // this.router.navigate(['/login']);
-
     return throwError(error);
   }
 
   isAuthenticated() {
-    // debugger;
     return !!this.token;
   }
 
-  logout(): void {
-    debugger;
+  logout(logoutMes: string = ''): void {
     this.setToken(null);
     this.stopTimerLogout();
-    this.router.navigate(['/login']);
+    if (logoutMes) {
+      this.router.navigate(['/login'], {
+        queryParams: {
+          [logoutMes]: true,
+        },
+      });
+    }
   }
 
   private setToken(response: any) {
     if (response) {
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(response.access_token);
+      this.time = decodedToken.user.user_exp;
 
       console.log('decodedToken', decodedToken);
 
       localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
-      this.startTimerLogout(decodedToken.user.user_exp);
+      this.startTimerLogout();
     } else {
       localStorage.clear();
     }
   }
 
   refreshToken(tokenData: any): Observable<any> {
-    debugger;
-
+    // debugger;
     return this.http
       .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))
       .pipe(
@@ -95,28 +92,44 @@ export class AuthService {
       );
   }
 
-  fetchWithAuth(): void {
-    const loginUrl = '/login';
-    let tokenData = null;
+  // fetchWithAuth(): Observable<any> | void {
+  //   let tokenData = localStorage.getItem('tokenData');
 
-    if (localStorage.getItem('tokenData')) {
-      tokenData = localStorage.getItem('tokenData');
+  //   if (tokenData) {
+  //     const expDate = new Date(Number(localStorage.getItem('tokenExp')));
+  //     console.log('expDate', expDate);
+  //     if (new Date() > expDate) {
+  //       debugger;
+  //       this.refreshToken(tokenData).subscribe();
+  //     }
+  //   } else {
+  //     this.logout('authFailed');
+  //     return throwError({ error: { status: 403, message: 'INVALID_TOKEN' } });
+  //   }
+  // }
 
+  fetchWithAuth(req: Observable<any>): Observable<any> {
+    // debugger;
+    let tokenData = localStorage.getItem('tokenData');
+
+    if (tokenData) {
       const expDate = new Date(Number(localStorage.getItem('tokenExp')));
       console.log('expDate', expDate);
       if (new Date() > expDate) {
-        debugger;
-        this.refreshToken(localStorage.getItem('tokenData')).subscribe();
+        // debugger;
+        this.refreshToken(tokenData).subscribe();
       }
+      return req;
     } else {
-      this.router.navigate([loginUrl]);
+      this.logout('authFailed');
+      return throwError({ error: { status: 403, message: 'INVALID_TOKEN' } });
     }
   }
 
-  startTimerLogout(time: number) {
-    console.log('time', time);
-
-    this.timer = setTimeout(() => this.logout(), 100000);
+  startTimerLogout() {
+    console.log('time', this.time);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.logout('authFailed'), this.time);
   }
 
   private stopTimerLogout() {
