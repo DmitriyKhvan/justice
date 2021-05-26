@@ -81,6 +81,8 @@ import { AuthIntercepter } from './auth.intercepter';
 import { AlertInfoComponent } from './components/alert-info/alert-info.component';
 import { CustomToggleComponent } from './components/checkboxes/custom-toggle/custom-toggle.component';
 import { FormFieldComponent } from './components/formFields/form-field/form-field.component';
+import { IsActiveUserComponent } from './components/is-active-user/is-active-user.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -151,6 +153,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AlertInfoComponent,
     CustomToggleComponent,
     FormFieldComponent,
+    IsActiveUserComponent,
+    ErrorComponent,
   ],
   imports: [
     TooltipModule,

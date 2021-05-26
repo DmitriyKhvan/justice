@@ -14,10 +14,31 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public error$: Subject<string> = new Subject<string>();
+  public userRole$: Subject<string> = new Subject<string>();
   private timer: any;
-  private time: number = 1000 * 1000;
+  public time: number = 1000 * 1000;
+  private helper = new JwtHelperService();
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  get userRole(): any {
+    // debugger;
+    if (this.isAuthenticated()) {
+      console.log(
+        'dddd',
+        // this.helper.decodeToken(
+        //   JSON.parse(JSON.stringify(localStorage.getItem('tokenData')))
+        // )
+        JSON.parse(JSON.stringify(localStorage.getItem('tokenData')))
+      );
+
+      const decodedToken = this.helper.decodeToken(
+        JSON.parse(localStorage.getItem('tokenData') + '').access_token
+      );
+
+      return decodedToken.user.username;
+    }
+  }
 
   get token(): string | null {
     return localStorage.getItem('tokenData');
@@ -65,11 +86,16 @@ export class AuthService {
     }
   }
 
+  setUserExp(time: number) {
+    this.time = time;
+  }
+
   private setToken(response: any) {
     if (response) {
-      const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(response.access_token);
+      //const helper = new JwtHelperService();
+      const decodedToken = this.helper.decodeToken(response.access_token);
       this.time = decodedToken.user.user_exp;
+      this.userRole$.next(decodedToken.user.username);
 
       console.log('decodedToken', decodedToken);
 

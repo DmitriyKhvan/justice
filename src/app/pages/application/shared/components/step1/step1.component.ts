@@ -24,7 +24,7 @@ export class Step1Component implements OnInit {
   constructor(
     public fileUploadservice: FileUploadService,
     private stepService: Step1Service,
-    private auth: AuthService,
+    public auth: AuthService,
     private alert: AlertService
   ) {}
 
