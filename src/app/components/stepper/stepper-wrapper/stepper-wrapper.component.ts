@@ -40,8 +40,8 @@ export class StepperWrapperComponent implements OnInit, AfterContentInit {
 
           this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
             step.currentStep = Number(val.step);
-            step.status = value.tasks.find((el: any) => el.task_step === step.step)?.task_status;
-            step.currentTaskStep = value.current_task.task_step;
+            step.status = value.tasks.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
+            step.currentTaskStep = Number(value.current_task.task_step);
           });
         });
       }

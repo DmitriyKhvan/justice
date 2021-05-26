@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { first, mergeMap, map, catchError } from 'rxjs/operators';
 import {ClientsService} from './clients.service';
+import { environment } from 'src/environments/environment';
 
 export interface FileError {
   status: boolean;
@@ -31,16 +32,19 @@ export interface SingleFile {
   providedIn: 'root',
 })
 export class FileUploadService {
-  public FileBaseUrl = 'http://10.1.1.165:9001';
-  private BaseUrl = 'http://10.1.1.165:88';
+  public FileBaseUrl = environment.fileBaseUrl;
+  // private BaseUrl = 'http://10.1.1.165:88';
 
   constructor(private xhttp: HttpClient, public clientsService: ClientsService) {}
 
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
   currentUploaderFiles = this.UploaderFiles.asObservable();
 
+  uploadedFiles: any = [];
+
   pushFiles(files: Array<SingleFile>): void {
     this.UploaderFiles.next(files);
+
   }
 
   public poster(e: any): void {
@@ -99,6 +103,7 @@ export class FileUploadService {
           }
         );
         res.subscribe((data: any) => {
+          console.log(data);
           if (data.type === HttpEventType.UploadProgress) {
             progress = Math.round((100 * data.loaded) / data.total);
             this.UploaderFiles.value[index].fileUploaded = progress;

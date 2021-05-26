@@ -24,7 +24,7 @@ export class Step1Component implements OnInit {
   constructor(
     public fileUploadservice: FileUploadService,
     private stepService: Step1Service,
-    private auth: AuthService,
+    public auth: AuthService,
     private alert: AlertService
   ) {}
 
@@ -66,11 +66,13 @@ export class Step1Component implements OnInit {
 
     this.stepService.submit().subscribe(
       () => {
+        debugger;
         this.alert.success('Форма оформлена');
       },
       (error) => {
         console.log(error);
         this.submitted = false;
+        this.alert.danger('Форма не оформлена');
       }
     );
   }

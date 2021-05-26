@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FileUploadService } from '../../../../services/file-upload.service';
 import { ClientsService } from '../../../../services/clients.service';
-import { FileUploaderComponent } from '../../../../components/formFields/file-uploader/file-uploader.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { parseJson } from '@angular/cli/utilities/json-file';
-import {MainService} from '../../../../services/main.service';
+import { MainService } from '../../../../services/main.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-send-alert-step',
@@ -13,59 +11,55 @@ import {MainService} from '../../../../services/main.service';
 })
 export class SendAlertStepComponent implements OnInit {
   @Input() step!: any;
-
   stepStatus = 0;
-
-  taskId!: any;
-
-  uploadFiles = [{ id: '', name: '', type: '' }];
-
-  isSelected = false;
+  taskId: any;
+  taskInfo: any;
 
   constructor(
     public mainService: MainService,
-    public fileUploadService: FileUploadService,
     public clientsService: ClientsService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
+  stepForm!: FormGroup;
+  disabled = false;
+
   ngOnInit(): void {
+    this.stepForm = new FormGroup({
+      files: new FormControl([], Validators.required),
+    });
+
     this.route.queryParams.subscribe((value) => {
       this.clientsService
         .contractDetails(value.contract)
         .subscribe((value1) => {
           this.stepStatus = value1.tasks.find(
-            (el: any) => el.task_step === this.step
+            (el: any) => Number(el.task_step) === this.step
           )?.task_status;
           this.taskId = value1.tasks.find(
-            (el: any) => el.task_step === this.step
+            (el: any) => Number(el.task_step) === this.step
           )?.task_id;
 
           this.clientsService
             .getTask(this.taskId, this.step)
             .subscribe((value2) => {
-              this.uploadFiles = value2.body.files;
+              this.taskInfo = value2;
+              if (this.stepStatus === 1) {
+                this.disabled = true;
+                this.stepForm.controls.files.setValue(value2.body.files);
+                this.stepForm.controls.files.disable();
+              }
             });
         });
     });
   }
 
   nextStep(): void {
-    const uploadFiles: Array<object> = [];
-    this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-      data.forEach((el) => {
-        uploadFiles.push({
-          id: el.fileId,
-          name: el.fileName,
-          type: el.fileType,
-        });
-      });
-    });
     const reqBody = {
-      task_number: this.step,
+      task_number: String(this.step),
       task_id: this.taskId,
-      body: uploadFiles,
+      body: this.stepForm.value.files,
     };
     this.clientsService.completeTaskStep(reqBody).subscribe((val) => {
       this.router.navigate([], {
@@ -74,16 +68,9 @@ export class SendAlertStepComponent implements OnInit {
           step: val.current_task.task_step,
         },
       });
+      this.stepForm.reset();
+      this.taskId = val.current_task.task_id;
+      this.stepStatus = val.current_task.task_status;
     });
-    // this.clientsService
-    //   .contractDetails(this.route.snapshot.queryParams.contract)
-    //   .subscribe((value) => {
-    //
-    //   });
-    this.fileUploadService.UploaderFiles.next([]);
-  }
-
-  logger(evt: any): any {
-    console.log(evt);
   }
 }
