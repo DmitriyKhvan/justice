@@ -126,7 +126,7 @@ export class ClientsComponent implements OnInit, DoCheck {
   ) {}
 
   ngOnInit(): void {
-    this.mainService.getMfo().subscribe((resp) => {
+    this.clientsService.getMfo().subscribe((resp) => {
       this.regionList = resp.data;
     });
   }

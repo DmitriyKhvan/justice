@@ -123,7 +123,7 @@
           <app-step
             [stepTitle]="'Отправка заявки в палату'"
             [stepDoneText]="'Заявка отравлена в палату'"
-            [step]="2"
+            [step]="'2'"
             [status]=""
             #appSend
           >
@@ -137,7 +137,7 @@
             [step]="3"
           >
             <div step-content>
-              <app-chambers-decision-step></app-chambers-decision-step>
+              <app-chambers-decision-step [step]="3"></app-chambers-decision-step>
             </div>
           </app-step>
           <app-step

@@ -2,23 +2,24 @@ import {
   AfterContentInit,
   Component,
   EventEmitter,
-  Input,
+  Input, OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FileUploadService } from '../../../../services/file-upload.service';
 import { ClientsDetailComponent } from '../../clients-detail.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import { MainService } from '../../../../services/main.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService } from '../../../../services/clients.service';
+import {Subscription} from 'rxjs';
 declare var $: any;
 @Component({
   selector: 'app-send-application-step',
   templateUrl: './send-application-step.component.html',
   styleUrls: ['./send-application-step.component.scss'],
 })
-export class SendApplicationStepComponent implements OnInit {
+export class SendApplicationStepComponent implements OnInit, OnDestroy {
   @Input() step!: any;
   @Output() status: EventEmitter<any> = new EventEmitter();
 
@@ -26,13 +27,7 @@ export class SendApplicationStepComponent implements OnInit {
 
   taskId!: any;
 
-  disabled = true;
-
-  selectedOpinion: any;
-
   taskInfo: any;
-
-  uploadedFiles: any = [];
 
   classByStatus = [
     {
@@ -85,29 +80,51 @@ export class SendApplicationStepComponent implements OnInit {
     public clientsService: ClientsService,
     public fileUploadService: FileUploadService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) {}
 
-  appForm!: FormGroup;
+  sendFilesForm!: FormGroup;
+
+  mainLawForm!: FormGroup;
+
+  completeAppForm!: FormGroup;
+
+  private sb!: Subscription | undefined;
 
   ngOnInit(): void {
-    this.appForm = new FormGroup({
-      outDocNumber: new FormControl('', Validators.required),
-      outDocDate: new FormControl('', Validators.required),
-      comment: new FormControl(''),
+    // this.sendFilesForm = new FormGroup({
+    //   files: new FormControl([], Validators.required),
+    //   add_info: new FormControl(''),
+    // });
+
+    this.sendFilesForm = this.fb.group({
+      files: [[], Validators.required],
+      add_info: ['']
     });
 
-    // console.log(this.appForm.get('outDocDate')?.errors?.required);
+    this.mainLawForm = this.fb.group({
+      main_law_decision: [null, Validators.required],
+      main_law_info: ['']
+    });
+
+    this.completeAppForm = this.fb.group({
+      out_doc_number: ['', Validators.required],
+      out_doc_date: ['', Validators.required],
+      files: [[], Validators.required],
+    });
+
+    this.subscribeMainLawDecision();
 
     this.route.queryParams.subscribe((value) => {
       this.clientsService
         .contractDetails(value.contract)
         .subscribe((value1) => {
           this.stepStatus = value1.tasks.find(
-            (el: any) => el.task_step === this.step
+            (el: any) => Number(el.task_step) === this.step
           )?.task_status;
           this.taskId = value1.tasks.find(
-            (el: any) => el.task_step === this.step
+            (el: any) => Number(el.task_step) === this.step
           )?.task_id;
           if (this.taskId) {
             this.clientsService
@@ -118,50 +135,60 @@ export class SendApplicationStepComponent implements OnInit {
           }
         });
     });
+  }
 
-    this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-      this.uploadedFiles = data;
+  ngOnDestroy(): void {
+    this.sb?.unsubscribe();
+  }
+
+  private subscribeMainLawDecision(): void {
+    const decision = this.mainLawForm.get('main_law_decision');
+    const info = this.mainLawForm.get('main_law_info');
+    this.sb = decision?.valueChanges.subscribe(val => {
+      console.log(val);
+      if (val === null || val === -1) {
+        const validators: ValidatorFn[] = [
+          Validators.required,
+        ];
+        info?.setValidators(validators);
+      } else {
+        info?.clearValidators();
+      }
+      info?.updateValueAndValidity();
     });
   }
 
   nextStep(): void {
     if (this.stepStatus === 0 || this.stepStatus === -1) {
-      const uploadFiles: Array<object> = [];
-      this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-        data.forEach((el) => {
-          uploadFiles.push({
-            id: el.fileId,
-            name: el.fileName,
-            type: el.fileType,
-          });
-        });
-      });
       const reqBody = {
+        task_number: String(this.step),
         task_id: this.taskId,
-        task_number: this.step,
-        add_info: this.appForm.value.comment,
-        body: uploadFiles,
+        add_info: this.sendFilesForm.value.add_info,
+        body: this.sendFilesForm.value.files,
       };
       this.complete(reqBody);
-      this.fileUploadService.UploaderFiles.next([]);
+      this.sendFilesForm.reset();
     } else if (this.stepStatus === 2) {
       const reqBody = {
         task_id: this.taskId,
-        task_number: this.step,
-        main_law_decision: this.selectedOpinion,
-        main_law_info: this.appForm.value.comment,
+        task_number: String(this.step),
+        main_law_decision: this.mainLawForm.value.main_law_decision,
+        main_law_info: this.mainLawForm.value.main_law_info,
       };
       // console.log(reqBody);
       this.complete(reqBody);
+      this.mainLawForm.reset();
     } else if (this.stepStatus === 3) {
       const reqBody = {
         task_id: this.taskId,
-        task_number: this.step,
-        out_doc_number: this.appForm.value.outDocNumber,
-        out_doc_date: '12.05.2021',
+        task_number: String(this.step),
+        out_doc_number: this.completeAppForm.value.out_doc_number,
+        out_doc_date: this.completeAppForm.value.out_doc_date,
+        files: this.completeAppForm.value.files
       };
       // console.log(reqBody);
       this.complete(reqBody);
+      this.completeAppForm.reset();
     }
   }
   complete(body: any): void {
@@ -172,17 +199,11 @@ export class SendApplicationStepComponent implements OnInit {
           step: val.current_task.task_step,
         },
       });
-      this.appForm.reset();
+
       this.taskId = val.current_task.task_id;
       this.stepStatus = val.current_task.task_status;
       this.taskInfo = val;
       // this.step = val.current_task.task_step;
-      this.router.navigate([], {
-        queryParams: {
-          ...this.route.snapshot.queryParams,
-          step: val.current_task.task_step,
-        },
-      });
       this.status.emit(this.stepStatus);
     });
   }
@@ -195,20 +216,5 @@ export class SendApplicationStepComponent implements OnInit {
 
   getStatusText(): any {
     return this.statusDict.find((el: any) => el.key === this.stepStatus)?.value;
-  }
-
-  getBtnStatus(): any {
-    if (this.stepStatus === 0 || this.stepStatus === -1) {
-      return !this.uploadedFiles.length;
-    } else if (this.stepStatus === 3) {
-      return (
-        this.appForm.get('outDocNumber')?.errors?.required &&
-        this.appForm.get('outDocDate')?.errors?.required
-      );
-    }
-  }
-
-  logger(pld: any): void {
-    console.log(pld);
   }
 }

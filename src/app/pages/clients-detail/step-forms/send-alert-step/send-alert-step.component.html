@@ -1,32 +1,18 @@
-<div class="row flex-nowrap" [ngSwitch]="stepStatus" *ngIf="mainService.ROLE === 'IY'">
-  <div class="col-6">
-    <form action="" class="page-form" *ngSwitchDefault>
-      <app-file-uploader (fileSelected)="isSelected = $event"></app-file-uploader>
+<div class="row flex-nowrap" >
+  <div class="col-7">
+    <form action="" class="page-form" [ngClass]="{'disabled-form p-2': stepStatus === 1}" [formGroup]="stepForm">
+      <div class="mb-2">
+        <app-form-field formControlName="files" [type]="'file'" [title]="'Скан документа'"></app-form-field>
+      </div>
       <button
         class="page-form__actionbtn text-uppercase"
         (click)="nextStep()"
-        [disabled]="!isSelected"
+        [disabled]="stepForm.invalid"
+        *ngIf="!disabled"
       >
         отправить оповещение
       </button>
-
-      <app-custom-toggle [checked]="true" [text]="'Передача дела в суд'"></app-custom-toggle>
     </form>
-
-    <div class="file_field bg-gray-secondary p-2" *ngSwitchCase="1" style="border-radius: 5px">
-      <div class="file-field__title mb-1">Прикрепленные файлы</div>
-      <div class="file-field__list mb-2">
-        <div
-          *ngFor="let item of uploadFiles; index as i"
-          class="file-field__list_item py-1 d-flex align-items-center"
-        >
-          <i class="icon-attach mr-1" style="font-size: 22px"></i>
-          <div class="file-field__list_text ml-1">
-            {{ item.name }}
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -36,3 +22,5 @@
   [iconColorClass]="'text-warning'"
   *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
 ></app-alert-info>
+
+

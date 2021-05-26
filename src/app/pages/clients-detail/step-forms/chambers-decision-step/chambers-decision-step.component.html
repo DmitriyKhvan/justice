@@ -1,107 +1,129 @@
-<form
-  action=""
-  class="page-form"
-  *ngIf="mainService.ROLE === 'IY'"
->
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ исходящего документа</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+<div class="row" *ngIf="mainService.ROLE === 'IY'">
+  <div class="col-lg-7">
+    <form action="" class="page-form" [ngClass]="{'disabled-form p-2': stepStatus === 2}" [formGroup]="stepForm" (ngSubmit)="nextStep()" >
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field formControlName="in_doc_number" [type]="'text'" [title]="'№ входящего документа'"></app-form-field>
+        </div>
+
+        <div class="col-6">
+          <app-form-field formControlName="in_doc_date" [type]="'datepicker'" [title]="'Дата вх. документа'"></app-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field formControlName="files" [type]="'file'" [title]="'Скан документа'"></app-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field formControlName="to_court" [type]="'checkbox'" [checkboxType]="'toggle'" [title]="'Передача дела в суд'"></app-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-between mb-2" *ngIf="!stepForm.value.to_court">
+        <div class="col-6">
+          <app-form-field formControlName="reason" [type]="'select'" [title]="'Причина отсрочки'" [selectOptions]="taskInfo?.sp.chamber_reason"></app-form-field>
+        </div>
+
+        <div class="col-6" *ngIf="stepForm.value.reason === 3">
+          <app-form-field formControlName="activation_date" [type]="'datepicker'" [title]="'Выберите день'"></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2" *ngIf="!stepForm.value.to_court">
+        <div class="col-12">
+          <app-form-field formControlName="add_info" [type]="'textarea'" [title]="'Дополнительная информация'"></app-form-field>
+        </div>
+      </div>
+
+      {{
+        stepForm.value | json
+      }}
+      <div></div>
+      {{
+        stepForm.status | json
+      }}
+
+      <button type="submit" class="page-form__actionbtn text-uppercase" [disabled]="stepForm.invalid">
+        <!--    (click)="clientDetail.nextStep()"-->
+        следующий шаг
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="row" *ngIf="mainService.ROLE === 'GY'">
+  <form action="" class="page-form">
+    <div class="row justify-content-between mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">№ исходящего документа</div>
+          <label class="input-field__label">
+            <input type="text" autocomplete="off" />
+          </label>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <app-datepicker
+          [title]="'Дата вх. документа'"
+          (onselect)="logger($event)"
+        ></app-datepicker>
       </div>
     </div>
 
-    <div class="col-6">
-      <app-datepicker [title]="'Дата вх. документа'" (onselect)="logger($event)"></app-datepicker>
+    <div class="checkbox-field mb-2">
+      <label class="checkbox-field__label">
+        <input type="checkbox" />
+        <span class="custom-checkbox mr-2">
+          <i class="uil-check"></i>
+        </span>
+        <span>Передача дела в суд</span>
+      </label>
     </div>
-  </div>
 
-  <div class="checkbox-field mb-2">
-    <label class="checkbox-field__label">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Передача дела в суд</span>
-    </label>
-  </div>
-
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>
-
-<form
-  action=""
-  class="page-form"
-  *ngIf="mainService.ROLE === 'GY'"
->
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ исходящего документа</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+    <div class="row">
+      <div class="col-6">
+        <div class="select-field mb-2">
+          <div class="select-field__title">Причина отсрочки</div>
+          <ng-select
+            class="custom-select"
+            appearance="outline"
+            [items]="opinion"
+            bindLabel="label"
+            bindValue="id"
+            placeholder="Выберите решение"
+            name="qwe"
+            [(ngModel)]="selectedOpinion"
+            [loadingText]="'Загружается'"
+            [searchable]="false"
+            [clearable]="false"
+          ></ng-select>
+          <!--      [disabled]=""-->
+          <!--      [loading]=""-->
+        </div>
       </div>
     </div>
 
-    <div class="col-6">
-      <app-datepicker [title]="'Дата вх. документа'" (onselect)="logger($event)"></app-datepicker>
-    </div>
-  </div>
-
-  <div class="checkbox-field mb-2">
-    <label class="checkbox-field__label">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Передача дела в суд</span>
-    </label>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Причина отсрочки</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
+    <div class="row justify-content-between mb-2">
+      <div class="col-6">
+        <app-datepicker
+          [title]="'Выберите день'"
+          (onselect)="logger($event)"
+        ></app-datepicker>
       </div>
     </div>
-  </div>
 
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <app-datepicker [title]="'Выберите день'" (onselect)="logger($event)"></app-datepicker>
+    <div class="text-field mb-2">
+      <div class="text-field__title">Дополнительная информация</div>
+      <label class="text-field__label">
+        <textarea placeholder="Уточните детали"></textarea>
+      </label>
     </div>
-  </div>
 
-  <div class="text-field mb-2">
-    <div class="text-field__title">Дополнительная информация</div>
-    <label class="text-field__label">
-      <textarea placeholder="Уточните детали"></textarea>
-    </label>
-  </div>
-
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>
+    <div class="page-form__actionbtn text-uppercase">
+      <!--    (click)="clientDetail.nextStep()"-->
+      следующий шаг
+    </div>
+  </form>
+</div>

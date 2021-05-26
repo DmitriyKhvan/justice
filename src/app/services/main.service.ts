@@ -9,8 +9,6 @@ import {environment} from '../../environments/environment';
   providedIn: 'root',
 })
 export class MainService {
-  // baseURL = 'http://10.1.1.165:3000/';
-  baseURL = 'http://10.1.1.226:3001/';
 
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
@@ -28,16 +26,4 @@ export class MainService {
   // public currentUrl = new BehaviorSubject('');
 
   regionList: any;
-
-  getMfo(): Observable<any> {
-    return this.auth.fetchWithAuth(this.http.get<any>(this.baseURL + `dictionary/mfo`));
-  }
-
-  getListByMfo(mfo: any): Observable<any> {
-    return this.auth.fetchWithAuth(
-      this.http.get<any>(
-        `${environment.dbUrl}process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
-      )
-    );
-  }
 }

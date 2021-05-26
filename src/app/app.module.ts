@@ -12,6 +12,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Provider } from '@angular/core';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -79,6 +80,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { AuthIntercepter } from './auth.intercepter';
 import { AlertInfoComponent } from './components/alert-info/alert-info.component';
 import { CustomToggleComponent } from './components/checkboxes/custom-toggle/custom-toggle.component';
+import { FormFieldComponent } from './components/formFields/form-field/form-field.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -148,6 +150,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SearchComponent,
     AlertInfoComponent,
     CustomToggleComponent,
+    FormFieldComponent,
   ],
   imports: [
     TooltipModule,
@@ -159,6 +162,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NgSelectModule,
     ReactiveFormsModule,
     AngularMyDatePickerModule,
+    FileUploadModule
   ],
   providers: [HttpClient, INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],

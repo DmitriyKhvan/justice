@@ -1,13 +1,10 @@
-<script
-  src="../../../../../../../apparat-front/src/app/pages/p-application/components/sidebar/sidebar.component.ts"></script>
 <div class="row flex-nowrap" *ngIf="mainService.ROLE === 'IY'">
-  <div class="col-6">
+  <div class="col-7">
     <div
       class="p-2 mb-2 bg-gray-primary"
       style="border-radius: 5px"
       *ngIf="stepStatus === 1 || stepStatus === 2 || stepStatus === 3"
     >
-
       <div class="mb-1">Прикрепленные файлы</div>
       <div class="mb-2">
         <div
@@ -25,14 +22,14 @@
         <div class="col-6">
           <div class="mb-1">№ исходящего документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.out_doc_number}}
+            {{ taskInfo?.body?.out_doc_number }}
           </div>
         </div>
 
         <div class="col-6">
           <div class="mb-1">Дата исх. документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.out_doc_date}}
+            {{ taskInfo?.body?.out_doc_date }}
           </div>
         </div>
       </div>
@@ -45,63 +42,142 @@
       </div>
     </div>
 
-    <app-file-uploader
-      *ngIf="stepStatus === 0 || stepStatus === -1"
-    ></app-file-uploader>
-    <!--      (fileSelected)="disabled = false"-->
     <form
       action=""
-      class="page-form"
-      [formGroup]="appForm"
-      [ngSwitch]="stepStatus"
+      class="page-form mb-2"
+      *ngIf="stepStatus === 0"
+      [formGroup]="sendFilesForm"
       (ngSubmit)="nextStep()"
-      *ngIf="stepStatus === 0 || stepStatus === 3"
     >
-      <div class="row justify-content-between mb-2" *ngSwitchCase="3">
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">№ исходящего документа</div>
-            <label class="input-field__label">
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="outDocNumber"
-              />
-            </label>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <app-datepicker [title]="'Дата исх. документа'" (onselect)="appForm.patchValue({outDocDate: $event.singleDate.formatted})"></app-datepicker>
-        </div>
+      <div class="mb-2">
+        <app-form-field
+          formControlName="files"
+          [type]="'file'"
+          [title]="'Скан документа'"
+        ></app-form-field>
       </div>
-
-      <div class="text-field mb-2">
-        <div class="text-field__title">Дополнительная информация</div>
-        <label class="text-field__label">
-          <textarea
-            placeholder="Уточните детали"
-            formControlName="comment"
-          ></textarea>
-        </label>
+      <div class="mb-2">
+        <app-form-field
+          formControlName="add_info"
+          [type]="'textarea'"
+          [title]="'Дополнительная информация'"
+        ></app-form-field>
       </div>
 
       <button
         type="submit"
         class="page-form__actionbtn text-uppercase"
-        [disabled]="getBtnStatus()"
+        [disabled]="sendFilesForm.invalid"
       >
         <!--    (click)="clientDetail.nextStep()"-->
         отправить заявку
       </button>
     </form>
+
+    <form
+      action=""
+      class="page-form"
+      *ngIf="stepStatus === 3"
+      [formGroup]="completeAppForm"
+      (ngSubmit)="nextStep()"
+    >
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="out_doc_number"
+            [type]="'text'"
+            [title]="'№ исходящего документа'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6">
+          <app-form-field
+            formControlName="out_doc_date"
+            [type]="'datepicker'"
+            [title]="'Дата вх. документа'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <app-form-field
+          formControlName="files"
+          [type]="'file'"
+          [title]="'Скан документа'"
+        ></app-form-field>
+      </div>
+
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="completeAppForm.invalid"
+      >
+        <!--    (click)="clientDetail.nextStep()"-->
+        отправить заявку
+      </button>
+    </form>
+
+
+
+    <!--    <app-file-uploader-->
+    <!--      *ngIf="stepStatus === 0 || stepStatus === -1"-->
+    <!--    ></app-file-uploader>-->
+    <!--    &lt;!&ndash;      (fileSelected)="disabled = false"&ndash;&gt;-->
+    <!--    <form-->
+    <!--      action=""-->
+    <!--      class="page-form"-->
+    <!--      [formGroup]="appForm"-->
+    <!--      [ngSwitch]="stepStatus"-->
+    <!--      (ngSubmit)="nextStep()"-->
+    <!--      *ngIf="stepStatus === 0 || stepStatus === 3"-->
+    <!--    >-->
+    <!--      <div class="row justify-content-between mb-2" *ngSwitchCase="3">-->
+    <!--        <div class="col-6">-->
+    <!--          <div class="input-field">-->
+    <!--            <div class="input-field__title">№ исходящего документа</div>-->
+    <!--            <label class="input-field__label">-->
+    <!--              <input-->
+    <!--                type="text"-->
+    <!--                autocomplete="off"-->
+    <!--                formControlName="outDocNumber"-->
+    <!--              />-->
+    <!--            </label>-->
+    <!--          </div>-->
+    <!--        </div>-->
+
+    <!--        <div class="col-6">-->
+    <!--          <app-datepicker-->
+    <!--            [title]="'Дата исх. документа'"-->
+    <!--            (onselect)="-->
+    <!--              appForm.patchValue({ outDocDate: $event.singleDate.formatted })-->
+    <!--            "-->
+    <!--          ></app-datepicker>-->
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      <div class="text-field mb-2">-->
+    <!--        <div class="text-field__title">Дополнительная информация</div>-->
+    <!--        <label class="text-field__label">-->
+    <!--          <textarea-->
+    <!--            placeholder="Уточните детали"-->
+    <!--            formControlName="comment"-->
+    <!--          ></textarea>-->
+    <!--        </label>-->
+    <!--      </div>-->
+
+    <!--      <button-->
+    <!--        type="submit"-->
+    <!--        class="page-form__actionbtn text-uppercase"-->
+    <!--        [disabled]="getBtnStatus()"-->
+    <!--      >-->
+    <!--        &lt;!&ndash;    (click)="clientDetail.nextStep()"&ndash;&gt;-->
+    <!--        отправить заявку-->
+    <!--      </button>-->
+    <!--    </form>-->
   </div>
 
   <div class="col-5">
-    <div
-      class="info-card"
-      *ngIf="stepStatus !== 0"
-    >
+    <div class="info-card" *ngIf="stepStatus !== 0">
       <div class="info-card__title mb-3">
         Данные полученные  от главного юриста
       </div>
@@ -138,7 +214,7 @@
     *ngIf="stepStatus === 0"
   ></app-alert-info>
   <div class="row flex-nowrap">
-    <div class="col-6">
+    <div class="col-7">
       <div
         class="p-2 mb-2 bg-gray-primary"
         style="border-radius: 5px"
@@ -181,53 +257,66 @@
       <form
         action=""
         class="page-form"
-        [formGroup]="appForm"
-        (ngSubmit)="nextStep()"
         *ngIf="stepStatus === 2"
+        [formGroup]="mainLawForm"
+        (ngSubmit)="nextStep()"
       >
-        <div class="row">
+        <div class="row mb-2">
           <div class="col-6">
-            <div class="select-field mb-2">
-              <div class="select-field__title">Ваше решение</div>
-              <ng-select
-                class="custom-select"
-                appearance="outline"
-                [items]="taskInfo?.sp.gy_decision"
-                bindLabel="value"
-                bindValue="key"
-                placeholder="Выберите решение"
-                [(ngModel)]="selectedOpinion"
-                [ngModelOptions]="{ standalone: true }"
-                [loadingText]="'Загружается'"
-                [searchable]="false"
-                [clearable]="false"
-              ></ng-select>
-              <!--      [disabled]=""-->
-              <!--      [loading]=""-->
-            </div>
+            <app-form-field
+              formControlName="main_law_decision"
+              [type]="'select'"
+              [title]="'Ваше решение'"
+              [selectOptions]="taskInfo?.sp.gy_decision"
+            ></app-form-field>
+            <!--            <div class="select-field mb-2">-->
+            <!--              <div class="select-field__title">Ваше решение</div>-->
+            <!--              <ng-select-->
+            <!--                class="custom-select"-->
+            <!--                appearance="outline"-->
+            <!--                [items]="taskInfo?.sp.gy_decision"-->
+            <!--                bindLabel="value"-->
+            <!--                bindValue="key"-->
+            <!--                placeholder="Выберите решение"-->
+            <!--                [(ngModel)]="selectedOpinion"-->
+            <!--                [ngModelOptions]="{ standalone: true }"-->
+            <!--                [loadingText]="'Загружается'"-->
+            <!--                [searchable]="false"-->
+            <!--                [clearable]="false"-->
+            <!--              ></ng-select>-->
+            <!--              &lt;!&ndash;      [disabled]=""&ndash;&gt;-->
+            <!--              &lt;!&ndash;      [loading]=""&ndash;&gt;-->
+            <!--            </div>-->
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <app-form-field
+              formControlName="main_law_info"
+              [type]="'textarea'"
+              [title]="'Дополнительная информация'"
+            ></app-form-field>
           </div>
         </div>
 
-        <div class="text-field mb-2">
-          <div class="text-field__title">Дополнительная информация</div>
-          <label class="text-field__label">
-            <textarea
-              placeholder="Уточните детали"
-              formControlName="comment"
-              [required]="selectedOpinion === -1"
-            ></textarea>
-            <div *ngIf="selectedOpinion === -1" class="validation">
-              <small> Введите причину отклонения </small>
-            </div>
-          </label>
-        </div>
+        <!--        <div class="text-field mb-2">-->
+        <!--          <div class="text-field__title">Дополнительная информация</div>-->
+        <!--          <label class="text-field__label">-->
+        <!--            <textarea-->
+        <!--              placeholder="Уточните детали"-->
+        <!--              formControlName="comment"-->
+        <!--              [required]="selectedOpinion === -1"-->
+        <!--            ></textarea>-->
+        <!--            <div *ngIf="selectedOpinion === -1" class="validation">-->
+        <!--              <small> Введите причину отклонения </small>-->
+        <!--            </div>-->
+        <!--          </label>-->
+        <!--        </div>-->
 
         <button
           type="submit"
           class="page-form__actionbtn text-uppercase"
-          [disabled]="
-            !selectedOpinion || appForm.get('comment')?.errors?.required
-          "
+          [disabled]="mainLawForm.invalid"
         >
           отправить заявку
         </button>
@@ -255,11 +344,11 @@
               class="info-card__docs_list_item"
               *ngFor="let file of taskInfo?.body?.files"
             >
-              <i class="icon-image" *ngIf="file.type === 'image/jpeg'"></i>
               <i
-                class="icon-document_alt"
-                *ngIf="file.type === 'application/pdf'"
+                class="icon-image"
+                *ngIf="file.type === 'image/jpeg' || file.type === 'png'"
               ></i>
+              <i class="icon-document_alt" *ngIf="file.type === 'pdf'"></i>
               <i
                 class="icon-table"
                 *ngIf="

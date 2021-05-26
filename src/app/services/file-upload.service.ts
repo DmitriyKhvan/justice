@@ -40,8 +40,11 @@ export class FileUploadService {
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
   currentUploaderFiles = this.UploaderFiles.asObservable();
 
+  uploadedFiles: any = [];
+
   pushFiles(files: Array<SingleFile>): void {
     this.UploaderFiles.next(files);
+
   }
 
   public poster(e: any): void {
@@ -100,6 +103,7 @@ export class FileUploadService {
           }
         );
         res.subscribe((data: any) => {
+          console.log(data);
           if (data.type === HttpEventType.UploadProgress) {
             progress = Math.round((100 * data.loaded) / data.total);
             this.UploaderFiles.value[index].fileUploaded = progress;

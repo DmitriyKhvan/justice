@@ -27,34 +27,33 @@ export class ClientsService {
   ) {}
 
   getMfo(): Observable<any> {
-    console.log(environment.dbUrl);
-    return this.auth.fetchWithAuth(this.http.get<any>(environment.dbUrl + `dictionary/mfo`));
+    return this.auth.fetchWithAuth(this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`));
   }
 
   getListByMfo(mfo: any): Observable<any> {
     return this.auth.fetchWithAuth(
       this.http.get<any>(
-        `${environment.dbUrl}process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
+        `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
       )
     );
   }
 
   contractDetails(id: any): Observable<any> {
-    return this.http.post(`${environment.dbUrl}process/open`, {
+    return this.http.post(`${environment.dbUrl}/process/open`, {
       case_id: id,
     });
   }
 
   completeTaskStep(body: object): Observable<any> {
     return this.http.post(
-      `${environment.dbUrl}process/task/send?role=${this.mainService.ROLE}`,
+      `${environment.dbUrl}/process/task/send?role=${this.mainService.ROLE}`,
       body
     );
   }
 
   getTask(taskId: number, step: number): Observable<any> {
     return this.http.get(
-      `${environment.dbUrl}process/task/get?task_id=${taskId}&step=${step}`
+      `${environment.dbUrl}/process/task/get?task_id=${taskId}&step=${step}`
     );
   }
 }

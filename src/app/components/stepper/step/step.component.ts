@@ -40,14 +40,18 @@ import { ClientsService } from '../../../services/clients.service';
         </div>
         <div class="title">
           {{ stepTitle }}
-          <span
+          <div
             [class.text-danger]="status === -1"
             [class.text-success]="status === 1 || status === 3"
             [class.text-warning]="status === 2"
-            *ngIf="status"
+            [ngSwitch]="status"
           >
-            {{ stepDoneText }}
-          </span>
+<!--            *ngIf="status"-->
+            <span *ngSwitchCase="-1">Заявка отклонена</span>
+            <span *ngSwitchCase="1">{{ stepDoneText }}</span>
+            <span *ngSwitchCase="2">Заявка в ожидании</span>
+            <span *ngSwitchCase="3">Заявка одобрена</span>
+          </div>
         </div>
       </summary>
       <div class="content pl-5">
@@ -114,6 +118,6 @@ export class StepComponent implements OnInit, AfterContentChecked {
   }
 
   isOpen(): any {
-    return this.currentStep === this.step && this.step <= this.currentTaskStep;
+    return this.currentStep === Number(this.step) && Number(this.step) <= this.currentTaskStep;
   }
 }
