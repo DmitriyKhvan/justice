@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './pages/clients/clients.component';
 import { ClientsListComponent } from './pages/clients-list/clients-list.component';
 import { ClientsDetailComponent } from './pages/clients-detail/clients-detail.component';
@@ -10,11 +10,19 @@ import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
 import { AuthGuard } from './services/auth.guard';
 import { SearchComponent } from './pages/search/search.component';
+import { AdminGuard } from './services/admin.guard';
+import { ErrorComponent } from './pages/error/error.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'admin',
+    canActivate: [AdminGuard],
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: '',
@@ -31,7 +39,7 @@ const routes: Routes = [
       {
         path: 'clients/detail',
         component: ClientsDetailComponent,
-        data: {taskInfo : {}}
+        data: { taskInfo: {} },
       },
       {
         path: 'clients/history',
@@ -48,13 +56,19 @@ const routes: Routes = [
       {
         path: 'search',
         component: SearchComponent,
-      }
+      },
     ],
   },
+  { path: 'error', component: ErrorComponent },
+  { path: '**', redirectTo: '/error' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

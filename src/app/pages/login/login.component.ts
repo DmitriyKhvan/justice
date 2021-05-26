@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { User } from 'src/app/interfaces';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -17,6 +18,9 @@ export class LoginComponent implements OnInit {
   submitted = false;
   message!: string;
 
+  previousUrl: string | null = null;
+  currentUrl: string | null = null;
+
   constructor(
     public auth: AuthService,
     private router: Router,
@@ -29,6 +33,8 @@ export class LoginComponent implements OnInit {
         this.message = 'Пожалуйста введите данные';
       } else if (params['authFailed']) {
         this.message = 'Сессия истекла. Введите данные заного';
+      } else if (params['noRights']) {
+        this.message = 'В доступе отказано';
       }
     });
     this.form = new FormGroup({
@@ -65,7 +71,15 @@ export class LoginComponent implements OnInit {
     this.auth.login(user).subscribe(
       () => {
         this.form.reset();
-        this.router.navigate(['/']);
+
+        console.log('this.router', this.router.url.match(/admin/));
+
+        if (this.router.url.match(/admin/)) {
+          this.router.navigate(['/admin/user']);
+        } else {
+          this.router.navigate(['/']);
+        }
+
         this.submitted = false;
       },
       () => {

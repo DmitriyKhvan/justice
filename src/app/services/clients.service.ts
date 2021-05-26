@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { MainService } from './main.service';
 import { AuthService } from './auth.service';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -28,13 +28,15 @@ export class ClientsService {
 
   getMfo(): Observable<any> {
     console.log(environment.dbUrl);
-    return this.auth.fetchWithAuth(this.http.get<any>(environment.dbUrl + `dictionary/mfo`));
+    return this.auth.fetchWithAuth(
+      this.http.get<any>(environment.dbUrl + `dictionary/mfo`)
+    );
   }
 
   getListByMfo(mfo: any): Observable<any> {
     return this.auth.fetchWithAuth(
-      this.http.get<any>(
-        `${environment.dbUrl}process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
+      this.http.get(
+        `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
       )
     );
   }

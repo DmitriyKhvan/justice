@@ -79,6 +79,8 @@ import { SearchComponent } from './pages/search/search.component';
 import { AuthIntercepter } from './auth.intercepter';
 import { AlertInfoComponent } from './components/alert-info/alert-info.component';
 import { CustomToggleComponent } from './components/checkboxes/custom-toggle/custom-toggle.component';
+import { IsActiveUserComponent } from './components/is-active-user/is-active-user.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -148,6 +150,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SearchComponent,
     AlertInfoComponent,
     CustomToggleComponent,
+    IsActiveUserComponent,
+    ErrorComponent,
   ],
   imports: [
     TooltipModule,

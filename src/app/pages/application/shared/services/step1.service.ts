@@ -27,7 +27,7 @@ export class Step1Service {
   }
 
   testFn() {
-    debugger;
+    // debugger;
     console.log('testFn');
   }
 }

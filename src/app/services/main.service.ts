@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import {AuthService} from './auth.service';
-import {environment} from '../../environments/environment';
+import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,9 @@ export class MainService {
   regionList: any;
 
   getMfo(): Observable<any> {
-    return this.auth.fetchWithAuth(this.http.get<any>(this.baseURL + `dictionary/mfo`));
+    return this.auth.fetchWithAuth(
+      this.http.get<any>(this.baseURL + `dictionary/mfo`)
+    );
   }
 
   getListByMfo(mfo: any): Observable<any> {
