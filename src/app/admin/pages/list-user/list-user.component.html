@@ -1,0 +1,87 @@
+<div class="h-100">
+  <div class="page-header row align-items-center">
+    <div class="back">
+      <small>Список доступов</small>
+    </div>
+    <a
+      [routerLink]="['/admin', 'addUser']"
+      class="createApp row align-items-center align-self-center ml-4"
+    >
+      <i class="uil-plus"></i><small>Добавить доступ</small>
+    </a>
+  </div>
+
+  <div class="page-table">
+    <div class="page-table__header">
+      <div class="page-table__tr">
+        <div
+          class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
+        >
+          <div class="page-table__th">#</div>
+          <div class="page-table__th">ФИО</div>
+          <div class="page-table__th">Логин</div>
+          <div class="page-table__th">Роль</div>
+          <div class="page-table__th">Участок</div>
+          <div class="page-table__th">Статус</div>
+          <div class="page-table__th"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-table__body">
+      <div *ngFor="let user of users; let idx = index" class="page-table__tr">
+        <div
+          class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
+        >
+          <div
+            [routerLink]="['/admin', 'editUser', user.id]"
+            class="page-table__td"
+          >
+            {{ idx + 1 }}
+          </div>
+          <div
+            [routerLink]="['/admin', 'editUser', user.id]"
+            class="page-table__td text-capitalize"
+          >
+            {{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}
+          </div>
+          <div
+            [routerLink]="['/admin', 'editUser', user.id]"
+            class="page-table__td"
+          ></div>
+          <div
+            [routerLink]="['/admin', 'editUser', user.id]"
+            class="page-table__td"
+          ></div>
+          <div
+            [routerLink]="['/admin', 'editUser', user.id]"
+            class="page-table__td"
+          ></div>
+          <div
+            [routerLink]="['/admin', 'editUser', user.id]"
+            class="page-table__td"
+          >
+            <p
+              class="active row align-items-center m-0"
+              *ngIf="user.status === 1; else notActive"
+            >
+              <small class="disc"></small>Активен
+            </p>
+
+            <ng-template #notActive>
+              <p class="passive row align-items-center m-0">
+                <small class="disc"></small>Не активен
+              </p>
+            </ng-template>
+          </div>
+
+          <div class="page-table__td">
+            <i class="iconly-boldLock mr-1"></i>dsfsdfsdf<i
+              (click)="confirmRemoveUser(user)"
+              class="iconly-boldDelete mr-1"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

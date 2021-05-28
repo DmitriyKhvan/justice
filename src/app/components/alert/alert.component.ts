@@ -53,6 +53,6 @@ export class AlertComponent implements OnInit, OnDestroy {
   }
 
   animationAlert() {
-    this.wrapAlertState = this.wrapAlertState === 'end'  ? 'start' : 'end';
+    this.wrapAlertState = this.wrapAlertState === 'end' ? 'start' : 'end';
   }
 }

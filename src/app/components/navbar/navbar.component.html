@@ -22,7 +22,7 @@
       <i class="icon-pie_chart mr-1"></i>
       Статистика
     </div>
-    <div class="app-navbar_item px-2" routerLink="claims">
+    <div class="app-navbar_item px-2" routerLink="/claims">
       <i class="icon-list mr-1"></i>
       Заявки по ущербам
     </div>
@@ -43,13 +43,24 @@
       <i class="icon-user notification mr-1"></i>
       Исполнитель юрист
     </div>
-    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)" (click)="showNotifications()">
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+      (click)="showNotifications()"
+    >
       <i class="icon-notification notification"></i>
     </div>
-    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)">
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+    >
       <i class="icon-setting"></i>
     </div>
-    <div class="app-navbar_item px-2" style="border-left: 1px solid rgba(255,255,255,0.1)" (click)="logout()">
+    <div
+      class="app-navbar_item px-2"
+      style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+      (click)="logout()"
+    >
       <i class="icon-power"></i>
     </div>
   </div>

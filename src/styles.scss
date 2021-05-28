@@ -804,3 +804,53 @@
     color: #000;
   }
 }
+
+.back {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  i {
+    font-size: 18px;
+    margin-right: 15px;
+  }
+}
+
+.stepNum {
+  margin: 0;
+  font-weight: normal;
+}
+
+.createApp {
+  padding: 13px 36px 13px 26px;
+  border: 1px solid #10274a;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #10274a;
+  outline: none;
+  transition: 0.5s ease-out;
+
+  &:hover {
+    background-color: #10274a;
+    color: #fff;
+  }
+
+  small {
+    font-size: 16px;
+  }
+
+  i {
+    margin-right: 11px;
+    font-size: 18px;
+  }
+}
+
+//default button
+.btn-default {
+  padding: 13px;
+  color: #10274a;
+  border: 2px solid #10274a;
+  border-radius: 5px;
+  background: transparent;
+  text-align: center;
+}

@@ -1,0 +1,43 @@
+.page-table__th:nth-last-child(1),
+.page-table__td:nth-last-child(1) {
+  flex: 0 1 80px;
+}
+
+.page-table__td {
+  i {
+    padding: 10px;
+    border-radius: 50%;
+    transition: 0.5s ease-out;
+  }
+
+  i:hover {
+    background: rgba(16, 39, 34, 0.15);
+  }
+
+  .disc {
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+
+    // &::before {
+    //   content: "\2022";
+    //   position: absolute;
+    // }
+  }
+}
+
+.active {
+  color: #4cc015;
+
+  .disc {
+    background: #4cc015;
+  }
+}
+
+.passive {
+  color: rgb(224, 94, 94);
+  .disc {
+    background: rgb(224, 94, 94);
+  }
+}

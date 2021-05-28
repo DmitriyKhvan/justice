@@ -74,6 +74,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { ApplicationListComponent } from './pages/damage-claims/shared/components/application-list/application-list.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
+import { AdminComponent as AdminLayoutComponent } from './layouts/admin/admin.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SearchComponent } from './pages/search/search.component';
 import { AuthIntercepter } from './auth.intercepter';
@@ -81,6 +82,11 @@ import { AlertInfoComponent } from './components/alert-info/alert-info.component
 import { CustomToggleComponent } from './components/checkboxes/custom-toggle/custom-toggle.component';
 import { IsActiveUserComponent } from './components/is-active-user/is-active-user.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { SharedModule } from './shared.module';
+import { AddUserComponent } from './admin/pages/add-user/add-user.component';
+import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
+import { ListUserComponent } from './admin/pages/list-user/list-user.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -146,12 +152,17 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ApplicationListComponent,
     LoginComponent,
     MainComponent,
+    AdminLayoutComponent,
     SidebarComponent,
     SearchComponent,
     AlertInfoComponent,
     CustomToggleComponent,
     IsActiveUserComponent,
     ErrorComponent,
+    AddUserComponent,
+    EditUserComponent,
+    ListUserComponent,
+    ConfirmComponent,
   ],
   imports: [
     TooltipModule,
