@@ -1,11 +1,4 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-  useAnimation,
-} from '@angular/animations';
+import { transition, trigger, useAnimation } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { bounce, tada } from 'ng-animate';
 import { Subscription } from 'rxjs';
