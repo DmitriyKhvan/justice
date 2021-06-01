@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 export class ConfirmService {
   public confirm$ = new Subject<any>();
 
-  confirm(text: string, id: number, method: any) {
-    this.confirm$.next({ text, id, method });
+  confirm(text: string, user: any, method: any) {
+    this.confirm$.next({ text, user, method });
   }
 }

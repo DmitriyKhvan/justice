@@ -47,7 +47,9 @@
           <div
             [routerLink]="['/admin', 'editUser', user.id]"
             class="page-table__td"
-          ></div>
+          >
+            {{ user.username }}
+          </div>
           <div
             [routerLink]="['/admin', 'editUser', user.id]"
             class="page-table__td"
@@ -75,7 +77,13 @@
           </div>
 
           <div class="page-table__td">
-            <i class="iconly-boldLock mr-1"></i
+            <i
+              (click)="confirmToggleActiveteUser(user)"
+              [class]="
+                user.status === 1 ? 'iconly-boldLock' : 'iconly-boldUnlock'
+              "
+              class="mr-1"
+            ></i
             ><i
               (click)="confirmRemoveUser(user)"
               class="iconly-boldDelete mr-1"

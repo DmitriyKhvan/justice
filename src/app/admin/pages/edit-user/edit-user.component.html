@@ -97,7 +97,7 @@
                 <div class="select-field__title">Роль</div>
                 <ng-select
                   appearance="outline"
-                  [items]="options"
+                  [items]="roles"
                   bindLabel="label"
                   bindValue="id"
                   placeholder="Выберите роль"
@@ -121,12 +121,42 @@
           <div class="row justify-content-between mb-2">
             <div class="col-12">
               <div class="select-field">
+                <div class="select-field__title">Регион</div>
+                <ng-select
+                  appearance="outline"
+                  [items]="regions"
+                  bindLabel="name_ru"
+                  bindValue="region_id"
+                  placeholder="Выберите регион"
+                  #agreeSelect
+                  labelForId="yesno"
+                  [searchable]="false"
+                  formControlName="region"
+                  (change)="setRegion($event)"
+                ></ng-select>
+              </div>
+              <div
+                *ngIf="
+                  form.get('region')?.touched && form.get('region')?.invalid
+                "
+                class="validation"
+              >
+                <small *ngIf="form.get('region')?.errors?.required">
+                  Введите данные
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-between mb-2">
+            <div class="col-12">
+              <div class="select-field">
                 <div class="select-field__title">Район</div>
                 <ng-select
                   appearance="outline"
-                  [items]="options2"
-                  bindLabel="label"
-                  bindValue="id"
+                  [items]="districts"
+                  bindLabel="name_ru"
+                  bindValue="mfo"
                   placeholder="Выберите роль"
                   #agreeSelect
                   labelForId="yesno"

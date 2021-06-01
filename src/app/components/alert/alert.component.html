@@ -2,7 +2,9 @@
   <div class="alert" [@wrapAlert]="wrapAlertState">
     <button class="close"><i class="uil-times" (click)="close()"></i></button>
     <div *ngIf="type === 'success'" class="icon-result alert-success">
-      <i class="uil-check-circle"></i>
+      <!-- <i class="uil-check-circle"></i> -->
+      <!-- <i class="iconly-brokenTick-Square"></i> -->
+      <i class="far fa-check-square"></i>
     </div>
 
     <div *ngIf="type === 'warning'" class="icon-result alert-warning">

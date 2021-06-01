@@ -18,19 +18,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   uSub!: Subscription;
 
-  options = [
+  roles = [
     { id: 1, label: 'Роль1' },
     { id: 2, label: 'Роль2' },
     { id: 3, label: 'Роль3' },
     { id: 4, label: 'Роль4' },
   ];
 
-  options2 = [
-    { id: 1, label: 'Район1' },
-    { id: 2, label: 'Район2' },
-    { id: 3, label: 'Район3' },
-    { id: 4, label: 'Район4' },
-  ];
+  regions = [];
+
+  districts = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -54,11 +51,32 @@ export class EditUserComponent implements OnInit, OnDestroy {
           first_name: new FormControl(user.first_name, Validators.required),
           middle_name: new FormControl(user.middle_name, Validators.required),
           role: new FormControl(null),
-          district: new FormControl(null),
+          region: new FormControl(1),
+          district: new FormControl('09002'),
           username: new FormControl(user.username, Validators.required),
           password: new FormControl(null, Validators.required),
         });
       });
+
+    this.adminService.getRegions().subscribe((regions) => {
+      this.regions = regions.data;
+
+      const region = this.regions.find((region: any) => region.region_id === 1);
+
+      this.setRegion(region);
+    });
+  }
+
+  setRegion(region: any) {
+    console.log(region);
+    if (region) {
+      this.districts = region.branches;
+      this.form.get('district')?.enable();
+    } else {
+      this.districts = [];
+      this.form.get('district')?.reset();
+      this.form.get('district')?.disable();
+    }
   }
 
   submit(): any {

@@ -12,19 +12,16 @@ export class AddUserComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-  options = [
+  roles = [
     { id: 1, label: 'Роль1' },
     { id: 2, label: 'Роль2' },
     { id: 3, label: 'Роль3' },
     { id: 4, label: 'Роль4' },
   ];
 
-  options2 = [
-    { id: 1, label: 'Район1' },
-    { id: 2, label: 'Район2' },
-    { id: 3, label: 'Район3' },
-    { id: 4, label: 'Район4' },
-  ];
+  regions = [];
+
+  districts = [];
 
   constructor(
     private adminService: AdminService,
@@ -37,16 +34,35 @@ export class AddUserComponent implements OnInit {
       first_name: new FormControl(null, Validators.required),
       middle_name: new FormControl(null, Validators.required),
       role: new FormControl(null),
-      district: new FormControl(null),
+      region: new FormControl(null),
+      district: new FormControl({ value: null, disabled: true }),
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
+
+    this.adminService.getRegions().subscribe((regions) => {
+      this.regions = regions.data;
+    });
+  }
+
+  setRegion(region: any) {
+    console.log(region);
+    if (region) {
+      this.districts = region.branches;
+      this.form.get('district')?.enable();
+    } else {
+      this.districts = [];
+      this.form.get('district')?.reset();
+      this.form.get('district')?.disable();
+    }
   }
 
   submit(): any {
     if (this.form.invalid) {
       return;
     }
+
+    console.log('this.form', this.form.value);
 
     this.submitted = true;
 

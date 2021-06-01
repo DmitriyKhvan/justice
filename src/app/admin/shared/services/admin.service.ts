@@ -27,4 +27,8 @@ export class AdminService {
   removeUser(id: any): Observable<void> {
     return this.http.delete<void>(`${environment.dbUrl}/user/delete?id=${id}`);
   }
+
+  getRegions(): Observable<any> {
+    return this.http.get(`${environment.dbUrl}/dictionary/mfo`);
+  }
 }

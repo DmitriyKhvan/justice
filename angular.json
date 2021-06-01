@@ -34,6 +34,7 @@
               "src/assets/css/unicons.css",
               "src/assets/css/icomoon.css",
               "src/assets/css/iconly.css",
+              "src/assets/css/iconly-output.css",
               "src/styles.scss"
             ],
             "scripts": ["./node_modules/jquery/dist/jquery.min.js"]

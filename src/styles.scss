@@ -854,3 +854,12 @@
   background: transparent;
   text-align: center;
 }
+
+//disable select
+.ng-select-disabled {
+  .ng-select-container {
+    color: #ccc;
+    border-color: #ccc;
+    cursor: no-drop !important;
+  }
+}

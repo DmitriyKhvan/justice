@@ -16,7 +16,7 @@ import { ConfirmService } from 'src/app/services/confirm.service';
 })
 export class ConfirmComponent implements OnInit, OnDestroy {
   public text!: string;
-  public id!: number;
+  public user!: any;
   public method!: any;
   wrapAlertState = 'end';
 
@@ -32,7 +32,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cSub = this.confirmService.confirm$.subscribe((confirm) => {
       this.text = confirm.text;
-      this.id = confirm.id;
+      this.user = confirm.user;
       this.method = confirm.method;
     });
   }
@@ -47,9 +47,9 @@ export class ConfirmComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeUser() {
+  ok() {
     this.close();
-    this.method(this.id);
+    this.method(this.user);
   }
 
   close() {

@@ -24,6 +24,7 @@ export class AdminGuard implements CanActivate {
       );
 
       if (decodedToken.user.username === 'admin') {
+        this.auth.setUserExp(decodedToken.user.user_exp);
         return true;
       } else {
         this.router.navigate(['/login'], {
