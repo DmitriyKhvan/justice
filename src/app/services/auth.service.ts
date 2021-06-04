@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   public error$: Subject<string> = new Subject<string>();
-  public userRole$: Subject<string> = new Subject<string>();
+  // public userRole$: Subject<string> = new Subject<string>();
   private timer: any;
   public time: number = 1000 * 1000;
   private helper = new JwtHelperService();
@@ -95,7 +95,7 @@ export class AuthService {
       //const helper = new JwtHelperService();
       const decodedToken = this.helper.decodeToken(response.access_token);
       this.time = decodedToken.user.user_exp;
-      this.userRole$.next(decodedToken.user.username);
+      // this.userRole$.next(decodedToken.user.username);
 
       console.log('decodedToken', decodedToken);
 

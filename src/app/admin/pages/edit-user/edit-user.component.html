@@ -7,7 +7,7 @@
 
   <div class="page-content">
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-xl-6 col-lg-8 col-md-9">
         <form
           *ngIf="form"
           class="page-form"
@@ -96,9 +96,10 @@
               <div class="select-field">
                 <div class="select-field__title">Роль</div>
                 <ng-select
+                  [multiple]="true"
                   appearance="outline"
                   [items]="roles"
-                  bindLabel="label"
+                  bindLabel="name"
                   bindValue="id"
                   placeholder="Выберите роль"
                   #agreeSelect
@@ -132,7 +133,7 @@
                   labelForId="yesno"
                   [searchable]="false"
                   formControlName="region"
-                  (change)="setRegion($event)"
+                  (change)="setDistrict($event)"
                 ></ng-select>
               </div>
               <div
@@ -153,6 +154,7 @@
               <div class="select-field">
                 <div class="select-field__title">Район</div>
                 <ng-select
+                  [multiple]="true"
                   appearance="outline"
                   [items]="districts"
                   bindLabel="name_ru"

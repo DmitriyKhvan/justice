@@ -7,7 +7,7 @@
 
   <div class="page-content">
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-xl-6 col-lg-8 col-md-9">
         <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
           <div class="row justify-content-between mb-2">
             <div class="col-4">
@@ -91,9 +91,10 @@
               <div class="select-field">
                 <div class="select-field__title">Роль</div>
                 <ng-select
+                  [multiple]="true"
                   appearance="outline"
                   [items]="roles"
-                  bindLabel="label"
+                  bindLabel="name"
                   bindValue="id"
                   placeholder="Выберите роль"
                   #agreeSelect
@@ -148,6 +149,7 @@
               <div class="select-field">
                 <div class="select-field__title">Район</div>
                 <ng-select
+                  [multiple]="true"
                   appearance="outline"
                   [items]="districts"
                   bindLabel="name_ru"

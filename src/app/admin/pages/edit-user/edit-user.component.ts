@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { AdminService } from '../../shared/services/admin.service';
 
@@ -18,12 +18,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   uSub!: Subscription;
 
-  roles = [
-    { id: 1, label: 'Роль1' },
-    { id: 2, label: 'Роль2' },
-    { id: 3, label: 'Роль3' },
-    { id: 4, label: 'Роль4' },
-  ];
+  roles = [];
 
   regions = [];
 
@@ -39,42 +34,52 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(
         switchMap((params: Params) => {
-          console.log(params);
-
           return this.adminService.getUserById(params['id']);
-        })
+        }),
+        tap(this.setRegion.bind(this))
       )
       .subscribe((user: any) => {
         this.user = user;
+
         this.form = new FormGroup({
           last_name: new FormControl(user.last_name, Validators.required),
           first_name: new FormControl(user.first_name, Validators.required),
           middle_name: new FormControl(user.middle_name, Validators.required),
-          role: new FormControl(null),
-          region: new FormControl(1),
-          district: new FormControl('09002'),
+          role: new FormControl(user.roles, Validators.required),
+          region: new FormControl(null, Validators.required),
+          district: new FormControl(user.mfo, Validators.required),
           username: new FormControl(user.username, Validators.required),
-          password: new FormControl(null, Validators.required),
+          password: new FormControl(null),
         });
       });
 
-    this.adminService.getRegions().subscribe((regions) => {
-      this.regions = regions.data;
-
-      const region = this.regions.find((region: any) => region.region_id === 1);
-
-      this.setRegion(region);
+    this.adminService.getRoles().subscribe((roles) => {
+      this.roles = roles;
     });
   }
 
-  setRegion(region: any) {
-    console.log(region);
+  setRegion(user: any) {
+    this.adminService.getRegions().subscribe((regions) => {
+      this.regions = regions.data;
+
+      const region: any = this.regions.find((region: any) => {
+        return region.branches.find(
+          (branche: any) => branche.mfo === user.mfo[0]
+        );
+      });
+
+      this.districts = region.branches;
+
+      this.form.patchValue({ region: region.region_id });
+    });
+  }
+
+  setDistrict(region: any) {
+    this.form.get('district')?.reset();
     if (region) {
       this.districts = region.branches;
       this.form.get('district')?.enable();
     } else {
-      this.districts = [];
-      this.form.get('district')?.reset();
       this.form.get('district')?.disable();
     }
   }
@@ -92,6 +97,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
         last_name: this.form.value.last_name,
         first_name: this.form.value.first_name,
         middle_name: this.form.value.middle_name,
+        roles: this.form.value.role,
+        mfo: this.form.value.district,
         username: this.form.value.username,
         password: this.form.value.password,
       })

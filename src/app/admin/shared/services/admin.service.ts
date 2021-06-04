@@ -12,8 +12,10 @@ export class AdminService {
     return this.http.post(`${environment.dbUrl}/user/create`, user);
   }
 
-  getUsers(): Observable<any> {
-    return this.http.get(`${environment.dbUrl}/user/users`);
+  getUsers(data: any): Observable<any> {
+    return this.http.get(
+      `${environment.dbUrl}/user/users?page=${data.currentPage}&count=${data.itemsPerPage}&searchValue=${data.searchValue}`
+    );
   }
 
   getUserById(id: any): Observable<any> {
@@ -30,5 +32,9 @@ export class AdminService {
 
   getRegions(): Observable<any> {
     return this.http.get(`${environment.dbUrl}/dictionary/mfo`);
+  }
+
+  getRoles(): Observable<any> {
+    return this.http.get(`${environment.dbUrl}/user/roles`);
   }
 }

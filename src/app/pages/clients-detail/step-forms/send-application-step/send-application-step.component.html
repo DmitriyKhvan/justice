@@ -1,5 +1,4 @@
-<script
-  src="../../../../../../../apparat-front/src/app/pages/p-application/components/sidebar/sidebar.component.ts"></script>
+<script src="../../../../../../../apparat-front/src/app/pages/p-application/components/sidebar/sidebar.component.ts"></script>
 <div class="row flex-nowrap" *ngIf="mainService.ROLE === 'IY'">
   <div class="col-6">
     <div
@@ -7,7 +6,6 @@
       style="border-radius: 5px"
       *ngIf="stepStatus === 1 || stepStatus === 2 || stepStatus === 3"
     >
-
       <div class="mb-1">Прикрепленные файлы</div>
       <div class="mb-2">
         <div
@@ -25,14 +23,14 @@
         <div class="col-6">
           <div class="mb-1">№ исходящего документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.out_doc_number}}
+            {{ taskInfo?.body?.out_doc_number }}
           </div>
         </div>
 
         <div class="col-6">
           <div class="mb-1">Дата исх. документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.out_doc_date}}
+            {{ taskInfo?.body?.out_doc_date }}
           </div>
         </div>
       </div>
@@ -72,7 +70,12 @@
         </div>
 
         <div class="col-6">
-          <app-datepicker [title]="'Дата исх. документа'" (onselect)="appForm.patchValue({outDocDate: $event.singleDate.formatted})"></app-datepicker>
+          <app-datepicker
+            [title]="'Дата исх. документа'"
+            (onselect)="
+              appForm.patchValue({ outDocDate: $event.singleDate.formatted })
+            "
+          ></app-datepicker>
         </div>
       </div>
 
@@ -98,12 +101,9 @@
   </div>
 
   <div class="col-5">
-    <div
-      class="info-card"
-      *ngIf="stepStatus !== 0"
-    >
+    <div class="info-card" *ngIf="stepStatus !== 0">
       <div class="info-card__title mb-3">
-        Данные полученные  от главного юриста
+        Данные полученные от главного юриста
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
@@ -237,7 +237,7 @@
     <div class="col-5">
       <div class="info-card">
         <div class="info-card__title mb-4">
-          Данные полученные  от исполнителя
+          Данные полученные от исполнителя
         </div>
         <div class="info-card__data" *ngIf="taskInfo?.body.out_doc_number">
           <span>№ исходящего документа</span>

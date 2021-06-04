@@ -1,5 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { from, fromEvent, Subscription } from 'rxjs';
+import {
+  map,
+  debounceTime,
+  filter,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { AdminService } from '../../shared/services/admin.service';
@@ -10,10 +23,19 @@ import { AdminService } from '../../shared/services/admin.service';
   styleUrls: ['./list-user.component.scss'],
 })
 export class ListUserComponent implements OnInit, OnDestroy {
+  @ViewChild('search', { static: true }) inputRef!: ElementRef;
+
   users!: any;
   uSub!: Subscription;
   dSub!: Subscription;
   isASub!: Subscription;
+  searchSub!: Subscription;
+
+  currentPage: number = 1;
+  totalItems!: number;
+  pages: Array<number> = [1, 10, 20];
+  itemsPerPage: number = this.pages[0];
+  searchValue: string = '';
 
   constructor(
     public adminService: AdminService,
@@ -22,8 +44,40 @@ export class ListUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.uSub = this.adminService.getUsers().subscribe((users) => {
-      this.users = users;
+    this.getUsers();
+
+    this.searchSub = fromEvent(this.inputRef.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(700),
+        map((event: any) => event.target.value),
+        // filter((value) => value.length > 2),
+        distinctUntilChanged()
+        // switchMap((value) => {
+        //   const data = {
+        //     itemsPerPage: this.itemsPerPage,
+        //     currentPage: this.currentPage,
+        //     searchValue: value,
+        //   };
+        //   return this.adminService.getUsers(data);
+        // })
+      )
+      .subscribe((value: any) => {
+        console.log(value);
+        this.currentPage = 1;
+        this.searchValue = value;
+        this.getUsers();
+      });
+  }
+
+  getUsers() {
+    const data = {
+      itemsPerPage: this.itemsPerPage,
+      currentPage: this.currentPage,
+      searchValue: this.searchValue,
+    };
+    this.uSub = this.adminService.getUsers(data).subscribe((users) => {
+      this.users = users.users;
+      this.totalItems = users.count;
     });
   }
 
@@ -36,8 +90,9 @@ export class ListUserComponent implements OnInit, OnDestroy {
   }
 
   confirmToggleActiveteUser(user: any) {
+    const isActiveUser = user.status === 1 ? 'Деактивировать' : 'Активировать';
     this.confirm.confirm(
-      `Деактивировать ${user.last_name} ${user.first_name} ${user.middle_name}`,
+      `${isActiveUser} ${user.last_name} ${user.first_name} ${user.middle_name}`,
       user,
       this.toggleActiveUser.bind(this)
     );
@@ -63,8 +118,13 @@ export class ListUserComponent implements OnInit, OnDestroy {
     console.log('userr', user);
 
     this.isASub = this.adminService.updateUser(cloneUser).subscribe(() => {
-      console.log('update');
+      user.status = cloneUser.status;
     });
+  }
+
+  pageChanged(currentPage: number) {
+    this.currentPage = currentPage;
+    this.getUsers();
   }
 
   ngOnDestroy(): void {
@@ -77,7 +137,11 @@ export class ListUserComponent implements OnInit, OnDestroy {
     }
 
     if (this.isASub) {
-      this.dSub.unsubscribe;
+      this.isASub.unsubscribe;
+    }
+
+    if (this.searchSub) {
+      this.searchSub.unsubscribe;
     }
   }
 }
