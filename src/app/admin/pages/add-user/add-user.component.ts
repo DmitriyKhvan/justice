@@ -12,12 +12,7 @@ export class AddUserComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-  roles = [
-    { id: 1, label: 'Роль1' },
-    { id: 2, label: 'Роль2' },
-    { id: 3, label: 'Роль3' },
-    { id: 4, label: 'Роль4' },
-  ];
+  roles = [];
 
   regions = [];
 
@@ -33,11 +28,15 @@ export class AddUserComponent implements OnInit {
       last_name: new FormControl(null, Validators.required),
       first_name: new FormControl(null, Validators.required),
       middle_name: new FormControl(null, Validators.required),
-      role: new FormControl(null),
-      region: new FormControl(null),
+      role: new FormControl(null, Validators.required),
+      region: new FormControl(null, Validators.required),
       district: new FormControl({ value: null, disabled: true }),
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
+    });
+
+    this.adminService.getRoles().subscribe((roles) => {
+      this.roles = roles;
     });
 
     this.adminService.getRegions().subscribe((regions) => {
@@ -46,13 +45,11 @@ export class AddUserComponent implements OnInit {
   }
 
   setRegion(region: any) {
-    console.log(region);
+    this.form.get('district')?.reset();
     if (region) {
       this.districts = region.branches;
       this.form.get('district')?.enable();
     } else {
-      this.districts = [];
-      this.form.get('district')?.reset();
       this.form.get('district')?.disable();
     }
   }
@@ -67,17 +64,22 @@ export class AddUserComponent implements OnInit {
     this.submitted = true;
 
     const user: any = {
+      last_name: this.form.value.last_name,
+      first_name: this.form.value.first_name,
+      middle_name: this.form.value.middle_name,
+      roles: this.form.value.role,
+      mfo: this.form.value.district,
       username: this.form.value.username,
       password: this.form.value.password,
-      first_name: this.form.value.first_name,
-      last_name: this.form.value.last_name,
-      middle_name: this.form.value.middle_name,
       status: 1,
     };
 
     this.adminService.createUser(user).subscribe(
       () => {
-        this.alert.success('Пользователь добавлен');
+        this.alert.success('Пользователь добавлен', {
+          login: user.username,
+          password: user.password,
+        });
         this.form.reset();
         this.submitted = false;
       },

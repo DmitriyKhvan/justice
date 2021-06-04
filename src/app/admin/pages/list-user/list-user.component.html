@@ -1,14 +1,42 @@
 <div class="h-100">
-  <div class="page-header row align-items-center">
-    <div class="back">
-      <small>Список доступов</small>
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="d-flex">
+      <div class="back">
+        <small>Список доступов</small>
+      </div>
+      <a
+        [routerLink]="['/admin', 'addUser']"
+        class="createApp d-flex align-items-center align-self-center ml-4"
+      >
+        <i class="uil-plus"></i><small>Добавить доступ</small>
+      </a>
     </div>
-    <a
-      [routerLink]="['/admin', 'addUser']"
-      class="createApp row align-items-center align-self-center ml-4"
-    >
-      <i class="uil-plus"></i><small>Добавить доступ</small>
-    </a>
+
+    <div class="searchBlock ml-4">
+      <i class="icon-search"></i>
+      <input type="text" #search placeholder="Поиск" />
+    </div>
+
+    <div class="d-flex paginationBlock">
+      <div class="d-flex align-items-center">
+        <small class="paginationTitle">Строк на странице:</small>
+        <ng-select
+          class="my-select"
+          [items]="pages"
+          [(ngModel)]="itemsPerPage"
+          (change)="pageChanged(1)"
+          [clearable]="false"
+          #agreeSelect
+        ></ng-select>
+      </div>
+
+      <pagination-controls
+        class="my-pagination"
+        (pageChange)="pageChanged($event)"
+        previousLabel=""
+        nextLabel=""
+      ></pagination-controls>
+    </div>
   </div>
 
   <div class="page-table">
@@ -28,7 +56,19 @@
       </div>
     </div>
     <div class="page-table__body">
-      <div *ngFor="let user of users; let idx = index" class="page-table__tr">
+      <div
+        *ngFor="
+          let user of users
+            | paginate
+              : {
+                  itemsPerPage: itemsPerPage,
+                  currentPage: currentPage,
+                  totalItems: totalItems
+                };
+          let idx = index
+        "
+        class="page-table__tr"
+      >
         <div
           class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
         >
@@ -53,11 +93,15 @@
           <div
             [routerLink]="['/admin', 'editUser', user.id]"
             class="page-table__td"
-          ></div>
+          >
+            &nbsp;
+          </div>
           <div
             [routerLink]="['/admin', 'editUser', user.id]"
             class="page-table__td"
-          ></div>
+          >
+            &nbsp;
+          </div>
           <div
             [routerLink]="['/admin', 'editUser', user.id]"
             class="page-table__td"
@@ -82,12 +126,15 @@
               [class]="
                 user.status === 1 ? 'iconly-boldLock' : 'iconly-boldUnlock'
               "
-              class="mr-1"
-            ></i
+              class="btnIcon mr-1"
+            >
+              <small class="tooltipAdmin">Приостановить доступ</small> </i
             ><i
               (click)="confirmRemoveUser(user)"
-              class="iconly-boldDelete mr-1"
-            ></i>
+              class="btnIcon iconly-boldDelete mr-1"
+            >
+              <small class="tooltipAdmin">Удалить пользователя</small>
+            </i>
           </div>
         </div>
       </div>

@@ -87,6 +87,8 @@ import { AddUserComponent } from './admin/pages/add-user/add-user.component';
 import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
 import { ListUserComponent } from './admin/pages/list-user/list-user.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { LoginPassComponent } from './components/login-pass/login-pass.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -163,6 +165,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     EditUserComponent,
     ListUserComponent,
     ConfirmComponent,
+    LoginPassComponent,
   ],
   imports: [
     TooltipModule,
@@ -174,6 +177,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NgSelectModule,
     ReactiveFormsModule,
     AngularMyDatePickerModule,
+    NgxPaginationModule,
   ],
   providers: [HttpClient, INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],
