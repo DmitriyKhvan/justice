@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map, tap, delay } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { AdminService } from '../../shared/services/admin.service';
 
@@ -24,6 +24,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   districts = [];
 
+  loading: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private adminService: AdminService,
@@ -31,8 +33,10 @@ export class EditUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.route.params
       .pipe(
+        // delay(5000),
         switchMap((params: Params) => {
           return this.adminService.getUserById(params['id']);
         }),
@@ -51,6 +55,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
           username: new FormControl(user.username, Validators.required),
           password: new FormControl(null),
         });
+
+        this.loading = false;
       });
 
     this.adminService.getRoles().subscribe((roles) => {
