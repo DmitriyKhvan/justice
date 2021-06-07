@@ -8,10 +8,12 @@ import {
 import { from, fromEvent, Subscription } from 'rxjs';
 import {
   map,
+  tap,
   debounceTime,
   filter,
   distinctUntilChanged,
   switchMap,
+  delay,
 } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
@@ -25,7 +27,7 @@ import { AdminService } from '../../shared/services/admin.service';
 export class ListUserComponent implements OnInit, OnDestroy {
   @ViewChild('search', { static: true }) inputRef!: ElementRef;
 
-  users!: any;
+  users: Array<any> = [];
   uSub!: Subscription;
   dSub!: Subscription;
   isASub!: Subscription;
@@ -33,9 +35,11 @@ export class ListUserComponent implements OnInit, OnDestroy {
 
   currentPage: number = 1;
   totalItems!: number;
-  pages: Array<number> = [1, 10, 20];
+  pages: Array<number> = [1, 5, 10, 20];
   itemsPerPage: number = this.pages[0];
   searchValue: string = '';
+
+  loading = false;
 
   constructor(
     public adminService: AdminService,
@@ -70,15 +74,27 @@ export class ListUserComponent implements OnInit, OnDestroy {
   }
 
   getUsers() {
+    this.loading = true;
     const data = {
       itemsPerPage: this.itemsPerPage,
       currentPage: this.currentPage,
       searchValue: this.searchValue,
     };
-    this.uSub = this.adminService.getUsers(data).subscribe((users) => {
-      this.users = users.users;
-      this.totalItems = users.count;
-    });
+    this.uSub = this.adminService
+      .getUsers(data)
+      // .pipe(delay(500000))
+      .subscribe(
+        (users) => {
+          console.log('users', users);
+
+          this.users = users.users;
+          this.totalItems = users.count;
+          this.loading = false;
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
   }
 
   confirmRemoveUser(user: any) {

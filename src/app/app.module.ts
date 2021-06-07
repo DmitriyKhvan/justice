@@ -89,6 +89,7 @@ import { ListUserComponent } from './admin/pages/list-user/list-user.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { LoginPassComponent } from './components/login-pass/login-pass.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LoaderComponent } from './components/loader/loader.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -166,6 +167,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ListUserComponent,
     ConfirmComponent,
     LoginPassComponent,
+    LoaderComponent,
   ],
   imports: [
     TooltipModule,
