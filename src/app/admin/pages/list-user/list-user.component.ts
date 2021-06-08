@@ -90,8 +90,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
       // .pipe(delay(500000))
       .subscribe(
         (users) => {
-          console.log('users', users);
-
           this.users = users.users;
           this.totalItems = users.count;
           this.loading = false;
@@ -120,8 +118,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
   }
 
   removeUser(user: any) {
-    console.log('user', user);
-
     this.dSub = this.adminService.removeUser(user.id).subscribe(() => {
       this.users = this.users.filter((u: any) => u.id !== user.id);
       this.alert.warning('Пользователь был удален');
@@ -135,8 +131,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
     } else {
       cloneUser.status = 1;
     }
-
-    console.log('userr', user);
 
     this.isASub = this.adminService.updateUser(cloneUser).subscribe(() => {
       user.status = cloneUser.status;
