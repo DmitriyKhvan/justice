@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { filter, pairwise } from 'rxjs/operators';
 import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { MainService } from './services/main.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public mainService: MainService,
+    public auth: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -28,5 +30,7 @@ export class AppComponent implements OnInit {
     //   });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.mainService.ROLE = this.auth.userRole;
+  }
 }

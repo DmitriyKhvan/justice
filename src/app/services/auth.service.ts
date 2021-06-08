@@ -24,19 +24,13 @@ export class AuthService {
   get userRole(): any {
     // debugger;
     if (this.isAuthenticated()) {
-      console.log(
-        'dddd',
-        // this.helper.decodeToken(
-        //   JSON.parse(JSON.stringify(localStorage.getItem('tokenData')))
-        // )
-        JSON.parse(JSON.stringify(localStorage.getItem('tokenData')))
-      );
-
       const decodedToken = this.helper.decodeToken(
         JSON.parse(localStorage.getItem('tokenData') + '').access_token
       );
 
-      return decodedToken.user.username;
+      console.log('decodedToken', decodedToken);
+
+      return decodedToken.user.roles;
     }
   }
 
