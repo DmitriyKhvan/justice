@@ -25,6 +25,8 @@
           [items]="pages"
           [(ngModel)]="itemsPerPage"
           (change)="pageChanged(1)"
+          bindLabel="label"
+          bindValue="value"
           [clearable]="false"
           #agreeSelect
         ></ng-select>
@@ -146,7 +148,7 @@
       <div
         class="notUserss d-flex align-items-center justify-content-center w-100"
       >
-        <h2 class="">Нет пользователей. Добавьте пользователей.</h2>
+        <h2 class="">Нет пользователей.</h2>
       </div>
     </ng-template>
   </div>

@@ -35,8 +35,13 @@ export class ListUserComponent implements OnInit, OnDestroy {
 
   currentPage: number = 1;
   totalItems!: number;
-  pages: Array<number> = [1, 5, 10, 20];
-  itemsPerPage: number = this.pages[0];
+  pages: Array<any> = [
+    { label: 5, value: 5 },
+    { label: 10, value: 10 },
+    { label: 20, value: 20 },
+    // { label: 'Все', value: 'all' },
+  ];
+  itemsPerPage: number = this.pages[0].value;
   searchValue: string = '';
 
   loading = false;
@@ -53,7 +58,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
     this.searchSub = fromEvent(this.inputRef.nativeElement, 'keyup')
       .pipe(
         debounceTime(700),
-        map((event: any) => event.target.value),
+        map((event: any) => event.target.value.toLowerCase()),
         // filter((value) => value.length > 2),
         distinctUntilChanged()
         // switchMap((value) => {
@@ -66,7 +71,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
         // })
       )
       .subscribe((value: any) => {
-        console.log(value);
+        // console.log(value);
         this.currentPage = 1;
         this.searchValue = value;
         this.getUsers();

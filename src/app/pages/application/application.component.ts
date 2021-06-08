@@ -9,7 +9,11 @@ import { MainService } from 'src/app/services/main.service';
   styleUrls: ['./application.component.scss'],
 })
 export class ApplicationComponent implements OnInit, DoCheck {
-  constructor(public route: ActivatedRoute, public auth: AuthService) {}
+  constructor(
+    public route: ActivatedRoute,
+    public auth: AuthService,
+    public mainService: MainService
+  ) {}
 
   ngOnInit(): void {}
   ngDoCheck() {
