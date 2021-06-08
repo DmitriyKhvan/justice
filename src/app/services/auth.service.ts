@@ -28,7 +28,7 @@ export class AuthService {
         JSON.parse(localStorage.getItem('tokenData') + '').access_token
       );
 
-      console.log('decodedToken', decodedToken);
+      // console.log('decodedToken', decodedToken);
 
       return decodedToken.user.roles;
     }
