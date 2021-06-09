@@ -7,9 +7,8 @@ import {
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Provider } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA, Provider} from '@angular/core';
 
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -185,7 +184,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SendingCourtHistoryComponent,
   ],
   imports: [
-    TooltipModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
