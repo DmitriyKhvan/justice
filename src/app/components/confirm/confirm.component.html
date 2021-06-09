@@ -1,0 +1,24 @@
+<div class="alert-wrap" *ngIf="text" (click)="animationAlert()">
+  <div class="alert" [@wrapAlert]="wrapAlertState">
+    <button class="close"><i class="uil-times" (click)="close()"></i></button>
+
+    <p class="alert-text">{{ text }}</p>
+
+    <div class="row justify-content-center mt-2">
+      <div class="row">
+        <button
+          (click)="close()"
+          class="btn-default btn-failure row align-items-center justify-content-center mr-1 ml-1"
+        >
+          НЕТ
+        </button>
+        <button
+          (click)="ok()"
+          class="btn-default btn-success row align-items-center justify-content-center mr-1 ml-1"
+        >
+          ДА
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

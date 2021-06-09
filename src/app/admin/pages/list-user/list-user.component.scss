@@ -1,0 +1,172 @@
+.page-table__th:nth-last-child(1),
+.page-table__td:nth-last-child(1) {
+  flex: 0 1 80px;
+}
+
+.page-table__th:nth-child(1),
+.page-table__td:nth-child(1) {
+  justify-content: center;
+}
+
+.page-table__td {
+  padding: 0;
+  height: 50px;
+
+  .disc {
+    width: 8px;
+    height: 8px;
+    margin-right: 10px;
+    border-radius: 50%;
+
+    // &::before {
+    //   content: "\2022";
+    //   position: absolute;
+    // }
+  }
+}
+
+.active {
+  color: #4cc015;
+
+  .disc {
+    background: #4cc015;
+  }
+}
+
+.passive {
+  color: rgb(224, 94, 94);
+  .disc {
+    background: rgb(224, 94, 94);
+  }
+}
+
+.searchBlock {
+  display: flex;
+  width: 346px;
+  padding-bottom: 13px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(16, 39, 74, 0.3);
+  i {
+    font-size: 24px;
+    color: var(--primary-color);
+
+    &::before {
+      margin: 0 5px 0 0;
+    }
+  }
+
+  input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+}
+
+.my-select.ng-select ::ng-deep {
+  width: 53px;
+  .ng-select-container {
+    border: none;
+    background: transparent;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    .ng-value-container {
+      font-weight: 600;
+      color: var(--primary-color);
+      padding-left: 5px;
+    }
+  }
+
+  .ng-dropdown-panel {
+    border: none;
+  }
+
+  .ng-arrow-wrapper .ng-arrow::before {
+    font-size: 35px;
+  }
+
+  .ng-arrow-wrapper {
+    width: 28px;
+    height: 40px;
+  }
+}
+
+.paginationBlock {
+  .paginationTitle {
+    font-size: 16px;
+  }
+
+  .my-pagination ::ng-deep .ngx-pagination {
+    margin: 0;
+    .current {
+      background: var(--primary-color);
+    }
+
+    .pagination-next a::after,
+    .pagination-next.disabled::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-bottom: 0;
+      border-top: 1px;
+      border-left: 0;
+      border-right: 1px;
+      transform: rotate(45deg);
+      border-style: solid;
+    }
+
+    .pagination-previous a::before,
+    .pagination-previous.disabled::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-bottom: 0;
+      border-top: 1px;
+      border-left: 0;
+      border-right: 1px;
+      transform: rotate(-135deg);
+      border-style: solid;
+    }
+
+    a,
+    .current {
+      padding: 10px 15px;
+    }
+
+    .pagination-next {
+      border-radius: 0 3px 3px 0;
+    }
+
+    a[aria-label=" page"] {
+      padding: 10px 16px 10px 5px;
+    }
+
+    .pagination-previous {
+      border-radius: 3px 0 0 3px;
+      a[aria-label=" page"] {
+        padding: 10px 6px 10px 15px;
+      }
+    }
+
+    .pagination-previous.disabled {
+      padding: 10px 6px 10px 15px;
+    }
+
+    .pagination-next.disabled {
+      padding: 10px 16px 10px 5px;
+    }
+
+    li {
+      border: 1px solid rgba(16, 39, 74, 0.3);
+      margin-right: -1px;
+    }
+  }
+}
+
+.notUserss {
+  height: calc(100% - 60px);
+}

@@ -1,0 +1,152 @@
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div class="row flex-nowrap mb-2">
+        <div class="col-6">
+          <div class="form-field__title">№ дело</div>
+          <div class="form-field__disabled" >
+            {{ taskInfo?.body?.case_number }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title">Дата решение</div>
+          <div class="form-field__disabled" >
+            {{ lastAction?.decision_date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-2">
+        <div class="col-6">
+          <div class="form-field__title">Выбранное действие</div>
+          <div class="form-field__disabled" >
+            {{ getSPValue('supervision_prosecutor_action', lastAction?.action) }}
+          </div>
+        </div>
+
+<!--        <div class="col-6" *ngIf="lastAction?.appeal_f_action === 2">-->
+<!--          <div class="form-field__title">Выбранная дата</div>-->
+<!--          <div class="form-field__disabled" >-->
+<!--            {{ lastAction?.activation_date }}-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+
+      <div class="form-field__title" *ngIf="lastAction?.files">
+        Скан документа
+      </div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-2">
+        <div class="form-field__title">Дополнительная информация</div>
+        <div class="form-field__disabled" >
+          {{ lastAction?.add_info }}
+        </div>
+      </div>
+    </div>
+
+    <form
+      action=""
+      class="page-form pb-2 "
+      [formGroup]="stepForm"
+      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+      (ngSubmit)="nextStep()"
+    >
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <div class="form-field__title">№ дело</div>
+          <div class="form-field__disabled" >
+            {{ taskInfo?.body?.case_number }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <app-form-field
+            formControlName="decision_date"
+            [type]="'datepicker'"
+            [title]="'Дата решение'"
+          ></app-form-field>
+        </div>
+      </div>
+
+
+      <div class="row justify-content-between align-items-end mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="action"
+            [type]="'select'"
+            [title]="'Выберите действие'"
+            [selectOptions]="taskInfo?.sp.supervision_prosecutor_action"
+          ></app-form-field>
+        </div>
+
+<!--        <div class="col-6" *ngIf="stepForm.value.appeal_f_action === 2">-->
+<!--          <app-form-field-->
+<!--            formControlName="activation_date"-->
+<!--            [type]="'datepicker'"-->
+<!--            [title]="'Выберите день'"-->
+<!--          ></app-form-field>-->
+<!--        </div>-->
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="files"
+            [type]="'file'"
+            [title]="'Скан документа'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="add_info"
+            [type]="'textarea'"
+            [title]="'Дополнительная информация'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <button type="submit" class="page-form__actionbtn text-uppercase" [disabled]="stepForm.invalid">
+        <!--    (click)="clientDetail.nextStep()"-->
+        {{stepForm.value.action === 2 ? 'Вернуться в 4 шаг' : stepForm.value.action === 3 ? 'Закрыт дело' : 'следующий шаг'}}
+      </button>
+    </form>
+
+    <div
+      class="p-2 mb-2 d-flex justify-content-center align-items-center bg-gray-secondary"
+      style="border-radius: 5px"
+      *ngIf="stepStatus === 2"
+    >
+      <i class="uil-info-circle text-danger mr-2" style="font-size: 20px"></i>
+      <div style="text-align: left">
+        <div>Шаг заблокирован до {{ taskInfo?.body?.activation_date }}  </div>
+        <div>До разблокировки осталось {{ getRelativeTime() }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+></app-alert-info>

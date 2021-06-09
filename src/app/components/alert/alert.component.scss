@@ -12,7 +12,7 @@
 
   .alert {
     position: relative;
-    min-width: 300px;
+    min-width: 405px;
     padding: 20px;
     background-color: #fff;
     // left: 50%;
@@ -53,7 +53,7 @@
       }
 
       &.alert-success {
-        color: green;
+        color: #00a71a;
       }
 
       &.alert-warning {

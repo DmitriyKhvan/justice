@@ -1,19 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainService } from '../../../../services/main.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-send-alert-step',
   templateUrl: './send-alert-step.component.html',
   styleUrls: ['./send-alert-step.component.scss'],
 })
-export class SendAlertStepComponent implements OnInit {
+export class SendAlertStepComponent implements OnInit, OnDestroy {
   @Input() step!: any;
+  @Output() id: EventEmitter<any> = new EventEmitter();
   stepStatus = 0;
   taskId: any;
   taskInfo: any;
+
+  lastAction: any;
 
   constructor(
     public mainService: MainService,
@@ -25,34 +37,48 @@ export class SendAlertStepComponent implements OnInit {
   stepForm!: FormGroup;
   disabled = false;
 
+  private sb!: Subscription;
+
   ngOnInit(): void {
     this.stepForm = new FormGroup({
       files: new FormControl([], Validators.required),
     });
 
-    this.route.queryParams.subscribe((value) => {
-      this.clientsService
-        .contractDetails(value.contract)
-        .subscribe((value1) => {
-          this.stepStatus = value1.tasks.find(
-            (el: any) => Number(el.task_step) === this.step
-          )?.task_status;
-          this.taskId = value1.tasks.find(
-            (el: any) => Number(el.task_step) === this.step
-          )?.task_id;
+    this.sb = this.clientsService.contractInfo.subscribe((value) => {
+      value?.tasks?.forEach((el: any) => {
+        if (Number(el.task_step) === this.step) {
+          this.stepStatus = el.task_status;
+          this.taskId = el.task_id;
+        }
+      });
+      // console.log(value);
 
-          this.clientsService
-            .getTask(this.taskId, this.step)
-            .subscribe((value2) => {
-              this.taskInfo = value2;
-              if (this.stepStatus === 1) {
-                this.disabled = true;
-                this.stepForm.controls.files.setValue(value2.body.files);
-                this.stepForm.controls.files.disable();
-              }
-            });
-        });
+      if (this.taskId) {
+        // this.id.emit(this.taskId);
+        // this.clientsService
+        //   .getTask(this.taskId, this.step)
+        //   .subscribe((value2) => {
+        //     this.taskInfo = value2;
+        //     if (value2.body.history) {
+        //       this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
+        //     }
+        //   });
+      }
     });
+
+    this.sb = this.clientsService
+      .taskInfo.subscribe((value2) => {
+        this.taskInfo = value2;
+        // console.log(value2);
+        if (value2.body?.history) {
+          this.lastAction =
+            value2.body.history?.array[value2.body.history.array.length - 1];
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.sb.unsubscribe();
   }
 
   nextStep(): void {
@@ -69,7 +95,6 @@ export class SendAlertStepComponent implements OnInit {
         },
       });
       this.stepForm.reset();
-      this.taskId = val.current_task.task_id;
       this.stepStatus = val.current_task.task_status;
     });
   }

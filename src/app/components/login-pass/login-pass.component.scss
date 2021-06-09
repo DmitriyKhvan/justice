@@ -1,0 +1,31 @@
+p {
+  margin: 5px;
+}
+
+.loginPass {
+  small {
+    font-size: 16px;
+  }
+}
+
+.btnBlock {
+  position: relative;
+  i {
+    padding: 0;
+    font-size: 40px;
+    cursor: pointer;
+
+    &:hover {
+      background: transparent;
+    }
+
+    .tooltipAdmin {
+      margin-left: -20px;
+      top: -100%;
+    }
+
+    small {
+      font-size: 16px;
+    }
+  }
+}

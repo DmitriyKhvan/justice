@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccordionItemComponent } from '../accordion-item/accordion-item.component';
+import {ClientsService} from '../../../services/clients.service';
 
 @Component({
   selector: 'app-accordion-wrapper',
@@ -19,24 +20,27 @@ import { AccordionItemComponent } from '../accordion-item/accordion-item.compone
 export class AccordionWrapperComponent implements OnInit, AfterContentInit {
 
   @ContentChildren(AccordionItemComponent) accordionItemComponent!: QueryList<AccordionItemComponent>;
-  currentStep = 1;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, public clientsService: ClientsService) {}
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.currentStep = val.step;
-    });
-  }
+  ngOnInit(): void {}
 
   ngAfterContentInit(): void {
-    // console.log(this.stepComponent);
     this.accordionItemComponent.first.isFirst = true;
     this.accordionItemComponent.last.isLast = true;
-    this.accordionItemComponent.toArray().forEach((step: AccordionItemComponent, idx: number) => {
-      step.currentStep = this.currentStep;
-      step.stepNumber = step.step;
-    });
+
+    if (this.route.snapshot.routeConfig?.path === 'clients/history') {
+      this.clientsService.contractInfo.subscribe(value => {
+        this.accordionItemComponent.toArray().forEach((step: AccordionItemComponent, idx: number) => {
+          value?.tasks.forEach((el: any) => {
+            if (Number(el.task_step) === Number(step.step)) {
+              step.status = el.task_status;
+            }
+          });
+          step.stepNumber = step.step;
+        });
+      });
+    }
   }
 
 }

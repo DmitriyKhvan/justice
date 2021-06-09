@@ -1,6 +1,25 @@
 <div class="row flex-nowrap" >
   <div class="col-7">
-    <form action="" class="page-form" [ngClass]="{'disabled-form p-2': stepStatus === 1}" [formGroup]="stepForm">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="stepStatus === 1"
+    >
+      <div class="mb-1">Прикрепленные файлы</div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form action="" class="page-form" [formGroup]="stepForm" *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'">
       <div class="mb-2">
         <app-form-field formControlName="files" [type]="'file'" [title]="'Скан документа'"></app-form-field>
       </div>

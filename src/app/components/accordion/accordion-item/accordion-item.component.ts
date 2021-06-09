@@ -27,25 +27,35 @@ import { ClientsService } from '../../../services/clients.service';
         <div class="indicator mr-2" [class.current-step]="details.open">
           <div
             class="badge"
-            [class.bg-success]="status === 1"
-            [class.bg-warning]="status === 2"
-            [class.bg-danger]="status === 3"
+            [class.bg-danger]="status === -1"
+            [class.bg-success]="status === 1 || status === 3"
+            [class.bg-warning]="status === 2 || status === 4"
             [ngSwitch]="status"
+            *ngIf="status"
           >
+            <i class="uil-times" *ngSwitchCase="-1"></i>
             <i class="uil-check" *ngSwitchCase="1"></i>
             <i class="icon-clock" *ngSwitchCase="2"></i>
-            <i class="uil-times" *ngSwitchCase="3"></i>
+            <i class="uil-info-circle" *ngSwitchCase="3"></i>
+            <i class="uil-lock" *ngSwitchCase="4"></i>
           </div>
           {{ stepNumber }}
         </div>
         <div class="title pr-2">
           {{ accordionTitle }}
-          <span
-            [class.text-warning]="status === 2"
-            [class.text-danger]="status === 3"
+          <div
+            [class.text-danger]="status === -1"
+            [class.text-success]="status === 1 || status === 3"
+            [class.text-warning]="status === 2 || status === 4"
+            [ngSwitch]="status"
+            *ngIf="status"
           >
-            {{ accordionDoneText }}
-          </span>
+            <span *ngSwitchCase="-1">Заявка отклонена</span>
+            <span *ngSwitchCase="1">{{ accordionDoneText }}</span>
+            <span *ngSwitchCase="2">Заявка в ожидании</span>
+            <span *ngSwitchCase="3">Заявка одобрена</span>
+            <span *ngSwitchCase="4">Подача новой заявки</span>
+          </div>
         </div>
         <div class="arrow" [ngSwitch]="details.open">
           <i class="fas fa-chevron-down" *ngSwitchCase="false"></i>
@@ -56,38 +66,21 @@ import { ClientsService } from '../../../services/clients.service';
         <ng-content select="[accordion-content]"></ng-content>
       </div>
       <div class="footer">
-        <!--        <ng-content select="[accordion-footer]"></ng-content>-->
-        <form action="" class="page-form">
-          <div class="text-field mb-2">
-            <div class="text-field__title">Комментарий</div>
-            <label class="text-field__label bg-white">
-              <textarea placeholder="Уточните детали"></textarea>
-            </label>
-          </div>
-
-          <div class="row">
-            <div class="col-7">
-              <div class="page-form__actionbtn text-uppercase bg-white">
-                <!--    (click)="clientDetail.nextStep()"-->
-                добавить комментарий
-              </div>
-            </div>
-          </div>
-        </form>
+        <ng-content select="[accordion-footer]"></ng-content>
       </div>
     </details>
   `,
   styleUrls: ['./accordion-item.component.scss'],
 })
 export class AccordionItemComponent implements OnInit {
-  stepNumber = 0;
+  stepNumber!: any;
   isLast = false;
   isFirst = false;
   currentStep = 1;
 
-  status = 1;
+  status!: any;
 
-  @Input() step: any = 0;
+  @Input() step: any;
 
   constructor(
     private router: Router,

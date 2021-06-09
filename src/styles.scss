@@ -2,6 +2,10 @@
 @import "assets/scss/ng-select/default.theme";
 @import "assets/scss/my-datepicker";
 
+:root {
+  --primary-color: #10274a;
+}
+
 .text-primary {
   color: #10274a !important;
 }
@@ -473,6 +477,15 @@
       background: rgba(16, 39, 74, 0.05);
     }
   }
+  &__disabled {
+    background: rgba(16, 39, 74, 0.05) !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
+    padding: 0 15px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .file-field {
@@ -485,6 +498,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 15px;
+      &:last-child {
+        margin-bottom: 0;
+      }
       & i {
         font-size: 20px;
       }
@@ -551,7 +568,9 @@
           opacity: 0.3;
         }
         & span {
+          flex: 1;
           margin-left: 16px;
+          overflow: hidden;
         }
         & a {
           display: flex;
@@ -688,9 +707,135 @@
   stroke: rgba(16, 39, 74, 1);
 }
 
+.accordion {
+  position: relative;
+  background: #f4f6f8;
+  border-radius: 10px;
+  &-last {
+    padding-bottom: 0;
+  }
+  &:last-child {
+    padding-bottom: 0;
+  }
+  //&:last-child {
+  //  padding-bottom: 0;
+  //}
+  //&::before {
+  //  content: "";
+  //  position: absolute;
+  //  left: 11px;
+  //  top: 24px;
+  //  width: 2px;
+  //  height: calc(100% - 24px);
+  //  background: rgba(16, 39, 74, 0.3);
+  //  //&-current {
+  //  //  background: rgba(16, 39, 74, 1);
+  //  //}
+  //}
+  //&-current {
+  //  &::before {
+  //    background: rgba(16, 39, 74, 1);
+  //  }
+  //}
+  & .header {
+    display: flex;
+    align-items: center;
+    & .title {
+      width: 100%;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & span {
+        font-size: 14px;
+        font-weight: 400;
+        //color: rgba(16, 39, 74, 0.5);
+      }
+    }
+    & .arrow {
+      font-size: 20px;
+    }
+  }
+  & .indicator {
+    &.current-step {
+      background: rgba(16, 39, 74, 1);
+    }
+    font-size: 14px;
+    position: relative;
+    background: rgba(16, 39, 74, 0.3);
+    font-weight: bold;
+    color: #ffffff;
+    max-width: 24px;
+    min-width: 24px;
+    max-height: 24px;
+    min-height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & .badge {
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  & .content {
+    display: block;
+    //background: red;
+    position: relative;
+    //border-left: 2px solid rgba(16, 39, 74, 1);
+    margin: 0 0 16px;
+    padding: 16px 56px;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 27px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: rgba(16, 39, 74, 1);
+      //&-current {
+      //  background: rgba(16, 39, 74, 1);
+      //}
+    }
+    //&-active {
+    //  display: block;
+    //}
+    //&::before {
+    //  content: '';
+    //  position: absolute;
+    //  left: 11px;
+    //  top: 0;
+    //  width: 2px;
+    //  height: calc(100% + 10px);
+    //  background: #10274A;
+    //}
+  }
+  & .footer {
+    background: rgba(16, 39, 74, 0.05);
+    margin: 0 0 16px;
+    padding: 16px 56px;
+  }
+}
+details[open] summary ~ * {
+  animation: open .5s ease-in-out;
+}
+@keyframes open {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+
 .btn {
   min-width: 72px;
-  height: 38px;
+  height: 40px;
   border-radius: 5px;
   text-align: center;
   background: none;
@@ -700,6 +845,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .btn-filled-white {
@@ -713,8 +859,14 @@
   color: #ffffff;
 }
 
+.btn-outlined-dark {
+  border: 2px solid rgba(16, 39, 74, 1);
+  color: rgba(16, 39, 74, 1);
+}
+
 .btn-dashed {
   border: 1px dashed rgba(16, 39, 74, 0.3);
+  color: rgba(16, 39, 74, 1);
 }
 
 .btn-dashed.add {
@@ -835,7 +987,7 @@
 .custom-toggle-track {
   width: 44px;
   height: 24px;
-  background: rgba(16, 39, 74, 0.31);
+  background: rgba(16, 39, 74, 0.3);
   box-shadow: 0px 3px 15px 1px rgba(35, 44, 81, 0.05);
   border-radius: 30px;
   display: flex;
@@ -851,6 +1003,9 @@
   margin: 2px;
   transition: transform 0.2s;
   transform: translateX(0);
+  &_active {
+    transform: translateX(100%);
+  }
 }
 
 .custom-toggle-active .custom-toggle-checkbox i {
@@ -865,6 +1020,121 @@
   transform: translateX(100%);
 }
 
+.custom-toggle-disabled {
+  background: rgba(16, 39, 74, 0.3) !important;
+}
+
 .display-none {
   display: none !important;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+
+.back {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  i {
+    font-size: 18px;
+    margin-right: 15px;
+  }
+}
+
+.stepNum {
+  margin: 0;
+  font-weight: normal;
+}
+
+.createApp {
+  padding: 13px 36px 13px 26px;
+  border: 1px solid #10274a;
+  border-radius: 5px;
+  background-color: #10274a;
+  color: #fff;
+  outline: none;
+  transition: 0.5s ease-out;
+
+  &:hover {
+    opacity: 0.8;
+    color: #fff;
+  }
+
+  small {
+    font-size: 16px;
+  }
+
+  i {
+    margin-right: 11px;
+    font-size: 18px;
+  }
+}
+
+//default button
+.btn-default {
+  padding: 13px;
+  color: #10274a;
+  border: 2px solid #10274a;
+  border-radius: 5px;
+  background: transparent;
+  text-align: center;
+}
+
+//disable select
+.ng-select-disabled {
+  .ng-select-container {
+    color: #ccc;
+    border-color: #ccc;
+    cursor: no-drop !important;
+  }
+}
+
+i.btnIcon {
+  position: relative;
+  padding: 10px;
+  border-radius: 50%;
+  transition: 0.5s ease-out;
+
+  &:hover {
+    background: rgba(16, 39, 34, 0.15);
+  }
+
+  &:hover .tooltipAdmin {
+    // transform: scale(1) translate(-50%, 0);
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .tooltipAdmin {
+    position: absolute;
+    top: -100%;
+    transform: translate(-50%, 0);
+    margin-left: -10px;
+    padding: 10px 15px;
+    white-space: nowrap;
+    color: #fff;
+    background: #10274a;
+    border-radius: 5px;
+    transition: 0.5s ease-out;
+    // transform: scale(0) translate(-50%, 0);
+    // transform-origin: center bottom;
+    opacity: 0;
+    z-index: -1;
+
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -10%;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transform: rotate(-45deg);
+      width: 10px;
+      height: 10px;
+      background: #10274a;
+    }
+  }
 }

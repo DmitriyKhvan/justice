@@ -1,209 +1,200 @@
-<form
-  action=""
-  class="page-form pb-2 "
-  *ngIf="mainService.role === 'lawyer'"
->
-
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ дела</div>
-        <label class="input-field__label readonly">
-          <input type="text" readonly autocomplete="off" />
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Вид суда</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Наименование филиала</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Наименование суда</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Вид жалобы</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <app-datepicker [title]="'Выберите дату внесения в суд'"></app-datepicker>
-    </div>
-
-    <div class="col-6">
-      <app-datepicker [title]="'Срок контроля'"></app-datepicker>
-    </div>
-  </div>
-
-  <app-file-uploader [title]="'Прикрепить файл'"></app-file-uploader>
-
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>
-
-
-<div class="row no-gutters" *ngIf="mainService.role === 'headLawyer'">
-  <form
-    action=""
-    class="page-form pb-2 "
-  >
-
-    <div class="row">
-      <div class="col-6">
-        <div class="select-field mb-2">
-          <div class="select-field__title">Ваше решение</div>
-          <ng-select
-            class="custom-select"
-            appearance="outline"
-            [items]="opinion"
-            bindLabel="label"
-            bindValue="id"
-            placeholder="Выберите решение"
-            name="qwe"
-            [(ngModel)]="selectedOpinion"
-            [loadingText]="'Загружается'"
-            [searchable]="false"
-            [clearable]="false"
-          ></ng-select>
-          <!--      [disabled]=""-->
-          <!--      [loading]=""-->
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div class="row flex-nowrap mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">№ дело</div>
+          <div class="form-field__disabled">
+            {{ taskInfo?.body?.case_number }}
+          </div>
         </div>
       </div>
-      <div class="col-6">
-        <app-datepicker [title]="'Срок контроля'"></app-datepicker>
+
+      <div class="row flex-nowrap mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Вид суда</div>
+          <div class="form-field__disabled">
+            {{ getCourtType(lastAction?.type_id) }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title mb-1">Тип суда</div>
+          <div class="form-field__disabled">
+            {{ getCourtPlace(lastAction?.type_id, lastAction?.place_id) }}
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="text-field mb-2">
-      <div class="text-field__title">Дополнительная информация</div>
-      <label class="text-field__label">
-        <textarea placeholder="Уточните детали"></textarea>
-      </label>
-    </div>
-
-    <div class="page-form__actionbtn text-uppercase">
-      <!--    (click)="clientDetail.nextStep()"-->
-      следующий шаг
-    </div>
-  </form>
-
-  <div class="info-card ml-4">
-    <div class="info-card__title mb-2">Данные полученные  от исполнителя</div>
-    <div class="info-card__data">
-      <span>№ исходящего документа</span>
-      <span>123123</span>
-    </div>
-    <div class="info-card__data">
-      <span>Дата исх. документа</span>
-      <span>28.12.2019</span>
-    </div>
-    <div class="info-card__data">
-      <span>Дополнительная информация</span>
-    </div>
-
-    <div class="info-card__docs mt-2">
-      <div class="info-card__docs_title mb-1">Прикрепленные документы</div>
-      <div class="info-card__docs_list">
-        <div class="info-card__docs_list_item">
-          <i class="icon-image"></i>
-          <a href="">
-            <i class="icon-attach"></i>
-            скачать
-          </a>
+      <div class="row flex-nowrap mb-1" *ngIf="lastAction?.place_id === 2 || lastAction?.place_id === 3">
+        <div class="col-12">
+          <div class="form-field__title mb-1">Регион суда</div>
+          <div class="form-field__disabled">
+            {{ getCourtRegion(lastAction?.type_id, lastAction?.place_id, lastAction?.region_id) }}
+          </div>
         </div>
-        <div class="info-card__docs_list_item">
-          <i class="icon-document_alt"></i>
-          <a href="">
-            <i class="icon-attach"></i>
-            скачать
-          </a>
+      </div>
+
+      <div class="row flex-nowrap mb-1" *ngIf="lastAction?.place_id === 3">
+        <div class="col-12">
+          <div class="form-field__title mb-1">Районный суд</div>
+          <div class="form-field__disabled">
+            {{ getCourtDistrict(lastAction?.type_id, lastAction?.place_id, lastAction?.region_id, lastAction?.district_id) }}
+          </div>
         </div>
-        <div class="info-card__docs_list_item">
-          <i class="icon-table"></i>
-          <a href="">
-            <i class="icon-attach"></i>
-            скачать
-          </a>
+      </div>
+
+      <div class="row flex-nowrap mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">№ входящего документа</div>
+          <div class="form-field__disabled">
+            {{ lastAction?.in_doc_number }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата вх. документа</div>
+          <div class="form-field__disabled">
+            {{ lastAction?.in_doc_date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field__title mb-1">Скан документа</div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="form-field__title mb-2">Дополнительная информация</div>
+        <div class="form-field__disabled">
+          {{ lastAction?.add_info }}
         </div>
       </div>
     </div>
+
+    <form
+      action=""
+      class="page-form pb-2 "
+      [formGroup]="stepForm"
+      (ngSubmit)="nextStep()"
+      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+    >
+      <div class="row flex-nowrap mb-2">
+        <div class="col-6">
+          <div class="form-field__title mb-1">№ дело</div>
+          <div class="form-field__disabled">
+            {{ taskInfo?.body?.case_number }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="type_id"
+            [type]="'select'"
+            [title]="'Вид суда'"
+            [selectOptions]="courtsType"
+            [ph]="'Выберите вид суда'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6">
+          <app-form-field
+            formControlName="place_id"
+            [type]="'select'"
+            [title]="'Тип суда'"
+            [selectOptions]="courtsPlaces"
+            [ph]="'Выберите тип суда'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2" *ngIf="stepForm.value.place_id === 2 || stepForm.value.place_id === 3">
+        <div class="col-12">
+          <app-form-field
+            formControlName="region_id"
+            [type]="'select'"
+            [title]="'Регион'"
+            [selectOptions]="courtsRegion"
+            [ph]="'Выберите регион'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2" *ngIf="stepForm.value.place_id === 3">
+        <div class="col-12">
+          <app-form-field
+            formControlName="district_id"
+            [type]="'select'"
+            [title]="'Районный суд'"
+            [selectOptions]="courtsDistrict"
+            [ph]="'Выберите районный суд'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="in_doc_number"
+            [type]="'text'"
+            [title]="'№ входящего документа'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6">
+          <app-form-field
+            formControlName="in_doc_date"
+            [type]="'datepicker'"
+            [title]="'Дата вх. документа'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="files"
+            [type]="'file'"
+            [title]="'Скан документа'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="add_info"
+            [type]="'textarea'"
+            [title]="'Дополнительная информация'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <button type="submit" class="page-form__actionbtn text-uppercase" [disabled]="stepForm.invalid">
+        следующий шаг
+      </button>
+    </form>
   </div>
 </div>
+
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+></app-alert-info>

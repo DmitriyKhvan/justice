@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-between align-items-center mt-2">
+  <div class="loginPass" #lp>
+    <small
+      >Логин: <strong>{{ loginPass.login }}</strong></small
+    ><br />
+    <small
+      >Пароль: <strong>{{ loginPass.password }}</strong></small
+    >
+  </div>
+  <div class="btnBlock">
+    <i (click)="copyLoginPass()" class="btnIcon iconly-brokenEdit-Square ml-1"
+      ><small class="tooltipAdmin">Копировать</small></i
+    >
+    <i
+      (click)="downloadPDF()"
+      class="btnIcon iconly-boldArrow---Down-Square ml-1"
+    >
+      <small class="tooltipAdmin">Скачать в PDF</small>
+    </i>
+  </div>
+</div>

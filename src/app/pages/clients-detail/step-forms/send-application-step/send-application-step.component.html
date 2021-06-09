@@ -3,12 +3,13 @@
     <div
       class="p-2 mb-2 bg-gray-primary"
       style="border-radius: 5px"
-      *ngIf="stepStatus === 1 || stepStatus === 2 || stepStatus === 3"
+      *ngIf="stepStatus !== 0"
     >
+
       <div class="mb-1">Прикрепленные файлы</div>
       <div class="mb-2">
         <div
-          *ngFor="let item of taskInfo?.body?.files; index as i"
+          *ngFor="let item of lastAction?.files; index as i"
           class="py-1 d-flex align-items-center"
         >
           <i class="icon-attach mr-1" style="font-size: 22px"></i>
@@ -22,14 +23,14 @@
         <div class="col-6">
           <div class="mb-1">№ исходящего документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.out_doc_number }}
+            {{ lastAction?.out_doc_number }}
           </div>
         </div>
 
         <div class="col-6">
           <div class="mb-1">Дата исх. документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.out_doc_date }}
+            {{ lastAction?.out_doc_date }}
           </div>
         </div>
       </div>
@@ -37,7 +38,7 @@
       <div class="mb-2">
         <div class="mb-1">Дополнительная информация</div>
         <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-          {{ taskInfo?.body?.add_info }}
+          {{ lastAction?.add_info }}
         </div>
       </div>
     </div>
@@ -45,7 +46,7 @@
     <form
       action=""
       class="page-form mb-2"
-      *ngIf="stepStatus === 0"
+      *ngIf="stepStatus === 0 || stepStatus === -1"
       [formGroup]="sendFilesForm"
       (ngSubmit)="nextStep()"
     >
@@ -67,7 +68,7 @@
       <button
         type="submit"
         class="page-form__actionbtn text-uppercase"
-        [disabled]="sendFilesForm.invalid"
+        [disabled]="!sendFilesForm.value.files?.length"
       >
         <!--    (click)="clientDetail.nextStep()"-->
         отправить заявку
@@ -112,68 +113,9 @@
         class="page-form__actionbtn text-uppercase"
         [disabled]="completeAppForm.invalid"
       >
-        <!--    (click)="clientDetail.nextStep()"-->
         отправить заявку
       </button>
     </form>
-
-
-
-    <!--    <app-file-uploader-->
-    <!--      *ngIf="stepStatus === 0 || stepStatus === -1"-->
-    <!--    ></app-file-uploader>-->
-    <!--    &lt;!&ndash;      (fileSelected)="disabled = false"&ndash;&gt;-->
-    <!--    <form-->
-    <!--      action=""-->
-    <!--      class="page-form"-->
-    <!--      [formGroup]="appForm"-->
-    <!--      [ngSwitch]="stepStatus"-->
-    <!--      (ngSubmit)="nextStep()"-->
-    <!--      *ngIf="stepStatus === 0 || stepStatus === 3"-->
-    <!--    >-->
-    <!--      <div class="row justify-content-between mb-2" *ngSwitchCase="3">-->
-    <!--        <div class="col-6">-->
-    <!--          <div class="input-field">-->
-    <!--            <div class="input-field__title">№ исходящего документа</div>-->
-    <!--            <label class="input-field__label">-->
-    <!--              <input-->
-    <!--                type="text"-->
-    <!--                autocomplete="off"-->
-    <!--                formControlName="outDocNumber"-->
-    <!--              />-->
-    <!--            </label>-->
-    <!--          </div>-->
-    <!--        </div>-->
-
-    <!--        <div class="col-6">-->
-    <!--          <app-datepicker-->
-    <!--            [title]="'Дата исх. документа'"-->
-    <!--            (onselect)="-->
-    <!--              appForm.patchValue({ outDocDate: $event.singleDate.formatted })-->
-    <!--            "-->
-    <!--          ></app-datepicker>-->
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      <div class="text-field mb-2">-->
-    <!--        <div class="text-field__title">Дополнительная информация</div>-->
-    <!--        <label class="text-field__label">-->
-    <!--          <textarea-->
-    <!--            placeholder="Уточните детали"-->
-    <!--            formControlName="comment"-->
-    <!--          ></textarea>-->
-    <!--        </label>-->
-    <!--      </div>-->
-
-    <!--      <button-->
-    <!--        type="submit"-->
-    <!--        class="page-form__actionbtn text-uppercase"-->
-    <!--        [disabled]="getBtnStatus()"-->
-    <!--      >-->
-    <!--        &lt;!&ndash;    (click)="clientDetail.nextStep()"&ndash;&gt;-->
-    <!--        отправить заявку-->
-    <!--      </button>-->
-    <!--    </form>-->
   </div>
 
   <div class="col-5">
@@ -195,11 +137,11 @@
 
       <div
         class="mt-3"
-        *ngIf="stepStatus === -1 && taskInfo?.body.main_law_info"
+        *ngIf="lastAction?.main_law_info"
       >
         <div class="info-card__title mb-1">Дополнительная информация</div>
         <div class="info-card__data">
-          {{ taskInfo?.body.main_law_info }}
+          {{ lastAction?.main_law_info }}
         </div>
       </div>
     </div>
@@ -230,24 +172,24 @@
         <div class="mb-2">
           <div class="mb-1">Дополнительная информация</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ taskInfo?.body?.main_law_info }}
+            {{ lastAction?.main_law_info }}
           </div>
         </div>
       </div>
 
       <app-alert-info
         [text]="
-          taskInfo?.body?.main_law_decision === -1
+          lastAction?.main_law_decision === -1
             ? 'Заявка была отклонена'
-            : taskInfo?.body?.main_law_decision === 3
+            : lastAction?.main_law_decision === 3
             ? 'Заявка была одобрена'
             : ''
         "
         [icon]="'uil-info-circle'"
         [iconColorClass]="
-          taskInfo?.body?.main_law_decision === -1
+          lastAction?.main_law_decision === -1
             ? 'text-danger'
-            : taskInfo?.body?.main_law_decision === 3
+            : lastAction?.main_law_decision === 3
             ? 'text-success'
             : ''
         "
@@ -269,24 +211,6 @@
               [title]="'Ваше решение'"
               [selectOptions]="taskInfo?.sp.gy_decision"
             ></app-form-field>
-            <!--            <div class="select-field mb-2">-->
-            <!--              <div class="select-field__title">Ваше решение</div>-->
-            <!--              <ng-select-->
-            <!--                class="custom-select"-->
-            <!--                appearance="outline"-->
-            <!--                [items]="taskInfo?.sp.gy_decision"-->
-            <!--                bindLabel="value"-->
-            <!--                bindValue="key"-->
-            <!--                placeholder="Выберите решение"-->
-            <!--                [(ngModel)]="selectedOpinion"-->
-            <!--                [ngModelOptions]="{ standalone: true }"-->
-            <!--                [loadingText]="'Загружается'"-->
-            <!--                [searchable]="false"-->
-            <!--                [clearable]="false"-->
-            <!--              ></ng-select>-->
-            <!--              &lt;!&ndash;      [disabled]=""&ndash;&gt;-->
-            <!--              &lt;!&ndash;      [loading]=""&ndash;&gt;-->
-            <!--            </div>-->
           </div>
         </div>
         <div class="row mb-2">
@@ -298,20 +222,6 @@
             ></app-form-field>
           </div>
         </div>
-
-        <!--        <div class="text-field mb-2">-->
-        <!--          <div class="text-field__title">Дополнительная информация</div>-->
-        <!--          <label class="text-field__label">-->
-        <!--            <textarea-->
-        <!--              placeholder="Уточните детали"-->
-        <!--              formControlName="comment"-->
-        <!--              [required]="selectedOpinion === -1"-->
-        <!--            ></textarea>-->
-        <!--            <div *ngIf="selectedOpinion === -1" class="validation">-->
-        <!--              <small> Введите причину отклонения </small>-->
-        <!--            </div>-->
-        <!--          </label>-->
-        <!--        </div>-->
 
         <button
           type="submit"
@@ -328,13 +238,13 @@
         <div class="info-card__title mb-4">
           Данные полученные  от исполнителя
         </div>
-        <div class="info-card__data" *ngIf="taskInfo?.body.out_doc_number">
+        <div class="info-card__data" *ngIf="lastAction?.out_doc_number">
           <span>№ исходящего документа</span>
-          <span>{{ taskInfo?.body.out_doc_number }}</span>
+          <span>{{ lastAction?.out_doc_number }}</span>
         </div>
-        <div class="info-card__data" *ngIf="taskInfo?.body.out_doc_date">
+        <div class="info-card__data" *ngIf="lastAction?.out_doc_date">
           <span>Дата исх. документа</span>
-          <span>{{ taskInfo?.body.out_doc_date }}</span>
+          <span>{{ lastAction?.out_doc_date }}</span>
         </div>
 
         <div class="info-card__docs mt-2 mb-3">
@@ -342,7 +252,7 @@
           <div class="info-card__docs_list">
             <div
               class="info-card__docs_list_item"
-              *ngFor="let file of taskInfo?.body?.files"
+              *ngFor="let file of lastAction?.files"
             >
               <i
                 class="icon-image"
@@ -359,7 +269,7 @@
                   ].includes(file.type)
                 "
               ></i>
-              {{ file.name }}
+              <span>{{ file.name }}</span>
               <a href="">
                 <i class="icon-attach"></i>
                 скачать
@@ -368,10 +278,10 @@
           </div>
         </div>
 
-        <div *ngIf="taskInfo?.body.add_info">
+        <div *ngIf="lastAction?.add_info">
           <div class="info-card__title mb-1">Дополнительная информация</div>
           <div class="info-card__data">
-            {{ taskInfo?.body.add_info }}
+            {{ lastAction?.add_info }}
           </div>
         </div>
       </div>

@@ -1,1 +1,243 @@
-<p>add-user works!</p>
+<div class="h-100">
+  <div class="page-header row justify-content-between align-items-center">
+    <a routerLink="/admin/listUser" class="back">
+      <i class="icon-back"></i><small>Добавить доступ</small>
+    </a>
+  </div>
+
+  <div class="page-content">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-8 col-md-9">
+        <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+          <div class="row justify-content-between mb-2">
+            <div class="col-4">
+              <div class="input-field">
+                <div class="input-field__title">Фамилия</div>
+                <label class="input-field__label">
+                  <input
+                    type="text"
+                    autocomplete="off"
+                    formControlName="last_name"
+                  />
+                </label>
+
+                <div
+                  *ngIf="
+                    form.get('last_name')?.touched &&
+                    form.get('last_name')?.invalid
+                  "
+                  class="validation"
+                >
+                  <small *ngIf="form.get('last_name')?.errors?.required">
+                    Введите данные
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="input-field">
+                <div class="input-field__title">Имя</div>
+                <label class="input-field__label">
+                  <input
+                    type="text"
+                    autocomplete="off"
+                    formControlName="first_name"
+                  />
+                </label>
+
+                <div
+                  *ngIf="
+                    form.get('first_name')?.touched &&
+                    form.get('first_name')?.invalid
+                  "
+                  class="validation"
+                >
+                  <small *ngIf="form.get('first_name')?.errors?.required">
+                    Введите данные
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="input-field">
+                <div class="input-field__title">Отчество</div>
+                <label class="input-field__label">
+                  <input
+                    type="text"
+                    autocomplete="off"
+                    formControlName="middle_name"
+                  />
+                </label>
+
+                <div
+                  *ngIf="
+                    form.get('middle_name')?.touched &&
+                    form.get('middle_name')?.invalid
+                  "
+                  class="validation"
+                >
+                  <small *ngIf="form.get('middle_name')?.errors?.required">
+                    Введите данные
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-between mb-2">
+            <div class="col-12">
+              <div class="select-field">
+                <div class="select-field__title">Роль</div>
+                <ng-select
+                  [multiple]="true"
+                  appearance="outline"
+                  [items]="roles"
+                  bindLabel="name"
+                  bindValue="id"
+                  placeholder="Выберите роль"
+                  #agreeSelect
+                  labelForId="yesno"
+                  [searchable]="false"
+                  formControlName="role"
+                ></ng-select>
+              </div>
+              <div
+                *ngIf="form.get('role')?.touched && form.get('role')?.invalid"
+                class="validation"
+              >
+                <small *ngIf="form.get('role')?.errors?.required">
+                  Введите данные
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-between mb-2">
+            <div class="col-12">
+              <div class="select-field">
+                <div class="select-field__title">Регион</div>
+                <ng-select
+                  appearance="outline"
+                  [items]="regions"
+                  bindLabel="name_ru"
+                  bindValue="region_id"
+                  placeholder="Выберите регион"
+                  #agreeSelect
+                  labelForId="yesno"
+                  [searchable]="true"
+                  formControlName="region"
+                  (change)="setRegion($event)"
+                ></ng-select>
+              </div>
+              <div
+                *ngIf="
+                  form.get('region')?.touched && form.get('region')?.invalid
+                "
+                class="validation"
+              >
+                <small *ngIf="form.get('region')?.errors?.required">
+                  Введите данные
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-between mb-2">
+            <div class="col-12">
+              <div class="select-field">
+                <div class="select-field__title">Район</div>
+                <ng-select
+                  [multiple]="true"
+                  appearance="outline"
+                  [items]="districts"
+                  bindLabel="name_ru"
+                  bindValue="mfo"
+                  placeholder="Выберите район"
+                  #agreeSelect
+                  labelForId="yesno"
+                  [searchable]="false"
+                  formControlName="district"
+                ></ng-select>
+              </div>
+              <div
+                *ngIf="
+                  form.get('district')?.touched && form.get('district')?.invalid
+                "
+                class="validation"
+              >
+                <small *ngIf="form.get('district')?.errors?.required">
+                  Введите данные
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-betwee mb-2">
+            <div class="col-12">
+              <div class="input-field">
+                <div class="input-field__title">Логин</div>
+                <label class="input-field__label">
+                  <input
+                    type="text"
+                    autocomplete="off"
+                    formControlName="username"
+                  />
+                </label>
+
+                <div
+                  *ngIf="
+                    form.get('username')?.touched &&
+                    form.get('username')?.invalid
+                  "
+                  class="validation"
+                >
+                  <small *ngIf="form.get('username')?.errors?.required">
+                    Введите данные
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-betwee mb-2">
+            <div class="col-12">
+              <div class="input-field">
+                <div class="input-field__title">Пароль</div>
+                <label class="input-field__label">
+                  <input
+                    type="text"
+                    autocomplete="off"
+                    formControlName="password"
+                  />
+                </label>
+
+                <div
+                  *ngIf="
+                    form.get('password')?.touched &&
+                    form.get('password')?.invalid
+                  "
+                  class="validation"
+                >
+                  <small *ngIf="form.get('password')?.errors?.required">
+                    Введите данные
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="page-form__actionbtn text-uppercase"
+            [ngClass]="{ disableBtn: form.invalid || submitted }"
+            [disabled]="form.invalid || submitted"
+          >
+            Добавить
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -74,11 +74,13 @@ export class LoginComponent implements OnInit {
 
         console.log('this.router', this.router.url.match(/admin/));
 
-        if (this.router.url.match(/admin/)) {
-          this.router.navigate(['/admin/user']);
-        } else {
-          this.router.navigate(['/']);
-        }
+        // if (this.router.url.match(/admin/)) {
+        //   this.router.navigate(['/admin/user']);
+        // } else {
+        //   this.router.navigate(['/']);
+        // }
+
+        this.router.navigate(['/']);
 
         this.submitted = false;
       },

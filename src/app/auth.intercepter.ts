@@ -27,11 +27,14 @@ export class AuthIntercepter implements HttpInterceptor {
 
     if (this.auth.isAuthenticated()) {
       req = req.clone({
-        headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
+        // headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
+        headers: req.headers.append(
+          'Auth',
+          JSON.parse(localStorage.getItem('tokenData') + '').access_token
+        ),
       });
     }
     return next.handle(req).pipe(
-      // tap((res) => console.log('res', res)),
       catchError((error: HttpErrorResponse) => {
         // console.log('[Intercepter Error]: ', error);
         if (error.status === 403) {

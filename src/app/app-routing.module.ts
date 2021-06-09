@@ -12,6 +12,10 @@ import { AuthGuard } from './services/auth.guard';
 import { SearchComponent } from './pages/search/search.component';
 import { AdminGuard } from './services/admin.guard';
 import { ErrorComponent } from './pages/error/error.component';
+import { AddUserComponent } from './admin/pages/add-user/add-user.component';
+import { AdminComponent } from './layouts/admin/admin.component';
+import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
+import { ListUserComponent } from './admin/pages/list-user/list-user.component';
 
 const routes: Routes = [
   {
@@ -20,9 +24,24 @@ const routes: Routes = [
   },
   {
     path: 'admin',
+    component: AdminComponent,
     canActivate: [AdminGuard],
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule),
+    children: [
+      {
+        path: 'listUser',
+        component: ListUserComponent,
+      },
+      {
+        path: 'addUser',
+        component: AddUserComponent,
+      },
+      {
+        path: 'editUser/:id',
+        component: EditUserComponent,
+      },
+    ],
+    // loadChildren: () =>
+    //   import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: '',
@@ -64,11 +83,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      preloadingStrategy: PreloadAllModules,
-    }),
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

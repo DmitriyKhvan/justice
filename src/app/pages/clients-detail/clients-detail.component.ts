@@ -28,26 +28,21 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   constructor(
     public clientsService: ClientsService,
     public mainService: MainService,
-    public fileUploadService: FileUploadService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
-  uploadFiles!: Array<any>;
+  tasks: Array<any> = [];
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
       this.clientsService.currentStep = val.step;
-      // this.clientsService
-      //   .contractDetails(val.contract)
-      //   .subscribe((value) => {
-      //     console.log(value);
-      //   });
     });
-
-    this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-      this.uploadFiles = data;
+    this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
+      this.tasks = value.tasks.map((el: any) => el.task_step);
+      this.clientsService.contractInfo.next(value);
     });
+    // console.log(this.route.snapshot.queryParams.contract);
   }
 
   ngDoCheck(): void {}
@@ -66,5 +61,9 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   logger(evt: any): void {
     console.log('emitted', evt);
+  }
+
+  isTask(task: number): any {
+    return this.tasks.includes(String(task));
   }
 }
