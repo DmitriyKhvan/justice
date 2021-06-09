@@ -1,14 +1,8 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-  useAnimation,
-} from '@angular/animations';
+import { transition, trigger, useAnimation } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { bounce, tada } from 'ng-animate';
 import { Subscription } from 'rxjs';
+import { LoginPass } from 'src/app/interfaces';
 import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
@@ -24,6 +18,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
   public text!: string;
   public type = 'success';
+  public loginPass!: LoginPass | null;
   wrapAlertState = 'end';
 
   aSub!: Subscription;
@@ -34,6 +29,8 @@ export class AlertComponent implements OnInit, OnDestroy {
     this.aSub = this.alertService.alert$.subscribe((alert) => {
       this.text = alert.text;
       this.type = alert.type;
+      this.loginPass = alert.loginPass;
+      console.log('loginPas', alert.loginPass);
 
       // const timeout = setTimeout(() => {
       //   clearTimeout(timeout);
@@ -53,6 +50,6 @@ export class AlertComponent implements OnInit, OnDestroy {
   }
 
   animationAlert() {
-    this.wrapAlertState = this.wrapAlertState === 'end'  ? 'start' : 'end';
+    this.wrapAlertState = this.wrapAlertState === 'end' ? 'start' : 'end';
   }
 }

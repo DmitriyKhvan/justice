@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'SFCompactDisplay';
-  src: url('../fonts/SFCompactDisplay.ttf') format('truetype');
+  font-family: "SFCompactDisplay";
+  src: url("../fonts/SFCompactDisplay.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -21,16 +21,29 @@ html {
   /*scrollbar-width: none; !* Firefox *!*/
 }
 
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
   display: block;
 }
 
 body {
   margin: 0;
-  font-family: 'SFCompactDisplay', sans-serif;
+  font-family: "SFCompactDisplay", sans-serif;
   font-size: 16px;
-  color: #10274A;
+  color: #10274a;
   text-align: left;
+}
+
+small {
+  font-family: "SFCompactDisplay", sans-serif;
 }
 /*::-webkit-scrollbar { width: 0;*/
 /*  background: transparent;}*/
@@ -57,7 +70,12 @@ hr {
   overflow: visible;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
@@ -103,7 +121,7 @@ dt {
 }
 
 dd {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   margin-left: 0;
 }
 
@@ -129,11 +147,11 @@ sup {
 }
 
 sub {
-  bottom: -.25em;
+  bottom: -0.25em;
 }
 
 sup {
-  top: -.5em;
+  top: -0.5em;
 }
 
 a {
@@ -156,7 +174,8 @@ pre,
 code,
 kbd,
 samp {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   font-size: 1em;
 }
 
@@ -298,7 +317,7 @@ legend {
   width: 100%;
   max-width: 100%;
   padding: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   font-size: 1.5rem;
   line-height: inherit;
   color: inherit;

@@ -12,6 +12,11 @@ export interface refreshTokenContent {
   refresh_token: string;
 }
 
+export interface LoginPass {
+  login: string;
+  password: string;
+}
+
 export interface ContractInfo {
   body: {};
   case_close?: boolean;

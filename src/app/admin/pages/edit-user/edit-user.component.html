@@ -1,14 +1,19 @@
 <div class="h-100">
   <div class="page-header row justify-content-between align-items-center">
     <a routerLink="/admin/listUser" class="back">
-      <i class="icon-back"></i><small>Добавить доступ</small>
+      <i class="icon-back"></i><small>Редактировать</small>
     </a>
   </div>
 
-  <div class="page-content">
+  <div *ngIf="!loading; else loadingBlock" class="page-content">
     <div class="row justify-content-center">
       <div class="col-xl-6 col-lg-8 col-md-9">
-        <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+        <form
+          *ngIf="form"
+          class="page-form"
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+        >
           <div class="row justify-content-between mb-2">
             <div class="col-4">
               <div class="input-field">
@@ -126,9 +131,9 @@
                   placeholder="Выберите регион"
                   #agreeSelect
                   labelForId="yesno"
-                  [searchable]="true"
+                  [searchable]="false"
                   formControlName="region"
-                  (change)="setRegion($event)"
+                  (change)="setDistrict($event)"
                 ></ng-select>
               </div>
               <div
@@ -154,7 +159,7 @@
                   [items]="districts"
                   bindLabel="name_ru"
                   bindValue="mfo"
-                  placeholder="Выберите район"
+                  placeholder="Выберите роль"
                   #agreeSelect
                   labelForId="yesno"
                   [searchable]="false"
@@ -234,10 +239,14 @@
             [ngClass]="{ disableBtn: form.invalid || submitted }"
             [disabled]="form.invalid || submitted"
           >
-            Добавить
+            Сохранить изменения
           </button>
         </form>
       </div>
     </div>
   </div>
+
+  <ng-template #loadingBlock>
+    <app-loader></app-loader>
+  </ng-template>
 </div>

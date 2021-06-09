@@ -5,12 +5,14 @@ import { AdminComponent as AdminLayoutComponent } from '../layouts/admin/admin.c
 import { LoginComponent } from '../pages/login/login.component';
 import { AdminGuard } from '../services/admin.guard';
 import { AuthGuard } from '../services/auth.guard';
+import { SharedModule } from '../shared.module';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 
 @NgModule({
   declarations: [AdminLayoutComponent, AddUserComponent],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule.forChild([
       {
         path: '',

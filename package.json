@@ -28,6 +28,7 @@
     "ng-animate": "^1.0.0",
     "ng2-file-upload": "^1.4.0",
     "ng2-tooltip-directive": "^2.9.22",
+    "ngx-pagination": "^5.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"

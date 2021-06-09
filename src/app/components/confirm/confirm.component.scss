@@ -12,7 +12,7 @@
 
   .alert {
     position: relative;
-    min-width: 405px;
+    min-width: 470px;
     padding: 20px;
     background-color: #fff;
     // left: 50%;
@@ -44,24 +44,26 @@
       }
     }
 
-    .icon-result {
-      display: flex;
-      justify-content: center;
+    .btn-success,
+    .btn-failure {
+      width: 200px;
+      transition: 0.5s ease-out;
+    }
 
-      i {
-        font-size: 50px;
+    .btn-success {
+      background: #10274a;
+      color: #fff;
+
+      &:hover {
+        background: rgba(16, 39, 74, 0.7);
       }
+    }
 
-      &.alert-success {
-        color: #00a71a;
-      }
+    .btn-failure {
+      background: #fff;
 
-      &.alert-warning {
-        color: orange;
-      }
-
-      &.alert-danger {
-        color: red;
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
       }
     }
   }

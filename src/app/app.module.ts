@@ -75,6 +75,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { ApplicationListComponent } from './pages/damage-claims/shared/components/application-list/application-list.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
+import { AdminComponent as AdminLayoutComponent } from './layouts/admin/admin.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SearchComponent } from './pages/search/search.component';
 import { AuthIntercepter } from './auth.intercepter';
@@ -83,6 +84,14 @@ import { CustomToggleComponent } from './components/checkboxes/custom-toggle/cus
 import { FormFieldComponent } from './components/formFields/form-field/form-field.component';
 import { IsActiveUserComponent } from './components/is-active-user/is-active-user.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { SharedModule } from './shared.module';
+import { AddUserComponent } from './admin/pages/add-user/add-user.component';
+import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
+import { ListUserComponent } from './admin/pages/list-user/list-user.component';
+import { ConfirmComponent } from './components/confirm/confirm.component';
+import { LoginPassComponent } from './components/login-pass/login-pass.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { LoaderComponent } from './components/loader/loader.component';
 import { SupervisionStepComponent } from './pages/clients-detail/step-forms/supervision-step/supervision-step.component';
 import { SupervisionResponseStepComponent } from './pages/clients-detail/step-forms/supervision-response-step/supervision-response-step.component';
 import { AlertStepHistoryComponent } from './pages/history/history-steps/alert-step-history/alert-step-history.component';
@@ -154,6 +163,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ApplicationListComponent,
     LoginComponent,
     MainComponent,
+    AdminLayoutComponent,
     SidebarComponent,
     SearchComponent,
     AlertInfoComponent,
@@ -161,6 +171,12 @@ const INTERCEPTOR_PROVIDER: Provider = {
     FormFieldComponent,
     IsActiveUserComponent,
     ErrorComponent,
+    AddUserComponent,
+    EditUserComponent,
+    ListUserComponent,
+    ConfirmComponent,
+    LoginPassComponent,
+    LoaderComponent,
     SupervisionStepComponent,
     SupervisionResponseStepComponent,
     AlertStepHistoryComponent,
@@ -178,6 +194,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NgSelectModule,
     ReactiveFormsModule,
     AngularMyDatePickerModule,
+    NgxPaginationModule,
     FileUploadModule
   ],
   providers: [HttpClient, INTERCEPTOR_PROVIDER],
