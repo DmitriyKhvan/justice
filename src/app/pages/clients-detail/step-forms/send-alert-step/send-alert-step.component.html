@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <form action="" class="page-form" [formGroup]="stepForm" *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'">
+    <form action="" class="page-form" [formGroup]="stepForm" *ngIf="stepStatus === 0 && mainService.ROLE.includes(1)">
       <div class="mb-2">
         <app-form-field formControlName="files" [type]="'file'" [title]="'Скан документа'"></app-form-field>
       </div>
@@ -39,7 +39,7 @@
   [text]="'Подождите, данные еще не отправлены исполнительным юристом.'"
   [icon]="'uil-clock-three'"
   [iconColorClass]="'text-warning'"
-  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+  *ngIf="stepStatus === 0 && mainService.ROLE.includes(2)"
 ></app-alert-info>
 
 

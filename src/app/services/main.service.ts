@@ -7,7 +7,7 @@ export class MainService {
 
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
-  public ROLE = 'GY'; // IY - исполнительный юрист ---- GY - главный юрист
+  public ROLE: Array<any> = []; // 1 - исполнительный юрист ---- 2 - главный юрист  ---- 3 - администратор
 
   public sidebar = false;
   public sidebarDetail = false;
