@@ -27,7 +27,11 @@ export class AuthIntercepter implements HttpInterceptor {
 
     if (this.auth.isAuthenticated()) {
       req = req.clone({
-        headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
+        // headers: req.headers.append('Auth', JSON.stringify(this.auth.token)),
+        headers: req.headers.append(
+          'Auth',
+          JSON.parse(localStorage.getItem('tokenData') + '').access_token
+        ),
       });
     }
     return next.handle(req).pipe(
