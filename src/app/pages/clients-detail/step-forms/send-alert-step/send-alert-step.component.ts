@@ -40,6 +40,7 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
   private sb!: Subscription;
 
   ngOnInit(): void {
+    console.log(this.mainService.ROLE);
     this.stepForm = new FormGroup({
       files: new FormControl([], Validators.required),
     });
