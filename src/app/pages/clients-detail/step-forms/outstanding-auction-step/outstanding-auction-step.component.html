@@ -1,133 +1,221 @@
-<form
-  action=""
-  class="page-form pb-2"
-  *ngIf="mainService.role === 'lawyer'"
->
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ лота</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div class="d-flex align-items-center flex-nowrap mb-2">
+        <div
+          class="custom-toggle-track mr-1"
+          [class.custom-toggle-disabled]="!lastAction?.auction"
+        >
+          <div
+            class="custom-toggle-thumb"
+            [class.custom-toggle-thumb_active]="lastAction?.auction"
+          ></div>
+        </div>
+        <div class="form-field__title m-0">Аукцион</div>
+      </div>
+
+      <div class="row flex-nowrap mb-2" *ngIf="lastAction?.auction">
+        <div class="col-6">
+          <div class="form-field__title mb-1">№ дело МИБ</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.mib_case_number }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-2">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата начало лота</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.lot_begin_date }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата окончание лота</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.lot_end_date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="form-field__title mb-2">Дополнительная информация</div>
+        <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+          {{ lastAction?.add_info }}
+        </div>
+      </div>
+
+      <div class="form-field__title mb-2">Скан документа</div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <!--      <div class="row flex-nowrap mb-2" *ngIf="!lastAction?.auction">-->
+      <!--        <div class="col-6">-->
+      <!--          <div class="form-field__title mb-1">Действие</div>-->
+      <!--          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">-->
+      <!--            {{ getSPValue("to_court_f_action", lastAction?.action) }}-->
+      <!--          </div>-->
+      <!--        </div>-->
+
+      <!--        <div class="col-6" *ngIf="lastAction?.action === 1">-->
+      <!--          <div class="form-field__title mb-1">Выбранная дата</div>-->
+      <!--          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">-->
+      <!--            {{ lastAction?.activation_date }}-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
+    </div>
+
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="stepForm"
+      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+      (ngSubmit)="nextStep()"
+    >
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="auction"
+            [type]="'checkbox'"
+            [checkboxType]="'toggle'"
+            [title]="'Аукцион'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div
+        class="row justify-content-between mb-2"
+        *ngIf="stepForm.value.auction"
+      >
+        <div class="col-6">
+          <app-form-field
+            formControlName="mib_case_number"
+            [type]="'text'"
+            [title]="'№ дело МИБ'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div
+        class="row justify-content-between align-items-end mb-2"
+        *ngIf="stepForm.value.auction"
+      >
+        <div class="col-6">
+          <app-form-field
+            formControlName="lot_begin_date"
+            [type]="'datepicker'"
+            [title]="'Дата начало лота'"
+          ></app-form-field>
+        </div>
+        <div class="col-6">
+          <app-form-field
+            formControlName="lot_end_date"
+            [type]="'datepicker'"
+            [title]="'Дата окончание лота'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="add_info"
+            [type]="'textarea'"
+            [title]="'Дополнительная информация'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="files"
+            [type]="'file'"
+            [title]="'Скан документа'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div
+        class="row justify-content-between mb-2"
+      >
+        <div class="col-6">
+          <app-form-field
+            formControlName="realization"
+            [type]="'select'"
+            [title]="'Лот реализован'"
+            [selectOptions]="[{key: 1, value: 'Да'}, {key: 2, value: 'Нет'}]"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6" *ngIf="stepForm.value.realization === 1">
+          <app-form-field
+            formControlName="realization_sum"
+            [type]="'text'"
+            [title]="'Сумма реализации'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-12">
+          <div
+            class="py-1 d-flex align-items-center"
+            style="border-radius: 5px"
+          >
+            <i class="uil-info-circle text-primary mr-2" style="font-size: 20px"></i>
+            <div style="font-size: 12px">
+              Выставить лот на повторный аукцио можно только один раз
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="stepForm.invalid"
+      >
+        {{
+          stepForm?.value.auction
+            ? "В ожидание"
+            : stepForm?.value.realization === 2
+            ? "Выставление имущества на повторный аукцион"
+            : "следующий шаг"
+        }}
+      </button>
+    </form>
+
+    <div
+      class="p-2 mb-2 d-flex justify-content-center align-items-center bg-gray-secondary"
+      style="border-radius: 5px"
+      *ngIf="stepStatus === 2"
+    >
+      <i class="uil-info-circle text-danger mr-2" style="font-size: 20px"></i>
+      <div style="text-align: left">
+        <div>Шаг заблокирован до {{ taskInfo?.body?.activation_date }}  </div>
+        <div>До разблокировки осталось {{ getRelativeTime() }}</div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <app-datepicker [title]="'Дата начала лота'"></app-datepicker>
-    </div>
-
-    <div class="col-6">
-      <app-datepicker [title]="'Дата окончания лота'"></app-datepicker>
-    </div>
-  </div>
-
-  <div class="checkbox-field mb-2">
-    <div class="text-field__title">Залог должника</div>
-    <label class="checkbox-field__label mb-1">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Залог номер 1</span>
-    </label>
-    <label class="checkbox-field__label mb-1">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Залог номер 2</span>
-    </label>
-    <label class="checkbox-field__label mb-1">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Залог номер 3</span>
-    </label>
-  </div>
-
-  <div class="row">
-    <div class="col-8">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Реализовано/не реализовано</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Сумма реализации</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>
-
-<form
-  action=""
-  class="page-form"
-  *ngIf="mainService.role === 'headLawyer'"
->
-  <div class="checkbox-field mb-2">
-    <label class="checkbox-field__label">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Проведение суда</span>
-    </label>
-  </div>
-
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ дела</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <app-file-uploader [title]="'Прикрепить файл'"></app-file-uploader>
-
-  <div class="row justify-content-start align-items-end mb-2">
-    <div class="col-6">
-      <app-datepicker [title]="'Выберите день'"></app-datepicker>
-    </div>
-    <div class="col-3">
-      <div class="btn btn-dashed">Добавить</div>
-    </div>
-  </div>
-
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+></app-alert-info>

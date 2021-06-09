@@ -1,22 +1,23 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import { MainService } from '../../../../services/main.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { MainService } from '../../../../services/main.service';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import * as moment from 'moment';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-sending-mib-step',
-  templateUrl: './sending-mib-step.component.html',
-  styleUrls: ['./sending-mib-step.component.scss'],
+  selector: 'app-supervision-step',
+  templateUrl: './supervision-step.component.html',
+  styles: [],
 })
-export class SendingMibStepComponent implements OnInit, OnDestroy {
+export class SupervisionStepComponent implements OnInit, OnDestroy {
   @Input() step!: any;
 
   stepStatus = 0;
@@ -35,12 +36,11 @@ export class SendingMibStepComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.stepForm = new FormGroup({
-      task_number: new FormControl(null),
-      task_id: new FormControl(null),
-      out_doc_number: new FormControl(null),
-      out_doc_date: new FormControl(null),
-      files: new FormControl([]),
-      add_info: new FormControl(null),
+      task_number: new FormControl(this.step),
+      task_id: new FormControl(this.taskId),
+      entry_date: new FormControl(''),
+      files: new FormControl([], Validators.required),
+      add_info: new FormControl(''),
     });
 
     this.sb = this.clientsService.contractInfo.subscribe((value) => {
@@ -78,7 +78,6 @@ export class SendingMibStepComponent implements OnInit, OnDestroy {
 
   complete(body: any): void {
     this.clientsService.completeTaskStep(body).subscribe((val: any) => {
-      console.log('next step', val);
       this.router.navigate([], {
         queryParams: {
           ...this.route.snapshot.queryParams,
@@ -94,38 +93,5 @@ export class SendingMibStepComponent implements OnInit, OnDestroy {
           val.body.history.array[val.body.history.array.length - 1];
       }
     });
-  }
-
-  resetField(arr: any = []): void {
-    arr.forEach((el: string) => {
-      this.stepForm.get(el)?.reset();
-    });
-  }
-
-  setValidator(arr: any = []): void {
-    const validators: ValidatorFn[] = [Validators.required];
-    arr.forEach((el: string) => {
-      this.stepForm.get(el)?.setValidators(validators);
-      this.stepForm.get(el)?.updateValueAndValidity({ onlySelf: true });
-    });
-  }
-
-  clearValidator(arr: any = []): void {
-    arr.forEach((el: string) => {
-      this.stepForm.get(el)?.clearValidators();
-      this.stepForm.get(el)?.updateValueAndValidity({ onlySelf: true });
-    });
-  }
-
-  getRelativeTime(): any {
-    return moment(
-      new Date(this.lastAction?.activation_date?.split('.').reverse().join(','))
-    )
-      .locale('ru')
-      .toNow(true);
-  }
-
-  getSPValue(sp: string, key: any): void {
-    return this.taskInfo?.sp[sp].find((el: any) => el.key === key)?.value;
   }
 }

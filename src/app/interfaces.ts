@@ -11,3 +11,11 @@ export interface refreshTokenContent {
   access_token: string;
   refresh_token: string;
 }
+
+export interface ContractInfo {
+  body: {};
+  case_close?: boolean;
+  current_task: { task_id: number; task_status: number; task_step: string };
+  sp?: {};
+  tasks: [];
+}

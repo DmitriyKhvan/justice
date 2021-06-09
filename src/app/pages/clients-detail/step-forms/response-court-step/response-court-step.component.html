@@ -1,72 +1,228 @@
-<form
-  action=""
-  class="page-form"
-  *ngIf="mainService.role === 'lawyer'"
->
-  <div class="checkbox-field mb-2">
-    <label class="checkbox-field__label">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Проведение суда</span>
-    </label>
-  </div>
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div class="d-flex align-items-center flex-nowrap mb-1">
+        <div
+          class="custom-toggle-track mr-1"
+          [class.custom-toggle-disabled]="!lastAction?.to_court"
+        >
+          <div
+            class="custom-toggle-thumb"
+            [class.custom-toggle-thumb_active]="lastAction?.to_court"
+          ></div>
+        </div>
+        <div class="form-field__title m-0">Передача дела в суд</div>
+      </div>
 
-  <app-file-uploader [title]="'Прикрепить скан ответа суда'"></app-file-uploader>
+      <div *ngIf="lastAction?.to_court">
+        <div class="row flex-nowrap mb-1">
+          <div class="col-6">
+            <div class="form-field__title mb-1">№ дело</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ lastAction?.court_case_id }}
+            </div>
+          </div>
 
-  <div class="text-field mb-2">
-    <div class="text-field__title">Дополнительная информация</div>
-    <label class="text-field__label">
-      <textarea placeholder="Уточните детали"></textarea>
-    </label>
-  </div>
+          <div class="col-6">
+            <div class="form-field__title mb-1">Выбранная дата</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ lastAction?.court_dates }}
+            </div>
+          </div>
+        </div>
 
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>
+        <div class="form-field__title mb-1">
+          Cкан определения суда о назначении дела  или типа расписки об
+          отложении суда
+        </div>
+        <div class="mb-2">
+          <div
+            *ngFor="let item of lastAction?.court_files; index as i"
+            class="py-1 d-flex align-items-center"
+          >
+            <i class="icon-attach mr-1" style="font-size: 22px"></i>
+            <div class="ml-1">
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+      </div>
 
-<form
-  action=""
-  class="page-form"
-  *ngIf="mainService.role === 'headLawyer'"
->
-  <div class="checkbox-field mb-2">
-    <label class="checkbox-field__label">
-      <input type="checkbox">
-      <span class="custom-checkbox mr-2">
-        <i class="uil-check"></i>
-      </span>
-      <span>Проведение суда</span>
-    </label>
-  </div>
+      <div *ngIf="!lastAction?.to_court">
+        <div class="row flex-nowrap mb-1">
+          <div class="col-6">
+            <div class="form-field__title mb-1">Причина отсрочки</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              <ng-container [ngSwitch]="lastAction?.action">
+                <ng-template ngSwitchCase="1">Отложить на</ng-template>
+                <ng-template ngSwitchCase="2">Дело закрыто</ng-template>
+                <ng-template ngSwitchCase="3"
+                  >Новое обращение в суд</ng-template
+                >
+              </ng-container>
+            </div>
+          </div>
 
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">№ дела</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+          <div class="col-6" *ngIf="lastAction?.action === 1">
+            <div class="form-field__title mb-1">Выбранная дата</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ lastAction?.activation_date }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field__title mb-1">
+          Скан определения суда об отказе в принятии заявления
+        </div>
+        <div class="mb-2">
+          <div
+            *ngFor="let item of lastAction?.court_files; index as i"
+            class="py-1 d-flex align-items-center"
+          >
+            <i class="icon-attach mr-1" style="font-size: 22px"></i>
+            <div class="ml-1">
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <div class="form-field__title mb-1">Дополнительная информация</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.add_info }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="stepForm"
+      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+      (ngSubmit)="nextStep()"
+    >
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="to_court"
+            [type]="'checkbox'"
+            [checkboxType]="'toggle'"
+            [title]="'Проведение суда'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="stepForm.value.to_court">
+        <div class="row justify-content-between mb-2">
+          <div class="col-6">
+            <app-form-field
+              formControlName="court_case_id"
+              [type]="'text'"
+              [title]="'№ дело'"
+            ></app-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-between align-items-end mb-2">
+          <div class="col-6">
+            <app-form-field
+              formControlName="court_dates"
+              [type]="'datepicker'"
+              [title]="'Выберите день'"
+            ></app-form-field>
+          </div>
+
+          <!--          <div class="col-6">-->
+          <!--            <button class="btn btn-dashed w-100">Добавить еще одну дату</button>-->
+          <!--          </div>-->
+        </div>
+
+        <div class="row justify-content-between mb-2">
+          <div class="col-12">
+            <app-form-field
+              formControlName="court_files"
+              [type]="'file'"
+              [title]="
+                'Скан определения суда о назначении дела или типа расписки об отложении суда'
+              "
+            ></app-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!stepForm.value.to_court">
+        <div class="row justify-content-between mb-2">
+          <div class="col-6">
+            <app-form-field
+              formControlName="action"
+              [type]="'select'"
+              [title]="'Действие'"
+              [selectOptions]="taskInfo?.sp.to_court_f_action"
+            ></app-form-field>
+          </div>
+
+          <div class="col-6" *ngIf="stepForm.value.action === 1">
+            <app-form-field
+              formControlName="activation_date"
+              [type]="'datepicker'"
+              [title]="'Выберите день'"
+            ></app-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-between mb-2">
+          <div class="col-12">
+            <app-form-field
+              formControlName="court_files"
+              [type]="'file'"
+              [title]="'Скан определения суда об отказе в принятии заявления'"
+            ></app-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-between mb-2">
+          <div class="col-12">
+            <app-form-field
+              formControlName="add_info"
+              [type]="'textarea'"
+              [title]="'Дополнительная информация'"
+            ></app-form-field>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="stepForm.invalid"
+      >
+        следующий шаг
+      </button>
+    </form>
+
+    <div
+      class="p-2 mb-2 d-flex justify-content-center align-items-center bg-gray-secondary"
+      style="border-radius: 5px"
+      *ngIf="stepStatus === 2"
+    >
+      <i class="uil-info-circle text-danger mr-2" style="font-size: 20px"></i>
+      <div style="text-align: left">
+        <div>Шаг заблокирован до {{ taskInfo?.body?.activation_date }}  </div>
+        <div>До разблокировки осталось {{ getRelativeTime() }}</div>
       </div>
     </div>
   </div>
+</div>
 
-  <app-file-uploader [title]="'Прикрепить файл'"></app-file-uploader>
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+></app-alert-info>
 
-  <div class="row justify-content-start align-items-end mb-2">
-    <div class="col-6">
-      <app-datepicker [title]="'Выберите день'"></app-datepicker>
-    </div>
-    <div class="col-3">
-      <div class="btn btn-dashed">Добавить</div>
-    </div>
-  </div>
-
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
-  </div>
-</form>

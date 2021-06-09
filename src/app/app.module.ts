@@ -83,6 +83,12 @@ import { CustomToggleComponent } from './components/checkboxes/custom-toggle/cus
 import { FormFieldComponent } from './components/formFields/form-field/form-field.component';
 import { IsActiveUserComponent } from './components/is-active-user/is-active-user.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { SupervisionStepComponent } from './pages/clients-detail/step-forms/supervision-step/supervision-step.component';
+import { SupervisionResponseStepComponent } from './pages/clients-detail/step-forms/supervision-response-step/supervision-response-step.component';
+import { AlertStepHistoryComponent } from './pages/history/history-steps/alert-step-history/alert-step-history.component';
+import { AlertApplicationHistoryComponent } from './pages/history/history-steps/alert-application-history/alert-application-history.component';
+import { ChamberDecisionHistoryComponent } from './pages/history/history-steps/chamber-decision-history/chamber-decision-history.component';
+import { SendingCourtHistoryComponent } from './pages/history/history-steps/sending-court-history/sending-court-history.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -155,6 +161,12 @@ const INTERCEPTOR_PROVIDER: Provider = {
     FormFieldComponent,
     IsActiveUserComponent,
     ErrorComponent,
+    SupervisionStepComponent,
+    SupervisionResponseStepComponent,
+    AlertStepHistoryComponent,
+    AlertApplicationHistoryComponent,
+    ChamberDecisionHistoryComponent,
+    SendingCourtHistoryComponent,
   ],
   imports: [
     TooltipModule,

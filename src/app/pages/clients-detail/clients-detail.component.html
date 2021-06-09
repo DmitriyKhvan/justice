@@ -2,8 +2,8 @@
   <div
     class="page-header row no-gutters justify-content-between align-items-center"
   >
-    <div class="page-title">
-      <i class="uil-arrow-left" (click)="goToBack()"></i>
+    <div class="page-title cursor-pointer" (click)="goToBack()">
+      <i class="uil-arrow-left"></i>
       Назад к списку кредитов
     </div>
     <div class="page-header__text">
@@ -21,93 +21,93 @@
 
   <div class="page-content">
     <div class="row align-items-start">
-      <div class="col-lg-4 col-md-5 page-sticky">
-        <div class="page-card">
-          <div class="page-card__header px-3 pt-2">
-            Проблемный кредит #45032
-          </div>
-          <div class="page-card__body">
-            <div class="row page-card__details px-3">
-              <div class="col-5">Сумма кредита по договору</div>
-              <div class="col-7">5 000 000,00</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Дата начала кредита</div>
-              <div class="col-7">29.01.2017</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Дата окончания кредита</div>
-              <div class="col-7">29.01.2017</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Валюта кредита</div>
-              <div class="col-7">UZS</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Процентная ставка</div>
-              <div class="col-7">9 %</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Статус наращивания/ненаращивания</div>
-              <div class="col-7">Статус наращивания</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Остаток текущего долга</div>
-              <div class="col-7">0,00</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Остаток просроченного основного долга</div>
-              <div class="col-7">291 000,00</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Остаток начисленных %</div>
-              <div class="col-7">0,00</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Остаток просроченных %</div>
-              <div class="col-7">1 503,76</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Остаток начисленных % по просроченному  основному долгу</div>
-              <div class="col-7">0,00</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">ФИО заемщика</div>
-              <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">ФИО поручителя</div>
-              <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Номер договора</div>
-              <div class="col-7">45032</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Дата заключения договора</div>
-              <div class="col-7">29.01.2017</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Вид залога</div>
-              <div class="col-7">Недвижимость</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">Наименование залога</div>
-              <div class="col-7">Мой дом на мальдивах</div>
-            </div>
-          </div>
-          <div class="page-card__footer py-1">
-            <div class="row page-card__details px-3">
-              <div class="col-5">ИТОГО задолженность</div>
-              <div class="col-7 text-danger">292 503,76</div>
-            </div>
-            <div class="row page-card__details px-3">
-              <div class="col-5">ИТОГО задолженность</div>
-              <div class="col-7">292 503,76</div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!--      <div class="col-lg-4 col-md-5 page-sticky">-->
+<!--        <div class="page-card">-->
+<!--          <div class="page-card__header px-3 pt-2">-->
+<!--            Проблемный кредит #45032-->
+<!--          </div>-->
+<!--          <div class="page-card__body">-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Сумма кредита по договору</div>-->
+<!--              <div class="col-7">5 000 000,00</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Дата начала кредита</div>-->
+<!--              <div class="col-7">29.01.2017</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Дата окончания кредита</div>-->
+<!--              <div class="col-7">29.01.2017</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Валюта кредита</div>-->
+<!--              <div class="col-7">UZS</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Процентная ставка</div>-->
+<!--              <div class="col-7">9 %</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Статус наращивания/ненаращивания</div>-->
+<!--              <div class="col-7">Статус наращивания</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Остаток текущего долга</div>-->
+<!--              <div class="col-7">0,00</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Остаток просроченного основного долга</div>-->
+<!--              <div class="col-7">291 000,00</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Остаток начисленных %</div>-->
+<!--              <div class="col-7">0,00</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Остаток просроченных %</div>-->
+<!--              <div class="col-7">1 503,76</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Остаток начисленных % по просроченному  основному долгу</div>-->
+<!--              <div class="col-7">0,00</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">ФИО заемщика</div>-->
+<!--              <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">ФИО поручителя</div>-->
+<!--              <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Номер договора</div>-->
+<!--              <div class="col-7">45032</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Дата заключения договора</div>-->
+<!--              <div class="col-7">29.01.2017</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Вид залога</div>-->
+<!--              <div class="col-7">Недвижимость</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">Наименование залога</div>-->
+<!--              <div class="col-7">Мой дом на мальдивах</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="page-card__footer py-1">-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">ИТОГО задолженность</div>-->
+<!--              <div class="col-7 text-danger">292 503,76</div>-->
+<!--            </div>-->
+<!--            <div class="row page-card__details px-3">-->
+<!--              <div class="col-5">ИТОГО задолженность</div>-->
+<!--              <div class="col-7">292 503,76</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <div class="col-lg-8 col-md-7 bg-white">
         <app-stepper-wrapper class="page-stepper">
@@ -123,8 +123,7 @@
           <app-step
             [stepTitle]="'Отправка заявки в палату'"
             [stepDoneText]="'Заявка отравлена в палату'"
-            [step]="'2'"
-            [status]=""
+            [step]="2"
             #appSend
           >
             <div step-content>
@@ -146,61 +145,130 @@
             [step]="4"
           >
             <div step-content>
-              <app-sending-court-step></app-sending-court-step>
+              <app-sending-court-step [step]="4"></app-sending-court-step>
             </div>
           </app-step>
           <app-step
             [stepTitle]="'Получение и внесение ответа от суда'"
             [stepDoneText]="'Получено решение суда'"
             [step]="5"
+            #courtSend
           >
             <div step-content>
-              <app-response-court-step></app-response-court-step>
+              <app-response-court-step [step]="5" (status)="courtSend.status = $event"></app-response-court-step>
             </div>
           </app-step>
           <app-step
             [stepTitle]="'Ответ суда первой инстанции'"
             [stepDoneText]="'Ответ получен'"
+            [step]="5.1"
+            #courtResponse
+          >
+            <div step-content>
+              <app-first-instance-step [step]="5.1" (status)="courtResponse.status = $event"></app-first-instance-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Передача дело в апелляция'"
+            [stepDoneText]="'Дело передано в аппеляцию'"
+            [step]="5.2"
+            *ngIf="isTask(5.2)"
+          >
+            <div step-content>
+              <app-appeal-step [step]="5.2"></app-appeal-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Ответ суда апелляционный инстанции'"
+            [stepDoneText]="'Ответ получен'"
+            [step]="5.3"
+            #appealResponse
+            *ngIf="isTask(5.3)"
+          >
+            <div step-content>
+              <app-first-instance-step [step]="5.3" (status)="appealResponse.status = $event"></app-first-instance-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Передача дело в кассацию'"
+            [stepDoneText]="'Дело передано в кассацию'"
+            [step]="5.4"
+            *ngIf="isTask(5.4)"
+          >
+            <div step-content>
+              <app-appeal-step [step]="5.4"></app-appeal-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Ответ суда кассационный инстанции '"
+            [stepDoneText]="'Ответ получен'"
+            [step]="5.5"
+            #cassationResponse
+            *ngIf="isTask(5.5)"
+          >
+            <div step-content>
+              <app-first-instance-step [step]="5.5" (status)="cassationResponse.status = $event"></app-first-instance-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Передача дело в надзор или прокуратуру'"
+            [stepDoneText]="'Дело передано в надзор'"
+            [step]="5.6"
+            *ngIf="isTask(5.6)"
+          >
+            <div step-content>
+              <app-supervision-step [step]="5.6"></app-supervision-step>
+            </div>
+          </app-step>
+
+          <app-step
+            [stepTitle]="'Ответ суда надзорной инстанции'"
+            [stepDoneText]="'Ответ получен'"
+            [step]="5.7"
+            #supervisionResponse
+            *ngIf="isTask(5.7)"
+          >
+            <div step-content>
+              <app-supervision-response-step [step]="5.7" (status)="supervisionResponse.status = $event"></app-supervision-response-step>
+            </div>
+          </app-step>
+
+          <app-step
+            [stepTitle]="'Передача дело в МИБ'"
+            [stepDoneText]="'Дело передано в МИБ'"
             [step]="6"
           >
             <div step-content>
-              <app-first-instance-step></app-first-instance-step>
+              <app-sending-mib-step [step]="6"></app-sending-mib-step>
             </div>
           </app-step>
-          <app-step
-            [stepTitle]="'Апелляция / Кассация'"
-            [stepDoneText]="'Шаг пройден'"
-            [step]="6.1"
-          >
-            <div step-content>
-              <app-appeal-step></app-appeal-step>
-            </div>
-          </app-step>
-          <app-step
-            [stepTitle]="'Надзор / Протест'"
-            [stepDoneText]="'Шаг пройден'"
-            [step]="6.2"
-          >
-            <div step-content>
-              <app-protest-step></app-protest-step>
-            </div>
-          </app-step>
-          <app-step
-            [stepTitle]="'Подготовка дела для отправки в МИБ'"
-            [stepDoneText]="'Дело подготовлено'"
-            [step]="7"
-          >
-            <div step-content>
-              <app-sending-mib-step></app-sending-mib-step>
-            </div>
-          </app-step>
+
+<!--          <app-step-->
+<!--            [stepTitle]="'Надзор / Протест'"-->
+<!--            [stepDoneText]="'Шаг пройден'"-->
+<!--            [step]="6.2"-->
+<!--          >-->
+<!--            <div step-content>-->
+<!--              <app-protest-step></app-protest-step>-->
+<!--            </div>-->
+<!--          </app-step>-->
           <app-step
             [stepTitle]="'Получение и внесение ответа от МИБ'"
+            [stepDoneText]="'Ответ получен'"
+            [step]="7"
+            #responseMIB
+          >
+            <div step-content>
+              <app-response-mib-step [step]="7" (status)="responseMIB.status = $event"></app-response-mib-step>
+            </div>
+          </app-step>
+          <app-step
+            [stepTitle]="'Внесение данных о выставленных залогов клиента в аукционах #1'"
             [stepDoneText]="'Ответ внесен'"
             [step]="8"
           >
             <div step-content>
-              <app-response-mib-step></app-response-mib-step>
+              <app-outstanding-auction-step [step]="8"></app-outstanding-auction-step>
             </div>
           </app-step>
           <app-step
@@ -211,11 +279,11 @@
             [step]="9"
           >
             <div step-content>
-              <app-outstanding-auction-step></app-outstanding-auction-step>
+
             </div>
           </app-step>
           <app-step
-            [stepTitle]="'Прекращение исполнительного производства'"
+            [stepTitle]="'Внесение решения МИБ о закрытии дела'"
             [stepDoneText]="'Шаг пройден'"
             [step]="10"
           >
@@ -224,7 +292,7 @@
             </div>
           </app-step>
           <app-step
-            [stepTitle]="'Принятие имущества на баланс'"
+            [stepTitle]="'Внесение решения МИБ о закрытии дела #2'"
             [stepDoneText]="'Шаг пройден'"
             [step]="11"
           >

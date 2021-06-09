@@ -1,170 +1,247 @@
-<form
-  action=""
-  class="page-form pb-2 "
-  *ngIf="mainService.role === 'lawyer'"
->
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Вид суда</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div class="row flex-nowrap mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Вид суда</div>
+          <div class="form-field__disabled">
+            {{ getCourtType(lastAction?.type_id) }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title mb-1">Тип суда</div>
+          <div class="form-field__disabled">
+            {{ getCourtPlace(lastAction?.type_id, lastAction?.place_id) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-1" *ngIf="lastAction?.place_id === 2 || lastAction?.place_id === 3">
+        <div class="col-12">
+          <div class="form-field__title mb-1">Регион суда</div>
+          <div class="form-field__disabled">
+            {{ getCourtRegion(lastAction?.type_id, lastAction?.place_id, lastAction?.region_id) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-1" *ngIf="lastAction?.place_id === 3">
+        <div class="col-12">
+          <div class="form-field__title mb-1">Районный суд</div>
+          <div class="form-field__disabled">
+            {{ getCourtDistrict(lastAction?.type_id, lastAction?.place_id, lastAction?.region_id, lastAction?.district_id) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-1">
+        <div class="col-12">
+          <div class="form-field__title mb-1">Ответчик</div>
+          <div class="form-field__disabled">
+            {{ lastAction?.defendant_fio }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Сумма иска</div>
+          <div class="form-field__disabled">
+            100 000 000 сум
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-field__title mb-1">Сумма неустойки / штраф</div>
+          <div class="form-field__disabled">
+            {{ lastAction?.penalty_sum }} сум
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field__title mb-1">Файл договора по кредиту </div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.loan_files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата внесение в суд</div>
+          <div class="form-field__disabled">
+            {{ lastAction?.date_filing_court }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field__title mb-1">Скан искового заявления </div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.claim_files; index as i"
+          class="py-1 d-flex align-items-center"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="form-field__title mb-1">Дополнительная информация</div>
+        <div class="form-field__disabled">
+          {{ lastAction?.add_info }}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Наименование суда</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
+
+    <form
+      action=""
+      class="page-form pb-2 "
+      [formGroup]="stepForm"
+      (ngSubmit)="nextStep()"
+      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+    >
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="type_id"
+            [type]="'select'"
+            [title]="'Вид суда'"
+            [selectOptions]="courtsType"
+            [ph]="'Выберите вид суда'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6">
+          <app-form-field
+            formControlName="place_id"
+            [type]="'select'"
+            [title]="'Тип суда'"
+            [selectOptions]="courtsPlaces"
+            [ph]="'Выберите тип суда'"
+          ></app-form-field>
+        </div>
       </div>
-    </div>
 
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Наименование филиала</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
+      <div class="row justify-content-between mb-2" *ngIf="stepForm.value.place_id === 2 || stepForm.value.place_id === 3">
+        <div class="col-12">
+          <app-form-field
+            formControlName="region_id"
+            [type]="'select'"
+            [title]="'Регион'"
+            [selectOptions]="courtsRegion"
+            [ph]="'Выберите регион'"
+          ></app-form-field>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Ответчик</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+      <div class="row justify-content-between mb-2" *ngIf="stepForm.value.place_id === 3">
+        <div class="col-12">
+          <app-form-field
+            formControlName="district_id"
+            [type]="'select'"
+            [title]="'Районный суд'"
+            [selectOptions]="courtsDistrict"
+            [ph]="'Выберите районный суд'"
+          ></app-form-field>
+        </div>
       </div>
-    </div>
 
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Поручитель</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="defendant_fio"
+            [type]="'text'"
+            [title]="'Ответчик'"
+          ></app-form-field>
+        </div>
       </div>
-    </div>
 
-    <div class="col-3 mt-1">
-      <div class="btn btn-dashed">Добавить</div>
-    </div>
-  </div>
-
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Сумма иска</div>
-        <label class="input-field__label readonly">
-          <input type="text" readonly autocomplete="off" />
-        </label>
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Выбранный день</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            100000000 сум
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Сумма неустойки / штраф</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+      <div class="row justify-content-between align-items-end mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="penalty_sum"
+            [type]="'text'"
+            [title]="'Сумма иска (сум)'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6">
+          <button class="btn btn-dashed w-100">Получить из ИАБС</button>
+        </div>
       </div>
-    </div>
-    <div class="col-6">
-      <div class="btn btn-dashed">Получить из ИАБС</div>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-6">
-      <div class="select-field mb-2">
-        <div class="select-field__title">Вид обеспечения</div>
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="opinion"
-          bindLabel="label"
-          bindValue="id"
-          placeholder="Выберите решение"
-          name="qwe"
-          [(ngModel)]="selectedOpinion"
-          [loadingText]="'Загружается'"
-          [searchable]="false"
-          [clearable]="false"
-        ></ng-select>
-        <!--      [disabled]=""-->
-        <!--      [loading]=""-->
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="loan_files"
+            [type]="'file'"
+            [title]="'Прикрепить файл договора по кредиту '"
+          ></app-form-field>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <app-file-uploader></app-file-uploader>
-
-
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Стоимость обеспечения</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" />
-        </label>
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="date_filing_court"
+            [type]="'datepicker'"
+            [title]="'Дата вх. документа'"
+          ></app-form-field>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <app-datepicker [title]="'Дата внесения в суд'"></app-datepicker>
-    </div>
-  </div>
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="claim_files"
+            [type]="'file'"
+            [title]="'Прикрепить скан искового заявления '"
+          ></app-form-field>
+        </div>
+      </div>
 
-  <app-file-uploader></app-file-uploader>
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="add_info"
+            [type]="'textarea'"
+            [title]="'Дополнительная информация'"
+          ></app-form-field>
+        </div>
+      </div>
 
-  <div class="page-form__actionbtn text-uppercase">
-    <!--    (click)="clientDetail.nextStep()"-->
-    следующий шаг
+      <button type="submit" class="page-form__actionbtn text-uppercase">
+        следующий шаг
+      </button>
+    </form>
   </div>
-</form>
+</div>
+
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+></app-alert-info>

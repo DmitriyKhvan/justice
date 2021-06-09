@@ -77,8 +77,6 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
-      console.log('val', val);
-
       this.clientsService.getListByMfo(val.mfo).subscribe((value) => {
         this.clientsService.listByMfo.next(value);
       });
@@ -108,11 +106,14 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   showDetails(): void {
     this.route.queryParams.subscribe((val) => {
+      // console.log(val);
       this.clientsService.contractDetails(val.contract).subscribe((value) => {
+        this.clientsService.contractInfo.next(value);
         this.router.navigate(['clients/detail'], {
           queryParams: {
             ...this.route.snapshot.queryParams,
             step: value.current_task.task_step,
+            id: value.current_task.task_id
           },
         });
       });

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { MainService } from './main.service';
 import { AuthService } from './auth.service';
 import {environment} from '../../environments/environment';
+import {ContractInfo} from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ export class ClientsService {
   public currentStepTitle = 'Отправка оповещения должнику';
 
   public listByMfo = new BehaviorSubject([]);
+  public contractInfo = new BehaviorSubject<any>({});
+  public taskInfo = new BehaviorSubject<any>({});
 
   constructor(
     private http: HttpClient,
@@ -44,7 +47,7 @@ export class ClientsService {
     });
   }
 
-  completeTaskStep(body: object): Observable<any> {
+  completeTaskStep(body: any): Observable<any> {
     return this.http.post(
       `${environment.dbUrl}/process/task/send?role=${this.mainService.ROLE}`,
       body

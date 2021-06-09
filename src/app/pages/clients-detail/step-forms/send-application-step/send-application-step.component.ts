@@ -29,6 +29,8 @@ export class SendApplicationStepComponent implements OnInit, OnDestroy {
 
   taskInfo: any;
 
+  lastAction: any;
+
   classByStatus = [
     {
       key: 0,
@@ -116,26 +118,26 @@ export class SendApplicationStepComponent implements OnInit, OnDestroy {
 
     this.subscribeMainLawDecision();
 
-    this.route.queryParams.subscribe((value) => {
-      this.clientsService
-        .contractDetails(value.contract)
-        .subscribe((value1) => {
-          this.stepStatus = value1.tasks.find(
-            (el: any) => Number(el.task_step) === this.step
-          )?.task_status;
-          this.taskId = value1.tasks.find(
-            (el: any) => Number(el.task_step) === this.step
-          )?.task_id;
-          if (this.taskId) {
-            this.clientsService
-              .getTask(this.taskId, this.step)
-              .subscribe((value2) => {
-                this.taskInfo = value2;
-              });
-          }
-        });
+    this.sb = this.clientsService.contractInfo.subscribe(value => {
+      value?.tasks?.forEach((el: any) => {
+        if (Number(el.task_step) === this.step) {
+          this.stepStatus = el.task_status;
+          this.taskId = el.task_id;
+        }
+      });
+
+      if (this.taskId) {
+        this.clientsService
+          .getTask(this.taskId, this.step)
+          .subscribe((value2) => {
+            this.taskInfo = value2;
+            if (value2.body.history) {
+              this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
+            }
+          });
+      }
     });
-  }
+}
 
   ngOnDestroy(): void {
     this.sb?.unsubscribe();
@@ -145,7 +147,6 @@ export class SendApplicationStepComponent implements OnInit, OnDestroy {
     const decision = this.mainLawForm.get('main_law_decision');
     const info = this.mainLawForm.get('main_law_info');
     this.sb = decision?.valueChanges.subscribe(val => {
-      console.log(val);
       if (val === null || val === -1) {
         const validators: ValidatorFn[] = [
           Validators.required,
@@ -184,9 +185,8 @@ export class SendApplicationStepComponent implements OnInit, OnDestroy {
         task_number: String(this.step),
         out_doc_number: this.completeAppForm.value.out_doc_number,
         out_doc_date: this.completeAppForm.value.out_doc_date,
-        files: this.completeAppForm.value.files
+        body: this.completeAppForm.value.files
       };
-      // console.log(reqBody);
       this.complete(reqBody);
       this.completeAppForm.reset();
     }
@@ -200,9 +200,11 @@ export class SendApplicationStepComponent implements OnInit, OnDestroy {
         },
       });
 
-      this.taskId = val.current_task.task_id;
       this.stepStatus = val.current_task.task_status;
-      this.taskInfo = val;
+      // this.taskInfo = val;
+      if (val.body.history) {
+        this.lastAction = val.body.history.array[val.body.history.array.length - 1];
+      }
       // this.step = val.current_task.task_step;
       this.status.emit(this.stepStatus);
     });

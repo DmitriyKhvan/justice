@@ -5,25 +5,23 @@
       style="border-radius: 5px"
       *ngIf="lastAction"
     >
-      <div class="row flex-nowrap mb-2">
+      <div class="row flex-nowrap align-items-end mb-1">
         <div class="col-6">
-          <div class="form-field__title">№ исходящего документа</div>
-          <div class="form-field__disabled" >
-            {{ lastAction?.out_doc_number }}
+          <div class="form-field__title mb-1">№ дело</div>
+          <div class="form-field__disabled">
+            {{ taskInfo?.body?.case_number }}
           </div>
         </div>
 
         <div class="col-6">
-          <div class="form-field__title">Дата исх. документа</div>
-          <div class="form-field__disabled" >
-            {{ lastAction?.out_doc_date }}
+          <div class="form-field__title mb-1">Дата внесение в суд или прокуратуру </div>
+          <div class="form-field__disabled">
+            {{ lastAction?.entry_date }}
           </div>
         </div>
       </div>
 
-      <div class="form-field__title" *ngIf="lastAction?.files">
-        Скан документа
-      </div>
+      <div class="form-field__title mb-1">Скан документа</div>
       <div class="mb-2">
         <div
           *ngFor="let item of lastAction?.files; index as i"
@@ -35,9 +33,10 @@
           </div>
         </div>
       </div>
+
       <div class="mb-2">
-        <div class="form-field__title">Дополнительная информация</div>
-        <div class="form-field__disabled" >
+        <div class="form-field__title mb-2">Дополнительная информация</div>
+        <div class="form-field__disabled">
           {{ lastAction?.add_info }}
         </div>
       </div>
@@ -47,23 +46,22 @@
       action=""
       class="page-form pb-2 "
       [formGroup]="stepForm"
-      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
       (ngSubmit)="nextStep()"
+      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
     >
-      <div class="row justify-content-between align-items-end mb-2">
+      <div class="row flex-nowrap align-items-end mb-2">
         <div class="col-6">
-          <app-form-field
-            formControlName="out_doc_number"
-            [type]="'text'"
-            [title]="'№ исходящего документа'"
-          ></app-form-field>
+          <div class="form-field__title">№ дело</div>
+          <div class="form-field__disabled">
+            {{ taskInfo?.body?.case_number }}
+          </div>
         </div>
 
         <div class="col-6">
           <app-form-field
-            formControlName="out_doc_date"
+            formControlName="entry_date"
             [type]="'datepicker'"
-            [title]="'Дата исх. документа'"
+            [title]="'Дата внесение в суд или прокуратуру '"
           ></app-form-field>
         </div>
       </div>
