@@ -103,7 +103,7 @@
       action=""
       class="page-form"
       [formGroup]="stepForm"
-      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+      *ngIf="stepStatus === 0 && mainService.ROLE.includes(1)"
       (ngSubmit)="nextStep()"
     >
       <div class="row justify-content-between mb-2">
@@ -199,8 +199,8 @@
       <button
         type="submit"
         class="page-form__actionbtn text-uppercase"
-        [disabled]="stepForm.invalid"
       >
+<!--        [disabled]="stepForm.invalid"-->
         следующий шаг
       </button>
     </form>
@@ -223,6 +223,6 @@
   [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
   [icon]="'uil-clock-three'"
   [iconColorClass]="'text-warning'"
-  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+  *ngIf="stepStatus === 0 && mainService.ROLE.includes(2)"
 ></app-alert-info>
 

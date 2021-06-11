@@ -1,13 +1,13 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MainService } from '../../../../services/main.service';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-chamber-decision-history',
+  selector: 'app-response-court-history',
   template: `
     <details
       class="accordion mb-1 bg-gray-secondary pb-1"
@@ -59,38 +59,9 @@ import {Subscription} from 'rxjs';
         </div>
       </summary>
       <div class="content m-0 py-1 pr-2">
-        <div class="row flex-nowrap mb-1">
-          <div class="col-6">
-            <div class="form-field__title mb-1">№ входящего документа</div>
-            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-              {{ history?.in_doc_number }}
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-field__title mb-1">Дата вх. документа</div>
-            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-              {{ history?.in_doc_date }}
-            </div>
-          </div>
-        </div>
-
-        <div class="form-field__title mb-1">Прикрепленные файлы</div>
-        <div class="mb-2">
-          <div
-            *ngFor="let item of history?.files; index as i"
-            class="py-1 d-flex align-items-center"
-          >
-            <i class="icon-attach mr-1" style="font-size: 22px"></i>
-            <div class="ml-1">
-              {{ item.name }}
-            </div>
-          </div>
-        </div>
-
         <div class="d-flex align-items-center flex-nowrap mb-1">
           <div
-            class="custom-toggle-track  mr-1"
+            class="custom-toggle-track mr-1"
             [class.custom-toggle-disabled]="!history?.to_court"
           >
             <div
@@ -101,26 +72,83 @@ import {Subscription} from 'rxjs';
           <div class="form-field__title m-0">Передача дела в суд</div>
         </div>
 
-        <div class="row flex-nowrap mb-1" *ngIf="!history?.to_court">
-          <div class="col-6">
-            <div class="form-field__title mb-1">Причина отсрочки</div>
-            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-                {{ getSPValue('chamber_reason', history?.reason)}}
+        <div *ngIf="history?.to_court">
+          <div class="row flex-nowrap mb-1">
+            <div class="col-6">
+              <div class="form-field__title mb-1">№ дело</div>
+              <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+                {{ history?.court_case_id }}
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-field__title mb-1">Выбранная дата</div>
+              <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+                {{ history?.court_dates }}
+              </div>
             </div>
           </div>
 
-          <div class="col-6" *ngIf="history?.reason === 3">
-            <div class="form-field__title mb-1">Выбранный день</div>
-            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-              {{ history?.activation_date }}
+          <div class="form-field__title mb-1">
+            Cкан определения суда о назначении дела  или типа расписки об
+            отложении суда
+          </div>
+          <div class="mb-2">
+            <div
+              *ngFor="let item of history?.court_files; index as i"
+              class="py-1 d-flex align-items-center"
+            >
+              <i class="icon-attach mr-1" style="font-size: 22px"></i>
+              <div class="ml-1">
+                {{ item.name }}
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="mb-2">
-          <div class="form-field__title mb-1">Дополнительная информация</div>
-          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ history?.add_info }}
+        <div *ngIf="!history?.to_court">
+          <div class="row flex-nowrap mb-1">
+            <div class="col-6">
+              <div class="form-field__title mb-1">Причина отсрочки</div>
+              <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+                <ng-container [ngSwitch]="history?.action">
+                  <ng-template ngSwitchCase="1">Отложить на</ng-template>
+                  <ng-template ngSwitchCase="2">Дело закрыто</ng-template>
+                  <ng-template ngSwitchCase="3"
+                    >Новое обращение в суд</ng-template
+                  >
+                </ng-container>
+              </div>
+            </div>
+
+            <div class="col-6" *ngIf="history?.action === 1">
+              <div class="form-field__title mb-1">Выбранная дата</div>
+              <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+                {{ history?.activation_date }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field__title mb-1">
+            Скан определения суда об отказе в принятии заявления
+          </div>
+          <div class="mb-2">
+            <div
+              *ngFor="let item of history?.court_files; index as i"
+              class="py-1 d-flex align-items-center"
+            >
+              <i class="icon-attach mr-1" style="font-size: 22px"></i>
+              <div class="ml-1">
+                {{ item.name }}
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <div class="form-field__title mb-1">Дополнительная информация</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.add_info }}
+            </div>
           </div>
         </div>
       </div>
@@ -135,7 +163,7 @@ import {Subscription} from 'rxjs';
   `,
   styles: [],
 })
-export class ChamberDecisionHistoryComponent implements OnInit, OnDestroy {
+export class ResponseCourtHistoryComponent implements OnInit, OnDestroy {
   @Input() step!: any;
   @Input() accordionDoneText = '';
   stepStatus = 0;
@@ -151,11 +179,9 @@ export class ChamberDecisionHistoryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  private sb!: Subscription;
-
   addComment!: FormGroup;
   disabled = false;
-
+  private sb!: Subscription;
   ngOnInit(): void {
     this.addComment = new FormGroup({
       comment: new FormControl(''),
@@ -177,11 +203,9 @@ export class ChamberDecisionHistoryComponent implements OnInit, OnDestroy {
       (value) => (this.histories = value)
     );
   }
-
   ngOnDestroy(): void {
     this.sb.unsubscribe();
   }
-
   detailsTrigger(evt: any): void {
     evt.preventDefault();
     evt.target.offsetParent.open

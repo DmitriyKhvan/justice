@@ -169,10 +169,9 @@
             </div>
           </app-step>
           <app-step
-            [stepTitle]="'Передача дело в апелляция'"
+            [stepTitle]="'Передача дело в апелляцию'"
             [stepDoneText]="'Дело передано в аппеляцию'"
             [step]="5.2"
-            *ngIf="isTask(5.2)"
           >
             <div step-content>
               <app-appeal-step [step]="5.2"></app-appeal-step>
@@ -183,7 +182,6 @@
             [stepDoneText]="'Ответ получен'"
             [step]="5.3"
             #appealResponse
-            *ngIf="isTask(5.3)"
           >
             <div step-content>
               <app-first-instance-step [step]="5.3" (status)="appealResponse.status = $event"></app-first-instance-step>
@@ -193,7 +191,6 @@
             [stepTitle]="'Передача дело в кассацию'"
             [stepDoneText]="'Дело передано в кассацию'"
             [step]="5.4"
-            *ngIf="isTask(5.4)"
           >
             <div step-content>
               <app-appeal-step [step]="5.4"></app-appeal-step>
@@ -204,7 +201,6 @@
             [stepDoneText]="'Ответ получен'"
             [step]="5.5"
             #cassationResponse
-            *ngIf="isTask(5.5)"
           >
             <div step-content>
               <app-first-instance-step [step]="5.5" (status)="cassationResponse.status = $event"></app-first-instance-step>
@@ -212,9 +208,8 @@
           </app-step>
           <app-step
             [stepTitle]="'Передача дело в надзор или прокуратуру'"
-            [stepDoneText]="'Дело передано в надзор'"
+            [stepDoneText]="'Дело передано в надзор или прокуратуру'"
             [step]="5.6"
-            *ngIf="isTask(5.6)"
           >
             <div step-content>
               <app-supervision-step [step]="5.6"></app-supervision-step>
@@ -226,7 +221,6 @@
             [stepDoneText]="'Ответ получен'"
             [step]="5.7"
             #supervisionResponse
-            *ngIf="isTask(5.7)"
           >
             <div step-content>
               <app-supervision-response-step [step]="5.7" (status)="supervisionResponse.status = $event"></app-supervision-response-step>

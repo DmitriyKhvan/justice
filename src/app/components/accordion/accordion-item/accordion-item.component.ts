@@ -81,6 +81,7 @@ export class AccordionItemComponent implements OnInit {
   status!: any;
 
   @Input() step: any;
+  @Input() taskId!: any;
 
   constructor(
     private router: Router,
@@ -106,6 +107,7 @@ export class AccordionItemComponent implements OnInit {
       queryParams: {
         ...this.route.snapshot.queryParams,
         step,
+        id: this.taskId
       },
     });
   }

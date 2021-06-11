@@ -97,6 +97,13 @@ import { AlertStepHistoryComponent } from './pages/history/history-steps/alert-s
 import { AlertApplicationHistoryComponent } from './pages/history/history-steps/alert-application-history/alert-application-history.component';
 import { ChamberDecisionHistoryComponent } from './pages/history/history-steps/chamber-decision-history/chamber-decision-history.component';
 import { SendingCourtHistoryComponent } from './pages/history/history-steps/sending-court-history/sending-court-history.component';
+import { ResponseCourtHistoryComponent } from './pages/history/history-steps/response-court-history/response-court-history.component';
+import { FirstInstanceHistoryComponent } from './pages/history/history-steps/first-instance-history/first-instance-history.component';
+import { AppealHistoryComponent } from './pages/history/history-steps/appeal-history/appeal-history.component';
+import { SupervisionHistoryComponent } from './pages/history/history-steps/supervision-history/supervision-history.component';
+import { SupervisionResponseHistoryComponent } from './pages/history/history-steps/supervision-response-history/supervision-response-history.component';
+import { SendingMibHistoryComponent } from './pages/history/history-steps/sending-mib-history/sending-mib-history.component';
+import { ResponseMibHistoryComponent } from './pages/history/history-steps/response-mib-history/response-mib-history.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -182,6 +189,13 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AlertApplicationHistoryComponent,
     ChamberDecisionHistoryComponent,
     SendingCourtHistoryComponent,
+    ResponseCourtHistoryComponent,
+    FirstInstanceHistoryComponent,
+    AppealHistoryComponent,
+    SupervisionHistoryComponent,
+    SupervisionResponseHistoryComponent,
+    SendingMibHistoryComponent,
+    ResponseMibHistoryComponent,
   ],
   imports: [
     BrowserModule,

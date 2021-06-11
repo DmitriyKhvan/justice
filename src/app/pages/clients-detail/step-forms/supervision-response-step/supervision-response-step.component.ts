@@ -45,26 +45,17 @@ export class SupervisionResponseStepComponent implements OnInit, OnDestroy {
       add_info: new FormControl(null),
     });
 
-    this.sb = this.clientsService.contractInfo.subscribe((value) => {
+    this.sb = this.clientsService.contractInfo.subscribe(value => {
       value?.tasks?.forEach((el: any) => {
         if (Number(el.task_step) === this.step) {
           this.stepStatus = el.task_status;
           this.taskId = el.task_id;
         }
       });
-
-      if (this.taskId) {
-        this.clientsService
-          .getTask(this.taskId, this.step)
-          .subscribe((value2) => {
-            this.taskInfo = value2;
-            if (value2.body.history) {
-              this.lastAction =
-                value2.body.history.array[value2.body.history.array.length - 1];
-            }
-          });
-      }
     });
+
+    this.sb = this.clientsService.taskInfo.subscribe(value =>  this.taskInfo = value);
+    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
   }
   ngOnDestroy(): void {
     this.sb.unsubscribe();
@@ -84,17 +75,12 @@ export class SupervisionResponseStepComponent implements OnInit, OnDestroy {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
+          id: val.current_task.task_id
         },
       });
-      this.stepStatus = val.current_task.task_status;
-      if (val.body) {
-        this.taskInfo = val;
-      }
-      if (val.body.history) {
-        this.lastAction =
-          val.body.history.array[val.body.history.array.length - 1];
-        console.log(this.lastAction);
-      }
+      this.clientsService.contractInfo.next(val);
+      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.taskHistory.next(val.body.history);
       this.status.emit(this.stepStatus);
     });
   }
@@ -108,6 +94,8 @@ export class SupervisionResponseStepComponent implements OnInit, OnDestroy {
   }
 
   getSPValue(sp: string, key: any): void {
-    return this.taskInfo?.sp[sp].find((el: any) => el.key === key)?.value;
+    if (this.taskInfo.sp) {
+      return this.taskInfo?.sp[sp]?.find((el: any) => el.key === key)?.value;
+    }
   }
 }

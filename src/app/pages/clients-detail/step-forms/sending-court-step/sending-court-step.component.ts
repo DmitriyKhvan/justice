@@ -57,19 +57,11 @@ export class SendingCourtStepComponent implements OnInit, OnDestroy {
           this.taskId = el.task_id;
         }
       });
-
-      if (this.taskId) {
-        this.clientsService
-          .getTask(this.taskId, this.step)
-          .subscribe((value2) => {
-            this.taskInfo = value2;
-            this.courtsType = value2.sp.courts;
-            if (value2.body.history) {
-              this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
-            }
-          });
-      }
     });
+
+    this.sb = this.clientsService.taskInfo.subscribe(value =>  this.taskInfo = value);
+    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
+    this.sb = this.clientsService.sp.subscribe(value => this.courtsType = value?.courts);
 
     this.sb = this.stepForm.get('type_id')?.valueChanges.subscribe((val) => {
       this.stepForm.get('place_id')?.setValue(null);
@@ -130,40 +122,32 @@ export class SendingCourtStepComponent implements OnInit, OnDestroy {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
+          id: val.current_task.task_id
         },
       });
-      this.stepStatus = val.current_task.task_status;
-      if (val.body) {
-        this.taskInfo = val;
-      }
-      if (val.body.history) {
-        this.lastAction =
-          val.body.history.array[val.body.history.array.length - 1];
-
-      }
+      this.clientsService.contractInfo.next(val);
+      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.taskHistory.next(val.body.history);
     });
   }
 
   getCourtType(type: any): any {
-    return this.courtsType.find((el: any) => el.key === type)?.value;
+    return this.taskInfo.sp?.courts?.find((el: any) => el.key === type)?.value;
   }
 
   getCourtPlace(type: any, place: any): any {
-    return this.courtsType
-      .find((el: any) => el.key === type)
+    return this.taskInfo.sp?.courts?.find((el: any) => el.key === type)
       ?.places.find((el: any) => el.key === place).value;
   }
 
   getCourtRegion(type: any, place: any, region: any): any {
-    return this.courtsType
-      .find((el: any) => el.key === type)
+    return this.taskInfo.sp?.courts?.find((el: any) => el.key === type)
       ?.places.find((el: any) => el.key === place)
       ?.courts.find((el: any) => el.key === region).value;
   }
 
   getCourtDistrict(type: any, place: any, region: any, district: any): any {
-    return this.courtsType
-      .find((el: any) => el.key === type)
+    return this.taskInfo.sp?.courts?.find((el: any) => el.key === type)
       ?.places.find((el: any) => el.key === place)
       ?.courts.find((el: any) => el.key === region)
       ?.courtsDistrict.find((el: any) => el.key === district).value;

@@ -43,6 +43,8 @@ export class FirstInstanceStepComponent implements OnInit, OnDestroy {
 
   stepForm!: FormGroup;
 
+  sp!: any;
+
   ngOnInit(): void {
     this.stepForm = new FormGroup({
       task_number: new FormControl(null),
@@ -71,18 +73,10 @@ export class FirstInstanceStepComponent implements OnInit, OnDestroy {
           this.taskId = el.task_id;
         }
       });
-
-      if (this.taskId) {
-        this.clientsService
-          .getTask(this.taskId, this.step)
-          .subscribe((value2) => {
-            this.taskInfo = value2;
-            if (value2.body.history) {
-              this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
-            }
-          });
-      }
     });
+
+    this.sb = this.clientsService.taskInfo.subscribe(value =>  this.taskInfo = value);
+    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
 
     this.sb = this.stepForm.get('appeal')?.valueChanges.subscribe((val) => {
       this.resetField([
@@ -135,20 +129,16 @@ export class FirstInstanceStepComponent implements OnInit, OnDestroy {
 
   complete(body: any): void {
     this.clientsService.completeTaskStep(body).subscribe((val: any) => {
-      console.log('next step', val);
       this.router.navigate([], {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
+          id: val.current_task.task_id
         },
       });
-      this.stepStatus = val.current_task.task_status;
-      if (val.body) {
-        this.taskInfo = val;
-      }
-      if (val.body.history) {
-        this.lastAction = val.body.history.array[val.body.history.array.length - 1];
-      }
+      this.clientsService.contractInfo.next(val);
+      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.taskHistory.next(val.body.history);
       this.status.emit(this.stepStatus);
     });
   }
@@ -183,6 +173,8 @@ export class FirstInstanceStepComponent implements OnInit, OnDestroy {
   }
 
   getSPValue(sp: string, key: any): void {
-    return this.taskInfo?.sp[sp].find((el: any) => el.key === key)?.value;
+    if (this.taskInfo.sp) {
+      return this.taskInfo.sp[sp]?.find((el: any) => el.key === key)?.value;
+    }
   }
 }

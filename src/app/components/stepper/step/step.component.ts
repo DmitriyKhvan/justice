@@ -25,7 +25,6 @@ import { MainService } from '../../../services/main.service';
       [class.step-last]="isLast"
       [class.step-current]="step <= currentTaskStep"
       [open]="isOpen()"
-      #stepRef
     >
       <summary class="header" (click)="detailsTrigger($event, step)">
         <div
@@ -73,7 +72,6 @@ import { MainService } from '../../../services/main.service';
   styles: [],
 })
 export class StepComponent implements OnInit, AfterViewInit {
-  @ViewChild('stepRef') stepRef!: ElementRef;
   isLast = false;
   isFirst = false;
   currentStep = 1;
@@ -94,47 +92,9 @@ export class StepComponent implements OnInit, AfterViewInit {
     private mainService: MainService
   ) {}
 
-  ngOnInit(): void {
-    // this.route.queryParams.subscribe(val => {
-    //   console.log(val);
-    //   console.log(this.clientsService.contractInfo);
-    // });
+  ngOnInit(): void {}
 
-    // console.log(this.isOpen());
-    // this.sb = this.clientsService.contractInfo.subscribe(value => {
-    //   value?.tasks.forEach((el: any) => {
-    //     if (Number(el.task_step) === this.step) {
-    //       this.taskId = el.task_id;
-    //       console.log(this.taskId);
-    //     }
-    //   });
-    //
-    //   if (this.taskId) {
-    //     // this.id.emit(this.taskId);
-    //     // this.clientsService
-    //     //   .getTask(this.taskId, this.step)
-    //     //   .subscribe((value2) => {
-    //     //     this.taskInfo = value2;
-    //     //     if (value2.body.history) {
-    //     //       this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
-    //     //     }
-    //     //   });
-    //   }
-    // });
-  }
-
-  ngAfterViewInit(): void {
-    // console.dir(this.stepRef.nativeElement);
-    if (this.stepRef.nativeElement.open) {
-      // console.log('qwe');
-      //   this.clientsService
-      //     .getTask(this.taskId, this.step)
-      //     .subscribe((value) => {
-      //       console.log(value);
-      //       this.clientsService.taskInfo.next(value);
-      //     });
-    }
-  }
+  ngAfterViewInit(): void {}
 
   detailsTrigger(evt: any, step: any): void {
     evt.preventDefault();
@@ -144,21 +104,6 @@ export class StepComponent implements OnInit, AfterViewInit {
       evt.target.offsetParent.open
         ? (evt.target.offsetParent.open = false)
         : (evt.target.offsetParent.open = true);
-      // if (evt.target.offsetParent.open) {
-      //   evt.target.offsetParent.open = false;
-      // } else {
-      //   evt.target.offsetParent.open = true;
-      //   // @ts-ignore
-      //   // if (this.clientsService.taskInfo?.body.id !== this.taskId) {
-      //   //   console.log('qwe');
-      //   //   // this.clientsService
-      //   //   //   .getTask(this.taskId, this.step)
-      //   //   //   .subscribe((value) => {
-      //   //   //     console.log(value);
-      //   //   //     this.clientsService.taskInfo.next(value);
-      //   //   //   });
-      //   // }
-      // }
       this.router.navigate([], {
         queryParams: {
           ...this.route.snapshot.queryParams,
@@ -167,21 +112,6 @@ export class StepComponent implements OnInit, AfterViewInit {
         },
       });
     }
-
-    // if (this.currentStep < step) {
-    //   evt.preventDefault();
-    // } else if (this.currentStep === step) {
-    //   this.clientsService.currentStepTitle = this.stepTitle;
-    //   evt.target.offsetParent.open
-    //     ? (evt.target.offsetParent.open = false)
-    //     : (evt.target.offsetParent.open = true);
-    //   this.router.navigate([], {
-    //     queryParams: {
-    //       ...this.route.snapshot.queryParams,
-    //       step,
-    //     },
-    //   });
-    // }
   }
 
   isOpen(): any {

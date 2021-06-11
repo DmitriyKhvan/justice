@@ -21,10 +21,16 @@ export class HistoryComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
       this.params = val;
-      this.clientsService.contractDetails(val.contract).subscribe(value => {
-        this.clientsService.contractInfo.next(value);
-      });
     });
+    this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
+      this.clientsService.contractInfo.next(value);
+    });
+    // this.route.queryParams.subscribe((val) => {
+    //   this.params = val;
+    //   this.clientsService.contractDetails(val.contract).subscribe(value => {
+    //     this.clientsService.contractInfo.next(value);
+    //   });
+    // });
   }
 
   goToBack(): void {

@@ -3,11 +3,11 @@ import { MainService } from '../../../../services/main.service';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
-  selector: 'app-sending-court-history',
+  selector: 'app-response-mib-history',
   template: `
     <details
       class="accordion mb-1 bg-gray-secondary pb-1"
@@ -59,82 +59,48 @@ import { Subscription } from 'rxjs';
         </div>
       </summary>
       <div class="content m-0 py-1 pr-2">
-        <div class="row flex-nowrap mb-1">
+        <div class="d-flex align-items-center flex-nowrap mb-2">
+          <div
+            class="custom-toggle-track mr-1"
+            [class.custom-toggle-disabled]="!history?.initiation"
+          >
+            <div
+              class="custom-toggle-thumb"
+              [class.custom-toggle-thumb_active]="history?.initiation"
+            ></div>
+          </div>
+          <div class="form-field__title m-0">Дело возбуждено</div>
+        </div>
+
+        <div class="row flex-nowrap mb-2" *ngIf="history?.initiation">
           <div class="col-6">
-            <div class="form-field__title mb-1">Вид суда</div>
-            <div class="form-field__disabled">
-              {{ getCourtType(history?.type_id) }}
+            <div class="form-field__title mb-1">№ дело МИБ</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.mib_doc_number }}
+            </div>
+          </div>
+        </div>
+
+        <div class="row flex-nowrap mb-2">
+          <div class="col-6">
+            <div class="form-field__title mb-1">№ входящего документа</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.in_doc_number }}
             </div>
           </div>
 
           <div class="col-6">
-            <div class="form-field__title mb-1">Тип суда</div>
-            <div class="form-field__disabled">
-              {{ getCourtPlace(history?.type_id, history?.place_id) }}
+            <div class="form-field__title mb-1">Дата вх. документа</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.in_doc_date }}
             </div>
           </div>
         </div>
 
-        <div
-          class="row flex-nowrap mb-1"
-          *ngIf="history?.place_id === 2 || history?.place_id === 3"
-        >
-          <div class="col-12">
-            <div class="form-field__title mb-1">Регион суда</div>
-            <div class="form-field__disabled">
-              {{
-                getCourtRegion(
-                  history?.type_id,
-                  history?.place_id,
-                  history?.region_id
-                )
-              }}
-            </div>
-          </div>
-        </div>
-
-        <div class="row flex-nowrap mb-1" *ngIf="history?.place_id === 3">
-          <div class="col-12">
-            <div class="form-field__title mb-1">Районный суд</div>
-            <div class="form-field__disabled">
-              {{
-                getCourtDistrict(
-                  history?.type_id,
-                  history?.place_id,
-                  history?.region_id,
-                  history?.district_id
-                )
-              }}
-            </div>
-          </div>
-        </div>
-
-        <div class="row flex-nowrap mb-1">
-          <div class="col-12">
-            <div class="form-field__title mb-1">Ответчик</div>
-            <div class="form-field__disabled">
-              {{ history?.defendant_fio }}
-            </div>
-          </div>
-        </div>
-
-        <div class="row flex-nowrap mb-1">
-          <div class="col-6">
-            <div class="form-field__title mb-1">Сумма иска</div>
-            <div class="form-field__disabled">100 000 000 сум</div>
-          </div>
-          <div class="col-6">
-            <div class="form-field__title mb-1">Сумма неустойки / штраф</div>
-            <div class="form-field__disabled">
-              {{ history?.penalty_sum }} сум
-            </div>
-          </div>
-        </div>
-
-        <div class="form-field__title mb-1">Файл договора по кредиту</div>
+        <div class="form-field__title mb-2">Скан документа</div>
         <div class="mb-2">
           <div
-            *ngFor="let item of history?.loan_files; index as i"
+            *ngFor="let item of history?.files; index as i"
             class="py-1 d-flex align-items-center"
           >
             <i class="icon-attach mr-1" style="font-size: 22px"></i>
@@ -144,31 +110,25 @@ import { Subscription } from 'rxjs';
           </div>
         </div>
 
-        <div class="row flex-nowrap mb-1">
+        <div class="row flex-nowrap mb-2" *ngIf="!history?.initiation">
           <div class="col-6">
-            <div class="form-field__title mb-1">Дата внесение в суд</div>
-            <div class="form-field__disabled">
-              {{ history?.date_filing_court }}
+            <div class="form-field__title mb-1">Действие</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ getSPValue('to_court_f_action', history?.action) }}
             </div>
           </div>
-        </div>
 
-        <div class="form-field__title mb-1">Скан искового заявления</div>
-        <div class="mb-2">
-          <div
-            *ngFor="let item of history?.claim_files; index as i"
-            class="py-1 d-flex align-items-center"
-          >
-            <i class="icon-attach mr-1" style="font-size: 22px"></i>
-            <div class="ml-1">
-              {{ item.name }}
+          <div class="col-6" *ngIf="history?.action === 1">
+            <div class="form-field__title mb-1">Выбранная дата</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.activation_date }}
             </div>
           </div>
         </div>
 
         <div class="mb-2">
-          <div class="form-field__title mb-1">Дополнительная информация</div>
-          <div class="form-field__disabled">
+          <div class="form-field__title mb-2">Дополнительная информация</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
             {{ history?.add_info }}
           </div>
         </div>
@@ -184,7 +144,7 @@ import { Subscription } from 'rxjs';
   `,
   styles: [],
 })
-export class SendingCourtHistoryComponent implements OnInit, OnDestroy {
+export class ResponseMibHistoryComponent implements OnInit, OnDestroy {
   @Input() step!: any;
   @Input() accordionDoneText = '';
   stepStatus = 0;
@@ -239,31 +199,8 @@ export class SendingCourtHistoryComponent implements OnInit, OnDestroy {
   }
 
   getSPValue(sp: any, key: any): any {
-    return this.taskInfo?.sp[sp]?.find((el: any) => el.key === key).value;
-  }
-
-  getCourtType(type: any): any {
-    return this.taskInfo.sp?.courts?.find((el: any) => el.key === type)?.value;
-  }
-
-  getCourtPlace(type: any, place: any): any {
-    return this.taskInfo.sp?.courts
-      ?.find((el: any) => el.key === type)
-      ?.places.find((el: any) => el.key === place).value;
-  }
-
-  getCourtRegion(type: any, place: any, region: any): any {
-    return this.taskInfo.sp?.courts
-      ?.find((el: any) => el.key === type)
-      ?.places.find((el: any) => el.key === place)
-      ?.courts.find((el: any) => el.key === region).value;
-  }
-
-  getCourtDistrict(type: any, place: any, region: any, district: any): any {
-    return this.taskInfo.sp?.courts
-      ?.find((el: any) => el.key === type)
-      ?.places.find((el: any) => el.key === place)
-      ?.courts.find((el: any) => el.key === region)
-      ?.courtsDistrict.find((el: any) => el.key === district).value;
+    if (this.taskInfo.sp) {
+      return this.taskInfo?.sp[sp]?.find((el: any) => el.key === key)?.value;
+    }
   }
 }

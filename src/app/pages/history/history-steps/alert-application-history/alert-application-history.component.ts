@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MainService } from '../../../../services/main.service';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alert-application-history',
@@ -44,7 +45,9 @@ import * as moment from 'moment';
             <span *ngSwitchCase="3">Заявка одобрена</span>
             <span *ngSwitchCase="4">Подача новой заявки</span>
           </div>
-          <span class="text-secondary">{{getFormattedDate(history?.updated_at, 'lll')}}</span>
+          <span class="text-secondary">{{
+            getFormattedDate(history?.updated_at, 'lll')
+          }}</span>
         </div>
         <div
           class="arrow"
@@ -100,21 +103,27 @@ import * as moment from 'moment';
 
           <div *ngIf="history?.status === 3">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="mb-2">
-                        <div class="mb-1">Решение</div>
-                        <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-                            {{ history?.main_law_decision === -1 ? 'Отклонено' : history?.main_law_decision === 3 ? 'Одобрено' : '' }}
-                        </div>
-                    </div>
+              <div class="col-lg-6">
+                <div class="mb-2">
+                  <div class="mb-1">Решение</div>
+                  <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+                    {{
+                      history?.main_law_decision === -1
+                        ? 'Отклонено'
+                        : history?.main_law_decision === 3
+                        ? 'Одобрено'
+                        : ''
+                    }}
+                  </div>
                 </div>
+              </div>
             </div>
 
             <div class="mb-2">
-                <div class="mb-1">Дополнительная информация</div>
-                <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-                    {{ history?.main_law_info }}
-                </div>
+              <div class="mb-1">Дополнительная информация</div>
+              <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+                {{ history?.main_law_info }}
+              </div>
             </div>
           </div>
         </div>
@@ -130,14 +139,14 @@ import * as moment from 'moment';
   `,
   styles: [],
 })
-export class AlertApplicationHistoryComponent implements OnInit {
+export class AlertApplicationHistoryComponent implements OnInit, OnDestroy {
   @Input() step!: any;
   @Input() accordionDoneText = '';
   stepStatus = 0;
   taskId: any;
   taskInfo: any;
 
-  histories!: Array<any>;
+  histories: Array<any> = [];
 
   constructor(
     public mainService: MainService,
@@ -149,30 +158,32 @@ export class AlertApplicationHistoryComponent implements OnInit {
   addComment!: FormGroup;
   disabled = false;
 
+  private sb!: Subscription;
+
   ngOnInit(): void {
     this.addComment = new FormGroup({
       comment: new FormControl(''),
     });
 
-    this.clientsService.contractInfo.subscribe(value => {
-      value?.tasks.forEach((el: any) => {
+    this.sb = this.clientsService.contractInfo.subscribe((value) => {
+      value?.tasks?.forEach((el: any) => {
         if (Number(el.task_step) === this.step) {
           this.stepStatus = el.task_status;
           this.taskId = el.task_id;
         }
       });
-
-      if (this.taskId) {
-        this.clientsService
-          .getTask(this.taskId, this.step)
-          .subscribe((value2) => {
-            this.taskInfo = value2;
-            if (value2.body.history) {
-              this.histories = value2.body.history.array;
-            }
-          });
-      }
     });
+
+    this.sb = this.clientsService.taskInfo.subscribe(
+      (value) => (this.taskInfo = value)
+    );
+    this.sb = this.clientsService.taskHistory.subscribe(
+      (value) => (this.histories = value)
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.sb.unsubscribe();
   }
 
   detailsTrigger(evt: any): void {

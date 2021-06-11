@@ -4,7 +4,7 @@
   >
     <div class="page-title cursor-pointer" (click)="goToBack()">
       <i class="uil-arrow-left"></i>
-      Назад к списку кредитов
+      {{ params.step ? 'Назад к кредиту' : 'Назад к списку кредитов' }}
     </div>
   </div>
 
@@ -105,6 +105,286 @@
             >
               <div accordion-content>
                 <app-sending-court-history [step]="4" [accordionDoneText]="'Дело отправлено в суд'"></app-sending-court-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Получение и внесение ответа от суда'"
+              [accordionDoneText]="'Получено решение суда'"
+              [step]="5"
+            >
+              <div accordion-content>
+                <app-response-court-history [step]="5" [accordionDoneText]="'Получено решение суда'"></app-response-court-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Ответ суда первой инстанции'"
+              [accordionDoneText]="'Ответ получен'"
+              [step]="5.1"
+            >
+              <div accordion-content>
+                <app-first-instance-history [step]="5.1" [accordionDoneText]="'Ответ получен'"></app-first-instance-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Передача дело в апелляцию'"
+              [accordionDoneText]="'Дело передано в аппеляцию'"
+              [step]="5.2"
+            >
+              <div accordion-content>
+                <app-appeal-history [step]="5.2" [accordionDoneText]="'Дело передано в аппеляцию'"></app-appeal-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Ответ суда апелляционный инстанции'"
+              [accordionDoneText]="'Ответ получен'"
+              [step]="5.3"
+            >
+              <div accordion-content>
+                <app-first-instance-history [step]="5.3" [accordionDoneText]="'Ответ получен'"></app-first-instance-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Передача дело в кассацию'"
+              [accordionDoneText]="'Дело передано в кассацию'"
+              [step]="5.4"
+            >
+              <div accordion-content>
+                <app-appeal-history [step]="5.4" [accordionDoneText]="'Дело передано в кассацию'"></app-appeal-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Ответ суда кассационный инстанции '"
+              [accordionDoneText]="'Ответ получен'"
+              [step]="5.5"
+            >
+              <div accordion-content>
+                <app-first-instance-history [step]="5.5" [accordionDoneText]="'Ответ получен'"></app-first-instance-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Передача дело в надзор или прокуратуру'"
+              [accordionDoneText]="'Дело передано в надзор или прокуратуру'"
+              [step]="5.6"
+            >
+              <div accordion-content>
+                <app-supervision-history [step]="5.6" [accordionDoneText]="'Дело передано в надзор или прокуратуру'"></app-supervision-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Ответ суда надзорной инстанции'"
+              [accordionDoneText]="'Ответ получен'"
+              [step]="5.7"
+            >
+              <div accordion-content>
+                <app-supervision-response-history [step]="5.7" [accordionDoneText]="'Ответ получен'"></app-supervision-response-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Передача дело в МИБ'"
+              [accordionDoneText]="'Дело передано в МИБ'"
+              [step]="6"
+            >
+              <div accordion-content>
+                <app-sending-mib-history [step]="6" [accordionDoneText]="'Дело передано в МИБ'"></app-sending-mib-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Получение и внесение ответа от МИБ'"
+              [accordionDoneText]="'Ответ получен'"
+              [step]="7"
+            >
+              <div accordion-content>
+                <app-response-mib-history [step]="7" [accordionDoneText]="'Ответ получен'"></app-response-mib-history>
               </div>
               <div accordion-footer>
                 <form action="" class="page-form">

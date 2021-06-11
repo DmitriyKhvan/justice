@@ -53,25 +53,17 @@ export class ChambersDecisionStepComponent implements OnInit, OnDestroy {
       activation_date: new FormControl(''),
     });
 
-    this.sb = this.clientsService.contractInfo.subscribe(value => {
+    this.sb = this.clientsService.contractInfo.subscribe((value) => {
       value?.tasks?.forEach((el: any) => {
         if (Number(el.task_step) === this.step) {
           this.stepStatus = el.task_status;
           this.taskId = el.task_id;
         }
       });
-
-      if (this.taskId) {
-        this.clientsService
-          .getTask(this.taskId, this.step)
-          .subscribe((value2) => {
-            this.taskInfo = value2;
-            if (value2.body.history) {
-              this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
-            }
-          });
-      }
     });
+
+    this.sb = this.clientsService.taskInfo.subscribe(value => this.taskInfo = value);
+    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
 
     this.sb = this.stepForm.get('reason')?.valueChanges.subscribe((val) => {
       if (val === 1) {
@@ -121,15 +113,12 @@ export class ChambersDecisionStepComponent implements OnInit, OnDestroy {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
+          id: val.current_task.task_id
         },
       });
-      this.stepStatus = val.current_task.task_status;
-      if (val.body) {
-        this.taskInfo = val;
-      }
-      if (val.body.history) {
-        this.lastAction = val.body.history.array[val.body.history.array.length - 1];
-      }
+      this.clientsService.contractInfo.next(val);
+      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.taskHistory.next(val.body.history);
     });
   }
 

@@ -1,9 +1,9 @@
-<div class="row flex-nowrap" *ngIf="mainService.ROLE === 'IY'">
+<div class="row flex-nowrap" *ngIf="mainService.ROLE.includes(1)">
   <div class="col-7">
     <div
       class="p-2 mb-2 bg-gray-primary"
       style="border-radius: 5px"
-      *ngIf="stepStatus !== 0"
+      *ngIf="lastAction"
     >
 
       <div class="mb-1">Прикрепленные файлы</div>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="row flex-nowrap mb-1" *ngIf="stepStatus === 1">
+      <div class="row flex-nowrap align-items-end mb-1" *ngIf="stepStatus === 1">
         <div class="col-6">
           <div class="mb-1">№ исходящего документа</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
@@ -82,7 +82,7 @@
       [formGroup]="completeAppForm"
       (ngSubmit)="nextStep()"
     >
-      <div class="row justify-content-between mb-2">
+      <div class="row justify-content-between align-items-end mb-2">
         <div class="col-6">
           <app-form-field
             formControlName="out_doc_number"
@@ -148,7 +148,7 @@
   </div>
 </div>
 
-<div *ngIf="mainService.ROLE === 'GY'">
+<div *ngIf="mainService.ROLE.includes(2)">
   <app-alert-info
     [text]="'Подождите, данные еще не отправлены исполнительным юристом.'"
     [icon]="'uil-clock-three'"
@@ -209,7 +209,7 @@
               formControlName="main_law_decision"
               [type]="'select'"
               [title]="'Ваше решение'"
-              [selectOptions]="taskInfo?.sp.gy_decision"
+              [selectOptions]="taskInfo?.sp?.gy_decision"
             ></app-form-field>
           </div>
         </div>
@@ -233,7 +233,7 @@
       </form>
     </div>
 
-    <div class="col-5">
+    <div class="col-5" *ngIf="stepStatus !== 0">
       <div class="info-card">
         <div class="info-card__title mb-4">
           Данные полученные  от исполнителя

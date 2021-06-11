@@ -22,6 +22,9 @@ export class ClientsService {
   public listByMfo = new BehaviorSubject([]);
   public contractInfo = new BehaviorSubject<any>({});
   public taskInfo = new BehaviorSubject<any>({});
+  public lastAction = new BehaviorSubject<any>({});
+  public taskHistory = new BehaviorSubject<any>([]);
+  public sp = new BehaviorSubject<any>({});
 
   constructor(
     private http: HttpClient,

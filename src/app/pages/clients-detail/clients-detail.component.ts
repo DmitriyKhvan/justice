@@ -42,7 +42,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
       this.tasks = value.tasks.map((el: any) => el.task_step);
       this.clientsService.contractInfo.next(value);
     });
-    // console.log(this.route.snapshot.queryParams.contract);
   }
 
   ngDoCheck(): void {}

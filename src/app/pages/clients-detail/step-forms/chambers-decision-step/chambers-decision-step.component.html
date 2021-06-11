@@ -74,7 +74,7 @@
       class="page-form mb-2"
       [formGroup]="stepForm"
       (ngSubmit)="nextStep()"
-      *ngIf="stepStatus === 0 && mainService.ROLE === 'IY'"
+      *ngIf="stepStatus === 0 && mainService.ROLE.includes(1)"
     >
 <!--      [ngClass]="{ 'disabled-form p-2': stepStatus }"-->
       <div class="row justify-content-between mb-2">
@@ -171,84 +171,10 @@
   </div>
 </div>
 
-<!--<div *ngIf="mainService.ROLE === 'GY'">-->
 <app-alert-info
   [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
   [icon]="'uil-clock-three'"
   [iconColorClass]="'text-warning'"
-  *ngIf="stepStatus === 0 && mainService.ROLE === 'GY'"
+  *ngIf="stepStatus === 0 && mainService.ROLE.includes(2)"
 ></app-alert-info>
-<!--  <form action="" class="page-form">-->
-<!--    <div class="row justify-content-between mb-2">-->
-<!--      <div class="col-6">-->
-<!--        <div class="input-field">-->
-<!--          <div class="input-field__title">№ исходящего документа</div>-->
-<!--          <label class="input-field__label">-->
-<!--            <input type="text" autocomplete="off" />-->
-<!--          </label>-->
-<!--        </div>-->
-<!--      </div>-->
 
-<!--      <div class="col-6">-->
-<!--        <app-datepicker-->
-<!--          [title]="'Дата вх. документа'"-->
-<!--          (onselect)="logger($event)"-->
-<!--        ></app-datepicker>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="checkbox-field mb-2">-->
-<!--      <label class="checkbox-field__label">-->
-<!--        <input type="checkbox" />-->
-<!--        <span class="custom-checkbox mr-2">-->
-<!--          <i class="uil-check"></i>-->
-<!--        </span>-->
-<!--        <span>Передача дела в суд</span>-->
-<!--      </label>-->
-<!--    </div>-->
-
-<!--    <div class="row">-->
-<!--      <div class="col-6">-->
-<!--        <div class="select-field mb-2">-->
-<!--          <div class="select-field__title">Причина отсрочки</div>-->
-<!--          <ng-select-->
-<!--            class="custom-select"-->
-<!--            appearance="outline"-->
-<!--            [items]="opinion"-->
-<!--            bindLabel="label"-->
-<!--            bindValue="id"-->
-<!--            placeholder="Выберите решение"-->
-<!--            name="qwe"-->
-<!--            [(ngModel)]="selectedOpinion"-->
-<!--            [loadingText]="'Загружается'"-->
-<!--            [searchable]="false"-->
-<!--            [clearable]="false"-->
-<!--          ></ng-select>-->
-<!--          &lt;!&ndash;      [disabled]=""&ndash;&gt;-->
-<!--          &lt;!&ndash;      [loading]=""&ndash;&gt;-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="row justify-content-between mb-2">-->
-<!--      <div class="col-6">-->
-<!--        <app-datepicker-->
-<!--          [title]="'Выберите день'"-->
-<!--          (onselect)="logger($event)"-->
-<!--        ></app-datepicker>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="text-field mb-2">-->
-<!--      <div class="text-field__title">Дополнительная информация</div>-->
-<!--      <label class="text-field__label">-->
-<!--        <textarea placeholder="Уточните детали"></textarea>-->
-<!--      </label>-->
-<!--    </div>-->
-
-<!--    <div class="page-form__actionbtn text-uppercase">-->
-<!--      &lt;!&ndash;    (click)="clientDetail.nextStep()"&ndash;&gt;-->
-<!--      следующий шаг-->
-<!--    </div>-->
-<!--  </form>-->
-<!--</div>-->

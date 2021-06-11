@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MainService } from '../../../../services/main.service';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-alert-step-history',
@@ -79,14 +80,14 @@ import * as moment from 'moment';
   `,
   styles: [],
 })
-export class AlertStepHistoryComponent implements OnInit {
+export class AlertStepHistoryComponent implements OnInit, OnDestroy {
   @Input() step!: any;
   @Input() accordionDoneText = '';
   stepStatus = 0;
   taskId: any;
   taskInfo: any;
 
-  histories!: Array<any>;
+  histories: Array<any> = [];
 
   constructor(
     public mainService: MainService,
@@ -98,30 +99,28 @@ export class AlertStepHistoryComponent implements OnInit {
   addComment!: FormGroup;
   disabled = false;
 
+  private sb!: Subscription;
+
   ngOnInit(): void {
     this.addComment = new FormGroup({
       comment: new FormControl(''),
     });
 
-    this.clientsService.contractInfo.subscribe(value => {
-      value?.tasks.forEach((el: any) => {
+    this.sb = this.clientsService.contractInfo.subscribe((value) => {
+      value?.tasks?.forEach((el: any) => {
         if (Number(el.task_step) === this.step) {
           this.stepStatus = el.task_status;
           this.taskId = el.task_id;
         }
       });
-
-      if (this.taskId) {
-        this.clientsService
-          .getTask(this.taskId, this.step)
-          .subscribe((value2) => {
-            this.taskInfo = value2;
-            if (value2.body.history) {
-              this.histories = value2.body.history.array;
-            }
-          });
-      }
     });
+
+    this.sb = this.clientsService.taskInfo.subscribe(value => this.taskInfo = value);
+    this.sb = this.clientsService.taskHistory.subscribe(value => this.histories = value);
+  }
+
+  ngOnDestroy(): void {
+    this.sb.unsubscribe();
   }
 
   detailsTrigger(evt: any): void {

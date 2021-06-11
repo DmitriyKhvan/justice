@@ -1,7 +1,7 @@
 import {
   AfterContentInit,
   Component,
-  ContentChildren, Input,
+  ContentChildren, Input, OnDestroy,
   OnInit,
   QueryList,
 } from '@angular/core';
@@ -17,10 +17,8 @@ import {BehaviorSubject, Subscription} from 'rxjs';
   `,
   styles: [],
 })
-export class StepperWrapperComponent implements OnInit, AfterContentInit {
+export class StepperWrapperComponent implements OnInit, AfterContentInit, OnDestroy {
 
-  // taskInfo!: any;
-  currentStep = 1;
   private sb!: Subscription;
   @ContentChildren(StepComponent) stepComponent!: QueryList<StepComponent>;
 
@@ -35,32 +33,29 @@ export class StepperWrapperComponent implements OnInit, AfterContentInit {
 
     this.route.queryParams.subscribe((val) => {
       if (this.route.snapshot.routeConfig?.path === 'clients/detail') {
-        // console.log(this.clientsService.contractInfo);
         this.sb = this.clientsService.contractInfo.subscribe(value => {
-          // console.log(value, val);
-          this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
-            step.currentStep = Number(val.step);
-            step.status = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
-            step.taskId = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_id;
-            step.currentTaskStep = Number(value?.current_task?.task_step);
-          });
+          if (value) {
+            this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
+              step.currentStep = Number(val.step);
+              step.status = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
+              step.taskId = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_id;
+              step.currentTaskStep = Number(value?.current_task?.task_step);
+            });
+          }
         });
         this.sb = this.clientsService
           .getTask(val.id, val.step)
           .subscribe((value) => {
-            console.log('task info onInit', value);
             this.clientsService.taskInfo.next(value);
+            this.clientsService.lastAction.next(value.body.history?.array[value.body.history?.array.length - 1]);
+            this.clientsService.taskHistory.next(value.body.history?.array);
+            this.clientsService.sp.next(value.sp);
           });
-        // this.clientsService.contractDetails(val.contract).subscribe(value => {
-        //   // this.taskInfo = value;
-        //
-        //   this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
-        //     step.currentStep = Number(val.step);
-        //     step.status = value.tasks.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
-        //     step.currentTaskStep = Number(value.current_task.task_step);
-        //   });
-        // });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sb.unsubscribe();
   }
 }

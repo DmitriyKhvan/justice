@@ -40,7 +40,6 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
   private sb!: Subscription;
 
   ngOnInit(): void {
-    console.log(this.mainService.ROLE);
     this.stepForm = new FormGroup({
       files: new FormControl([], Validators.required),
     });
@@ -52,30 +51,10 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
           this.taskId = el.task_id;
         }
       });
-      // console.log(value);
-
-      if (this.taskId) {
-        // this.id.emit(this.taskId);
-        // this.clientsService
-        //   .getTask(this.taskId, this.step)
-        //   .subscribe((value2) => {
-        //     this.taskInfo = value2;
-        //     if (value2.body.history) {
-        //       this.lastAction = value2.body.history.array[value2.body.history.array.length - 1];
-        //     }
-        //   });
-      }
     });
 
-    this.sb = this.clientsService
-      .taskInfo.subscribe((value2) => {
-        this.taskInfo = value2;
-        // console.log(value2);
-        if (value2.body?.history) {
-          this.lastAction =
-            value2.body.history?.array[value2.body.history.array.length - 1];
-        }
-      });
+    this.sb = this.clientsService.taskInfo.subscribe(value => this.taskInfo = value);
+    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
   }
 
   ngOnDestroy(): void {
@@ -84,8 +63,8 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
 
   nextStep(): void {
     const reqBody = {
-      task_number: String(this.step),
-      task_id: this.taskId,
+      task_number: this.route.snapshot.queryParams.step,
+      task_id: Number(this.route.snapshot.queryParams.id),
       body: this.stepForm.value.files,
     };
     this.clientsService.completeTaskStep(reqBody).subscribe((val) => {
@@ -93,10 +72,13 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
+          id: val.current_task.task_id
         },
       });
       this.stepForm.reset();
-      this.stepStatus = val.current_task.task_status;
+      this.clientsService.contractInfo.next(val);
+      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.taskHistory.next(val.body.history);
     });
   }
 }
