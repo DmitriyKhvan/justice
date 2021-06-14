@@ -14,7 +14,8 @@ export class MainService {
 
   public role = 'lawyer'; // == lawyer == // == headLawyer == //
 
-  public ROLE = 'IY'; // IY - исполнительный юрист ---- GY - главный юрист
+  // public ROLE = 'IY'; // IY - исполнительный юрист ---- GY - главный юрист
+  public ROLE: Array<any> = this.auth.userRole;
 
   public sidebar = false;
   public sidebarDetail = false;
