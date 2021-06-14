@@ -14,6 +14,7 @@ import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
 import { StepComponent } from '../../components/stepper/step/step.component';
+import {AuthService} from '../../services/auth.service';
 
 declare var $: any;
 
@@ -28,6 +29,7 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   constructor(
     public clientsService: ClientsService,
     public mainService: MainService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -38,10 +40,18 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     this.route.queryParams.subscribe((val) => {
       this.clientsService.currentStep = val.step;
     });
-    this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
-      this.tasks = value.tasks.map((el: any) => el.task_step);
-      this.clientsService.contractInfo.next(value);
+    this.clientsService.taskList.subscribe(list => {
+      this.tasks = list;
     });
+
+    this.mainService.ROLE;
+    // this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
+    //   this.clientsService.contractInfo.next(value);
+    //   this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
+    //   this.clientsService.taskList.subscribe(list => {
+    //     this.tasks = list;
+    //   });
+    // });
   }
 
   ngDoCheck(): void {}

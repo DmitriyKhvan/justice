@@ -1,15 +1,27 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {MainService} from '../../../../services/main.service';
-import {Subscription} from 'rxjs';
-import {ClientsService} from '../../../../services/clients.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { MainService } from '../../../../services/main.service';
+import { Subscription } from 'rxjs';
+import { ClientsService } from '../../../../services/clients.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-outstanding-auction-step',
   templateUrl: './outstanding-auction-step.component.html',
-  styleUrls: ['./outstanding-auction-step.component.scss']
+  styleUrls: ['./outstanding-auction-step.component.scss'],
 })
 export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
   @Input() step!: any;
@@ -30,7 +42,10 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
   ) {}
 
   stepForm!: FormGroup;
-  realizationAction = [{key: true, value: 'Да'}, {key: false, value: 'Нет'}];
+  realizationAction = [
+    { key: true, value: 'Да' },
+    { key: false, value: 'Нет' },
+  ];
 
   ngOnInit(): void {
     this.stepForm = new FormGroup({
@@ -46,7 +61,7 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
       auction_count: new FormControl(null),
     });
 
-    this.sb = this.clientsService.contractInfo.subscribe(value => {
+    this.sb = this.clientsService.contractInfo.subscribe((value) => {
       value?.tasks?.forEach((el: any) => {
         if (Number(el.task_step) === this.step) {
           this.stepStatus = el.task_status;
@@ -55,12 +70,12 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.sb = this.clientsService.taskInfo.subscribe(value =>  {
+    this.sb = this.clientsService.taskInfo.subscribe((value) => {
       this.taskInfo = value;
-      console.log(this.taskInfo);
     });
-    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
-
+    this.sb = this.clientsService.lastAction.subscribe(
+      (value) => (this.lastAction = value)
+    );
 
     // this.sb = this.stepForm.get('initiation')?.valueChanges.subscribe((val) => {});
     // this.sb = this.stepForm.get('action')?.valueChanges.subscribe((val) => {});
@@ -71,26 +86,25 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
   }
 
   nextStep(): void {
-    if (this.stepStatus === 0) {
-      this.stepForm.patchValue({ task_number: String(this.step) });
-      this.stepForm.patchValue({ task_id: this.taskId });
-      this.complete(this.stepForm.value);
-      this.stepForm.reset();
-    }
+    this.stepForm.patchValue({ task_number: String(this.step) });
+    this.stepForm.patchValue({ task_id: this.taskId });
+    this.complete(this.stepForm.value);
+    this.stepForm.reset();
   }
 
   complete(body: any): void {
     this.clientsService.completeTaskStep(body).subscribe((val: any) => {
-      console.log(val);
       this.router.navigate([], {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
-          id: val.current_task.task_id
+          id: val.current_task.task_id,
         },
       });
       this.clientsService.contractInfo.next(val);
-      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.lastAction.next(
+        val.body.history?.array[val.body.history.array.length - 1]
+      );
       this.clientsService.taskHistory.next(val.body.history);
       this.status.emit(this.stepStatus);
     });
@@ -118,9 +132,7 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
 
   getRelativeTime(): any {
     return moment(
-      new Date(
-        this.lastAction?.lot_end_date?.split('.').reverse().join(',')
-      )
+      new Date(this.lastAction?.lot_end_date?.split('.').reverse().join(','))
     )
       .locale('ru')
       .toNow(true);

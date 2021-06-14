@@ -104,6 +104,7 @@ import { SupervisionHistoryComponent } from './pages/history/history-steps/super
 import { SupervisionResponseHistoryComponent } from './pages/history/history-steps/supervision-response-history/supervision-response-history.component';
 import { SendingMibHistoryComponent } from './pages/history/history-steps/sending-mib-history/sending-mib-history.component';
 import { ResponseMibHistoryComponent } from './pages/history/history-steps/response-mib-history/response-mib-history.component';
+import { OutstandingAuctionHistoryComponent } from './pages/history/history-steps/outstanding-auction-history/outstanding-auction-history.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -196,6 +197,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SupervisionResponseHistoryComponent,
     SendingMibHistoryComponent,
     ResponseMibHistoryComponent,
+    OutstandingAuctionHistoryComponent,
   ],
   imports: [
     BrowserModule,

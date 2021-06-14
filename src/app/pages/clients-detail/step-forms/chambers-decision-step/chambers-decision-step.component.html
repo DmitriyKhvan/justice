@@ -74,7 +74,7 @@
       class="page-form mb-2"
       [formGroup]="stepForm"
       (ngSubmit)="nextStep()"
-      *ngIf="stepStatus === 0 && mainService.ROLE.includes(1)"
+      *ngIf="stepStatus === 0 && mainService.ROLE?.includes(1)"
     >
 <!--      [ngClass]="{ 'disabled-form p-2': stepStatus }"-->
       <div class="row justify-content-between mb-2">
@@ -175,6 +175,6 @@
   [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
   [icon]="'uil-clock-three'"
   [iconColorClass]="'text-warning'"
-  *ngIf="stepStatus === 0 && mainService.ROLE.includes(2)"
+  *ngIf="stepStatus === 0 && mainService.ROLE?.includes(2)"
 ></app-alert-info>
 

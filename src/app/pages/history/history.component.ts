@@ -17,6 +17,7 @@ export class HistoryComponent implements OnInit {
   ) {}
 
   params: any;
+  tasks: Array<any> = [];
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
@@ -24,6 +25,11 @@ export class HistoryComponent implements OnInit {
     });
     this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
       this.clientsService.contractInfo.next(value);
+      this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
+      this.clientsService.taskList.subscribe(list => {
+        this.tasks = list;
+        console.log(this.tasks);
+      });
     });
     // this.route.queryParams.subscribe((val) => {
     //   this.params = val;
@@ -37,5 +43,9 @@ export class HistoryComponent implements OnInit {
     this.router.navigate([`clients/${this.params.step ? 'detail' : 'list'}`], {
       queryParams: { ...this.route.snapshot.queryParams },
     });
+  }
+
+  isActive(step: any): any {
+    return this.tasks.includes(String(step));
   }
 }

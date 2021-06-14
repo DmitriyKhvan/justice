@@ -406,6 +406,34 @@
                 </form>
               </div>
             </app-accordion-item>
+            <app-accordion-item
+              [accordionTitle]="'Внесение данных о выставленных залогов клиента в аукционах #1'"
+              [accordionDoneText]="'Ответ внесен'"
+              [step]="8"
+            >
+              <div accordion-content>
+                <app-outstanding-auction-history [step]="8" [accordionDoneText]="'Ответ внесен'"></app-outstanding-auction-history>
+              </div>
+              <div accordion-footer>
+                <form action="" class="page-form">
+                  <div class="text-field mb-2">
+                    <div class="text-field__title">Комментарий</div>
+                    <label class="text-field__label bg-white">
+                      <textarea placeholder="Уточните детали"></textarea>
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="page-form__actionbtn text-uppercase bg-white">
+                        <!--    (click)="clientDetail.nextStep()"-->
+                        добавить комментарий
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </app-accordion-item>
           </app-accordion-wrapper>
         </div>
         <!--      <div class="col-xl-4 col-lg-3">-->

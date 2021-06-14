@@ -1,11 +1,13 @@
 import {
   AfterContentInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { ClientsService } from '../../../../services/clients.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +21,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./send-alert-step.component.scss'],
 })
 export class SendAlertStepComponent implements OnInit, OnDestroy {
+  @ViewChild('content', { static: true }) contentRef!: ElementRef;
+
   @Input() step!: any;
   @Output() id: EventEmitter<any> = new EventEmitter();
   stepStatus = 0;
@@ -53,8 +57,12 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.sb = this.clientsService.taskInfo.subscribe(value => this.taskInfo = value);
-    this.sb = this.clientsService.lastAction.subscribe(value => this.lastAction = value);
+    this.sb = this.clientsService.taskInfo.subscribe(
+      (value) => (this.taskInfo = value)
+    );
+    this.sb = this.clientsService.lastAction.subscribe(
+      (value) => (this.lastAction = value)
+    );
   }
 
   ngOnDestroy(): void {
@@ -72,12 +80,14 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
         queryParams: {
           ...this.route.snapshot.queryParams,
           step: val.current_task.task_step,
-          id: val.current_task.task_id
+          id: val.current_task.task_id,
         },
       });
       this.stepForm.reset();
       this.clientsService.contractInfo.next(val);
-      this.clientsService.lastAction.next(val.body.history?.array[val.body.history.array.length - 1]);
+      this.clientsService.lastAction.next(
+        val.body.history?.array[val.body.history.array.length - 1]
+      );
       this.clientsService.taskHistory.next(val.body.history);
     });
   }

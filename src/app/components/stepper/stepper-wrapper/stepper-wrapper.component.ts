@@ -30,25 +30,37 @@ export class StepperWrapperComponent implements OnInit, AfterContentInit, OnDest
     this.stepComponent.first.isFirst = true;
     this.stepComponent.last.isLast = true;
 
-
     this.route.queryParams.subscribe((val) => {
       if (this.route.snapshot.routeConfig?.path === 'clients/detail') {
-        this.sb = this.clientsService.contractInfo.subscribe(value => {
-          if (value) {
-            this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
-              step.currentStep = Number(val.step);
-              step.status = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
-              step.taskId = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_id;
-              step.currentTaskStep = Number(value?.current_task?.task_step);
-            });
-          }
+        this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
+          this.clientsService.contractInfo.next(value);
+          this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
+
+          this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
+
+            step.currentStep = Number(val.step);
+            step.status = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
+            step.taskId = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_id;
+            step.currentTaskStep = Number(value?.current_task?.task_step);
+          });
         });
+        // this.sb = this.clientsService.contractInfo.subscribe(value => {
+        //   if (value) {
+        //     this.stepComponent.toArray().forEach((step: StepComponent, idx: number) => {
+        //
+        //       step.currentStep = Number(val.step);
+        //       step.status = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_status;
+        //       step.taskId = value?.tasks?.find((el: any) => Number(el.task_step) === Number(step.step))?.task_id;
+        //       step.currentTaskStep = Number(value?.current_task?.task_step);
+        //     });
+        //   }
+        // });
         this.sb = this.clientsService
           .getTask(val.id, val.step)
           .subscribe((value) => {
             this.clientsService.taskInfo.next(value);
-            this.clientsService.lastAction.next(value.body.history?.array[value.body.history?.array.length - 1]);
-            this.clientsService.taskHistory.next(value.body.history?.array);
+            this.clientsService.lastAction.next(value.body?.history?.array[value.body.history?.array.length - 1]);
+            this.clientsService.taskHistory.next(value.body?.history?.array);
             this.clientsService.sp.next(value.sp);
           });
       }

@@ -47,7 +47,7 @@
       action=""
       class="page-form pb-2 "
       [formGroup]="stepForm"
-      *ngIf="stepStatus === 0 && mainService.ROLE.includes(1)"
+      *ngIf="stepStatus === 0 && mainService.ROLE?.includes(1)"
       (ngSubmit)="nextStep()"
     >
       <div class="row justify-content-between align-items-end mb-2">
@@ -99,5 +99,5 @@
   [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
   [icon]="'uil-clock-three'"
   [iconColorClass]="'text-warning'"
-  *ngIf="stepStatus === 0 && mainService.ROLE.includes(2)"
+  *ngIf="stepStatus === 0 && mainService.ROLE?.includes(2)"
 ></app-alert-info>

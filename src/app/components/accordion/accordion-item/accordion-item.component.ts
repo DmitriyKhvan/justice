@@ -100,15 +100,17 @@ export class AccordionItemComponent implements OnInit {
 
   detailsTrigger(evt: any, step: any): void {
     evt.preventDefault();
-    evt.target.offsetParent.open
-      ? (evt.target.offsetParent.open = false)
-      : (evt.target.offsetParent.open = true);
-    this.router.navigate([], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        step,
-        id: this.taskId
-      },
-    });
+    if (step <= this.currentStep) {
+      evt.target.offsetParent.open
+        ? (evt.target.offsetParent.open = false)
+        : (evt.target.offsetParent.open = true);
+      this.router.navigate([], {
+        queryParams: {
+          ...this.route.snapshot.queryParams,
+          step,
+          id: this.taskId
+        },
+      });
+    }
   }
 }
