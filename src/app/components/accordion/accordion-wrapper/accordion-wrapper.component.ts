@@ -32,8 +32,8 @@ export class AccordionWrapperComponent
   ngOnInit(): void {}
 
   ngAfterContentInit(): void {
-    this.accordionItemComponent.first.isFirst = true;
     this.accordionItemComponent.last.isLast = true;
+
     this.route.queryParams.subscribe((val) => {
       if (this.route.snapshot.routeConfig?.path === 'clients/history') {
         // this.sb = this.clientsService.contractDetails(val.contract).subscribe(value => {
@@ -43,7 +43,11 @@ export class AccordionWrapperComponent
         //     step.stepNumber = step.step;
         //   });
         // });
-        this.clientsService.contractInfo.subscribe((value) => {
+        this.clientsService.contractDetails(val.contract).subscribe((value) => {
+          this.clientsService.contractInfo.next(value);
+          this.clientsService.taskList.next(
+            value.tasks.map((el: any) => el.task_step)
+          );
           this.accordionItemComponent.toArray().forEach((step: AccordionItemComponent, idx: number) => {
               step.status = value?.tasks?.find(
                 (el: any) => Number(el.task_step) === Number(step.step)
@@ -54,15 +58,17 @@ export class AccordionWrapperComponent
               step.stepNumber = step.step;
             });
         });
-        this.sb = this.clientsService
-          .getTask(val.id, val.step)
-          .subscribe((value) => {
-            this.clientsService.taskInfo.next(value);
-            this.clientsService.lastAction.next(
-              value.body.history?.array[value.body.history?.array.length - 1]
-            );
-            this.clientsService.taskHistory.next(value.body.history?.array);
-          });
+        if (val.id) {
+          this.sb = this.clientsService
+            .getTask(val.id, val.step)
+            .subscribe((value) => {
+              this.clientsService.taskInfo.next(value);
+              this.clientsService.lastAction.next(
+                value.body.history?.array[value.body?.history?.array.length - 1]
+              );
+              this.clientsService.taskHistory.next(value.body?.history?.array);
+            });
+        }
       }
     });
   }

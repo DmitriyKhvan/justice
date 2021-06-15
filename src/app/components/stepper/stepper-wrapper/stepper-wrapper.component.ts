@@ -29,11 +29,35 @@ export class StepperWrapperComponent
   ) {}
 
   ngOnInit(): void {
-
+    // if (this.route.snapshot.routeConfig?.path === 'clients/detail') {
+    //   this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe((value) => {
+    //     // this.router.navigate([], {
+    //     //   queryParams: {
+    //     //     ...this.route.snapshot.queryParams,
+    //     //     step: value.current_task.task_step,
+    //     //     id: value.current_task.task_id,
+    //     //   },
+    //     // });
+    //
+    //     this.stepComponent
+    //       .toArray()
+    //       .forEach((step: StepComponent, idx: number) => {
+    //         step.currentStep = Number(this.route.snapshot.queryParams.step);
+    //         step.status = value?.tasks?.find(
+    //           (el: any) => Number(el.task_step) === Number(step.step)
+    //         )?.task_status;
+    //         step.taskId = value?.tasks?.find(
+    //           (el: any) => Number(el.task_step) === Number(step.step)
+    //         )?.task_id;
+    //         step.currentTaskStep = Number(value?.current_task?.task_step);
+    //         // console.log(step);
+    //       });
+    //   });
+    // }
   }
 
   ngAfterContentInit(): void {
-
+    this.stepComponent.last.isLast = true;
 
     this.route.queryParams.subscribe((val) => {
       if (this.route.snapshot.routeConfig?.path === 'clients/detail') {
@@ -54,8 +78,6 @@ export class StepperWrapperComponent
           this.stepComponent
             .toArray()
             .forEach((step: StepComponent, idx: number) => {
-              this.stepComponent.first.isFirst = step.isFirst;
-              this.stepComponent.last.isLast = step.isLast;
               step.currentStep = Number(val.step);
               step.status = value?.tasks?.find(
                 (el: any) => Number(el.task_step) === Number(step.step)
@@ -64,6 +86,7 @@ export class StepperWrapperComponent
                 (el: any) => Number(el.task_step) === Number(step.step)
               )?.task_id;
               step.currentTaskStep = Number(value?.current_task?.task_step);
+              // console.log(step);
             });
         });
         if (val.id) {

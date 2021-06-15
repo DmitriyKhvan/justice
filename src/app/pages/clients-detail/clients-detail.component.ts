@@ -71,6 +71,11 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   }
 
   isTask(task: number): any {
-    return this.tasks.includes(String(task));
+    // this.clientsService.taskList.subscribe(list => {
+    //   console.log(list);
+    // });
+    if (this.tasks) {
+      return this.tasks.includes(String(task));
+    }
   }
 }

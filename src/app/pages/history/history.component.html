@@ -186,6 +186,7 @@
               [accordionTitle]="'Передача дело в апелляцию'"
               [accordionDoneText]="'Дело передано в аппеляцию'"
               [step]="5.2"
+              *ngIf="isActive(5.2)"
             >
               <div accordion-content>
                 <app-appeal-history [step]="5.2" [accordionDoneText]="'Дело передано в аппеляцию'"></app-appeal-history>
@@ -214,6 +215,7 @@
               [accordionTitle]="'Ответ суда апелляционный инстанции'"
               [accordionDoneText]="'Ответ получен'"
               [step]="5.3"
+              *ngIf="isActive(5.3)"
             >
               <div accordion-content>
                 <app-first-instance-history [step]="5.3" [accordionDoneText]="'Ответ получен'"></app-first-instance-history>
@@ -242,6 +244,7 @@
               [accordionTitle]="'Передача дело в кассацию'"
               [accordionDoneText]="'Дело передано в кассацию'"
               [step]="5.4"
+              *ngIf="isActive(5.4)"
             >
               <div accordion-content>
                 <app-appeal-history [step]="5.4" [accordionDoneText]="'Дело передано в кассацию'"></app-appeal-history>
@@ -270,6 +273,7 @@
               [accordionTitle]="'Ответ суда кассационный инстанции '"
               [accordionDoneText]="'Ответ получен'"
               [step]="5.5"
+              *ngIf="isActive(5.5)"
             >
               <div accordion-content>
                 <app-first-instance-history [step]="5.5" [accordionDoneText]="'Ответ получен'"></app-first-instance-history>
@@ -298,6 +302,7 @@
               [accordionTitle]="'Передача дело в надзор или прокуратуру'"
               [accordionDoneText]="'Дело передано в надзор или прокуратуру'"
               [step]="5.6"
+              *ngIf="isActive(5.6)"
             >
               <div accordion-content>
                 <app-supervision-history [step]="5.6" [accordionDoneText]="'Дело передано в надзор или прокуратуру'"></app-supervision-history>
@@ -326,6 +331,7 @@
               [accordionTitle]="'Ответ суда надзорной инстанции'"
               [accordionDoneText]="'Ответ получен'"
               [step]="5.7"
+              *ngIf="isActive(5.7)"
             >
               <div accordion-content>
                 <app-supervision-response-history [step]="5.7" [accordionDoneText]="'Ответ получен'"></app-supervision-response-history>

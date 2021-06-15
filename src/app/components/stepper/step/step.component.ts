@@ -72,14 +72,13 @@ import { MainService } from '../../../services/main.service';
   styles: [],
 })
 export class StepComponent implements OnInit, AfterViewInit {
-  isLast!: any;
-  isFirst!: any;
+  isLast = false;
   currentStep = 1;
 
   currentTaskStep = 1;
 
   @Input() status: any = 0;
-  @Input() step: any = 0;
+  @Input() step = 1;
   @Input() taskId!: any;
   @Input() stepTitle = '';
   @Input() stepDoneText = '';
@@ -92,25 +91,34 @@ export class StepComponent implements OnInit, AfterViewInit {
     private mainService: MainService
   ) {}
 
-  ngOnInit(): void {}
+  tasks = [];
+
+  ngOnInit(): void {
+    this.clientsService.taskList.subscribe(list => {
+      this.tasks = list;
+    });
+  }
 
   ngAfterViewInit(): void {}
 
   detailsTrigger(evt: any, step: any): void {
     evt.preventDefault();
 
-    if (step <= this.currentTaskStep) {
-      this.clientsService.currentStepTitle = this.stepTitle;
-      evt.target.offsetParent.open
-        ? (evt.target.offsetParent.open = false)
-        : (evt.target.offsetParent.open = true);
-      this.router.navigate([], {
-        queryParams: {
-          ...this.route.snapshot.queryParams,
-          step,
-          id: this.taskId
-        },
-      });
+    // @ts-ignore
+    if (this.tasks && this.tasks.includes(String(this.step))) {
+      if (step <= this.currentTaskStep) {
+        this.clientsService.currentStepTitle = this.stepTitle;
+        evt.target.offsetParent.open
+          ? (evt.target.offsetParent.open = false)
+          : (evt.target.offsetParent.open = true);
+        this.router.navigate([], {
+          queryParams: {
+            ...this.route.snapshot.queryParams,
+            step,
+            id: this.taskId
+          },
+        });
+      }
     }
   }
 

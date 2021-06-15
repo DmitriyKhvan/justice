@@ -23,15 +23,18 @@ export class HistoryComponent implements OnInit {
     this.route.queryParams.subscribe((val) => {
       this.params = val;
     });
-    this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
-      this.clientsService.contractInfo.next(value);
-      console.log(value);
-      this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
-      this.clientsService.taskList.subscribe(list => {
-        this.tasks = list;
-        console.log(this.tasks);
-      });
+    this.clientsService.taskList.subscribe(list => {
+      this.tasks = list;
     });
+    // this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
+    //   this.clientsService.contractInfo.next(value);
+    //   console.log(value);
+    //   this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
+    //   this.clientsService.taskList.subscribe(list => {
+    //     this.tasks = list;
+    //     console.log(this.tasks);
+    //   });
+    // });
     // this.route.queryParams.subscribe((val) => {
     //   this.params = val;
     //   this.clientsService.contractDetails(val.contract).subscribe(value => {
