@@ -22,7 +22,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, private mainService: MainService) {}
 
-  get userRole(): any {
+  get currentUser(): any {
     // debugger;
     if (this.isAuthenticated()) {
       const decodedToken = this.helper.decodeToken(
@@ -31,7 +31,8 @@ export class AuthService {
 
       // console.log('decodedToken', decodedToken);
 
-      return decodedToken.user.roles;
+      // return decodedToken.user.roles;
+      return decodedToken.user;
     }
   }
 

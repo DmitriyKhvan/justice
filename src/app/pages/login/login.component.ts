@@ -72,15 +72,18 @@ export class LoginComponent implements OnInit {
       () => {
         this.form.reset();
 
-        console.log('this.router', this.router.url.match(/admin/));
+        // console.log(
+        //   'this.auth.userRole',
+        //   this.auth.currentUser.roles.includes(2)
+        // );
 
-        // if (this.router.url.match(/admin/)) {
-        //   this.router.navigate(['/admin/user']);
-        // } else {
-        //   this.router.navigate(['/']);
-        // }
+        if (this.auth.currentUser.roles.includes(2)) {
+          this.router.navigate(['/admin/listUser']);
+        } else {
+          this.router.navigate(['/']);
+        }
 
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
 
         this.submitted = false;
       },

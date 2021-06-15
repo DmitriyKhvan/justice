@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MainService } from '../../services/main.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { MainService } from 'src/app/services/main.service';
 
 @Component({
   selector: 'app-main',
@@ -8,12 +8,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  constructor(
-    public mainService: MainService,
-    private authService: AuthService
-  ) {}
+  constructor(private auth: AuthService, private mainService: MainService) {}
 
   ngOnInit(): void {
-    this.mainService.ROLE = this.authService.userRole;
+    this.mainService.ROLE = this.auth.currentUser.roles;
   }
 }
