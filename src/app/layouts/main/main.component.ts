@@ -11,6 +11,6 @@ export class MainComponent implements OnInit {
   constructor(private auth: AuthService, private mainService: MainService) {}
 
   ngOnInit(): void {
-    this.mainService.ROLE = this.auth.userRole;
+    this.mainService.ROLE = this.auth.currentUser.roles;
   }
 }
