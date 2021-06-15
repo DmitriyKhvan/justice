@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { AuthResponse, refreshTokenContent, User } from '../interfaces';
 import { Router } from '@angular/router';
+import {MainService} from './main.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
   public time: number = 1000 * 1000;
   private helper = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private mainService: MainService) {}
 
   get userRole(): any {
     // debugger;
@@ -92,6 +93,7 @@ export class AuthService {
       // this.userRole$.next(decodedToken.user.username);
 
       // console.log('decodedToken', decodedToken);
+
 
       localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));

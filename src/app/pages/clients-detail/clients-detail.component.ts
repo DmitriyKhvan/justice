@@ -29,7 +29,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
   constructor(
     public clientsService: ClientsService,
     public mainService: MainService,
-    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -42,9 +41,9 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     });
     this.clientsService.taskList.subscribe(list => {
       this.tasks = list;
+      console.log(this.tasks);
     });
 
-    this.mainService.ROLE;
     // this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
     //   this.clientsService.contractInfo.next(value);
     //   this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));

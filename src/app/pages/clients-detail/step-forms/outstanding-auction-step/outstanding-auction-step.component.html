@@ -5,7 +5,10 @@
       style="border-radius: 5px"
       *ngIf="lastAction"
     >
-      <div class="d-flex align-items-center flex-nowrap mb-2">
+      <div
+        class="d-flex align-items-center flex-nowrap mb-2"
+        *ngIf="lastAction?.auction !== null"
+      >
         <div
           class="custom-toggle-track mr-1"
           [class.custom-toggle-disabled]="!lastAction?.auction"
@@ -22,12 +25,12 @@
         <div class="col-6">
           <div class="form-field__title mb-1">№ дело МИБ</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-            {{ lastAction?.mib_case_number }}
+            {{ taskInfo?.body?.mib_case_number }}
           </div>
         </div>
       </div>
 
-      <div class="row flex-nowrap mb-2">
+      <div class="row flex-nowrap align-items-end mb-2" *ngIf="lastAction?.lot_begin_date && lastAction?.lot_end_date">
         <div class="col-6">
           <div class="form-field__title mb-1">Дата начало лота</div>
           <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
@@ -63,21 +66,21 @@
         </div>
       </div>
 
-      <!--      <div class="row flex-nowrap mb-2" *ngIf="!lastAction?.auction">-->
-      <!--        <div class="col-6">-->
-      <!--          <div class="form-field__title mb-1">Действие</div>-->
-      <!--          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">-->
-      <!--            {{ getSPValue("to_court_f_action", lastAction?.action) }}-->
-      <!--          </div>-->
-      <!--        </div>-->
+      <div class="row flex-nowrap mb-2" *ngIf="lastAction?.realization !== null">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Лот реализован</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.realization ? 'Да' : 'Нет' }}
+          </div>
+        </div>
 
-      <!--        <div class="col-6" *ngIf="lastAction?.action === 1">-->
-      <!--          <div class="form-field__title mb-1">Выбранная дата</div>-->
-      <!--          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">-->
-      <!--            {{ lastAction?.activation_date }}-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+        <div class="col-6" *ngIf="lastAction?.realization">
+          <div class="form-field__title mb-1">Сумма реализации</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.realization_sum }}
+          </div>
+        </div>
+      </div>
     </div>
 
     <form
@@ -85,11 +88,19 @@
       class="page-form"
       [formGroup]="stepForm"
       *ngIf="
-        (stepStatus === 0 || stepStatus === -1) && mainService.ROLE?.includes(1)
+        (stepStatus === 0 &&
+          mainService.ROLE?.includes(1) &&
+          taskInfo?.body?.auction_count === 0) ||
+        (stepStatus === -1 &&
+          mainService.ROLE?.includes(1) &&
+          !taskInfo?.body?.auction)
       "
       (ngSubmit)="nextStep()"
     >
-      <div class="row justify-content-between mb-2" *ngIf="stepStatus === 0">
+      <div
+        class="row justify-content-between mb-2"
+        *ngIf="stepStatus === 0 && !taskInfo?.body?.auction_count"
+      >
         <div class="col-12">
           <app-form-field
             formControlName="auction"
@@ -153,10 +164,30 @@
         </div>
       </div>
 
-      <div
-        class="row justify-content-between mb-2"
-        *ngIf="stepStatus === 0 && taskInfo?.body?.auction_count"
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="stepForm.invalid"
       >
+        {{ stepForm?.value.auction ? "В ожидание" : "следующий шаг" }}
+      </button>
+    </form>
+
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="stepForm"
+      *ngIf="
+        (stepStatus === 0 &&
+        mainService.ROLE?.includes(1) &&
+        taskInfo?.body?.auction_count === 1) ||
+        (stepStatus === 0 &&
+        mainService.ROLE?.includes(1) &&
+        taskInfo?.body?.auction_count === 2)
+      "
+      (ngSubmit)="nextStep()"
+    >
+      <div class="row justify-content-between mb-2">
         <div class="col-6">
           <app-form-field
             formControlName="realization"
@@ -193,16 +224,13 @@
           </div>
         </div>
       </div>
-
       <button
         type="submit"
         class="page-form__actionbtn text-uppercase"
         [disabled]="stepForm.invalid"
       >
         {{
-          stepForm?.value.auction && !taskInfo?.body?.auction_count
-            ? "В ожидание"
-            : stepStatus === -1 && stepForm?.value.realization === 2
+          taskInfo?.body?.auction_count === 1
             ? "Выставление имущества на повторный аукцион"
             : "следующий шаг"
         }}

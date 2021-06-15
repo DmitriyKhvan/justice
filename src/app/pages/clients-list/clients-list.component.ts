@@ -78,15 +78,16 @@ export class ClientsListComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
       this.clientsService.getListByMfo(val.mfo).subscribe((value) => {
-        this.clientsService.listByMfo.next(value);
+        this.contractList = value;
+        // this.clientsService.listByMfo.next(value);
       });
     });
   }
 
   ngDoCheck(): void {
-    this.clientsService.listByMfo.subscribe((value) => {
-      this.contractList = value;
-    });
+    // this.clientsService.listByMfo.subscribe((value) => {
+    //   this.contractList = value;
+    // });
   }
 
   selectItem(pld: any, idx: any): void {
@@ -105,10 +106,14 @@ export class ClientsListComponent implements OnInit, DoCheck {
   }
 
   showDetails(): void {
-    this.route.queryParams.subscribe((val) => {
-      // console.log(val);
-      this.clientsService.contractDetails(val.contract).subscribe((value) => {
-        this.clientsService.contractInfo.next(value);
+    // this.router.navigate(['clients/detail'], {
+    //   queryParams: {
+    //     ...this.route.snapshot.queryParams},
+    // });
+    // this.route.queryParams.subscribe((val) => {
+    //   // console.log(val);
+      this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe((value) => {
+        // this.clientsService.contractInfo.next(value);
         this.router.navigate(['clients/detail'], {
           queryParams: {
             ...this.route.snapshot.queryParams,
@@ -117,7 +122,7 @@ export class ClientsListComponent implements OnInit, DoCheck {
           },
         });
       });
-    });
+    // });
     // this.router.navigate(['clients/detail'], {
     //   queryParams: { ...this.route.snapshot.queryParams },
     // });

@@ -31,6 +31,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mainService.ROLE = this.auth.userRole;
+    // this.mainService.ROLE = this.auth.userRole;
   }
 }
