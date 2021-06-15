@@ -271,7 +271,7 @@ export class FormFieldComponent
   }
 
   uploader: FileUploader = new FileUploader({
-    url: environment.fileBaseUrl,
+    url: environment.fileBaseUrl + '/file/single-upload',
     autoUpload: true,
     method: 'POST',
     itemAlias: 'files',

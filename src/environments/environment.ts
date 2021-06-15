@@ -7,8 +7,7 @@ import { Environment } from './interface';
 export const environment: Environment = {
   production: false,
   dbUrl: `http://${window.location.hostname}:3000`,
-  // dbUrl: 'http://10.1.1.226:3000',
-  fileBaseUrl: `http://${window.location.hostname}/file/single-upload`
+  fileBaseUrl: `http://${window.location.hostname}:9001`
 };
 
 /*

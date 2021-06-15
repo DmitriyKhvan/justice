@@ -32,7 +32,7 @@ export interface SingleFile {
   providedIn: 'root',
 })
 export class FileUploadService {
-  public FileBaseUrl = environment.fileBaseUrl;
+  public FileBaseUrl = environment.fileBaseUrl + '/file/single-upload';
   // private BaseUrl = 'http://10.1.1.165:88';
 
   constructor(private xhttp: HttpClient, public clientsService: ClientsService) {}
