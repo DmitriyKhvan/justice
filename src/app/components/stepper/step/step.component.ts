@@ -72,8 +72,8 @@ import { MainService } from '../../../services/main.service';
   styles: [],
 })
 export class StepComponent implements OnInit, AfterViewInit {
-  isLast = false;
-  isFirst = false;
+  isLast!: any;
+  isFirst!: any;
   currentStep = 1;
 
   currentTaskStep = 1;

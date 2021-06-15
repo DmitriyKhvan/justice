@@ -28,11 +28,12 @@ export class StepperWrapperComponent
     private clientsService: ClientsService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   ngAfterContentInit(): void {
-    this.stepComponent.first.isFirst = true;
-    this.stepComponent.last.isLast = true;
+
 
     this.route.queryParams.subscribe((val) => {
       if (this.route.snapshot.routeConfig?.path === 'clients/detail') {
@@ -41,7 +42,6 @@ export class StepperWrapperComponent
           this.clientsService.taskList.next(
             value.tasks.map((el: any) => el.task_step)
           );
-          console.log(value.tasks.map((el: any) => el.task_step));
 
           // this.router.navigate([], {
           //   queryParams: {
@@ -54,6 +54,8 @@ export class StepperWrapperComponent
           this.stepComponent
             .toArray()
             .forEach((step: StepComponent, idx: number) => {
+              this.stepComponent.first.isFirst = step.isFirst;
+              this.stepComponent.last.isLast = step.isLast;
               step.currentStep = Number(val.step);
               step.status = value?.tasks?.find(
                 (el: any) => Number(el.task_step) === Number(step.step)
@@ -62,7 +64,6 @@ export class StepperWrapperComponent
                 (el: any) => Number(el.task_step) === Number(step.step)
               )?.task_id;
               step.currentTaskStep = Number(value?.current_task?.task_step);
-              console.log(step.currentStep);
             });
         });
         if (val.id) {
