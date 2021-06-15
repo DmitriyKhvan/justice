@@ -41,6 +41,7 @@ export class StepperWrapperComponent
           this.clientsService.taskList.next(
             value.tasks.map((el: any) => el.task_step)
           );
+          console.log(value.tasks.map((el: any) => el.task_step));
 
           // this.router.navigate([], {
           //   queryParams: {
@@ -61,6 +62,7 @@ export class StepperWrapperComponent
                 (el: any) => Number(el.task_step) === Number(step.step)
               )?.task_id;
               step.currentTaskStep = Number(value?.current_task?.task_step);
+              console.log(step.currentStep);
             });
         });
         if (val.id) {

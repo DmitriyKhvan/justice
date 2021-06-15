@@ -62,7 +62,6 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
     });
 
     this.sb = this.clientsService.contractInfo.subscribe((value) => {
-      console.log('contractInfo', value);
       value?.tasks?.forEach((el: any) => {
         if (Number(el.task_step) === this.step) {
           this.stepStatus = el.task_status;
@@ -72,12 +71,10 @@ export class OutstandingAuctionStepComponent implements OnInit, OnDestroy {
     });
 
     this.sb = this.clientsService.taskInfo.subscribe((value) => {
-      console.log('taskInfo', value);
       this.taskInfo = value;
     });
     this.sb = this.clientsService.lastAction.subscribe(
       (value) => {
-        console.log('lastAction', value);
         this.lastAction = value;
       }
     );

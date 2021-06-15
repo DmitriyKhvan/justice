@@ -41,7 +41,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     });
     this.clientsService.taskList.subscribe(list => {
       this.tasks = list;
-      console.log(this.tasks);
     });
 
     // this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
