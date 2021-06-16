@@ -97,9 +97,10 @@ import * as moment from 'moment';
             <div
               *ngFor="let item of history?.court_files; index as i"
               class="py-1 d-flex align-items-center"
+              (click)="clientsService.downloadFile(item?.id)"
             >
               <i class="icon-attach mr-1" style="font-size: 22px"></i>
-              <div class="ml-1">
+              <div class="ml-1 cursor-pointer">
                 {{ item.name }}
               </div>
             </div>

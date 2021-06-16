@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MainService } from '../../../../services/main.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-send-alert-step',
@@ -91,4 +92,6 @@ export class SendAlertStepComponent implements OnInit, OnDestroy {
       this.clientsService.taskHistory.next(val.body.history);
     });
   }
+
+
 }

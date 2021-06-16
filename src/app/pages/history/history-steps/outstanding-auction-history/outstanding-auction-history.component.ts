@@ -59,7 +59,10 @@ import * as moment from 'moment';
         </div>
       </summary>
       <div class="content m-0 py-1 pr-2">
-        <div class="d-flex align-items-center flex-nowrap mb-2">
+        <div
+          class="d-flex align-items-center flex-nowrap mb-2"
+          *ngIf="history?.auction !== null"
+        >
           <div
             class="custom-toggle-track mr-1"
             [class.custom-toggle-disabled]="!history?.auction"
@@ -76,12 +79,15 @@ import * as moment from 'moment';
           <div class="col-6">
             <div class="form-field__title mb-1">№ дело МИБ</div>
             <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
-              {{ history?.mib_case_number }}
+              {{ taskInfo?.body?.mib_case_number }}
             </div>
           </div>
         </div>
 
-        <div class="row flex-nowrap mb-2">
+        <div
+          class="row flex-nowrap align-items-end mb-2"
+          *ngIf="history?.lot_begin_date && history?.lot_end_date"
+        >
           <div class="col-6">
             <div class="form-field__title mb-1">Дата начало лота</div>
             <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
@@ -109,10 +115,27 @@ import * as moment from 'moment';
           <div
             *ngFor="let item of history?.files; index as i"
             class="py-1 d-flex align-items-center"
+            (click)="clientsService.downloadFile(item?.id)"
           >
             <i class="icon-attach mr-1" style="font-size: 22px"></i>
-            <div class="ml-1">
+            <div class="ml-1 cursor-pointer">
               {{ item.name }}
+            </div>
+          </div>
+        </div>
+
+        <div class="row flex-nowrap mb-2" *ngIf="history?.realization !== null">
+          <div class="col-6">
+            <div class="form-field__title mb-1">Лот реализован</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.realization ? 'Да' : 'Нет' }}
+            </div>
+          </div>
+
+          <div class="col-6" *ngIf="history?.realization">
+            <div class="form-field__title mb-1">Сумма реализации</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ history?.realization_sum }}
             </div>
           </div>
         </div>

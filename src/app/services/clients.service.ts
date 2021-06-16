@@ -64,4 +64,32 @@ export class ClientsService {
       `${environment.dbUrl}/process/task/get?task_id=${taskId}&step=${step}`
     );
   }
+
+  addTaskComment(body: any): Observable<any> {
+    return this.http.post(`${environment.dbUrl}/comments`, body);
+  }
+
+  downloadFile(id: any): any {
+    if (id) {
+      window.open(
+        `${environment.fileBaseUrl}/file/downloadById/${id}`,
+        'blank'
+      );
+    }
+  }
+
+  // getFile(id: any): Observable<any> {
+  //   return this.http.get<any>(`${environment.fileBaseUrl}/file/downloadById/${id}`);
+  // }
+  getFile(id: any): Promise<any> {
+    return new Promise<any>(async (resolve: any, reject: any) => {
+      try {
+        this.http.request('get', `${environment.fileBaseUrl}/file/downloadById/${id}`).subscribe(file => {
+          resolve(file);
+        });
+      } catch (err){
+        reject(err);
+      }
+    });
+  }
 }

@@ -172,6 +172,7 @@
             [stepTitle]="'Передача дело в апелляцию'"
             [stepDoneText]="'Дело передано в аппеляцию'"
             [step]="5.2"
+            [style.display]="isTask(5.2) ? '' : 'none'"
           >
 <!--            *ngIf="isTask(5.2)"-->
             <div step-content>
@@ -183,6 +184,7 @@
             [stepDoneText]="'Ответ получен'"
             [step]="5.3"
             #appealResponse
+            [style.display]="isTask(5.3) ? '' : 'none'"
           >
 <!--            *ngIf="isTask(5.3)"-->
             <div step-content>
@@ -193,6 +195,7 @@
             [stepTitle]="'Передача дело в кассацию'"
             [stepDoneText]="'Дело передано в кассацию'"
             [step]="5.4"
+            [style.display]="isTask(5.4) ? '' : 'none'"
           >
 <!--            *ngIf="isTask(5.4)"-->
             <div step-content>
@@ -204,6 +207,7 @@
             [stepDoneText]="'Ответ получен'"
             [step]="5.5"
             #cassationResponse
+            [style.display]="isTask(5.5) ? '' : 'none'"
           >
 <!--            *ngIf="isTask(5.5)"-->
             <div step-content>
@@ -214,6 +218,7 @@
             [stepTitle]="'Передача дело в надзор или прокуратуру'"
             [stepDoneText]="'Дело передано в надзор или прокуратуру'"
             [step]="5.6"
+            [style.display]="isTask(5.6) ? '' : 'none'"
           >
 <!--            *ngIf="isTask(5.6)"-->
             <div step-content>
@@ -226,6 +231,7 @@
             [stepDoneText]="'Ответ получен'"
             [step]="5.7"
             #supervisionResponse
+            [style.display]="isTask(5.7) ? '' : 'none'"
           >
 <!--            *ngIf="isTask(5.7)"-->
             <div step-content>

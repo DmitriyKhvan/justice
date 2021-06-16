@@ -9,7 +9,8 @@
       <div class="mb-2">
         <div
           *ngFor="let item of lastAction?.files; index as i"
-          class="py-1 d-flex align-items-center"
+          class="py-1 d-flex align-items-center cursor-pointer"
+          (click)="clientsService.downloadFile(item?.id)"
         >
           <i class="icon-attach mr-1" style="font-size: 22px"></i>
           <div class="ml-1">
