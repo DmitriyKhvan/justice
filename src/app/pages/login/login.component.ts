@@ -74,10 +74,10 @@ export class LoginComponent implements OnInit {
 
         // console.log(
         //   'this.auth.userRole',
-        //   this.auth.currentUser.roles.includes(2)
+        //   this.auth.currentUser.roles.includes(3)
         // );
 
-        if (this.auth.currentUser.roles.includes(2)) {
+        if (this.auth.currentUser.roles.includes(3)) {
           this.router.navigate(['/admin/listUser']);
         } else {
           this.router.navigate(['/']);

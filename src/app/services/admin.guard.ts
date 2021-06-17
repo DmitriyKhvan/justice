@@ -23,7 +23,7 @@ export class AdminGuard implements CanActivate {
         JSON.parse(localStorage.getItem('tokenData') + '').access_token
       );
 
-      if (decodedToken.user.username === 'admin') {
+      if (this.auth.currentUser.roles.includes(3)) {
         this.auth.setUserExp(decodedToken.user.user_exp);
         return true;
       } else {
