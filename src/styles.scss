@@ -572,11 +572,12 @@
           margin-left: 16px;
           overflow: hidden;
         }
-        & a {
+        &_download {
           display: flex;
           align-items: center;
           text-transform: uppercase;
           font-weight: 600;
+          cursor: pointer;
           & i {
             position: static;
             opacity: 1;
