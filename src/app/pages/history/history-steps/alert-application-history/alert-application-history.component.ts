@@ -102,7 +102,7 @@ import { Subscription } from 'rxjs';
             </div>
           </div>
 
-          <div *ngIf="history?.status === 3">
+          <div *ngIf="history?.status === 3 || history?.status === -1">
             <div class="row">
               <div class="col-lg-6">
                 <div class="mb-2">
