@@ -2,15 +2,11 @@ import {
   Component,
   OnInit,
   Input,
-  DoCheck,
-  AfterContentChecked,
-  AfterContentInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService } from '../../../services/clients.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
-import {MainService} from '../../../services/main.service';
 
 @Component({
   selector: 'app-accordion-item',
@@ -42,7 +38,7 @@ import {MainService} from '../../../services/main.service';
             <i class="uil-info-circle" *ngSwitchCase="3"></i>
             <i class="uil-lock" *ngSwitchCase="4"></i>
           </div>
-          {{ stepNumber }}
+          {{ step }}
         </div>
         <div class="title pr-2">
           {{ accordionTitle }}
