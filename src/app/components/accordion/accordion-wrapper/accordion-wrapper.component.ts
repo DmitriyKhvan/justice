@@ -64,7 +64,7 @@ export class AccordionWrapperComponent
             .subscribe((value) => {
               this.clientsService.taskInfo.next(value);
               this.clientsService.lastAction.next(
-                value.body.history?.array[value.body?.history?.array.length - 1]
+                value.body?.history?.array[value.body?.history?.array.length - 1]
               );
               this.clientsService.taskHistory.next(value.body?.history?.array);
             });

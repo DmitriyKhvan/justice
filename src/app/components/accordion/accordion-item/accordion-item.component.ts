@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService } from '../../../services/clients.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import {MainService} from '../../../services/main.service';
 
 @Component({
   selector: 'app-accordion-item',
@@ -186,7 +187,7 @@ export class AccordionItemComponent implements OnInit {
     };
 
     this.clientsService.addTaskComment(body).subscribe((value) => {
-      console.log(value);
+      this.clientsService.taskInfo.next(value);
     });
     this.commentForm.reset();
   }
