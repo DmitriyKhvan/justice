@@ -1,0 +1,51 @@
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="select-field add">
+    <div class="select-field__title">Выбор следующего шага</div>
+    <ng-select
+      appearance="outline"
+      [items]="steps"
+      bindLabel="lang.ru"
+      bindValue="id"
+      placeholder="Следующий шаг"
+      #agreeSelect
+      labelForId="yesno"
+      [searchable]="false"
+      formControlName="nextStep"
+      (change)="setActionStep($event)"
+    ></ng-select>
+    <div
+      *ngIf="form.get('nextStep')?.touched && form.get('nextStep')?.invalid"
+      class="validation"
+    >
+      <small *ngIf="form.get('nextStep')?.errors?.required">
+        Выберите данные
+      </small>
+    </div>
+  </div>
+
+  <div *ngIf="actions.length" class="radio_field">
+    <div class="radio_field__title">
+      Действия для выбранного следующего шага
+    </div>
+    <label *ngFor="let action of actions" class="radio add">
+      <input
+        class="radio__input"
+        type="radio"
+        [value]="action.id"
+        formControlName="nextAction"
+        name="nextAction"
+      />
+      <span class="radio__box"><i class="point"></i></span>
+      <span class="radio__text">{{ action.lang.ru }}</span>
+    </label>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Перейти к следующему действию
+  </button>
+</form>

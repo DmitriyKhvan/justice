@@ -1,5 +1,5 @@
 <script src="../../../../../../../apparat-front/src/app/pages/p-application/components/sidebar/sidebar.component.ts"></script>
-<div class="row flex-nowrap" *ngIf="mainService.ROLE === 'IY'">
+<div class="row flex-nowrap">
   <div class="col-6">
     <div
       class="p-2 mb-2 bg-gray-primary"
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<div *ngIf="mainService.ROLE === 'GY'">
+<div>
   <app-alert-info
     [text]="'Подождите, данные еще не отправлены исполнительным юристом.'"
     [icon]="'uil-clock-three'"

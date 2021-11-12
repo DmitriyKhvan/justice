@@ -16,6 +16,7 @@ import { AddUserComponent } from './admin/pages/add-user/add-user.component';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
 import { ListUserComponent } from './admin/pages/list-user/list-user.component';
+import { LawsuitComponent } from './pages/lawsuit/lawsuit.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
         path: 'clients/detail',
         component: ClientsDetailComponent,
         data: { taskInfo: {} },
+      },
+      {
+        path: 'clients/lawsuit',
+        component: LawsuitComponent,
       },
       {
         path: 'clients/history',

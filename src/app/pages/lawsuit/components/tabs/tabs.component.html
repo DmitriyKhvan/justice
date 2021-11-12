@@ -1,0 +1,40 @@
+<div class="row steps-block">
+  <div class="col-3"></div>
+  <div class="col-9">
+    <div class="steps">
+      <button
+        *ngFor="let step of steps; index as idx"
+        #stepRef
+        class="step_lawsuit"
+        [class]="step.status === 'last' ? 'last' : 'complete'"
+        (click)="
+          getStep({
+            stepId: step.id,
+            event: stepRef,
+            idx: idx,
+            stepName: step.name
+          })
+        "
+      >
+        <span class="step_lawsuit_number">{{ step.id }}</span>
+        <span class="step_lawsuit_name">{{ step.name }}</span>
+        <i class="uil-pen"></i>
+      </button>
+
+      <!-- <button
+        #step2
+        class="step_lawsuit current last"
+        (click)="getStep(2, step2)"
+      >
+        <span class="step_lawsuit_number">2</span>
+        <span class="step_lawsuit_name">Уведомление</span>
+        <i class="uil-pen"></i>
+      </button> -->
+
+      <button class="step_lawsuit">
+        <span class="step_lawsuit_number">3</span>
+        <span class="step_lawsuit_name">Шаг 3</span>
+      </button>
+    </div>
+  </div>
+</div>

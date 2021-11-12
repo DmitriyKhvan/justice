@@ -109,7 +109,7 @@ export class ClientsListComponent implements OnInit, DoCheck {
   showDetails(): void {
     this.route.queryParams.subscribe((val) => {
       this.clientsService.contractDetails(val.contract).subscribe((value) => {
-        this.router.navigate(['clients/detail'], {
+        this.router.navigate(['clients/lawsuit'], {
           queryParams: {
             ...this.route.snapshot.queryParams,
             step: value.current_task.task_step,

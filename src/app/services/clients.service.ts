@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { MainService } from './main.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
+import { ContractInfo } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,13 @@ export class ClientsService {
   public currentStepTitle = 'Отправка оповещения должнику';
 
   public listByMfo = new BehaviorSubject([]);
+  public contractInfo = new BehaviorSubject<any>({});
+  public taskList = new BehaviorSubject<any>([]);
+
+  public taskInfo = new BehaviorSubject<any>({});
+  public lastAction = new BehaviorSubject<any>({});
+  public taskHistory = new BehaviorSubject<any>([]);
+  public sp = new BehaviorSubject<any>({});
 
   constructor(
     private http: HttpClient,
@@ -27,36 +35,65 @@ export class ClientsService {
   ) {}
 
   getMfo(): Observable<any> {
-    console.log(environment.dbUrl);
     return this.auth.fetchWithAuth(
-      this.http.get<any>(environment.dbUrl + `dictionary/mfo`)
+      this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
     );
   }
 
   getListByMfo(mfo: any): Observable<any> {
     return this.auth.fetchWithAuth(
-      this.http.get(
+      this.http.get<any>(
         `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
       )
     );
   }
 
   contractDetails(id: any): Observable<any> {
-    return this.http.post(`${environment.dbUrl}process/open`, {
+    return this.http.post(`${environment.dbUrl}/process/open`, {
       case_id: id,
     });
   }
 
-  completeTaskStep(body: object): Observable<any> {
+  completeTaskStep(body: any): Observable<any> {
     return this.http.post(
-      `${environment.dbUrl}process/task/send?role=${this.mainService.ROLE}`,
+      `${environment.dbUrl}/process/task/send?role=${this.mainService.ROLE}`,
       body
     );
   }
 
   getTask(taskId: number, step: number): Observable<any> {
     return this.http.get(
-      `${environment.dbUrl}process/task/get?task_id=${taskId}&step=${step}`
+      `${environment.dbUrl}/process/task/get?task_id=${taskId}&step=${step}`
     );
+  }
+
+  addTaskComment(body: any): Observable<any> {
+    return this.http.post(`${environment.dbUrl}/comments`, body);
+  }
+
+  downloadFile(id: any): any {
+    if (id) {
+      window.open(
+        `${environment.fileBaseUrl}/file/downloadById/${id}`,
+        'blank'
+      );
+    }
+  }
+
+  // getFile(id: any): Observable<any> {
+  //   return this.http.get<any>(`${environment.fileBaseUrl}/file/downloadById/${id}`);
+  // }
+  getFile(id: any): Promise<any> {
+    return new Promise<any>(async (resolve: any, reject: any) => {
+      try {
+        this.http
+          .request('get', `${environment.fileBaseUrl}/file/downloadById/${id}`)
+          .subscribe((file) => {
+            resolve(file);
+          });
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 }

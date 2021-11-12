@@ -1,0 +1,91 @@
+.wrap_history__step {
+  position: relative;
+}
+
+.next_step_btn {
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  height: 48px;
+  width: 38px;
+  transition: all 0.2s ease-out;
+  background: url(../../../../../assets/img/next_step_arrow.svg) no-repeat
+    center;
+
+  &:hover {
+    background: url(../../../../../assets/img/next_step_arrow_big.svg) no-repeat
+      center;
+  }
+
+  &:hover ~ .history_step__field__data .history_step__field__data__status i {
+    border-radius: 0 0 0 0;
+  }
+
+  &:hover ~ .history_step__field__data {
+    border: 1px solid #10274a;
+    border-radius: 5px 0 0 0;
+  }
+
+  &:hover ~ .next_step_title {
+    opacity: 1;
+  }
+}
+
+.next_step_title {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  opacity: 0;
+  text-align: center;
+  color: #fff;
+  background: #10274a;
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+  padding: 5px 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.history_step__field {
+  &__title,
+  &__data {
+    display: flex;
+    align-items: center;
+    height: 48px;
+
+    .add {
+      padding-left: 15px;
+    }
+  }
+  &__data {
+    background: #f4f6f8;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: border 0.3s ease-in-out;
+
+    &__status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 46px;
+        width: 48px;
+        background: #e9ebef;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+    }
+
+    &__status.approved {
+      span {
+        color: #00a71a;
+      }
+    }
+  }
+}

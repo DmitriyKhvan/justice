@@ -1,0 +1,129 @@
+@mixin check($color: #233485) {
+  .check {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &__input {
+      position: absolute;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+
+      // three positions checkbox
+      &:checked + .check__box {
+        background: $color;
+        i {
+          transform: scale(1);
+        }
+      }
+
+      &:focus + .check__box {
+        box-shadow: 0 0 0 2px $color, 0 0 0 5px #9b9b9b;
+      }
+
+      &:disabled + .check__box {
+        box-shadow: 0 0 0 2px $color;
+        cursor: not-allowed;
+      }
+
+      &:checked:disabled + .check__box {
+        background: #9b9b9b;
+        cursor: not-allowed;
+      }
+    }
+
+    &__box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      border-radius: 3px;
+      box-shadow: 0 0 0 2px $color;
+      transition: background 0.3s ease;
+
+      i {
+        color: #fff;
+        transition: transform 0.2s ease;
+        transform: scale(0);
+        &::before {
+          font-size: 20px;
+        }
+      }
+    }
+
+    &__text {
+      font-size: 12px;
+    }
+  }
+}
+
+@mixin radio($color: #233485) {
+  .radio {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+
+      // three positions checkbox
+      &:checked + .radio__box {
+        // background: $color;
+        i {
+          transform: scale(1) translate(0, 2%);
+        }
+      }
+
+      &:focus + .radio__box {
+        box-shadow: 0 0 0 2px $color, 0 0 0 5px #9b9b9b;
+      }
+
+      &:disabled + .radio__box {
+        box-shadow: 0 0 0 2px $color;
+        cursor: not-allowed;
+      }
+
+      &:checked:disabled + .radio__box {
+        background: #9b9b9b;
+        cursor: not-allowed;
+      }
+    }
+
+    &__box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      margin-right: 8px;
+      box-shadow: 0 0 0 2px $color;
+      // transition: background 0.5s ease;
+
+      i {
+        color: #fff;
+        transition: transform 0.2s ease;
+        transform: scale(0);
+
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: $color;
+
+        // &::before {
+        //   font-size: 20px;
+        // }
+      }
+    }
+
+    &__text {
+      font-size: 16px;
+    }
+  }
+}

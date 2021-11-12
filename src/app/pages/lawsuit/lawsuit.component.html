@@ -1,0 +1,122 @@
+<div class="h-100">
+  <div
+    class="page-header row no-gutters justify-content-between align-items-center"
+  >
+    <div class="page-title">
+      <i class="uil-arrow-left" (click)="goToBack()"></i>
+      Назад к списку кредитов
+    </div>
+    <div class="page-header__text" *ngIf="lawsuitService.stepIndex">
+      Шаг {{ lawsuitService.stepIndex }}.
+      {{ lawsuitService.stepName }}
+    </div>
+    <div
+      class="page-actions row no-gutters justify-content-between align-items-center"
+    >
+      <div class="page-action__item mr-2" (click)="showHistory()">
+        <i class="far fa-clock"></i>
+        История
+      </div>
+    </div>
+  </div>
+
+  <app-tabs></app-tabs>
+
+  <div class="page-content">
+    <div class="row align-items-start">
+      <div class="col-lg-3 col-md-5 page-sticky">
+        <div class="page-card">
+          <div class="page-card__header px-3 pt-2">
+            Проблемный кредит #45032
+          </div>
+          <div class="page-card__body">
+            <div class="row page-card__details px-3">
+              <div class="col-5">Сумма кредита по договору</div>
+              <div class="col-7">5 000 000,00</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Дата начала кредита</div>
+              <div class="col-7">29.01.2017</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Дата окончания кредита</div>
+              <div class="col-7">29.01.2017</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Валюта кредита</div>
+              <div class="col-7">UZS</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Процентная ставка</div>
+              <div class="col-7">9 %</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Статус наращивания/ненаращивания</div>
+              <div class="col-7">Статус наращивания</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Остаток текущего долга</div>
+              <div class="col-7">0,00</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Остаток просроченного основного долга</div>
+              <div class="col-7">291 000,00</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Остаток начисленных %</div>
+              <div class="col-7">0,00</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Остаток просроченных %</div>
+              <div class="col-7">1 503,76</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">
+                Остаток начисленных % по просроченному  основному долгу
+              </div>
+              <div class="col-7">0,00</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">ФИО заемщика</div>
+              <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">ФИО поручителя</div>
+              <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Номер договора</div>
+              <div class="col-7">45032</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Дата заключения договора</div>
+              <div class="col-7">29.01.2017</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Вид залога</div>
+              <div class="col-7">Недвижимость</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">Наименование залога</div>
+              <div class="col-7">Мой дом на мальдивах</div>
+            </div>
+          </div>
+          <div class="page-card__footer py-1">
+            <div class="row page-card__details px-3">
+              <div class="col-5">ИТОГО задолженность</div>
+              <div class="col-7 text-danger">292 503,76</div>
+            </div>
+            <div class="row page-card__details px-3">
+              <div class="col-5">ИТОГО задолженность</div>
+              <div class="col-7">292 503,76</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-9 col-md-5 page-sticky">
+        <app-notification></app-notification>
+      </div>
+    </div>
+  </div>
+</div>

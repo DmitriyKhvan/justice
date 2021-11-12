@@ -90,6 +90,15 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { LoginPassComponent } from './components/login-pass/login-pass.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoaderComponent } from './components/loader/loader.component';
+import { LawsuitComponent } from './pages/lawsuit/lawsuit.component';
+import { NotificationComponent } from './pages/lawsuit/components/steps/notification/notification.component';
+import { NotificationFormComponent } from './pages/lawsuit/components/steps/notification/notification-form/notification-form.component';
+import { NotificationHistoryComponent } from './pages/lawsuit/components/steps/notification/notification-history/notification-history.component';
+import { NextStepComponent } from './pages/lawsuit/components/next-step/next-step.component';
+import { HistoryActionsComponent } from './pages/lawsuit/components/history-actions/history-actions.component';
+import { HistoryStepComponent } from './pages/lawsuit/components/history-step/history-step.component';
+import { SelectActionComponent } from './pages/lawsuit/components/select-action/select-action.component';
+import { TabsComponent } from './pages/lawsuit/components/tabs/tabs.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -168,6 +177,15 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ConfirmComponent,
     LoginPassComponent,
     LoaderComponent,
+    LawsuitComponent,
+    NotificationComponent,
+    NotificationFormComponent,
+    NotificationHistoryComponent,
+    NextStepComponent,
+    HistoryActionsComponent,
+    HistoryStepComponent,
+    SelectActionComponent,
+    TabsComponent,
   ],
   imports: [
     TooltipModule,

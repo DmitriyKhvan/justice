@@ -6,7 +6,8 @@ import { Environment } from './interface';
 
 export const environment: Environment = {
   production: false,
-  dbUrl: 'http://10.1.2.165:3000',
+  dbUrl: 'http://10.1.1.20:3000',
+  dbUrlBek: 'http://10.1.1.77:3000/api/v1.0.0/justice',
   // dbUrl: 'http://10.1.1.226:3000',
   fileBaseUrl: 'http://10.1.2.165:9001',
 };

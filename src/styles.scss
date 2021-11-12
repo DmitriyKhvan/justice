@@ -1,6 +1,9 @@
 //@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "assets/scss/ng-select/default.theme";
 @import "assets/scss/my-datepicker";
+@import "assets/css/mixins.scss";
+
+@include radio();
 
 :root {
   --primary-color: #10274a;
@@ -96,7 +99,7 @@
 
 .page-content {
   height: calc(100% - 60px);
-  padding: 24px 80px;
+  // padding: 24px 80px;
   overflow-y: auto;
   &::-webkit-scrollbar {
     width: 0;
@@ -302,9 +305,17 @@
     &__title.add {
       min-height: 32px;
     }
-    & .ng-select.custom-select {
+    & .ng-select .ng-select-container {
+      min-height: 40px;
     }
   }
+
+  & .select-field.add {
+    padding: 20px;
+    background: #f6f9fe;
+    border-radius: 5px;
+  }
+
   & .input-field {
     flex: 1;
     &__title {
@@ -913,4 +924,22 @@ i.btnIcon {
       background: #10274a;
     }
   }
+}
+
+.row .add {
+  padding-left: 15px;
+}
+
+//lawsuit
+
+.title_lawsuit {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.subTitle_lawsuit {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
 }

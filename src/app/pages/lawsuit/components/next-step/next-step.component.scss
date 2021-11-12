@@ -1,0 +1,26 @@
+.radio_field {
+  padding: 20px;
+  background: #f6f9fe;
+  margin-bottom: 25px;
+  &__title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  .radio.add {
+    padding: 15px 0 !important;
+    border-bottom: 1px solid #e0e5ec;
+  }
+
+  .radio.add:last-child {
+    border: none;
+    padding-bottom: 0 !important;
+  }
+}
+
+.select-field.add {
+  margin: 35px 0 20px 0;
+
+  .select-field__title {
+    font-size: 16px;
+  }
+}

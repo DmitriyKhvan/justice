@@ -1,0 +1,39 @@
+.history_action__field {
+  &__title,
+  &__data {
+    display: flex;
+    align-items: center;
+    height: 48px;
+
+    .add {
+      padding-left: 15px;
+    }
+  }
+  &__data {
+    background: #f4f6f8;
+    border-radius: 5px;
+
+    &__status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 48px;
+        width: 48px;
+        background: #e9ebef;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+    }
+
+    &__status.pending {
+      span {
+        color: #b58d00;
+      }
+    }
+  }
+}

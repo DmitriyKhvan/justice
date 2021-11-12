@@ -16,3 +16,11 @@ export interface LoginPass {
   login: string;
   password: string;
 }
+
+export interface ContractInfo {
+  body: {};
+  case_close?: boolean;
+  current_task: { task_id: number; task_status: number; task_step: string };
+  sp?: {};
+  tasks: [];
+}
