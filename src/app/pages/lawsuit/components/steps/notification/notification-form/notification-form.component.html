@@ -1,47 +1,21 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">Отправка уведомления клиенту</h2>
+  <button class="remove_action_form__btn">
+    <i class="uil-times"></i>
+  </button>
+</div>
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
   <div class="row justify-content-between mb-2">
     <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Дата исходящего письма</div>
-        <label class="input-field__label">
-          <!--        <input type="text" class="datepicker-here" readonly />-->
+        <div class="input-field__title">Последний срок погашения кредита</div>
+        <label class="input-field__label readonly">
           <input
-            class="input-box"
-            angular-mydatepicker
-            name="reactiveFormsDate"
+            type="text"
+            autocomplete="off"
             formControlName="notificationDate"
-            [options]="myDpOptions"
-            #dp="angular-mydatepicker"
-            [locale]="'ru'"
           />
-          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
-
-        <div
-          *ngIf="
-            form.get('notificationDate')?.touched &&
-            form.get('notificationDate')?.invalid
-          "
-          class="validation"
-        >
-          <small
-            *ngIf="
-              form.controls.notificationDate.errors &&
-              form.controls.notificationDate.errors.required &&
-              !form.controls.notificationDate.errors.invalidDateFormat
-            "
-          >
-            Введите данные
-          </small>
-          <small
-            *ngIf="
-              form.controls.notificationDate.errors &&
-              form.controls.notificationDate.errors.invalidDateFormat
-            "
-          >
-            Неккоректные данные
-          </small>
-        </div>
       </div>
     </div>
   </div>
@@ -74,7 +48,7 @@
 
   <button
     type="submit"
-    class="page-form__actionbtn text-uppercase"
+    class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >

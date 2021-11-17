@@ -99,6 +99,19 @@ import { HistoryActionsComponent } from './pages/lawsuit/components/history-acti
 import { HistoryStepComponent } from './pages/lawsuit/components/history-step/history-step.component';
 import { SelectActionComponent } from './pages/lawsuit/components/select-action/select-action.component';
 import { TabsComponent } from './pages/lawsuit/components/tabs/tabs.component';
+import { ChamberCommerceIndustryComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/chamber-commerce-industry.component';
+import { SendingApplicationComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/sending-application/sending-application.component';
+import { MakingResponseComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/making-response/making-response.component';
+import { LawComponent } from './pages/lawsuit/components/steps/law/law.component';
+import { SendingCaseLawComponent } from './pages/lawsuit/components/steps/law/sending-case-law/sending-case-law.component';
+import { SettingResponseLawComponent } from './pages/lawsuit/components/steps/law/setting-response-law/setting-response-law.component';
+import { NotaryComponent } from './pages/lawsuit/components/steps/notary/notary.component';
+import { MakingResponseNotaryComponent } from './pages/lawsuit/components/steps/notary/making-response-notary/making-response-notary.component';
+import { SendingApplicationNotaryComponent } from './pages/lawsuit/components/steps/notary/sending-application-notary/sending-application-notary.component';
+import { BureauCompulsoryEnforcementComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/bureau-compulsory-enforcement.component';
+import { CaseTransferComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/case-transfer/case-transfer.component';
+import { AuctionComponent } from './pages/lawsuit/components/steps/auction/auction.component';
+import { StopingAuctionComponent } from './pages/lawsuit/components/steps/auction/stoping-auction/stoping-auction.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -186,6 +199,19 @@ const INTERCEPTOR_PROVIDER: Provider = {
     HistoryStepComponent,
     SelectActionComponent,
     TabsComponent,
+    ChamberCommerceIndustryComponent,
+    SendingApplicationComponent,
+    MakingResponseComponent,
+    LawComponent,
+    SendingCaseLawComponent,
+    SettingResponseLawComponent,
+    NotaryComponent,
+    MakingResponseNotaryComponent,
+    SendingApplicationNotaryComponent,
+    BureauCompulsoryEnforcementComponent,
+    CaseTransferComponent,
+    AuctionComponent,
+    StopingAuctionComponent,
   ],
   imports: [
     TooltipModule,

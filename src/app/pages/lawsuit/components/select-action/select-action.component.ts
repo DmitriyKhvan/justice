@@ -14,7 +14,7 @@ export class SelectActionComponent implements OnInit {
 
   actions: any[] = [];
 
-  constructor(private lawsuitService: LawsuitService) {}
+  constructor(public lawsuitService: LawsuitService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -31,5 +31,12 @@ export class SelectActionComponent implements OnInit {
     }
 
     console.log(this.form.value);
+    this.lawsuitService.actionIds.push(this.form.value.action);
+    this.actions = this.actions.filter(
+      (action) => !this.lawsuitService.actionIds.includes(action.id)
+    );
+
+    console.log('this.lawsuitService.actionIds', this.lawsuitService.actionIds);
+    console.log('this.actions', this.actions);
   }
 }

@@ -1,0 +1,24 @@
+<div class="lawsuit_form_content">
+  <div class="row">
+    <div class="col-4 page-sticky">
+      <app-select-action></app-select-action>
+
+      <app-sending-case-law
+        *ngIf="this.lawsuitService.actionIds.includes(4)"
+      ></app-sending-case-law>
+      <app-setting-response-law
+        *ngIf="this.lawsuitService.actionIds.includes(5)"
+      ></app-setting-response-law>
+
+      <!-- <app-setting-response-law></app-setting-response-law> -->
+
+      <app-next-step></app-next-step>
+    </div>
+    <div class="col-4 page-sticky">
+      <app-history-actions></app-history-actions>
+    </div>
+    <div class="col-4 page-sticky">
+      <app-history-step></app-history-step>
+    </div>
+  </div>
+</div>

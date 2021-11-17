@@ -126,7 +126,7 @@
 .page-card {
   //width: 492px;
   background: #f4f6f8;
-  border-radius: 15px;
+  // border-radius: 15px;
   overflow: hidden;
   position: sticky;
   top: 0;
@@ -402,10 +402,26 @@
     font-size: 15px;
     font-weight: 600;
     color: #10274a;
+
     &[disabled] {
       cursor: not-allowed;
       border-color: rgba(16, 39, 74, 0.5);
       color: rgba(16, 39, 74, 0.5);
+    }
+
+    &.add {
+      background: #10274a;
+      color: #fff;
+      border: none;
+
+      &[disabled] {
+        background: #fff;
+        color: #10274a;
+        border: 1px solid rgba(16, 39, 74, 1);
+        cursor: not-allowed;
+        border-color: rgba(16, 39, 74, 0.5);
+        color: rgba(16, 39, 74, 0.5);
+      }
     }
   }
 }
@@ -942,4 +958,53 @@ i.btnIcon {
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 10px;
+}
+
+.lawsuit_form_content {
+  padding: 36px 60px 36px 0;
+}
+
+.lawsuitTitle {
+  font-size: 20px;
+}
+
+.lawsuitTitleWrap {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 30px 0 20px 0;
+
+  .remove_action_form__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    min-height: 30px;
+    border: 1px solid rgba(16, 39, 74, 0.3);
+    border-radius: 50%;
+    color: #707d92;
+    background: transparent;
+    outline: none;
+    padding: 0;
+    margin-left: 10px;
+
+    i {
+      font-size: 20px;
+    }
+  }
+}
+
+.removeItem {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 1px solid #b8bfc9;
+  border-radius: 5px;
+  outline: none;
+  background: transparent;
+
+  i {
+    font-size: 20px;
+    color: #707d92;
+  }
 }

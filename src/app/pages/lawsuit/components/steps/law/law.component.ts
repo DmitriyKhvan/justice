@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
+  selector: 'app-law',
+  templateUrl: './law.component.html',
+  styleUrls: ['./law.component.scss'],
 })
-export class NotificationComponent implements OnInit {
+export class LawComponent implements OnInit {
   constructor(public lawsuitService: LawsuitService) {}
 
   ngOnInit(): void {}

@@ -28,7 +28,10 @@ export class NotificationFormComponent implements OnInit {
     };
 
     this.form = new FormGroup({
-      notificationDate: new FormControl(null, Validators.required),
+      notificationDate: new FormControl({
+        value: '05.11.2021',
+        disabled: true,
+      }),
       additionalInfo: new FormControl(null, Validators.required),
     });
   }
@@ -46,7 +49,7 @@ export class NotificationFormComponent implements OnInit {
       processId: 0,
       nextActionId: 0,
       active: true,
-      lastPaymentDate: this.form.value.notificationDate.singleDate.formatted,
+      // lastPaymentDate: this.form.value.notificationDate.singleDate.formatted,
       text: this.form.value.additionalInfo,
     };
 

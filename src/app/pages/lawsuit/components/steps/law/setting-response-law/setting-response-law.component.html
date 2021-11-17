@@ -1,0 +1,211 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">Получение и внесение ответа от суда</h2>
+  <button class="remove_action_form__btn">
+    <i class="uil-times"></i>
+  </button>
+</div>
+
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Проведение суда</div>
+        <ng-select
+          appearance="outline"
+          [items]="options"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Проведение суда"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="conductLaw"
+        ></ng-select>
+        <div
+          *ngIf="
+            form.get('conductLaw')?.touched && form.get('conductLaw')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('conductLaw')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div
+        *ngIf="this.form.get('conductLaw')?.value === 2"
+        class="select-field"
+      >
+        <div class="select-field__title">Проведение суда</div>
+        <ng-select
+          appearance="outline"
+          [items]="options2"
+          bindLabel="label"
+          bindValue="id"
+          placeholder="Проведение суда"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="action"
+        ></ng-select>
+        <div
+          *ngIf="form.get('action')?.touched && form.get('action')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('action')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="this.form.get('conductLaw')?.value === 1"
+    class="row justify-content-between mb-2"
+  >
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ дела</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="caseNumber" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('caseNumber')?.touched && form.get('caseNumber')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('caseNumber')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="this.form.get('action')?.value === 1"
+    class="row justify-content-between mb-2"
+  >
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Отложить до</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="deferTo" />
+        </label>
+
+        <div
+          *ngIf="form.get('deferTo')?.touched && form.get('deferTo')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('deferTo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="this.form.get('conductLaw')?.value === 1">
+    <div
+      class="row justify-content-between align-items-end mb-2"
+      formArrayName="datesLaw"
+      *ngFor="let dateLaw of datesLaw.controls; let idx = index"
+    >
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">Дата и время проведения суда</div>
+
+          <label class="input-field__label">
+            <!--        <input type="text" class="datepicker-here" readonly />-->
+            <input
+              class="input-box"
+              angular-mydatepicker
+              name="reactiveFormsDate"
+              [formControlName]="idx"
+              [options]="myDpOptions"
+              #dp="angular-mydatepicker"
+              [locale]="'ru'"
+            />
+            <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+          </label>
+
+          <div *ngIf="dateLaw.touched && dateLaw.invalid" class="validation">
+            <small
+              *ngIf="
+                dateLaw.errors &&
+                dateLaw.errors.required &&
+                !dateLaw.errors.invalidDateFormat
+              "
+            >
+              Введите данные
+            </small>
+            <small *ngIf="dateLaw.errors && dateLaw.errors.invalidDateFormat">
+              Неккоректные данные
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <button *ngIf="idx > 0" class="removeItem" (click)="removeDateLaw(idx)">
+          <i class="uil-trash"></i>
+        </button>
+        <button
+          *ngIf="idx === 0"
+          class="btn btn-dashed add"
+          (click)="addDateLaw()"
+        >
+          Добавить дату
+        </button>
+
+        <div *ngIf="dateLaw.touched && dateLaw.invalid" class="validation">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="this.form.get('action')?.value === 1"
+    class="row justify-content-between mb-2"
+  >
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Отправить
+  </button>
+</form>

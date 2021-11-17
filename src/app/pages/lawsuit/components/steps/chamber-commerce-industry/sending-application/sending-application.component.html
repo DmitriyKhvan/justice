@@ -1,0 +1,106 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">Отправка заявки в ТПП</h2>
+  <button class="remove_action_form__btn">
+    <i class="uil-times"></i>
+  </button>
+</div>
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исх. документа</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="numberDoc" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('numberDoc')?.touched && form.get('numberDoc')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('numberDoc')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата исх. документа</div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="dateDoc"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="form.get('dateDoc')?.touched && form.get('dateDoc')?.invalid"
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.dateDoc.errors &&
+              form.controls.dateDoc.errors.required &&
+              !form.controls.dateDoc.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.dateDoc.errors &&
+              form.controls.dateDoc.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Отправить
+  </button>
+</form>

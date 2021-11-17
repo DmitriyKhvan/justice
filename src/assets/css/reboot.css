@@ -363,3 +363,8 @@ template {
 [hidden] {
   display: none !important;
 }
+
+/* button:active,
+button:focus {
+  outline: none;
+} */

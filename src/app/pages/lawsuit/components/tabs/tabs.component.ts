@@ -5,6 +5,9 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -15,12 +18,11 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 export class TabsComponent implements OnInit {
   @ViewChildren('stepRef') stepsRef!: QueryList<ElementRef>;
 
-  steps: any[] = [
-    { id: 1, name: 'Уведомление', status: 'complete' },
-    { id: 2, name: 'Процесс работы с ТПП', status: 'last' },
-  ];
-
-  constructor(private lawsuitService: LawsuitService) {}
+  constructor(
+    public lawsuitService: LawsuitService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -37,10 +39,6 @@ export class TabsComponent implements OnInit {
 
     event.classList.add('current');
 
-    // if (event.target.parentNode.classList.contains('step_lawsuit')) {
-    //   event.target.parentNode.classList.add('current');
-    // } else if (event.target.classList.contains('step_lawsuit')) {
-    //   event.target.classList.add('current');
-    // }
+    this.lawsuitService.getCurrentStep(stepId);
   }
 }

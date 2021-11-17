@@ -27,22 +27,26 @@
     <div class="radio_field__title">
       Действия для выбранного следующего шага
     </div>
-    <label *ngFor="let action of actions" class="radio add">
-      <input
-        class="radio__input"
-        type="radio"
-        [value]="action.id"
-        formControlName="nextAction"
-        name="nextAction"
-      />
-      <span class="radio__box"><i class="point"></i></span>
-      <span class="radio__text">{{ action.lang.ru }}</span>
-    </label>
+
+    <div *ngFor="let action of actions" class="radio__wrap add">
+      <label class="radio">
+        <input
+          class="radio__input"
+          type="radio"
+          [value]="action.id"
+          formControlName="nextAction"
+          name="nextAction"
+        />
+        <span class="radio__box"><i class="point"></i></span>
+        <span class="radio__text">{{ action.lang.ru }}</span>
+      </label>
+      <i class="uil-eye"></i>
+    </div>
   </div>
 
   <button
     type="submit"
-    class="page-form__actionbtn text-uppercase"
+    class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >

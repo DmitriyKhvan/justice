@@ -1,9 +1,9 @@
 <div class="row steps-block">
-  <div class="col-3"></div>
-  <div class="col-9">
+  <!-- <div class="col-3"></div> -->
+  <div class="col-12">
     <div class="steps">
       <button
-        *ngFor="let step of steps; index as idx"
+        *ngFor="let step of this.lawsuitService.steps; let idx = index"
         #stepRef
         class="step_lawsuit"
         [class]="step.status === 'last' ? 'last' : 'complete'"
@@ -16,7 +16,7 @@
           })
         "
       >
-        <span class="step_lawsuit_number">{{ step.id }}</span>
+        <span class="step_lawsuit_number">{{ idx + 1 }}</span>
         <span class="step_lawsuit_name">{{ step.name }}</span>
         <i class="uil-pen"></i>
       </button>
@@ -31,9 +31,16 @@
         <i class="uil-pen"></i>
       </button> -->
 
-      <button class="step_lawsuit">
-        <span class="step_lawsuit_number">3</span>
-        <span class="step_lawsuit_name">Шаг 3</span>
+      <button
+        *ngIf="this.lawsuitService.steps.length <= 5"
+        class="step_lawsuit"
+      >
+        <span class="step_lawsuit_number">{{
+          this.lawsuitService.steps.length + 1
+        }}</span>
+        <span class="step_lawsuit_name"
+          >Шаг {{ this.lawsuitService.steps.length + 1 }}</span
+        >
       </button>
     </div>
   </div>

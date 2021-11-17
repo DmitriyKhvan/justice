@@ -113,9 +113,28 @@
           </div>
         </div>
       </div>
-
       <div class="col-lg-9 col-md-5 page-sticky">
-        <app-notification></app-notification>
+        <app-notification
+          *ngIf="this.lawsuitService.currentStep.id === 1"
+        ></app-notification>
+
+        <app-chamber-commerce-industry
+          *ngIf="this.lawsuitService.currentStep.id === 2"
+        ></app-chamber-commerce-industry>
+
+        <app-law *ngIf="this.lawsuitService.currentStep.id === 3"></app-law>
+
+        <app-bureau-compulsory-enforcement
+          *ngIf="this.lawsuitService.currentStep.id === 4"
+        ></app-bureau-compulsory-enforcement>
+
+        <app-notary
+          *ngIf="this.lawsuitService.currentStep.id === 5"
+        ></app-notary>
+
+        <app-auction
+          *ngIf="this.lawsuitService.currentStep.id === 6"
+        ></app-auction>
       </div>
     </div>
   </div>
