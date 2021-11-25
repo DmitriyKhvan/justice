@@ -8,7 +8,7 @@ import { DamageClaimsComponent } from './pages/damage-claims/damage-claims.compo
 import { ApplicationComponent } from './pages/application/application.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './layouts/main/main.component';
-import { AuthGuard } from './services/auth.guard';
+// import { AuthGuard } from './services/auth.guard';
 import { SearchComponent } from './pages/search/search.component';
 import { AdminGuard } from './services/admin.guard';
 import { ErrorComponent } from './pages/error/error.component';
@@ -17,16 +17,21 @@ import { AdminComponent } from './layouts/admin/admin.component';
 import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
 import { ListUserComponent } from './admin/pages/list-user/list-user.component';
 import { LawsuitComponent } from './pages/lawsuit/lawsuit.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent,
+  // },
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AdminGuard],
+    // canActivate: [AdminGuard],
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin'],
+    },
     children: [
       {
         path: 'listUser',
@@ -48,6 +53,9 @@ const routes: Routes = [
     path: '',
     component: MainComponent,
     canActivate: [AuthGuard],
+    data: {
+      roles: ['lawyer'],
+    },
     children: [
       { path: '', redirectTo: 'clients', pathMatch: 'full' },
       { path: 'clients', component: ClientsComponent },

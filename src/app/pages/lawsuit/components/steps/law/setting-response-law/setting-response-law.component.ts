@@ -28,21 +28,13 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   options2 = [
     { id: 1, label: 'Отложить' },
     { id: 2, label: 'Дело закрыто' },
-    { id: 2, label: 'Новое обращение в суд' },
+    { id: 3, label: 'Новое обращение в суд' },
   ];
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
-  defaultFormData = {
-    action: null,
-    additionalInfo: null,
-    caseNumber: null,
-    // conductLaw: null,
-    datesLaw: [null],
-    deferTo: null,
-  };
-
   private lawTypeSupscription!: Subscription | undefined;
+  private actionTypeSupscription!: Subscription | undefined;
 
   constructor(
     private alert: AlertService,
@@ -62,34 +54,70 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       caseNumber: new FormControl(null),
       datesLaw: new FormArray([new FormControl(null)]),
 
-      action: new FormControl(),
-      deferTo: new FormControl(),
+      action: new FormControl(null),
+      deferTo: new FormControl(null),
 
       additionalInfo: new FormControl(null),
     });
 
-    // console.log(
-    //   '7777777',
-    //   this.datesLaw.controls[0].setValidators(Validators.required)
-    // );
-
     this.subscribeToLawType();
+    this.subscribeToActionType();
   }
 
   get datesLaw() {
     return this.form.get('datesLaw') as FormArray;
   }
 
+  private subscribeToActionType(): void {
+    this.actionTypeSupscription = this.form
+      .get('action')
+      ?.valueChanges.subscribe((value) => {
+        this.form.patchValue({
+          // action: null,
+          additionalInfo: null,
+          caseNumber: null,
+          // conductLaw: null,
+          datesLaw: [null],
+          deferTo: null,
+        });
+        this.toggleValidatorsAction(value);
+      });
+  }
+
   private subscribeToLawType(): void {
     this.lawTypeSupscription = this.form
       .get('conductLaw')
       ?.valueChanges.subscribe((value) => {
-        // this.form.reset({ ...this.form.value, ...this.defaultFormData });
-        this.toggleValidators(value);
+        /** reset data form */
+        this.form.patchValue({
+          action: null,
+          additionalInfo: null,
+          caseNumber: null,
+          // conductLaw: null,
+          datesLaw: [null],
+          deferTo: null,
+        });
+        this.toggleValidatorsLaw(value);
       });
   }
 
-  private toggleValidators(lawType: any): void {
+  private toggleValidatorsAction(actionType: any): void {
+    const deferTo = this.form.get('deferTo');
+    const additionalInfo = this.form.get('additionalInfo');
+    const validators: ValidatorFn[] = [Validators.required];
+
+    if (actionType === 1) {
+      deferTo?.setValidators(validators);
+      additionalInfo?.setValidators(validators);
+    } else if (actionType === 2 || actionType === 3) {
+      deferTo?.clearValidators();
+    }
+
+    deferTo?.updateValueAndValidity();
+    additionalInfo?.updateValueAndValidity();
+  }
+
+  private toggleValidatorsLaw(lawType: any): void {
     const caseNumber = this.form.get('caseNumber');
     const dateLaw = this.datesLaw.controls[0];
 
@@ -100,7 +128,10 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     const validators: ValidatorFn[] = [Validators.required];
 
     if (lawType === 1) {
-      caseNumber?.setValidators(validators);
+      caseNumber?.setValidators([
+        Validators.required,
+        Validators.pattern('[0-9]*'),
+      ]);
       dateLaw?.setValidators(validators);
 
       action?.clearValidators();
@@ -117,6 +148,10 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
     caseNumber?.updateValueAndValidity();
     dateLaw?.updateValueAndValidity();
+
+    action?.updateValueAndValidity();
+    deferTo?.updateValueAndValidity();
+    additionalInfo?.updateValueAndValidity();
     // setTimeout(() => {
     //   this.form.reset({ ...this.form.value, ...this.defaultFormData });
     // }, 0);
@@ -143,5 +178,6 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.lawTypeSupscription?.unsubscribe();
+    this.actionTypeSupscription?.unsubscribe();
   }
 }

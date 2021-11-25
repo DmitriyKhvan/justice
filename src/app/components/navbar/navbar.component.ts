@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MainService } from '../../services/main.service';
 
@@ -12,7 +13,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private router: Router,
-    public mainService: MainService
+    public mainService: MainService,
+    public keycloak: KeycloakService
   ) {}
 
   ngOnInit(): void {}

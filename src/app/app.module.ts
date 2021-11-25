@@ -7,7 +7,12 @@ import {
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Provider } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  CUSTOM_ELEMENTS_SCHEMA,
+  NgModule,
+  Provider,
+} from '@angular/core';
 
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
@@ -20,6 +25,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ContentComponent } from './components/content/content.component';
 
 import { DatepickerComponent } from './components/formFields/datepicker/datepicker.component';
+import { SelectComponent } from './components/formFields/select/select.component';
 import { FileUploaderComponent } from './components/formFields/file-uploader/file-uploader.component';
 import { StepComponent } from './components/stepper/step/step.component';
 import { StepperWrapperComponent } from './components/stepper/stepper-wrapper/stepper-wrapper.component';
@@ -112,6 +118,13 @@ import { BureauCompulsoryEnforcementComponent } from './pages/lawsuit/components
 import { CaseTransferComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/case-transfer/case-transfer.component';
 import { AuctionComponent } from './pages/lawsuit/components/steps/auction/auction.component';
 import { StopingAuctionComponent } from './pages/lawsuit/components/steps/auction/stoping-auction/stoping-auction.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { initializeKeycloak } from './init/keycloak-init.factory';
+import { FirstInstanceDecisionComponent } from './pages/lawsuit/components/steps/law/first-instance-decision/first-instance-decision.component';
+import { ReferralForAppealComponent } from './pages/lawsuit/components/steps/law/referral-for-appeal/referral-for-appeal.component';
+import { AppealLawResponseComponent } from './pages/lawsuit/components/steps/law/appeal-law-response/appeal-law-response.component';
+import { ReferralCaseToCassationComponent } from './pages/lawsuit/components/steps/law/referral-case-to-cassation/referral-case-to-cassation.component';
+import { ResponseLawOfCassationComponent } from './pages/lawsuit/components/steps/law/response-law-of-cassation/response-law-of-cassation.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -131,6 +144,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ApplicationComponent,
     Step1Component,
     DatepickerComponent,
+    SelectComponent,
     SendAlertStepComponent,
     FileUploaderComponent,
     SendApplicationStepComponent,
@@ -212,6 +226,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
     CaseTransferComponent,
     AuctionComponent,
     StopingAuctionComponent,
+    FirstInstanceDecisionComponent,
+    ReferralForAppealComponent,
+    AppealLawResponseComponent,
+    ReferralCaseToCassationComponent,
+    ResponseLawOfCassationComponent,
   ],
   imports: [
     TooltipModule,
@@ -224,8 +243,18 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ReactiveFormsModule,
     AngularMyDatePickerModule,
     NgxPaginationModule,
+    KeycloakAngularModule,
   ],
-  providers: [HttpClient, INTERCEPTOR_PROVIDER],
+  providers: [
+    HttpClient,
+    INTERCEPTOR_PROVIDER,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

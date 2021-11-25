@@ -93,21 +93,51 @@
     class="row justify-content-between mb-2"
   >
     <div class="col-6">
-      <div class="input-field">
+      <!-- <div class="input-field">
         <div class="input-field__title">Отложить до</div>
+
         <label class="input-field__label">
-          <input type="text" autocomplete="off" formControlName="deferTo" />
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="deferTo"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
 
         <div
           *ngIf="form.get('deferTo')?.touched && form.get('deferTo')?.invalid"
           class="validation"
         >
-          <small *ngIf="form.get('deferTo')?.errors?.required">
+          <small
+            *ngIf="
+              form.get('deferTo')?.errors &&
+              form.get('deferTo')?.errors?.required &&
+              !form.get('deferTo')?.errors?.invalidDateFormat
+            "
+          >
             Введите данные
           </small>
+          <small
+            *ngIf="
+              form.get('deferTo')?.errors &&
+              form.get('deferTo')?.errors?.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
         </div>
-      </div>
+      </div> -->
+
+      <app-datepicker
+        title="Отложить до"
+        [form]="form"
+        controlName="deferTo"
+      ></app-datepicker>
     </div>
   </div>
 
@@ -122,7 +152,6 @@
           <div class="input-field__title">Дата и время проведения суда</div>
 
           <label class="input-field__label">
-            <!--        <input type="text" class="datepicker-here" readonly />-->
             <input
               class="input-box"
               angular-mydatepicker
@@ -172,7 +201,11 @@
   </div>
 
   <div
-    *ngIf="this.form.get('action')?.value === 1"
+    *ngIf="
+      this.form.get('action')?.value === 1 ||
+      this.form.get('action')?.value === 2 ||
+      this.form.get('action')?.value === 3
+    "
     class="row justify-content-between mb-2"
   >
     <div class="col-12">
@@ -206,6 +239,20 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    Отправить
+    <span *ngIf="this.form.get('action')?.value === 1; else third"
+      >Отложить на время</span
+    >
+    <ng-template #third>
+      <span *ngIf="this.form.get('action')?.value === 2; else fourth"
+        >Закрыть дело</span
+      >
+    </ng-template>
+    <ng-template #fourth>
+      <span *ngIf="this.form.get('action')?.value === 3; else fifth"
+        >Вернуться в предыдущий шаг</span
+      >
+    </ng-template>
+
+    <ng-template #fifth> <span> Отправить</span></ng-template>
   </button>
 </form>

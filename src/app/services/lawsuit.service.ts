@@ -23,9 +23,9 @@ export class LawsuitService {
 
   /** Текущее действие в шаге */
   currentStep: any = {
-    // id: 6,
-    // name: 'Процесс работы с Аукционом',
-    // status: 'last',
+    id: 3,
+    name: 'Процесс работы с судом',
+    status: 'complete',
   };
 
   actionIds: any[] = [];
@@ -34,25 +34,21 @@ export class LawsuitService {
   constructor(public http: HttpClient, public auth: AuthService) {}
 
   notificationAdd(notificationData: any): Observable<any> {
-    return this.auth.fetchWithAuth(
-      this.http
-        .post(`${environment.dbUrlBek}/notification/add`, notificationData)
-        .pipe(
-          catchError((error) => {
-            console.log(error);
-            return throwError(error);
-          })
-        )
-    );
+    return this.http
+      .post(`${environment.dbUrlBek}/notification/add`, notificationData)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          return throwError(error);
+        })
+      );
   }
 
   getSteps(): Observable<any> {
-    return this.auth.fetchWithAuth(
-      this.http.get(`${environment.dbUrlBek}/step`).pipe(
-        catchError((error) => {
-          return throwError(error);
-        })
-      )
+    return this.http.get(`${environment.dbUrlBek}/step`).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
     );
   }
 
@@ -61,15 +57,13 @@ export class LawsuitService {
   }
 
   getActions(): Observable<any> {
-    return this.auth.fetchWithAuth(
-      this.http
-        .get(`${environment.dbUrlBek}/action/byStepId/${this.currentStep.id}`)
-        .pipe(
-          catchError((error) => {
-            return throwError(error);
-          })
-        )
-    );
+    return this.http
+      .get(`${environment.dbUrlBek}/action/byStepId/${this.currentStep.id}`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
   }
 
   requestAction() {}

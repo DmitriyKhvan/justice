@@ -1,0 +1,128 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">Передача дела в Кассацию</h2>
+  <button class="remove_action_form__btn">
+    <i class="uil-times"></i>
+  </button>
+</div>
+
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <app-select
+        title="Вид суда"
+        placeholder="Вид суда"
+        [form]="form"
+        controlName="viewLaw"
+        [options]="viewLawDic"
+      ></app-select>
+    </div>
+
+    <div class="col-6">
+      <app-select
+        title="Тип суда"
+        placeholder="Тип суда"
+        [form]="form"
+        controlName="typeLaw"
+        [options]="typeLawDic"
+      ></app-select>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <app-select
+        title="Регион суда"
+        placeholder="Регион суда"
+        [form]="form"
+        controlName="regionLaw"
+        [options]="regionLawDic"
+      ></app-select>
+    </div>
+
+    <div class="col-6">
+      <app-select
+        title="Регион"
+        placeholder="Регион"
+        [form]="form"
+        controlName="region"
+        [options]="regionDic"
+      ></app-select>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <app-select
+        title="Районный суд"
+        placeholder="Районный суд"
+        [form]="form"
+        controlName="districtLaw"
+        [options]="districtLawDic"
+      ></app-select>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исх. документа</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="numberDoc" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('numberDoc')?.touched && form.get('numberDoc')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('numberDoc')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <app-datepicker
+        title="Дата исх. документа"
+        [form]="form"
+        controlName="dateDoc"
+      ></app-datepicker>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    <span>Отправить</span>
+  </button>
+</form>

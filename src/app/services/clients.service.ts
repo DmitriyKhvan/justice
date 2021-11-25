@@ -35,16 +35,21 @@ export class ClientsService {
   ) {}
 
   getMfo(): Observable<any> {
-    return this.auth.fetchWithAuth(
-      this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
-    );
+    // return this.auth.fetchWithAuth(
+    //   this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
+    // );
+    return this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`);
   }
 
   getListByMfo(mfo: any): Observable<any> {
-    return this.auth.fetchWithAuth(
-      this.http.get<any>(
-        `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
-      )
+    // return this.auth.fetchWithAuth(
+    //   this.http.get<any>(
+    //     `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
+    //   )
+    // );
+
+    return this.http.get<any>(
+      `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
     );
   }
 

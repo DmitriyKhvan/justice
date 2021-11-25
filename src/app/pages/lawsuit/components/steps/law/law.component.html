@@ -9,8 +9,26 @@
       <app-setting-response-law
         *ngIf="this.lawsuitService.actionIds.includes(5)"
       ></app-setting-response-law>
+      <app-first-instance-decision
+        *ngIf="this.lawsuitService.actionIds.includes(6)"
+      ></app-first-instance-decision>
 
-      <!-- <app-setting-response-law></app-setting-response-law> -->
+      <app-referral-for-appeal
+        *ngIf="this.lawsuitService.actionIds.includes(7)"
+      ></app-referral-for-appeal>
+
+      <app-appeal-law-response
+        *ngIf="this.lawsuitService.actionIds.includes(8)"
+      ></app-appeal-law-response>
+
+      <app-referral-case-to-cassation
+        *ngIf="this.lawsuitService.actionIds.includes(9)"
+      >
+      </app-referral-case-to-cassation>
+
+      <app-response-law-of-cassation
+        *ngIf="this.lawsuitService.actionIds.includes(10)"
+      ></app-response-law-of-cassation>
 
       <app-next-step></app-next-step>
     </div>

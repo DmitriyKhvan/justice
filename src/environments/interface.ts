@@ -3,4 +3,5 @@ export interface Environment {
   dbUrl: string;
   dbUrlBek: string;
   fileBaseUrl: string;
+  authUrl: string;
 }
