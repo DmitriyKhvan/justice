@@ -434,6 +434,9 @@
   &__list {
     &_text {
       flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &_item {
       border-bottom: 1px solid rgba(16, 39, 74, 0.01);
@@ -681,6 +684,7 @@
 }
 .position-relative {
   position: relative !important;
+  z-index: 999;
 }
 .position-fixed {
   position: fixed !important;

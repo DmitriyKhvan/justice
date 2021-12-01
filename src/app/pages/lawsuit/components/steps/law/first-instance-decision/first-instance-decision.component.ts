@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
@@ -10,6 +10,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./first-instance-decision.component.scss'],
 })
 export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
@@ -48,7 +49,10 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   private appealLawDecisionSub!: Subscription | undefined;
   private actionTypeSub!: Subscription | undefined;
 
-  constructor(private alert: AlertService, private lawsuit: LawsuitService) {}
+  constructor(
+    private alert: AlertService,
+    public lawsuitService: LawsuitService
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({

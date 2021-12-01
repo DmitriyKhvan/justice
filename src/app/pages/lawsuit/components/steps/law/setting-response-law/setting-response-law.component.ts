@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -18,6 +18,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./setting-response-law.component.scss'],
 })
 export class SettingResponseLawComponent implements OnInit, OnDestroy {
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
   options = [
@@ -38,7 +39,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
   constructor(
     private alert: AlertService,
-    private lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService
   ) {}
 
   ngOnInit(): void {

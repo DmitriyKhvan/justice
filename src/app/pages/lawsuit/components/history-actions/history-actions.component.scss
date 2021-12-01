@@ -1,3 +1,7 @@
+.historyAction {
+  margin-top: 25px;
+}
+
 .history_action__field {
   &__title,
   &__data {
@@ -30,9 +34,23 @@
       }
     }
 
-    &__status.pending {
-      span {
-        color: #b58d00;
+    &__status {
+      &.pending {
+        span {
+          color: #b58d00;
+        }
+      }
+
+      &.rejected {
+        span {
+          color: #e60000;
+        }
+      }
+
+      &.approved {
+        span {
+          color: #00a71a;
+        }
       }
     }
   }

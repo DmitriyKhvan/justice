@@ -1,41 +1,62 @@
-<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
-  <div class="select-field add">
-    <div class="select-field__title">Выбор действия</div>
+<div *ngIf="actions.length; else loader">
+  <form
+    *ngIf="actions.length > 1; else btnAction"
+    class="page-form"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
+    <div class="select-field add">
+      <div class="select-field__title">Выбор действия</div>
 
-    <div class="row no-gutters">
-      <div class="col-8 col-md-7">
-        <ng-select
-          class="custom-select"
-          appearance="outline"
-          [items]="actions"
-          bindLabel="lang.ru"
-          bindValue="id"
-          placeholder="Действие"
-          #agreeSelect
-          labelForId="yesno"
-          [searchable]="false"
-          formControlName="action"
-        ></ng-select>
-        <div
-          *ngIf="form.get('action')?.touched && form.get('action')?.invalid"
-          class="validation"
-        >
-          <small *ngIf="form.get('action')?.errors?.required">
-            Выберите данные
-          </small>
+      <div class="row no-gutters">
+        <div class="col-8 col-md-7">
+          <ng-select
+            class="custom-select"
+            appearance="outline"
+            [items]="actions"
+            bindLabel="lang.ru"
+            bindValue="id"
+            placeholder="Действие"
+            #agreeSelect
+            labelForId="yesno"
+            [searchable]="false"
+            formControlName="action"
+          ></ng-select>
+          <div
+            *ngIf="form.get('action')?.touched && form.get('action')?.invalid"
+            class="validation"
+          >
+            <small *ngIf="form.get('action')?.errors?.required">
+              Выберите данные
+            </small>
+          </div>
+        </div>
+
+        <div class="col-4 col-md-5 add">
+          <button
+            type="submit"
+            class="page-form__actionbtn text-uppercase"
+            [ngClass]="{ disableBtn: form.invalid || submitted }"
+            [disabled]="form.invalid || submitted"
+          >
+            Добавить
+          </button>
         </div>
       </div>
-
-      <div class="col-4 col-md-5 add">
-        <button
-          type="submit"
-          class="page-form__actionbtn text-uppercase"
-          [ngClass]="{ disableBtn: form.invalid || submitted }"
-          [disabled]="form.invalid || submitted"
-        >
-          Добавить
-        </button>
-      </div>
     </div>
-  </div>
-</form>
+  </form>
+
+  <ng-template #btnAction>
+    <button
+      *ngIf="!lawsuitService.actionIds.length"
+      class="page-form__actionbtn text-uppercase add"
+      (click)="this.lawsuitService.actionIds.push(1)"
+    >
+      {{ actionName }}
+    </button>
+  </ng-template>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>

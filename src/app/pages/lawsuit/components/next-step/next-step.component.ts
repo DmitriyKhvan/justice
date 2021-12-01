@@ -22,7 +22,7 @@ export class NextStepComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    private lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService
   ) {}
 
   ngOnInit(): void {
@@ -52,16 +52,26 @@ export class NextStepComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    const data = {
+      uniqueId: this.lawsuitService.contractId,
+      mfo: this.lawsuitService.mfo,
+      fromStepId: this.lawsuitService.fromStepId,
+      toActionId: this.form.value.nextAction,
+      toStepId: this.form.value.nextStep,
+    };
 
-    // this.lawsuit.requestAction().subscribe(
-    //   () => {
-    //     this.alert.success('Запрос отправлен');
-    //   },
-    //   (error) => {
-    //     this.submitted = false;
-    //     this.alert.danger('Запрос не отправлен');
-    //   }
-    // );
+    console.log('data', data);
+
+    this.lawsuitService.apiFetch(data, 'process/nextStep').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }

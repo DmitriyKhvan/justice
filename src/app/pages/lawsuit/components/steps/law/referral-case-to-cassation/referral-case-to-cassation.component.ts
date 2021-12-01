@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
   selector: 'app-referral-case-to-cassation',
@@ -7,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./referral-case-to-cassation.component.scss'],
 })
 export class ReferralCaseToCassationComponent implements OnInit {
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
@@ -35,7 +37,7 @@ export class ReferralCaseToCassationComponent implements OnInit {
     { value: 2, label: 'Районный суд2' },
   ];
 
-  constructor() {}
+  constructor(public lawsuitService: LawsuitService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({

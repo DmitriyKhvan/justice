@@ -31,6 +31,7 @@
 
   &:hover ~ .next_step_title {
     opacity: 1;
+    z-index: 10;
   }
 }
 
@@ -39,6 +40,7 @@
   left: 0;
   top: 100%;
   opacity: 0;
+  z-index: -1;
   text-align: center;
   color: #fff;
   background: #10274a;
@@ -65,6 +67,12 @@
     border: 1px solid transparent;
     transition: border 0.3s ease-in-out;
 
+    &__step {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     &__status {
       display: flex;
       align-items: center;
@@ -82,9 +90,23 @@
       }
     }
 
-    &__status.approved {
-      span {
-        color: #00a71a;
+    &__status {
+      &.pending {
+        span {
+          color: #b58d00;
+        }
+      }
+
+      &.rejected {
+        span {
+          color: #e60000;
+        }
+      }
+
+      &.approved {
+        span {
+          color: #00a71a;
+        }
       }
     }
   }

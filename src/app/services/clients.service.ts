@@ -38,7 +38,7 @@ export class ClientsService {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
     // );
-    return this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`);
+    return this.http.get<any>(`${environment.dbUrlBek}/cases/mfo`);
   }
 
   getListByMfo(mfo: any): Observable<any> {
@@ -48,9 +48,11 @@ export class ClientsService {
     //   )
     // );
 
-    return this.http.get<any>(
-      `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
-    );
+    return this.http.post<any>(`${environment.dbUrlBek}/cases/getList`, {
+      page: 1,
+      count: 10,
+      mfo,
+    });
   }
 
   contractDetails(id: any): Observable<any> {

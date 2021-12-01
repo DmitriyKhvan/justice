@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-4 page-sticky">
       <app-select-action
-        *ngIf="this.lawsuitService.actionIds.length > 1; else btnSelectAction"
+        actionName="Отправить новое уведомление"
       ></app-select-action>
 
-      <ng-template #btnSelectAction>
+      <!-- <ng-template #btnSelectAction>
         <button
-          *ngIf="this.lawsuitService.actionIds.length < 1"
+          *ngIf="this.lawsuitService.actionIds.length == 1"
           class="page-form__actionbtn text-uppercase add"
           (click)="this.lawsuitService.actionIds.push(1)"
         >
           Отправить новое уведомление
         </button>
-      </ng-template>
+      </ng-template> -->
 
       <app-notification-form
         *ngIf="this.lawsuitService.actionIds.includes(1)"

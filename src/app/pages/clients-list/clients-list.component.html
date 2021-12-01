@@ -26,7 +26,9 @@
   <div class="page-table">
     <div class="page-table__header">
       <div class="page-table__tr">
-        <div class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100">
+        <div
+          class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
+        >
           <div class="page-table__th">#</div>
           <div class="page-table__th">Имя</div>
           <div class="page-table__th">ИНН</div>
@@ -55,20 +57,24 @@
         (click)="selectItem(contract, i)"
         (dblclick)="showDetails()"
       >
-        <div class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100">
-          <div class="page-table__td">{{ contract.client_id }}</div>
-          <div class="page-table__td text-capitalize">{{ contract.client_name }}</div>
-          <div class="page-table__td">{{ contract.client_inn }}</div>
-          <div class="page-table__td" [ngSwitch]="contract.client_type">
+        <div
+          class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
+        >
+          <div class="page-table__td">{{ contract.clientId }}</div>
+          <div class="page-table__td text-capitalize">
+            {{ contract.clientName }}
+          </div>
+          <div class="page-table__td">{{ contract.clientInn }}</div>
+          <div class="page-table__td" [ngSwitch]="contract.clientType">
             <span *ngSwitchCase="'F'"> Физическое лицо </span>
             <span *ngSwitchCase="'Y'"> Юридическое лицо </span>
           </div>
-          <div class="page-table__td">{{ contract.contract_id }}</div>
-          <div class="page-table__td">{{ contract.credit_summ }}</div>
-          <div class="page-table__td">{{ contract.credit_currency_code }}</div>
-          <div class="page-table__td">{{ contract.credit_start_date }}</div>
-          <div class="page-table__td">{{ contract.credit_end_date }}</div>
-          <div class="page-table__td">{{ contract.total_debt }}</div>
+          <div class="page-table__td">{{ contract.contractId }}</div>
+          <div class="page-table__td">{{ contract.creditSumm }}</div>
+          <div class="page-table__td">{{ contract.creditCurrencyCode }}</div>
+          <div class="page-table__td">{{ contract.creditStartDate }}</div>
+          <div class="page-table__td">{{ contract.creditEndDate }}</div>
+          <div class="page-table__td">{{ contract.totalDebt }}</div>
           <div class="page-table__td text-danger fw-bold">-302 дня</div>
         </div>
       </div>

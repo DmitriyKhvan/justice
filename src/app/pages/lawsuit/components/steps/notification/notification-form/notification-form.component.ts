@@ -16,7 +16,10 @@ export class NotificationFormComponent implements OnInit {
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
-  constructor(private alert: AlertService, private lawsuit: LawsuitService) {}
+  constructor(
+    private alert: AlertService,
+    public lawsuitService: LawsuitService
+  ) {}
 
   ngOnInit(): void {
     let d: Date = new Date();
@@ -41,26 +44,38 @@ export class NotificationFormComponent implements OnInit {
       return;
     }
 
+    this.submitted = true;
+
     console.log('form', this.form.value);
 
     const notificatationData = {
-      uniqueId: 0,
-      mfo: '00415',
-      processId: 0,
-      nextActionId: 0,
       active: true,
-      // lastPaymentDate: this.form.value.notificationDate.singleDate.formatted,
+      lastPaymentDate: this.form.controls.notificationDate.value,
       text: this.form.value.additionalInfo,
+      files: [
+        {
+          id: 0,
+          name: 'test1',
+        },
+        {
+          id: 1,
+          name: 'test2',
+        },
+      ],
     };
 
-    this.lawsuit.notificationAdd(notificatationData).subscribe(
-      () => {
-        this.alert.success('Форма оформлена');
-      },
-      (error) => {
-        this.submitted = false;
-        this.alert.danger('Форма не оформлена');
-      }
-    );
+    this.lawsuitService
+      .apiFetch(notificatationData, 'notification/add')
+      .subscribe(
+        (actions) => {
+          // this.lawsuitService.historyActions = actions;
+          this.submitted = false;
+          this.alert.success('Форма оформлена');
+        },
+        (error) => {
+          this.submitted = false;
+          this.alert.danger('Форма не оформлена');
+        }
+      );
   }
 }

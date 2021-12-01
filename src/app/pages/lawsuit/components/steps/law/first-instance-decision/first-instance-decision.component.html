@@ -1,6 +1,9 @@
 <div class="lawsuitTitleWrap">
   <h2 class="lawsuitTitle">Ответ/Решение суда первой инстанции</h2>
-  <button class="remove_action_form__btn">
+  <button
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(actionId)"
+  >
     <i class="uil-times"></i>
   </button>
 </div>

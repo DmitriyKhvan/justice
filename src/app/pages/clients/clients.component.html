@@ -12,17 +12,20 @@
         <div class="main-list_table__body">
           <div
             *ngFor="let region of regionList; index as i"
-            (click)="getBranchList(region.region_id, i)"
+            (click)="getBranchList(region.regionId, i)"
             class="main-list_table__tr py-1 px-2"
-            [class.main-list_table__tr__active]="region.region_id == route.snapshot.queryParams.region"
+            [class.main-list_table__tr__active]="
+              region.region_id == route.snapshot.queryParams.region
+            "
           >
             <div class="main-list_table__td">
-              {{ region.name_ru }}
+              {{ region.nameRu }}
             </div>
             <div
               class="main-list_table__td row no-gutters justify-content-between align-items-center"
             >
-              {{ region.branches.length }}
+              <!-- {{ region.branches.length }} -->
+              1
               <i class="uil-angle-right-b"></i>
             </div>
           </div>
@@ -49,11 +52,11 @@
             (click)="getList(branch.mfo)"
           >
             <div class="main-list_table__td">{{ branch.mfo }}</div>
-            <div class="main-list_table__td">{{ branch.name_ru }}</div>
+            <div class="main-list_table__td">{{ branch.nameRu }}</div>
             <div
               class="main-list_table__td row no-gutters justify-content-between align-items-center"
             >
-<!--              {{ getCountOfList(branch.mfo) }}-->
+              <!--              {{ getCountOfList(branch.mfo) }}-->
               1
               <i class="uil-angle-right-b"></i>
             </div>

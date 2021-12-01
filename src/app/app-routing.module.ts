@@ -69,6 +69,11 @@ const routes: Routes = [
         component: ClientsDetailComponent,
         data: { taskInfo: {} },
       },
+      // {
+      //   path: 'clients/lawsuit/:stepId',
+      //   component: LawsuitComponent,
+      // },
+
       {
         path: 'clients/lawsuit',
         component: LawsuitComponent,

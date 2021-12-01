@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
@@ -11,6 +11,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./sending-case-law.component.scss'],
 })
 export class SendingCaseLawComponent implements OnInit {
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
@@ -23,7 +24,7 @@ export class SendingCaseLawComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    private lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService
   ) {}
 
   ngOnInit(): void {

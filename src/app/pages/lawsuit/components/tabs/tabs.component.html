@@ -6,18 +6,15 @@
         *ngFor="let step of this.lawsuitService.steps; let idx = index"
         #stepRef
         class="step_lawsuit"
-        [class]="step.status === 'last' ? 'last' : 'complete'"
-        (click)="
-          getStep({
-            stepId: step.id,
-            event: stepRef,
-            idx: idx,
-            stepName: step.name
-          })
-        "
+        [ngClass]="{
+          last: this.lawsuitService.steps.length == idx + 1,
+          complete: !(this.lawsuitService.steps.length == idx + 1),
+          current: step.stepid == this.lawsuitService.fromStepId
+        }"
+        (click)="lawsuitService.getCurrentStep(step.stepid)"
       >
         <span class="step_lawsuit_number">{{ idx + 1 }}</span>
-        <span class="step_lawsuit_name">{{ step.name }}</span>
+        <span class="step_lawsuit_name">{{ step.lang.ru }}</span>
         <i class="uil-pen"></i>
       </button>
 

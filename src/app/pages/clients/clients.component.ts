@@ -56,7 +56,7 @@ export class ClientsComponent implements OnInit, DoCheck {
   ngDoCheck(): void {
     if (this.route.snapshot.queryParams.region) {
       this.branchList = this.regionList?.find(
-        (el) => String(el.region_id) === this.route.snapshot.queryParams.region
+        (el) => String(el.regionId) === this.route.snapshot.queryParams.region
       )?.branches;
     } else {
       this.branchList = [];

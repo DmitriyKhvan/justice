@@ -41,30 +41,30 @@ export class ClientsListComponent implements OnInit, DoCheck {
   contractList = [
     {
       id: 0,
-      client_id: 0,
-      client_inn: '',
-      client_name: '',
-      client_type: '',
-      client_phone: '',
-      client_address: '',
-      client_mfo: '',
-      contract_id: 0,
-      contract_date: '',
-      credit_summ: '',
-      credit_currency_code: 0,
-      credit_start_date: '',
-      credit_end_date: '',
-      guarantor_name: '',
-      guarantor_inn: '',
-      interest_rate: '',
-      status_upbuilding: 0,
-      remainder_debt: '',
-      remainder_overdue_debt: '',
-      remainder_accrued_percent: '',
-      remainder_accrued_percent_overdue_debt: '',
+      clientId: 0,
+      clientInn: '',
+      clientName: '',
+      clientType: '',
+      clientPhone: '',
+      clientAddress: '',
+      clientMfo: '',
+      contractId: 0,
+      contractDate: '',
+      creditSumm: '',
+      creditCurrencyCode: 0,
+      creditStartDate: '',
+      creditEndDate: '',
+      guarantorName: '',
+      guarantorInn: '',
+      interestRate: '',
+      statuUpbuilding: 0,
+      remainderDebt: '',
+      remainderOverdueDebt: '',
+      remainderAccruedPercent: '',
+      remainderAccruedPercentOverdueDebt: '',
       pledge: '',
-      total_debt: '',
-      delay_date: '',
+      totalDebt: '',
+      delayDate: '',
     },
   ];
 
@@ -97,7 +97,7 @@ export class ClientsListComponent implements OnInit, DoCheck {
     this.router.navigate([], {
       queryParams: {
         ...this.route.snapshot.queryParams,
-        contract: pld.contract_id,
+        contractId: pld.contractId,
       },
     });
   }
@@ -107,19 +107,19 @@ export class ClientsListComponent implements OnInit, DoCheck {
   }
 
   showDetails(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.clientsService.contractDetails(val.contract).subscribe((value) => {
-        this.router.navigate(['clients/lawsuit'], {
-          queryParams: {
-            ...this.route.snapshot.queryParams,
-            step: value.current_task.task_step,
-          },
-        });
-      });
-    });
-    // this.router.navigate(['clients/detail'], {
-    //   queryParams: { ...this.route.snapshot.queryParams },
+    // this.route.queryParams.subscribe((val) => {
+    //   this.clientsService.contractDetails(val.contract).subscribe((value) => {
+    //     this.router.navigate(['clients/lawsuit'], {
+    //       queryParams: {
+    //         ...this.route.snapshot.queryParams,
+    //         step: value.current_task.task_step,
+    //       },
+    //     });
+    //   });
     // });
+    this.router.navigate(['clients/lawsuit'], {
+      queryParams: { ...this.route.snapshot.queryParams },
+    });
   }
 
   showHistory(): void {

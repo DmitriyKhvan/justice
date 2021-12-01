@@ -4,9 +4,11 @@
       <app-select-action></app-select-action>
 
       <app-sending-application
+        [actionId]="2"
         *ngIf="this.lawsuitService.actionIds.includes(2)"
       ></app-sending-application>
       <app-making-response
+        [actionId]="3"
         *ngIf="this.lawsuitService.actionIds.includes(3)"
       ></app-making-response>
 

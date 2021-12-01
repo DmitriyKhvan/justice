@@ -115,25 +115,27 @@
       </div>
       <div class="col-lg-9 col-md-5 page-sticky">
         <app-notification
-          *ngIf="this.lawsuitService.currentStep.id === 1"
+          *ngIf="this.lawsuitService.currentStep?.stepid === 1"
         ></app-notification>
 
         <app-chamber-commerce-industry
-          *ngIf="this.lawsuitService.currentStep.id === 2"
+          *ngIf="this.lawsuitService.currentStep?.stepid === 2"
         ></app-chamber-commerce-industry>
 
-        <app-law *ngIf="this.lawsuitService.currentStep.id === 3"></app-law>
+        <app-law
+          *ngIf="this.lawsuitService.currentStep?.stepid === 3"
+        ></app-law>
 
         <app-bureau-compulsory-enforcement
-          *ngIf="this.lawsuitService.currentStep.id === 4"
+          *ngIf="this.lawsuitService.currentStep?.stepid === 4"
         ></app-bureau-compulsory-enforcement>
 
         <app-notary
-          *ngIf="this.lawsuitService.currentStep.id === 5"
+          *ngIf="this.lawsuitService.currentStep?.stepid === 5"
         ></app-notary>
 
         <app-auction
-          *ngIf="this.lawsuitService.currentStep.id === 6"
+          *ngIf="this.lawsuitService.currentStep?.stepid === 6"
         ></app-auction>
       </div>
     </div>

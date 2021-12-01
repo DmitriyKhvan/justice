@@ -8,7 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { first, mergeMap, map, catchError } from 'rxjs/operators';
-import {ClientsService} from './clients.service';
+import { ClientsService } from './clients.service';
 import { environment } from 'src/environments/environment';
 
 export interface FileError {
@@ -35,7 +35,10 @@ export class FileUploadService {
   public FileBaseUrl = environment.fileBaseUrl;
   // private BaseUrl = 'http://10.1.1.165:88';
 
-  constructor(private xhttp: HttpClient, public clientsService: ClientsService) {}
+  constructor(
+    private xhttp: HttpClient,
+    public clientsService: ClientsService
+  ) {}
 
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
   currentUploaderFiles = this.UploaderFiles.asObservable();
@@ -103,13 +106,11 @@ export class FileUploadService {
           if (data.type === HttpEventType.UploadProgress) {
             progress = Math.round((100 * data.loaded) / data.total);
             this.UploaderFiles.value[index].fileUploaded = progress;
-          }
-          else if (data instanceof HttpResponse) {
+          } else if (data instanceof HttpResponse) {
             // const temp = data.body;
             // const readyPayload = this.setAsSingleFile(temp);
             resolve(data);
-          }
-          else if (data instanceof HttpHeaderResponse) {
+          } else if (data instanceof HttpHeaderResponse) {
             if (data.status === 500) {
               reject({
                 status: false,
@@ -147,7 +148,7 @@ export class FileUploadService {
         this.UploaderFiles.value[i].filePayload,
         i
       );
-      // console.log(uploaded);
+      console.log(uploaded);
     }
   }
 }

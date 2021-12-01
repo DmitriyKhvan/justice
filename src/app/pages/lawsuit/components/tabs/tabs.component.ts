@@ -1,12 +1,13 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
@@ -16,7 +17,13 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./tabs.component.scss'],
 })
 export class TabsComponent implements OnInit {
-  @ViewChildren('stepRef') stepsRef!: QueryList<ElementRef>;
+  // @ViewChildren('stepRef') stepsRef!: QueryList<ElementRef>;
+
+  // stepsProcessParams = {
+  //   contractId: 3,
+  //   mfo: '00450',
+  //   lang: 'ru',
+  // };
 
   constructor(
     public lawsuitService: LawsuitService,
@@ -25,20 +32,4 @@ export class TabsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-
-  getStep({ stepId, event, idx, stepName }: any) {
-    this.lawsuitService.stepName = stepName;
-    this.lawsuitService.stepIndex = idx + 1;
-
-    console.log(this.stepsRef.toArray());
-    this.stepsRef.toArray().forEach((step) => {
-      step.nativeElement.classList.remove('current');
-    });
-
-    console.log('event', event);
-
-    event.classList.add('current');
-
-    this.lawsuitService.getCurrentStep(stepId);
-  }
 }

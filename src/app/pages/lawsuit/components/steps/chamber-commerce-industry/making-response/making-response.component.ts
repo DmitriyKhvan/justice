@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
@@ -11,12 +11,16 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./making-response.component.scss'],
 })
 export class MakingResponseComponent implements OnInit {
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
-  constructor(private alert: AlertService, private lawSuit: LawsuitService) {}
+  constructor(
+    private alert: AlertService,
+    public lawsuitService: LawsuitService
+  ) {}
 
   ngOnInit(): void {
     let d: Date = new Date();
@@ -39,6 +43,25 @@ export class MakingResponseComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    this.submitted = true;
+
+    const data = {
+      active: true,
+      inDocNumber: this.form.value.numberDoc,
+      inDocDate: this.form.value.dateDoc.singleDate.formatted,
+      addInfo: this.form.value.additionalInfo,
+    };
+
+    this.lawsuitService.apiFetch(data, 'tpp/add/response').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }
