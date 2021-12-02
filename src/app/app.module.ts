@@ -125,6 +125,8 @@ import { ReferralForAppealComponent } from './pages/lawsuit/components/steps/law
 import { AppealLawResponseComponent } from './pages/lawsuit/components/steps/law/appeal-law-response/appeal-law-response.component';
 import { ReferralCaseToCassationComponent } from './pages/lawsuit/components/steps/law/referral-case-to-cassation/referral-case-to-cassation.component';
 import { ResponseLawOfCassationComponent } from './pages/lawsuit/components/steps/law/response-law-of-cassation/response-law-of-cassation.component';
+import { ContractInfoComponent } from './pages/lawsuit/components/contract-info/contract-info.component';
+import { StoppingBCEComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/stopping-bce/stopping-bce.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -231,6 +233,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AppealLawResponseComponent,
     ReferralCaseToCassationComponent,
     ResponseLawOfCassationComponent,
+    ContractInfoComponent,
+    StoppingBCEComponent,
   ],
   imports: [
     TooltipModule,

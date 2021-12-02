@@ -17,7 +17,7 @@ export class NextStepComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
 
-  steps: any[] = [];
+  restSteps: any[] = [];
   actions: any[] = [];
 
   constructor(
@@ -27,7 +27,10 @@ export class NextStepComponent implements OnInit {
 
   ngOnInit(): void {
     this.lawsuitService.getSteps().subscribe((steps) => {
-      this.steps = steps;
+      this.restSteps = steps.filter(
+        (step: any) =>
+          !this.lawsuitService.steps.some((e) => e.stepid === step.id)
+      );
     });
 
     this.form = new FormGroup({

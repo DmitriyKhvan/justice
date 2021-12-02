@@ -42,6 +42,29 @@ export class SendingApplicationNotaryComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    const data = {
+      active: true,
+      outDocNumber: this.form.value.numberDoc,
+      outDocDate: this.form.value.dateDoc.singleDate.formatted,
+      addInfo: this.form.value.additionalInfo,
+      files: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+    };
+
+    this.lawsuitService.apiFetch(data, 'notary/add/request').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }

@@ -41,6 +41,7 @@ export class SendingCaseLawComponent implements OnInit {
       typeLaw: new FormControl(null, Validators.required),
       regionLaw: new FormControl(null, Validators.required),
       region: new FormControl(null, Validators.required),
+      defendant: new FormControl(null, Validators.required),
       districtLaw: new FormControl(null, Validators.required),
       amountClaim: new FormControl({ value: '700 000', disabled: true }),
       amountForfeit: new FormControl(null, Validators.required),
@@ -55,6 +56,37 @@ export class SendingCaseLawComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    const data = {
+      lawKind: this.form.value.kindLaw,
+      lawType: this.form.value.typeLaw,
+      lawRegion: this.form.value.regionLaw,
+      region: this.form.value.region,
+      lawDistrict: this.form.value.districtLaw,
+      defendant: this.form.value.defendant,
+      lawSum: this.form.controls.amountClaim.value,
+      penaltySum: this.form.value.amountForfeit,
+      fineSum: this.form.value.amountFine,
+      files: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      lawInDate: this.form.value.dateLaw.singleDate.formatted,
+      addInfo: this.form.value.additionalInfo,
+      active: true,
+    };
+
+    this.lawsuitService.apiFetch(data, 'law/add/pre').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }

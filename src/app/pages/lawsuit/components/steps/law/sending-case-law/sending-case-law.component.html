@@ -115,6 +115,26 @@
 
   <div class="row justify-content-between mb-2">
     <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Ответчик</div>
+        <label class="input-field__label">
+          <input type="text" autocomplete="off" formControlName="defendant" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('defendant')?.touched && form.get('defendant')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('defendant')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
       <div class="select-field">
         <div class="select-field__title">Районный суд</div>
         <ng-select

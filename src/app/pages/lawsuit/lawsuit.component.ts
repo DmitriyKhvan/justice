@@ -23,6 +23,8 @@ export class LawsuitComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log(11111111111);
+
     this.route.params
       .pipe(
         switchMap(() => {

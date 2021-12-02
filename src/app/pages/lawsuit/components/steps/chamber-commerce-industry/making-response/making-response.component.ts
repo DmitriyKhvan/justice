@@ -45,11 +45,20 @@ export class MakingResponseComponent implements OnInit {
 
     this.submitted = true;
 
+    const reqId = this.lawsuitService.getReqId(2);
+
     const data = {
       active: true,
       inDocNumber: this.form.value.numberDoc,
       inDocDate: this.form.value.dateDoc.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,
+      files: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      reqId,
     };
 
     this.lawsuitService.apiFetch(data, 'tpp/add/response').subscribe(

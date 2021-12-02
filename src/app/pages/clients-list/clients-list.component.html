@@ -62,7 +62,7 @@
         >
           <div class="page-table__td">{{ contract.clientId }}</div>
           <div class="page-table__td text-capitalize">
-            {{ contract.clientName }}
+            {{ contract.clientFio }}
           </div>
           <div class="page-table__td">{{ contract.clientInn }}</div>
           <div class="page-table__td" [ngSwitch]="contract.clientType">
@@ -71,11 +71,13 @@
           </div>
           <div class="page-table__td">{{ contract.contractId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>
-          <div class="page-table__td">{{ contract.creditCurrencyCode }}</div>
-          <div class="page-table__td">{{ contract.creditStartDate }}</div>
-          <div class="page-table__td">{{ contract.creditEndDate }}</div>
+          <div class="page-table__td">{{ contract.creditCurrency }}</div>
+          <div class="page-table__td">{{ contract.creditStart }}</div>
+          <div class="page-table__td">{{ contract.creditEnd }}</div>
           <div class="page-table__td">{{ contract.totalDebt }}</div>
-          <div class="page-table__td text-danger fw-bold">-302 дня</div>
+          <div class="page-table__td text-danger fw-bold">
+            {{ contract.delayDate }}
+          </div>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import { LawsuitComponent } from '../../lawsuit.component';
 })
 export class SelectActionComponent implements OnInit, OnDestroy {
   @Input() actionName!: string;
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 

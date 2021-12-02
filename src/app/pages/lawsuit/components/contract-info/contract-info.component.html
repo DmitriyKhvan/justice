@@ -1,0 +1,89 @@
+<div class="page-card">
+  <div class="page-card__header px-3 pt-2">
+    Проблемный кредит #{{ contract.contractId }}
+  </div>
+  <div class="page-card__body">
+    <div class="row page-card__details px-3">
+      <div class="col-5">Сумма кредита по договору</div>
+      <div class="col-7">{{ contract.creditSumm }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Дата начала кредита</div>
+      <div class="col-7">{{ contract.creditStart }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Дата окончания кредита</div>
+      <div class="col-7">{{ contract.creditEnd }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Валюта кредита</div>
+      <div class="col-7">{{ contract.creditCurrency }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Процентная ставка</div>
+      <div class="col-7">{{ contract.interestRate }}%</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Статус наращивания/ненаращивания</div>
+      <div class="col-7">Статус наращивания</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Остаток текущего долга</div>
+      <div class="col-7">{{ contract.remainderCurrentDebt }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Остаток просроченного основного долга</div>
+      <div class="col-7">{{ contract.remainderOverdueDebt }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Остаток начисленных %</div>
+      <div class="col-7">{{ contract.remainderOverduePercent }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Остаток просроченных %</div>
+      <div class="col-7">{{ contract.remainderAccruedPercent }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">
+        Остаток начисленных % по просроченному основному долгу
+      </div>
+      <div class="col-7">
+        {{ contract.remainderAccruedPercentOverdueDebt }}%
+      </div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">ФИО заемщика</div>
+      <div class="col-7">{{ contract.clientFio }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">ФИО поручителя</div>
+      <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Номер договора</div>
+      <div class="col-7">{{ contract.contractId }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Дата заключения договора</div>
+      <div class="col-7">{{ contract.contractDate }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Вид залога</div>
+      <div class="col-7">Недвижимость</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Наименование залога</div>
+      <div class="col-7">Мой дом на мальдивах</div>
+    </div>
+  </div>
+  <div class="page-card__footer py-1">
+    <div class="row page-card__details px-3">
+      <div class="col-5">ИТОГО задолженность</div>
+      <div class="col-7 text-danger">{{ contract.totalDebt }}</div>
+    </div>
+    <div class="row page-card__details px-3">
+      <div class="col-5">Дата просрочки</div>
+      <div class="col-7">{{ contract.delayDate }}</div>
+    </div>
+  </div>
+</div>

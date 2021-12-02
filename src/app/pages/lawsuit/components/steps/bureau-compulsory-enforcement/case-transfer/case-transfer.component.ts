@@ -48,6 +48,44 @@ export class CaseTransferComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    this.submitted = true;
+
+    const data = {
+      active: true,
+      type: this.form.value.typeApplication,
+      outDocNumber: this.form.value.numberDoc,
+      outDocDate: this.form.value.dateDoc.singleDate.formatted,
+      addInfo: this.form.value.additionalInfo,
+      files: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      stopType: 0,
+      stopSuspendDate: 'string',
+      stopInitiator: 0,
+      stopDocDate: 'string',
+      stopAddInfo: 'string',
+      stopFiles: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      stopReason: 0,
+    };
+
+    this.lawsuitService.apiFetch(data, 'mib/add').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }

@@ -62,6 +62,16 @@ export class LawsuitService {
     private route: ActivatedRoute
   ) {}
 
+  getContractInfo(id: any): Observable<any> {
+    return this.http
+      .get(`${environment.dbUrlBek}/cases/getContract?contractId=${id}`)
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
   getSteps(): Observable<any> {
     return this.http.get(`${environment.dbUrlBek}/step`).pipe(
       catchError((error) => {
@@ -90,9 +100,12 @@ export class LawsuitService {
 
     this.currentStep = this.steps.find((step: any) => step.stepid === +id);
     this.stepIndex =
-      this.steps.findIndex((step: any) => step.stepid === id) + 1;
+      this.steps.findIndex((step: any) => step.stepid === +id) + 1;
 
     this.stepName = this.currentStep?.lang?.ru;
+
+    console.log(this.stepName);
+    console.log(this.stepIndex);
 
     this.router.navigate([], {
       queryParams: {
@@ -156,14 +169,9 @@ export class LawsuitService {
     this.actionIds = [];
   }
 
-  // notificationAdd(notificationData: any): Observable<any> {
-  //   return this.http
-  //     .post(`${environment.dbUrlBek}/notification/add`, notificationData)
-  //     .pipe(
-  //       catchError((error) => {
-  //         console.log(error);
-  //         return throwError(error);
-  //       })
-  //     );
-  // }
+  getReqId(actionId: any) {
+    return this.historyActions
+      .filter((action) => action.actionId === actionId)
+      .slice(-1)[0]?.data?.id;
+  }
 }

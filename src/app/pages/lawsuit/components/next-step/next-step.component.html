@@ -2,7 +2,7 @@
   *ngIf="
     lawsuitService.stepIndex === lawsuitService.steps.length &&
     lawsuitService.historyActions.length &&
-    lawsuitService.isDeniedStep
+    (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
   "
   class="page-form"
   [formGroup]="form"
@@ -12,7 +12,7 @@
     <div class="select-field__title">Выбор следующего шага</div>
     <ng-select
       appearance="outline"
-      [items]="steps"
+      [items]="restSteps"
       bindLabel="lang.ru"
       bindValue="id"
       placeholder="Следующий шаг"

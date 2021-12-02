@@ -50,7 +50,7 @@
     <button
       *ngIf="!lawsuitService.actionIds.length"
       class="page-form__actionbtn text-uppercase add"
-      (click)="this.lawsuitService.actionIds.push(1)"
+      (click)="this.lawsuitService.actionIds.push(actionId)"
     >
       {{ actionName }}
     </button>

@@ -50,6 +50,48 @@ export class StopingAuctionComponent implements OnInit {
       return;
     }
 
-    console.log(this.form.value);
+    this.submitted = true;
+
+    const data = {
+      id: 0,
+      uniqueId: 0,
+      mfo: 'string',
+      processId: 0,
+      active: true,
+      lotNumber: 'string',
+      beginDateLot: 'string',
+      endDateLot: 'string',
+      lots: 'string',
+      realization: true,
+      realizationSum: 'string',
+      files: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      status: 0,
+      stopped: true,
+      stopDocDate: 'string',
+      stopAddInfo: 'string',
+      stopFiles: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+    };
+
+    this.lawsuitService.apiFetch(data, 'mib/add').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }
