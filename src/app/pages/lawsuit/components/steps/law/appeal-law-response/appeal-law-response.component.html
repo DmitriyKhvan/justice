@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <div *ngIf="form.get('appealAgainstLawDesicion')?.value === 1">
+  <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
     <div class="row justify-content-between mb-2">
       <div class="col-6">
         <app-select
@@ -182,7 +182,7 @@
     <div class="row justify-content-between align-items-end mb-2">
       <div
         class="col-6"
-        *ngIf="form.get('appealAgainstLawDesicion')?.value === 2"
+        *ngIf="form.get('appealAgainstLawDesicion')?.value === false"
       >
         <app-select
           title="Действия"
@@ -202,12 +202,35 @@
     </div>
   </div>
 
-  <div
-    *ngIf="
-      form.get('appealAgainstLawDesicion')?.value === 1 ||
-      form.get('actionType')?.value === 3
-    "
-  >
+  <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <div class="text-field">
+          <div class="text-field__title">Дополнительная информация</div>
+          <label class="text-field__label">
+            <textarea
+              placeholder="Уточните детали"
+              formControlName="appealAddInfo"
+            ></textarea>
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealAddInfo')?.touched &&
+              form.get('appealAddInfo')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealAddInfo')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="form.get('actionType')?.value === 3">
     <div class="row justify-content-between mb-2">
       <div class="col-12">
         <div class="text-field">
@@ -243,7 +266,7 @@
   >
     <span
       *ngIf="
-        this.form.get('appealAgainstLawDesicion')?.value === 1;
+        this.form.get('appealAgainstLawDesicion')?.value === true;
         else second
       "
       >Продолжить дело</span

@@ -4,14 +4,21 @@ import { FileUploadService } from '../../../services/file-upload.service';
 @Component({
   selector: 'app-file-uploader',
   template: `
+    <pre>
+
+    {{ fileUploadService.allUploadFiles | json }}
+
+    {{ uploadFilesCount }}
+  </pre
+    >
     <div class="file_field">
       <div class="file-field__title mb-1">{{ title }}</div>
       <div class="file-field__list mb-2">
         <div
           *ngFor="
             let item of uploadFilesCount
-              ? allUploadFiles.slice(0, -uploadFilesCount)
-              : allUploadFiles.slice(0);
+              ? fileUploadService.allUploadFiles.slice(0, -uploadFilesCount)
+              : fileUploadService.allUploadFiles.slice(0);
             index as i
           "
           class="file-field__list_item py-1"
@@ -121,16 +128,22 @@ export class FileUploaderComponent implements OnInit {
   acceptList = [];
 
   currentUploadFiles: Array<any> = [];
-  allUploadFiles: any[] = [];
+  // allUploadFiles: any[] = [];
   uploadFilesCount: number = 0;
 
   ngOnInit(): void {
+    // выяснить почему два раза запускается
     this.fileUploadService.currentUploaderFiles.subscribe((data) => {
+      console.log('data', data);
+      this.fileUploadService.allUploadFiles = [];
+
       this.currentUploadFiles = data;
 
       this.currentUploadFiles.forEach((i) => {
+        console.log('forEach');
+
         this.uploadFilesCount++;
-        this.allUploadFiles.push(i);
+        this.fileUploadService.allUploadFiles.push(i);
       });
     });
   }
@@ -155,13 +168,15 @@ export class FileUploaderComponent implements OnInit {
   deleteFile(fileName: any, flag: string): void {
     console.log('fileName', fileName);
     console.log(' this.uploadFilesCount', this.uploadFilesCount);
-    console.log('this.allUploadFiles', this.allUploadFiles);
+    console.log('this.allUploadFiles', this.fileUploadService.allUploadFiles);
     console.log('this.currentUploadFiles', this.currentUploadFiles);
     // debugger;
 
     if (flag === 'allUploadFiles') {
-      this.allUploadFiles.splice(
-        this.allUploadFiles.findIndex((el) => el.fileName === fileName),
+      this.fileUploadService.allUploadFiles.splice(
+        this.fileUploadService.allUploadFiles.findIndex(
+          (el) => el.fileName === fileName
+        ),
         1
       );
     } else {
@@ -170,11 +185,16 @@ export class FileUploaderComponent implements OnInit {
         this.currentUploadFiles.findIndex((el) => el.fileName === fileName),
         1
       );
-      this.allUploadFiles.splice(
-        this.allUploadFiles.findIndex((el) => el.fileName === fileName),
+      this.fileUploadService.allUploadFiles.splice(
+        this.fileUploadService.allUploadFiles.findIndex(
+          (el) => el.fileName === fileName
+        ),
         1
       );
-      console.log('this.allUploadFiles2', this.allUploadFiles);
+      console.log(
+        'this.allUploadFiles2',
+        this.fileUploadService.allUploadFiles
+      );
       console.log('this.uploadFilesCount2', this.uploadFilesCount);
     }
 

@@ -52,11 +52,11 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     };
     this.form = new FormGroup({
       conductLaw: new FormControl(null, Validators.required),
-      caseNumber: new FormControl(null),
-      datesLaw: new FormArray([new FormControl(null)]),
+      caseNumber: new FormControl(''),
+      datesLaw: new FormArray([new FormControl('', Validators.required)]),
 
       action: new FormControl(null),
-      deferTo: new FormControl(null),
+      deferTo: new FormControl(''),
 
       additionalInfo: new FormControl(null),
     });
@@ -75,11 +75,11 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       ?.valueChanges.subscribe((value) => {
         this.form.patchValue({
           // action: null,
-          additionalInfo: null,
-          caseNumber: null,
+          additionalInfo: '',
+          caseNumber: '',
           // conductLaw: null,
-          datesLaw: [null],
-          deferTo: null,
+          datesLaw: [],
+          deferTo: '',
         });
         this.toggleValidatorsAction(value);
       });
@@ -92,10 +92,10 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
         /** reset data form */
         this.form.patchValue({
           action: null,
-          additionalInfo: null,
-          caseNumber: null,
+          additionalInfo: '',
+          caseNumber: '',
           // conductLaw: null,
-          datesLaw: [null],
+          datesLaw: [],
           deferTo: null,
         });
         this.toggleValidatorsLaw(value);
@@ -120,6 +120,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
   private toggleValidatorsLaw(lawType: any): void {
     const caseNumber = this.form.get('caseNumber');
+    // this.addDateLaw();
     const dateLaw = this.datesLaw.controls[0];
 
     const action = this.form.get('action');
@@ -174,7 +175,43 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log(this.form.value);
+    this.submitted = true;
+
+    console.log('this.form.value.datesLaw', this.form.value.datesLaw);
+
+    const preId = this.lawsuitService.getReqId(5).id;
+
+    const lawDatetime = this.form.value.datesLaw?.map(
+      (date: any) => date?.singleDate?.formatted
+    );
+
+    const data = {
+      active: true,
+      decision: this.form.value.conductLaw,
+      docNumber: this.form.value.caseNumber,
+      lawDatetime,
+      files: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      action: this.form.value.action,
+      suspendDate: this.form.value.deferTo?.singleDate?.formatted,
+      addInfo: this.form.value.additionalInfo,
+      preId,
+    };
+
+    this.lawsuitService.apiFetch(data, 'law/add/answer').subscribe(
+      (actions) => {
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 
   ngOnDestroy() {

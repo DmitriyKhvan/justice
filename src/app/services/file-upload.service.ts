@@ -18,7 +18,8 @@ export interface FileError {
 }
 
 export interface SingleFile {
-  fileId: string;
+  // fileId: string;
+  fileId: number | null;
   fileName: string;
   fileSize: number;
   filePayload: any;
@@ -32,6 +33,7 @@ export interface SingleFile {
   providedIn: 'root',
 })
 export class FileUploadService {
+  allUploadFiles: any[] = [];
   public FileBaseUrl = environment.fileBaseUrl;
   // private BaseUrl = 'http://10.1.1.165:88';
 
@@ -54,7 +56,7 @@ export class FileUploadService {
     for (const file in payloadFile) {
       if (Object.prototype.hasOwnProperty.call(payloadFile, file)) {
         const temp: SingleFile = {
-          fileId: file,
+          fileId: null,
           fileName: payloadFile[file].name,
           fileSize: payloadFile[file].size,
           filePayload: payloadFile[file],
@@ -108,7 +110,7 @@ export class FileUploadService {
             this.UploaderFiles.value[index].fileUploaded = progress;
           } else if (data instanceof HttpResponse) {
             // const temp = data.body;
-            // const readyPayload = this.setAsSingleFile(temp);
+            this.UploaderFiles.value[index].fileId = data.body.id;
             resolve(data);
           } else if (data instanceof HttpHeaderResponse) {
             if (data.status === 500) {

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class NotificationFormComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -48,34 +50,33 @@ export class NotificationFormComponent implements OnInit {
 
     console.log('form', this.form.value);
 
-    const notificatationData = {
+    const files = this.fileUploadService.allUploadFiles.map((file) => {
+      return {
+        id: file.fileId,
+        name: file.fileName,
+      };
+    });
+
+    this.fileUploadService.UploaderFiles.next([]);
+    this.fileUploadService.allUploadFiles = [];
+
+    const data = {
       active: true,
       lastPaymentDate: this.form.controls.notificationDate.value,
       text: this.form.value.additionalInfo,
-      files: [
-        {
-          id: 0,
-          name: 'test1',
-        },
-        {
-          id: 1,
-          name: 'test2',
-        },
-      ],
+      files,
     };
 
-    this.lawsuitService
-      .apiFetch(notificatationData, 'notification/add')
-      .subscribe(
-        (actions) => {
-          // this.lawsuitService.historyActions = actions;
-          this.submitted = false;
-          this.alert.success('Форма оформлена');
-        },
-        (error) => {
-          this.submitted = false;
-          this.alert.danger('Форма не оформлена');
-        }
-      );
+    this.lawsuitService.apiFetch(data, 'notification/add').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }

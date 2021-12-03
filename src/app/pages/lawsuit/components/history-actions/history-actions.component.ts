@@ -40,7 +40,8 @@ export class HistoryActionsComponent implements OnInit, OnChanges {
         this.lawsuitService.actionIds = [];
 
         this.lawsuitService.historyActions = histories.actions.filter(
-          (action: any) => action.actionStatus !== 0
+          (action: any) =>
+            action.actionStatus !== 0 && action.actionStatus !== 4
         );
 
         this.lawsuitService.actionStart = histories.actions.find(

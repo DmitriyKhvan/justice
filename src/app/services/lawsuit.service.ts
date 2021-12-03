@@ -172,6 +172,6 @@ export class LawsuitService {
   getReqId(actionId: any) {
     return this.historyActions
       .filter((action) => action.actionId === actionId)
-      .slice(-1)[0]?.data?.id;
+      .slice(-1)[0]?.data;
   }
 }

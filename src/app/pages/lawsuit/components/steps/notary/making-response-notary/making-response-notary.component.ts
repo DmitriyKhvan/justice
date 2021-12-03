@@ -44,7 +44,7 @@ export class MakingResponseNotaryComponent implements OnInit {
 
     this.submitted = true;
 
-    const reqId = this.lawsuitService.getReqId(12);
+    const reqId = this.lawsuitService.getReqId(12).id;
 
     const data = {
       active: true,

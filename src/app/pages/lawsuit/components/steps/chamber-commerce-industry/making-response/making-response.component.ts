@@ -45,7 +45,7 @@ export class MakingResponseComponent implements OnInit {
 
     this.submitted = true;
 
-    const reqId = this.lawsuitService.getReqId(2);
+    const reqId = this.lawsuitService.getReqId(2).id;
 
     const data = {
       active: true,

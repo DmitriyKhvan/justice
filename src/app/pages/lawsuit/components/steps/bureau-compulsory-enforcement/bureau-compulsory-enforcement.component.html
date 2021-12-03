@@ -10,7 +10,9 @@
         *ngIf="this.lawsuitService.actionIds.includes(11)"
       ></app-case-transfer>
 
-      <app-stopping-bce></app-stopping-bce>
+      <app-stopping-bce
+        *ngIf="this.lawsuitService.actionIds.includes(15)"
+      ></app-stopping-bce>
 
       <app-next-step></app-next-step>
     </div>

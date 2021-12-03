@@ -11,6 +11,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class StoppingBCEComponent implements OnInit {
   form!: FormGroup;
+  submitted = false;
 
   stopTypeDic = [
     { value: 1, label: 'Полная' },
@@ -37,17 +38,47 @@ export class StoppingBCEComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       stopType: new FormControl(null, Validators.required),
-      dateResumptionProcess: new FormControl(null, Validators.required),
+      stopSuspendDate: new FormControl(null, Validators.required),
       stopInitiator: new FormControl(null, Validators.required),
       dateDoc: new FormControl(null, Validators.required),
       additionalInfo: new FormControl(null, Validators.required),
-      reasonStopping: new FormControl(null, Validators.required),
+      stopReason: new FormControl(null, Validators.required),
     });
   }
 
   submit() {
-    if (this.form.valid) {
+    if (this.form.invalid) {
       return;
     }
+
+    this.submitted = true;
+
+    const data = {
+      active: true,
+      stopType: this.form.value.stopType,
+      stopSuspendDate: this.form.value.stopSuspendDate.singleDate.formatted,
+      stopInitiator: this.form.value.stopInitiator,
+      stopDocDate: this.form.value.dateDoc.singleDate.formatted,
+      stopAddInfo: this.form.value.additionalInfo,
+      stopFiles: [
+        {
+          id: 0,
+          name: 'string',
+        },
+      ],
+      stopReason: this.form.value.stopReason,
+    };
+
+    this.lawsuitService.apiFetch(data, 'mib/add/stop').subscribe(
+      (actions) => {
+        // this.lawsuitService.historyActions = actions;
+        this.submitted = false;
+        this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        this.alert.danger('Форма не оформлена');
+      }
+    );
   }
 }

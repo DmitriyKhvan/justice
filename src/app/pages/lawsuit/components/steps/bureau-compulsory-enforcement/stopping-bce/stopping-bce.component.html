@@ -14,7 +14,7 @@
           appearance="outline"
           [items]="stopTypeDic"
           bindLabel="label"
-          bindValue="id"
+          bindValue="value"
           placeholder="Тип остановки"
           #agreeSelect
           labelForId="yesno"
@@ -23,8 +23,89 @@
         ></ng-select>
       </div>
     </div>
+    <div class="col-6">
+      <app-datepicker
+        title="Дата возобновления процесса"
+        [form]="form"
+        controlName="stopSuspendDate"
+      ></app-datepicker>
+    </div>
   </div>
-  <div class="row justify-content-between mb-2"></div>
-  <div class="row justify-content-between mb-2"></div>
-  <div class="row justify-content-between mb-2"></div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Инициатор остановки</div>
+        <ng-select
+          appearance="outline"
+          [items]="stopInitiatorDic"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="Инициатор остановки"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="stopInitiator"
+        ></ng-select>
+      </div>
+    </div>
+    <div class="col-6">
+      <app-datepicker
+        title="Дата документа"
+        [form]="form"
+        controlName="dateDoc"
+      ></app-datepicker>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label class="text-field__label">
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="select-field">
+        <div class="select-field__title">Причина остановки</div>
+        <ng-select
+          appearance="outline"
+          [items]="reasonStoppingDic"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="Причина остановки"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="stopReason"
+        ></ng-select>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Остановить
+  </button>
 </form>

@@ -62,21 +62,9 @@ export class CaseTransferComponent implements OnInit {
           name: 'string',
         },
       ],
-      stopType: 0,
-      stopSuspendDate: 'string',
-      stopInitiator: 0,
-      stopDocDate: 'string',
-      stopAddInfo: 'string',
-      stopFiles: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
-      stopReason: 0,
     };
 
-    this.lawsuitService.apiFetch(data, 'mib/add').subscribe(
+    this.lawsuitService.apiFetch(data, 'mib/add/send').subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

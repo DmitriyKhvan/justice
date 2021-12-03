@@ -53,14 +53,10 @@ export class StopingAuctionComponent implements OnInit {
     this.submitted = true;
 
     const data = {
-      id: 0,
-      uniqueId: 0,
-      mfo: 'string',
-      processId: 0,
       active: true,
       lotNumber: 'string',
       beginDateLot: 'string',
-      endDateLot: 'string',
+      endDateLot: this.form.value.dateDoc.singleDate.formatted,
       lots: 'string',
       realization: true,
       realizationSum: 'string',
@@ -82,7 +78,7 @@ export class StopingAuctionComponent implements OnInit {
       ],
     };
 
-    this.lawsuitService.apiFetch(data, 'mib/add').subscribe(
+    this.lawsuitService.apiFetch(data, 'auction/add').subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;
