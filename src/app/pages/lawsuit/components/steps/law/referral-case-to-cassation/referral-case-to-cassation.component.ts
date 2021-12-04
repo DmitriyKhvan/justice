@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -40,7 +41,8 @@ export class ReferralCaseToCassationComponent implements OnInit {
 
   constructor(
     public lawsuitService: LawsuitService,
-    private alert: AlertService
+    private alert: AlertService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -73,12 +75,7 @@ export class ReferralCaseToCassationComponent implements OnInit {
       lawDistrict: this.form.value.districtLaw,
       outDocNumber: this.form.value.numberDoc,
       outDocDate: this.form.value.dateDoc,
-      files: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.additionalInfo,
       lawId,
       active: true,

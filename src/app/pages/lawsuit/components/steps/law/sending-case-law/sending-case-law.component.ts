@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class SendingCaseLawComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -66,12 +68,7 @@ export class SendingCaseLawComponent implements OnInit {
       lawSum: this.form.controls.amountClaim.value,
       penaltySum: this.form.value.amountForfeit,
       fineSum: this.form.value.amountFine,
-      files: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      files: this.fileUploadService.transformFilesData(),
       lawInDate: this.form.value.dateLaw.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,
       active: true,

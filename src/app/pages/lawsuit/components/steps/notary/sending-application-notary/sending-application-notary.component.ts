@@ -4,6 +4,7 @@ import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
   selector: 'app-sending-application-notary',
@@ -18,7 +19,8 @@ export class SendingApplicationNotaryComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    private lawsuitService: LawsuitService
+    private lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -47,12 +49,7 @@ export class SendingApplicationNotaryComponent implements OnInit {
       outDocNumber: this.form.value.numberDoc,
       outDocDate: this.form.value.dateDoc.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,
-      files: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      files: this.fileUploadService.transformFilesData(),
     };
 
     this.lawsuitService.apiFetch(data, 'notary/add/request').subscribe(

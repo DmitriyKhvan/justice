@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
@@ -12,6 +12,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./notification-form.component.scss'],
 })
 export class NotificationFormComponent implements OnInit {
+  @Input() formData: any = null;
   form!: FormGroup;
   submitted = false;
 
@@ -32,13 +33,28 @@ export class NotificationFormComponent implements OnInit {
       // dateRange: null,
     };
 
-    this.form = new FormGroup({
-      notificationDate: new FormControl({
-        value: '05.11.2021',
-        disabled: true,
-      }),
-      additionalInfo: new FormControl(null, Validators.required),
-    });
+    if (this.formData) {
+      this.form = new FormGroup({
+        notificationDate: new FormControl({
+          value: '05.11.2021',
+          disabled: true,
+        }),
+
+        additionalInfo: new FormControl({
+          value: this.formData.data.text,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        notificationDate: new FormControl({
+          value: '05.11.2021',
+          disabled: true,
+        }),
+
+        additionalInfo: new FormControl(null, Validators.required),
+      });
+    }
   }
 
   submit() {
@@ -48,23 +64,11 @@ export class NotificationFormComponent implements OnInit {
 
     this.submitted = true;
 
-    console.log('form', this.form.value);
-
-    const files = this.fileUploadService.allUploadFiles.map((file) => {
-      return {
-        id: file.fileId,
-        name: file.fileName,
-      };
-    });
-
-    this.fileUploadService.UploaderFiles.next([]);
-    this.fileUploadService.allUploadFiles = [];
-
     const data = {
       active: true,
       lastPaymentDate: this.form.controls.notificationDate.value,
       text: this.form.value.additionalInfo,
-      files,
+      files: this.fileUploadService.transformFilesData(),
     };
 
     this.lawsuitService.apiFetch(data, 'notification/add').subscribe(

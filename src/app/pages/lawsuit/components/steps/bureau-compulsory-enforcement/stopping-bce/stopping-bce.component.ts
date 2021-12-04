@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -32,7 +33,8 @@ export class StoppingBCEComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -60,12 +62,7 @@ export class StoppingBCEComponent implements OnInit {
       stopInitiator: this.form.value.stopInitiator,
       stopDocDate: this.form.value.dateDoc.singleDate.formatted,
       stopAddInfo: this.form.value.additionalInfo,
-      stopFiles: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      stopFiles: this.fileUploadService.transformFilesData(),
       stopReason: this.form.value.stopReason,
     };
 

@@ -1,0 +1,14 @@
+<div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
+  <div class="alert" [@wrapAlert]="wrapAlertState">
+    <button class="close"><i class="uil-times" (click)="close()"></i></button>
+
+    <!-- <pre>
+      {{ formData | json }}
+    </pre> -->
+
+    <app-notification-form
+      *ngIf="formData.actionId === 1"
+      [formData]="formData"
+    ></app-notification-form>
+  </div>
+</div>

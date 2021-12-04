@@ -46,7 +46,7 @@ export class LawsuitService {
   };
 
   actionIds: any[] = [];
-  actionStart: any = {}; // начальная форма (действие) в шаге (следующий шаг)
+  actionStart: any = { processId: null }; // начальная форма (действие) в шаге (следующий шаг)
   historyActions: any[] = []; // история действий текущего шага
   historySteps: any[] = []; // история шагов текущего шага
   activeAction: any[] = [];
@@ -150,6 +150,11 @@ export class LawsuitService {
       mfo: this.mfo,
       processId: this.actionStart?.processId,
     };
+
+    this.actionStart = {
+      processId: null,
+    };
+
     return this.http.post(`${environment.dbUrlBek}/${api}`, dataFormat).pipe(
       tap(this.setHistoryActions.bind(this)),
       catchError((error) => {
@@ -161,7 +166,7 @@ export class LawsuitService {
 
   setHistoryActions(histories: any): void {
     this.historyActions = histories.actions.filter(
-      (action: any) => action.actionStatus !== 0
+      (action: any) => action.actionStatus !== 0 && action.actionStatus !== 4
     );
 
     this.historySteps = histories.jumps;

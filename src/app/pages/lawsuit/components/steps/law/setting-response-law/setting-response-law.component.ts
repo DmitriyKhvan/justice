@@ -10,6 +10,7 @@ import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -39,7 +40,8 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -130,10 +132,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     const validators: ValidatorFn[] = [Validators.required];
 
     if (lawType === 1) {
-      caseNumber?.setValidators([
-        Validators.required,
-        Validators.pattern('[0-9]*'),
-      ]);
+      caseNumber?.setValidators([Validators.required]);
       dateLaw?.setValidators(validators);
 
       action?.clearValidators();
@@ -179,7 +178,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
     console.log('this.form.value.datesLaw', this.form.value.datesLaw);
 
-    const preId = this.lawsuitService.getReqId(5).id;
+    const preId = this.lawsuitService.getReqId(4)?.id;
 
     const lawDatetime = this.form.value.datesLaw?.map(
       (date: any) => date?.singleDate?.formatted
@@ -190,12 +189,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       decision: this.form.value.conductLaw,
       docNumber: this.form.value.caseNumber,
       lawDatetime,
-      files: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      files: this.fileUploadService.transformFilesData(),
       action: this.form.value.action,
       suspendDate: this.form.value.deferTo?.singleDate?.formatted,
       addInfo: this.form.value.additionalInfo,

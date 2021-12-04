@@ -1,10 +1,8 @@
 <div
   class="app-navbar row no-gutters justify-content-between align-items-stretch"
 >
-  <div
-    *ngIf="keycloak.isUserInRole('lawyer'); else adminMenu"
-    class="app-navbar_wrapper row no-gutters justify-content-between"
-  >
+  <!-- *ngIf="keycloak.isUserInRole('lawyer'); else adminMenu" -->
+  <div class="app-navbar_wrapper row no-gutters justify-content-between">
     <div
       class="app-navbar_item px-2"
       style="
@@ -46,8 +44,8 @@
   </ng-template>
 
   <div class="app-navbar_wrapper row no-gutters justify-content-between">
+    <!-- *ngIf="keycloak.isUserInRole('lawyer')" -->
     <div
-      *ngIf="keycloak.isUserInRole('lawyer')"
       class="app-navbar_item px-2"
       style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
       routerLink="/search"
@@ -61,7 +59,7 @@
     >
       <i class="icon-user notification mr-1"></i>
       <!-- Исполнитель юрист -->
-      {{ keycloak.getUsername() }}
+      <!-- {{ keycloak.getUsername() }} -->
     </div>
     <div
       class="app-navbar_item px-2"
@@ -79,8 +77,8 @@
     <div
       class="app-navbar_item px-2"
       style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
-      (click)="keycloak.logout()"
     >
+      <!-- (click)="keycloak.logout()" -->
       <i class="icon-power"></i>
     </div>
   </div>

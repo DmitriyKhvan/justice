@@ -153,4 +153,18 @@ export class FileUploadService {
       console.log(uploaded);
     }
   }
+
+  transformFilesData() {
+    const files = this.allUploadFiles.map((file) => {
+      return {
+        id: file.fileId,
+        name: file.fileName,
+      };
+    });
+
+    this.UploaderFiles.next([]);
+    this.allUploadFiles = [];
+
+    return files;
+  }
 }

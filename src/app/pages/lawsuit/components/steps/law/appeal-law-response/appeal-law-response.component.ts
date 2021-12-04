@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -53,13 +54,14 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
     const law = this.lawsuitService.getReqId(5);
     this.form = new FormGroup({
-      caseNumber: new FormControl(law.docNumber),
+      caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
       decisionDate: new FormControl('', Validators.required),
       decisionResult: new FormControl(null, Validators.required),
       forceDecisionDate: new FormControl(''), // Дата вступления решения в силу
@@ -76,7 +78,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
 
       actionType: new FormControl(null),
       postponeUntil: new FormControl(''),
-      lawId: new FormControl(law.id),
+      lawId: new FormControl({ value: law?.id, disabled: true }),
     });
 
     // this.caseNumber = this.form.get('caseNumber');
@@ -104,6 +106,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.actionTypeSub = this.form
       .get('actionType')
       ?.valueChanges.subscribe((value) => {
+        this.fileUploadService.UploaderFiles.next([]);
+        this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
@@ -128,6 +132,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.appealLawDecisionSub = this.form
       .get('appealAgainstLawDesicion')
       ?.valueChanges.subscribe((value) => {
+        this.fileUploadService.UploaderFiles.next([]);
+        this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
@@ -153,6 +159,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.resultDecisionSub = this.form
       .get('decisionResult')
       ?.valueChanges.subscribe((value) => {
+        this.fileUploadService.UploaderFiles.next([]);
+        this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
@@ -201,6 +209,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
 
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
+      this.additionalInfo?.clearValidators();
     } else if (appealLawDecision === false) {
       this.actionType?.setValidators([Validators.required]);
       this.postponeUntil?.setValidators([Validators.required]);
@@ -287,12 +296,10 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       decisionDate: this.form.value.decisionDate.singleDate.formatted,
       decisionResult: this.form.value.decisionResult,
       appeal: this.form.value.appealAgainstLawDesicion, //false
-      files: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      files:
+        this.form.value.actionType === 3
+          ? this.fileUploadService.transformFilesData()
+          : [],
       action: this.form.value.actionType,
       addInfo: this.form.value.additionalInfo,
       suspendDate: this.form.value.postponeUntil,
@@ -301,16 +308,13 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       appealMainDebt: this.form.value.principalAmount,
       appealPenaltySum: this.form.value.forfeitAmount,
       appealOtherAmount: this.form.value.stateDutyAmount,
-      appealFiles: [
-        {
-          id: 0,
-          name: 'string',
-        },
-      ],
+      appealFiles: this.form.value.appealAgainstLawDesicion
+        ? this.fileUploadService.transformFilesData()
+        : [],
       appealAddInfo: this.form.value.appealAddInfo,
       decisionBeginDate: this.form.value.forceDecisionDate,
       defendantAppeal: true,
-      lawId: this.form.value.lawId,
+      lawId: this.form.controls.lawId.value,
     };
 
     this.lawsuitService.apiFetch(data, 'law/add/appealResponse').subscribe(

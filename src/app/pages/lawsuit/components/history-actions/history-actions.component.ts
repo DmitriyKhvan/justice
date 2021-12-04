@@ -2,6 +2,7 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import { PopUpWatchFormService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-history-actions',
@@ -11,7 +12,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 export class HistoryActionsComponent implements OnInit, OnChanges {
   constructor(
     private route: ActivatedRoute,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public popUpWatchFormService: PopUpWatchFormService
   ) {}
 
   ngOnChanges(): void {
@@ -37,6 +39,8 @@ export class HistoryActionsComponent implements OnInit, OnChanges {
         })
       )
       .subscribe((histories) => {
+        console.log('histories', histories);
+
         this.lawsuitService.actionIds = [];
 
         this.lawsuitService.historyActions = histories.actions.filter(
@@ -64,5 +68,9 @@ export class HistoryActionsComponent implements OnInit, OnChanges {
     //   // debugger;
     //   console.log('val', val);
     // });
+  }
+
+  popUpForm(action: any) {
+    this.popUpWatchFormService.openPopUp(true, action);
   }
 }

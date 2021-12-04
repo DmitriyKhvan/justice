@@ -127,6 +127,7 @@ import { ReferralCaseToCassationComponent } from './pages/lawsuit/components/ste
 import { ResponseLawOfCassationComponent } from './pages/lawsuit/components/steps/law/response-law-of-cassation/response-law-of-cassation.component';
 import { ContractInfoComponent } from './pages/lawsuit/components/contract-info/contract-info.component';
 import { StoppingBCEComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/stopping-bce/stopping-bce.component';
+import { PopUpWatchFormComponent } from './pages/lawsuit/components/pop-up-watch-form/pop-up-watch-form.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -235,6 +236,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ResponseLawOfCassationComponent,
     ContractInfoComponent,
     StoppingBCEComponent,
+    PopUpWatchFormComponent,
   ],
   imports: [
     TooltipModule,
@@ -251,13 +253,13 @@ const INTERCEPTOR_PROVIDER: Provider = {
   ],
   providers: [
     HttpClient,
-    INTERCEPTOR_PROVIDER,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
+    // INTERCEPTOR_PROVIDER,
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializeKeycloak,
+    //   multi: true,
+    //   deps: [KeycloakService],
+    // },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

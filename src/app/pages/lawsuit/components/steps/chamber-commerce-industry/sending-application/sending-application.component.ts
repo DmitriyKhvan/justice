@@ -4,6 +4,7 @@ import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
   selector: 'app-sending-application',
@@ -19,7 +20,8 @@ export class SendingApplicationComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class SendingApplicationComponent implements OnInit {
       outDocNumber: this.form.value.numberDoc,
       outDocDate: this.form.value.dateDoc.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,
+      files: this.fileUploadService.transformFilesData(),
     };
 
     this.lawsuitService.apiFetch(data, 'tpp/add/request').subscribe(

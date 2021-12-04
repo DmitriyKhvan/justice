@@ -1,3 +1,4 @@
+Ответ суда кассационной инстанции
 <div class="lawsuitTitleWrap">
   <h2 class="lawsuitTitle">Ответ суда кассационной инстанции</h2>
   <button
@@ -205,6 +206,12 @@
   <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
     <div class="row justify-content-between mb-2">
       <div class="col-12">
+        <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+      </div>
+    </div>
+
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
         <div class="text-field">
           <div class="text-field__title">Дополнительная информация</div>
           <label class="text-field__label">
@@ -231,6 +238,11 @@
   </div>
 
   <div *ngIf="form.get('actionType')?.value === 3">
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+      </div>
+    </div>
     <div class="row justify-content-between mb-2">
       <div class="col-12">
         <div class="text-field">

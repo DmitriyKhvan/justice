@@ -16,6 +16,6 @@ export class MainComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.mainService.ROLE = this.keycloak.getUserRoles();
+    // this.mainService.ROLE = this.keycloak.getUserRoles();
   }
 }

@@ -38,7 +38,7 @@ export class ClientsService {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
     // );
-    return this.http.get<any>(`${environment.dbUrlBek}/cases/mfo`);
+    return this.http.get<any>(`${environment.dbUrlBek}/cases/IABSmfo`);
   }
 
   getListByMfo(mfo: any): Observable<any> {

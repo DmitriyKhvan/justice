@@ -4,14 +4,14 @@ import { FileUploadService } from '../../../services/file-upload.service';
 @Component({
   selector: 'app-file-uploader',
   template: `
-    <pre>
+    <!-- <pre>
 
     {{ fileUploadService.allUploadFiles | json }}
 
     {{ uploadFilesCount }}
   </pre
-    >
-    <div class="file_field">
+    > -->
+    <div *ngIf="!this.formData; else fileList" class="file_field">
       <div class="file-field__title mb-1">{{ title }}</div>
       <div class="file-field__list mb-2">
         <div
@@ -113,6 +113,15 @@ import { FileUploadService } from '../../../services/file-upload.service';
         />
       </label>
     </div>
+
+    <ng-template #fileList>
+      <div *ngFor="let file of this.formData.data.files">
+        <i class="icon-attach mr-1"></i>
+        <div class="file-field__list_text ml-1">
+          {{ file.name }}
+        </div>
+      </div>
+    </ng-template>
   `,
   styles: [],
 })
@@ -122,6 +131,7 @@ export class FileUploaderComponent implements OnInit {
   ) {}
 
   @Input() title: any = 'Прикрепить скан документа';
+  @Input() formData: any = null;
 
   @Output() fileSelected: EventEmitter<any> = new EventEmitter();
 

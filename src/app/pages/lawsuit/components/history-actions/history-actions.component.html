@@ -16,25 +16,15 @@
       <div class="col-4 add">
         {{ action.processCreatedAt | date: "dd.MM.yyyy" }}
       </div>
-      <div
-        *ngIf="action.actionStatus === 1"
-        class="col-8 history_action__field__data__status rejected"
-      >
-        <span>Отказано</span><i class="icon-eye"></i>
-      </div>
-
-      <div
-        *ngIf="action.actionStatus === 2"
-        class="col-8 history_action__field__data__status pending"
-      >
-        <span>В ожидании</span><i class="icon-eye"></i>
-      </div>
-
-      <div
-        *ngIf="action.actionStatus === 3"
-        class="col-8 history_action__field__data__status approved"
-      >
-        <span>Одобренно</span><i class="icon-eye"></i>
+      <div class="col-8 history_action__field__data__status">
+        <span *ngIf="action.actionStatus === 1" class="rejected">Отказано</span>
+        <span *ngIf="action.actionStatus === 2" class="pending"
+          >В ожидании</span
+        >
+        <span *ngIf="action.actionStatus === 3" class="approved"
+          >Одобренно</span
+        >
+        <i class="icon-eye" (click)="popUpForm(action)"></i>
       </div>
     </div>
   </div>

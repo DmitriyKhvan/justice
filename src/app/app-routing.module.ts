@@ -52,7 +52,7 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       roles: ['lawyer'],
     },
