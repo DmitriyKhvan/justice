@@ -24,25 +24,11 @@
       <div class="col-4 history_step__field__data__step">
         <span>{{ step.toStep.lang.ru }}</span>
       </div>
-      <div
-        *ngIf="step.status === 1"
-        class="col-4 history_step__field__data__status rejected"
-      >
-        <span>Отказано</span><i class="icon-eye"></i>
-      </div>
-
-      <div
-        *ngIf="step.status === 2"
-        class="col-4 history_step__field__data__status pending"
-      >
-        <span>В ожидании</span><i class="icon-eye"></i>
-      </div>
-
-      <div
-        *ngIf="step.status === 3"
-        class="col-4 history_step__field__data__status approved"
-      >
-        <span>Одобрено</span><i class="icon-eye"></i>
+      <div class="col-4 history_step__field__data__status">
+        <span class="rejected" *ngIf="step.status === 1">Отказано</span>
+        <span class="pending" *ngIf="step.status === 2">В ожидании</span>
+        <span class="approved" *ngIf="step.status === 3">Одобрено</span>
+        <i class="icon-eye" (click)="popUpStepInfo(step)"></i>
       </div>
     </div>
   </div>

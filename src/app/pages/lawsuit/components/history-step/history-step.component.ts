@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-history-step',
@@ -10,8 +11,13 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 export class HistoryStepComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
+    private popUpInfoService: PopUpInfoService,
     public lawsuitService: LawsuitService
   ) {}
 
   ngOnInit(): void {}
+
+  popUpStepInfo(step: any) {
+    this.popUpInfoService.openPopUpHistoryStep(true, step);
+  }
 }

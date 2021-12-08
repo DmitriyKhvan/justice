@@ -6,9 +6,90 @@
       {{ formData | json }}
     </pre> -->
 
+    <div class="row justify-content-between mb-2">
+      <div class="col-4">
+        <div class="label-info">Дата отправления</div>
+        <div class="value-info">
+          {{ formData.data.createdAt | date: "dd.MM.yyyy" }}
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="label-info">Решение Г.Ю.</div>
+        <div *ngIf="formData.actionStatus === 1" class="value-info rejected">
+          Отказано
+        </div>
+        <div *ngIf="formData.actionStatus === 2" class="value-info pending">
+          В ожидании
+        </div>
+        <div *ngIf="formData.actionStatus === 3" class="value-info approved">
+          Одобрено
+        </div>
+      </div>
+    </div>
+
     <app-notification-form
       *ngIf="formData.actionId === 1"
       [formData]="formData"
     ></app-notification-form>
+
+    <app-sending-application
+      *ngIf="formData.actionId === 2"
+      [formData]="formData"
+    ></app-sending-application>
+    <app-making-response
+      *ngIf="formData.actionId === 3"
+      [formData]="formData"
+    ></app-making-response>
+
+    <app-sending-case-law
+      *ngIf="formData.actionId === 4"
+      [formData]="formData"
+    ></app-sending-case-law>
+
+    <app-setting-response-law
+      *ngIf="formData.actionId === 5"
+      [formData]="formData"
+    ></app-setting-response-law>
+
+    <app-first-instance-decision
+      *ngIf="formData.actionId === 6"
+      [formData]="formData"
+    ></app-first-instance-decision>
+
+    <app-referral-for-appeal
+      *ngIf="formData.actionId === 7"
+      [formData]="formData"
+    ></app-referral-for-appeal>
+
+    <app-appeal-law-response
+      *ngIf="formData.actionId === 8"
+      [formData]="formData"
+    ></app-appeal-law-response>
+
+    <app-referral-case-to-cassation
+      *ngIf="formData.actionId === 9"
+      [formData]="formData"
+    >
+    </app-referral-case-to-cassation>
+
+    <app-response-law-of-cassation
+      *ngIf="formData.actionId === 10"
+      [formData]="formData"
+    ></app-response-law-of-cassation>
+
+    <app-case-transfer
+      *ngIf="formData.actionId === 11"
+      [formData]="formData"
+    ></app-case-transfer>
+
+    <app-sending-application-notary
+      *ngIf="formData.actionId === 12"
+      [formData]="formData"
+    ></app-sending-application-notary>
+
+    <app-making-response-notary
+      *ngIf="formData.actionId === 13"
+      [formData]="formData"
+    ></app-making-response-notary>
   </div>
 </div>

@@ -99,7 +99,6 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { LawsuitComponent } from './pages/lawsuit/lawsuit.component';
 import { NotificationComponent } from './pages/lawsuit/components/steps/notification/notification.component';
 import { NotificationFormComponent } from './pages/lawsuit/components/steps/notification/notification-form/notification-form.component';
-import { NotificationHistoryComponent } from './pages/lawsuit/components/steps/notification/notification-history/notification-history.component';
 import { NextStepComponent } from './pages/lawsuit/components/next-step/next-step.component';
 import { HistoryActionsComponent } from './pages/lawsuit/components/history-actions/history-actions.component';
 import { HistoryStepComponent } from './pages/lawsuit/components/history-step/history-step.component';
@@ -128,6 +127,21 @@ import { ResponseLawOfCassationComponent } from './pages/lawsuit/components/step
 import { ContractInfoComponent } from './pages/lawsuit/components/contract-info/contract-info.component';
 import { StoppingBCEComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/stopping-bce/stopping-bce.component';
 import { PopUpWatchFormComponent } from './pages/lawsuit/components/pop-up-watch-form/pop-up-watch-form.component';
+import { PopUpStepInfoComponent } from './pages/lawsuit/components/pop-up-step-info/pop-up-step-info.component';
+import { PopUpListDecisionComponent } from './pages/lawsuit/components/pop-up-list-decision/pop-up-list-decision.component';
+import { NotificationFormTemplateComponent } from './pages/lawsuit/components/steps/notification/notification-form/notification-form-template.component';
+import { CaseTransferTemplateComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/case-transfer/case-transfer-template.component';
+import { SendingCaseLawTemplateComponent } from './pages/lawsuit/components/steps/law/sending-case-law/sending-case-law-template.component';
+import { SettingResponseLawTemplateComponent } from './pages/lawsuit/components/steps/law/setting-response-law/setting-response-law-template.component';
+import { FirstInstanceDecisionTemplateComponent } from './pages/lawsuit/components/steps/law/first-instance-decision/first-instance-decision-template.component';
+import { AppealLawResponseTemplateComponent } from './pages/lawsuit/components/steps/law/appeal-law-response/appeal-law-response-template.component';
+import { ResponseLawOfCassationTemplateComponent } from './pages/lawsuit/components/steps/law/response-law-of-cassation/response-law-of-cassation-template.component';
+import { ReferralForAppealTemplateComponent } from './pages/lawsuit/components/steps/law/referral-for-appeal/referral-for-appeal-template.component';
+import { ReferralCaseToCassationTemplateComponent } from './pages/lawsuit/components/steps/law/referral-case-to-cassation/referral-case-to-cassation-template.component';
+import { MakingResponseNotaryTemplateComponent } from './pages/lawsuit/components/steps/notary/making-response-notary/making-response-notary-template.component';
+import { SendingApplicationNotaryTemplateComponent } from './pages/lawsuit/components/steps/notary/sending-application-notary/sending-application-notary-template.component';
+import { SendingApplicationTemplateComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/sending-application/sending-application-template.component';
+import { MakingResponseTemplateComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/making-response/making-response-template.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -210,7 +224,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     LawsuitComponent,
     NotificationComponent,
     NotificationFormComponent,
-    NotificationHistoryComponent,
     NextStepComponent,
     HistoryActionsComponent,
     HistoryStepComponent,
@@ -237,6 +250,21 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ContractInfoComponent,
     StoppingBCEComponent,
     PopUpWatchFormComponent,
+    PopUpStepInfoComponent,
+    PopUpListDecisionComponent,
+    NotificationFormTemplateComponent,
+    CaseTransferTemplateComponent,
+    SendingCaseLawTemplateComponent,
+    SettingResponseLawTemplateComponent,
+    FirstInstanceDecisionTemplateComponent,
+    AppealLawResponseTemplateComponent,
+    ResponseLawOfCassationTemplateComponent,
+    ReferralForAppealTemplateComponent,
+    ReferralCaseToCassationTemplateComponent,
+    MakingResponseNotaryTemplateComponent,
+    SendingApplicationNotaryTemplateComponent,
+    SendingApplicationTemplateComponent,
+    MakingResponseTemplateComponent,
   ],
   imports: [
     TooltipModule,
@@ -254,12 +282,12 @@ const INTERCEPTOR_PROVIDER: Provider = {
   providers: [
     HttpClient,
     // INTERCEPTOR_PROVIDER,
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initializeKeycloak,
-    //   multi: true,
-    //   deps: [KeycloakService],
-    // },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

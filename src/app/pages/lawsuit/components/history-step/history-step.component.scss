@@ -91,22 +91,16 @@
     }
 
     &__status {
-      &.pending {
-        span {
-          color: #b58d00;
-        }
+      .pending {
+        color: #b58d00;
       }
 
-      &.rejected {
-        span {
-          color: #e60000;
-        }
+      .rejected {
+        color: #e60000;
       }
 
-      &.approved {
-        span {
-          color: #00a71a;
-        }
+      .approved {
+        color: #00a71a;
       }
     }
   }

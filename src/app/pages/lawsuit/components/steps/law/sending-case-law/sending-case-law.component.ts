@@ -12,13 +12,34 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./sending-case-law.component.scss'],
 })
 export class SendingCaseLawComponent implements OnInit {
+  @Input() formData: any = null;
   @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
-  options = [
-    { id: 1, label: 'решение1' },
-    { id: 2, label: 'решение2' },
+  viewLawDic = [
+    { id: 1, label: 'Вид суда1' },
+    { id: 2, label: 'Вид суда2' },
+  ];
+
+  typeLawDic = [
+    { id: 1, label: 'Тип суда1' },
+    { id: 2, label: 'Тип суда2' },
+  ];
+
+  regionLawDic = [
+    { id: 1, label: 'Регион суда1' },
+    { id: 2, label: 'Регион суда2' },
+  ];
+
+  regionDic = [
+    { id: 1, label: 'Регион1' },
+    { id: 2, label: 'Регион2' },
+  ];
+
+  districtLawDic = [
+    { id: 1, label: 'Районный суд1' },
+    { id: 2, label: 'Районный суд2' },
   ];
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
@@ -38,19 +59,68 @@ export class SendingCaseLawComponent implements OnInit {
       // dateRange: null,
     };
 
-    this.form = new FormGroup({
-      kindLaw: new FormControl(null, Validators.required),
-      typeLaw: new FormControl(null, Validators.required),
-      regionLaw: new FormControl(null, Validators.required),
-      region: new FormControl(null, Validators.required),
-      defendant: new FormControl(null, Validators.required),
-      districtLaw: new FormControl(null, Validators.required),
-      amountClaim: new FormControl({ value: '700 000', disabled: true }),
-      amountForfeit: new FormControl(null, Validators.required),
-      amountFine: new FormControl(null, Validators.required),
-      dateLaw: new FormControl(null, Validators.required),
-      additionalInfo: new FormControl(null, Validators.required),
-    });
+    if (this.formData) {
+      this.form = new FormGroup({
+        kindLaw: new FormControl({
+          value: this.formData.data.lawKind,
+          disabled: true,
+        }),
+        typeLaw: new FormControl({
+          value: this.formData.data.lawType,
+          disabled: true,
+        }),
+        regionLaw: new FormControl({
+          value: this.formData.data.lawRegion,
+          disabled: true,
+        }),
+        region: new FormControl({
+          value: this.formData.data.region,
+          disabled: true,
+        }),
+        defendant: new FormControl({
+          value: this.formData.data.defendant,
+          disabled: true,
+        }),
+        districtLaw: new FormControl({
+          value: this.formData.data.lawDistrict,
+          disabled: true,
+        }),
+        amountClaim: new FormControl({
+          value: this.formData.data.lawSum,
+          disabled: true,
+        }),
+        amountForfeit: new FormControl({
+          value: this.formData.data.penaltySum,
+          disabled: true,
+        }),
+        amountFine: new FormControl({
+          value: this.formData.data.fineSum,
+          disabled: true,
+        }),
+        dateLaw: new FormControl({
+          value: this.formData.data.lawInDate,
+          disabled: true,
+        }),
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        kindLaw: new FormControl(null, Validators.required),
+        typeLaw: new FormControl(null, Validators.required),
+        regionLaw: new FormControl(null, Validators.required),
+        region: new FormControl(null, Validators.required),
+        defendant: new FormControl(null, Validators.required),
+        districtLaw: new FormControl(null, Validators.required),
+        amountClaim: new FormControl({ value: '700 000', disabled: true }),
+        amountForfeit: new FormControl(null, Validators.required),
+        amountFine: new FormControl(null, Validators.required),
+        dateLaw: new FormControl(null, Validators.required),
+        additionalInfo: new FormControl(null, Validators.required),
+      });
+    }
   }
 
   submit() {

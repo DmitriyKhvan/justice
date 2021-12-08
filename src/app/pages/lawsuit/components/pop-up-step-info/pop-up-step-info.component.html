@@ -1,0 +1,41 @@
+<div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
+  <div class="alert" [@wrapAlert]="wrapAlertState">
+    <button class="close"><i class="uil-times" (click)="close()"></i></button>
+
+    <!-- <pre>
+      {{ stepInfo | json }}
+    </pre> -->
+
+    <div class="row justify-content-between mb-2">
+      <div class="col-4">
+        <div class="label-info">Дата отправления</div>
+        <div class="value-info">
+          {{ stepInfo.createdAt | date: "dd.MM.yyyy" }}
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="label-info">Решение Г.Ю.</div>
+        <div *ngIf="stepInfo.status === 1" class="value-info rejected">
+          Отказано
+        </div>
+        <div *ngIf="stepInfo.status === 2" class="value-info pending">
+          В ожидании
+        </div>
+        <div *ngIf="stepInfo.status === 3" class="value-info approved">
+          Одобрено
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="label-info">Выбранный шаг</div>
+        <div class="value-info">{{ stepInfo.toStep.lang.ru }}</div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <div class="label-info">Выбранное действие</div>
+        <div class="value-info">{{ stepInfo.toAction.lang.ru }}</div>
+      </div>
+    </div>
+  </div>
+</div>

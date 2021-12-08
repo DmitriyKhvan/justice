@@ -2,10 +2,8 @@ import { transition, trigger, useAnimation } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { bounce, tada } from 'ng-animate';
 import { Subscription } from 'rxjs';
-import { LoginPass } from 'src/app/interfaces';
-import { AlertService } from 'src/app/services/alert.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
-import { PopUpWatchFormService } from 'src/app/services/pop-up-watch-form.service';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-pop-up-watch-form',
@@ -54,12 +52,12 @@ export class PopUpWatchFormComponent implements OnInit {
   popUpFormSub!: Subscription;
 
   constructor(
-    private popUpWatchFormService: PopUpWatchFormService,
+    private popUpInfoService: PopUpInfoService,
     public lawsuitService: LawsuitService
   ) {}
 
   ngOnInit(): void {
-    this.popUpFormSub = this.popUpWatchFormService.popUpForm$.subscribe(
+    this.popUpFormSub = this.popUpInfoService.popUpForm$.subscribe(
       (popUpData: any) => {
         console.log(popUpData);
 
@@ -69,17 +67,17 @@ export class PopUpWatchFormComponent implements OnInit {
     );
   }
 
-  ngOnDestroy(): void {
-    if (this.popUpFormSub) {
-      this.popUpFormSub.unsubscribe;
-    }
-  }
-
   close() {
-    this.popUpWatchFormService.closePopUp(false);
+    this.popUpInfoService.closePopUpHistoryAction(false);
   }
 
   animationAlert() {
     this.wrapAlertState = this.wrapAlertState === 'end' ? 'start' : 'end';
+  }
+
+  ngOnDestroy(): void {
+    if (this.popUpFormSub) {
+      this.popUpFormSub.unsubscribe;
+    }
   }
 }

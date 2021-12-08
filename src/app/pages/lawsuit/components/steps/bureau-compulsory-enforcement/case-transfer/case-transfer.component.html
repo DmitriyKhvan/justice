@@ -1,6 +1,9 @@
 <div class="lawsuitTitleWrap">
   <h2 class="lawsuitTitle">Передача дела на исполнение в МИБ</h2>
-  <button class="remove_action_form__btn">
+  <button
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(actionId)"
+  >
     <i class="uil-times"></i>
   </button>
 </div>
@@ -126,11 +129,15 @@
 
   <div class="row justify-content-between mb-2">
     <div class="col-12">
-      <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+      <app-file-uploader
+        [formData]="formData"
+        title="Прикрепить файл"
+      ></app-file-uploader>
     </div>
   </div>
 
   <button
+    *ngIf="!formData"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

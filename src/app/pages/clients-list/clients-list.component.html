@@ -9,6 +9,15 @@
       class="page-actions row no-gutters justify-content-between align-items-center"
       [@showAction]="stateName"
     >
+      <div
+        *ngIf="keycloak.isUserInRole('admin')"
+        class="page-action__item mr-2 listDecision"
+        (click)="showListDecision()"
+      >
+        <i class="uil-question-circle"></i>
+        Принять решения
+      </div>
+
       <div class="page-action__item mr-2" (click)="showDetails()">
         <i class="far fa-eye"></i>
         Детали

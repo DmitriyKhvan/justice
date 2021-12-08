@@ -10,6 +10,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./referral-for-appeal.component.scss'],
 })
 export class ReferralForAppealComponent implements OnInit {
+  @Input() formData: any = null;
   @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
@@ -46,16 +47,53 @@ export class ReferralForAppealComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      viewLaw: new FormControl(null, Validators.required),
-      typeLaw: new FormControl(null, Validators.required),
-      regionLaw: new FormControl(null, Validators.required),
-      region: new FormControl(null, Validators.required),
-      districtLaw: new FormControl(null, Validators.required),
-      numberDoc: new FormControl('', Validators.required),
-      dateDoc: new FormControl('', Validators.required),
-      additionalInfo: new FormControl('', Validators.required),
-    });
+    if (this.formData) {
+      this.form = new FormGroup({
+        viewLaw: new FormControl({
+          value: this.formData.data.lawKind,
+          disabled: true,
+        }),
+        typeLaw: new FormControl({
+          value: this.formData.data.lawType,
+          disabled: true,
+        }),
+        regionLaw: new FormControl({
+          value: this.formData.data.lawRegion,
+          disabled: true,
+        }),
+        region: new FormControl({
+          value: this.formData.data.region,
+          disabled: true,
+        }),
+        districtLaw: new FormControl({
+          value: this.formData.data.lawDistrict,
+          disabled: true,
+        }),
+        numberDoc: new FormControl({
+          value: this.formData.data.outDocNumber,
+          disabled: true,
+        }),
+        dateDoc: new FormControl({
+          value: this.formData.data.outDocDate,
+          disabled: true,
+        }),
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        viewLaw: new FormControl(null, Validators.required),
+        typeLaw: new FormControl(null, Validators.required),
+        regionLaw: new FormControl(null, Validators.required),
+        region: new FormControl(null, Validators.required),
+        districtLaw: new FormControl(null, Validators.required),
+        numberDoc: new FormControl('', Validators.required),
+        dateDoc: new FormControl('', Validators.required),
+        additionalInfo: new FormControl('', Validators.required),
+      });
+    }
   }
 
   submit() {
@@ -74,14 +112,14 @@ export class ReferralForAppealComponent implements OnInit {
       region: this.form.value.region,
       lawDistrict: this.form.value.districtLaw,
       outDocNumber: this.form.value.numberDoc,
-      outDocDate: this.form.value.dateDoc,
+      outDocDate: this.form.value.dateDoc.singleDate.formatted,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.additionalInfo,
       lawId,
       active: true,
     };
 
-    this.lawsuitService.apiFetch(data, 'law/add/firstInst').subscribe(
+    this.lawsuitService.apiFetch(data, 'law/add/appealRequest').subscribe(
       (actions) => {
         this.submitted = false;
         this.alert.success('Форма оформлена');

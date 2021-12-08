@@ -1082,3 +1082,38 @@ i.btnIcon {
     }
   }
 }
+
+.label-info {
+  color: #8c97a8;
+  margin-bottom: 10px;
+}
+
+.value-info {
+  color: #3c506c;
+
+  &.rejected {
+    color: #e60000;
+  }
+  &.pending {
+    color: #b58d00;
+  }
+  &.approved {
+    color: #00a71a;
+  }
+}
+
+.data-lawyer > div {
+  padding: 10px 15px;
+}
+
+.data-lawyer > div:nth-child(2n) {
+  background: #f4f6f8;
+}
+
+.data-lawyer > div:nth-child(2n + 1) {
+  background: #e9ebef;
+}
+
+.fileList {
+  display: flex;
+}

@@ -11,6 +11,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./appeal-law-response.component.scss'],
 })
 export class AppealLawResponseComponent implements OnInit, OnDestroy {
+  @Input() formData: any = null;
   @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
@@ -59,27 +60,95 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const law = this.lawsuitService.getReqId(5);
-    this.form = new FormGroup({
-      caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
-      decisionDate: new FormControl('', Validators.required),
-      decisionResult: new FormControl(null, Validators.required),
-      forceDecisionDate: new FormControl(''), // Дата вступления решения в силу
+    if (this.formData) {
+      this.form = new FormGroup({
+        caseNumber: new FormControl({
+          value: this.formData.data.docNumber,
+          disabled: true,
+        }),
+        decisionDate: new FormControl({
+          value: this.formData.data.decisionDate,
+          disabled: true,
+        }),
+        decisionResult: new FormControl({
+          value: this.formData.data.decisionResult,
+          disabled: true,
+        }),
+        forceDecisionDate: new FormControl({
+          value: this.formData.data.decisionBeginDate,
+          disabled: true,
+        }), // Дата вступления решения в силу
 
-      appealAgainstLawDesicion: new FormControl(null), // Обжаловать решение суда
-      typeAppeal: new FormControl(null),
-      totalAmount: new FormControl(''),
-      principalAmount: new FormControl(''),
-      forfeitAmount: new FormControl(''),
-      stateDutyAmount: new FormControl(''),
-      additionalInfo: new FormControl(''),
+        appealAgainstLawDesicion: new FormControl({
+          value: this.formData.data.appeal,
+          disabled: true,
+        }), // Обжаловать решение суда
+        typeAppeal: new FormControl({
+          value: this.formData.data.appealKind,
+          disabled: true,
+        }),
+        totalAmount: new FormControl({
+          value: this.formData.data.appealTotalAmount,
+          disabled: true,
+        }),
+        principalAmount: new FormControl({
+          value: this.formData.data.appealMainDebt,
+          disabled: true,
+        }),
+        forfeitAmount: new FormControl({
+          value: this.formData.data.appealPenaltySum,
+          disabled: true,
+        }),
+        stateDutyAmount: new FormControl({
+          value: this.formData.data.appealOtherAmount,
+          disabled: true,
+        }),
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
 
-      appealAddInfo: new FormControl(''),
+        appealAddInfo: new FormControl({
+          value: this.formData.data.appealAddInfo,
+          disabled: true,
+        }),
 
-      actionType: new FormControl(null),
-      postponeUntil: new FormControl(''),
-      lawId: new FormControl({ value: law?.id, disabled: true }),
-    });
+        actionType: new FormControl({
+          value: this.formData.data.action,
+          disabled: true,
+        }),
+        postponeUntil: new FormControl({
+          value: this.formData.data.suspendDate,
+          disabled: true,
+        }),
+        lawId: new FormControl({
+          value: this.formData.data.lawId,
+          disabled: true,
+        }),
+      });
+    } else {
+      const law = this.lawsuitService.getReqId(5);
+      this.form = new FormGroup({
+        caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
+        decisionDate: new FormControl('', Validators.required),
+        decisionResult: new FormControl(null, Validators.required),
+        forceDecisionDate: new FormControl(''), // Дата вступления решения в силу
+
+        appealAgainstLawDesicion: new FormControl(null), // Обжаловать решение суда
+        typeAppeal: new FormControl(null),
+        totalAmount: new FormControl(''),
+        principalAmount: new FormControl(''),
+        forfeitAmount: new FormControl(''),
+        stateDutyAmount: new FormControl(''),
+        additionalInfo: new FormControl(''),
+
+        appealAddInfo: new FormControl(''),
+
+        actionType: new FormControl(null),
+        postponeUntil: new FormControl(''),
+        lawId: new FormControl({ value: law?.id, disabled: true }),
+      });
+    }
 
     // this.caseNumber = this.form.get('caseNumber');
     this.forceDecisionDate = this.form.get('forceDecisionDate');
@@ -312,7 +381,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
         ? this.fileUploadService.transformFilesData()
         : [],
       appealAddInfo: this.form.value.appealAddInfo,
-      decisionBeginDate: this.form.value.forceDecisionDate,
+      decisionBeginDate: this.form.value.forceDecisionDate.singleDate.formatted,
       defendantAppeal: true,
       lawId: this.form.controls.lawId.value,
     };

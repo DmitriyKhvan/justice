@@ -6,9 +6,13 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
+import { KeycloakService } from 'keycloak-angular';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
+import { switchMap, tap } from 'rxjs/operators';
+import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
   selector: 'app-clients-list',
@@ -72,7 +76,10 @@ export class ClientsListComponent implements OnInit, DoCheck {
     public mainService: MainService,
     public clientsService: ClientsService,
     private router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public keycloak: KeycloakService,
+    private popUpInfoService: PopUpInfoService,
+    public lawsuitService: LawsuitService
   ) {}
 
   ngOnInit(): void {
@@ -126,5 +133,29 @@ export class ClientsListComponent implements OnInit, DoCheck {
     this.router.navigate(['clients/history'], {
       queryParams: { ...this.route.snapshot.queryParams },
     });
+  }
+
+  showListDecision(): void {
+    this.route.params
+      .pipe(
+        tap(() => console.log('888', this.route.snapshot.queryParams)),
+        switchMap((params: Params) => {
+          console.log(
+            'this.route.snapshot.queryParams',
+            this.route.snapshot.queryParams
+          );
+
+          return this.lawsuitService.getPending(
+            this.route.snapshot.queryParams
+          );
+        })
+      )
+      .subscribe((decisions) => {
+        console.log(decisions);
+
+        this.lawsuitService.decisions = decisions;
+      });
+
+    this.popUpInfoService.popUpListDecision('open', {});
   }
 }

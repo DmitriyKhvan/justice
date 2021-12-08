@@ -206,7 +206,10 @@
   <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
     <div class="row justify-content-between mb-2">
       <div class="col-12">
-        <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+        <app-file-uploader
+          [formData]="formData"
+          title="Прикрепить файл"
+        ></app-file-uploader>
       </div>
     </div>
 
@@ -271,6 +274,7 @@
   </div>
 
   <button
+    *ngIf="!formData"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

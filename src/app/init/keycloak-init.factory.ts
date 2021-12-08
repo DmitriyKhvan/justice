@@ -14,7 +14,7 @@ export function initializeKeycloak(
       initOptions: {
         checkLoginIframe: true,
         checkLoginIframeInterval: 25,
-        // onLoad: 'check-sso',
+        onLoad: 'check-sso',
         // silentCheckSsoRedirectUri:
         //   window.location.origin + '/assets/silent-check-sso.html',
       },

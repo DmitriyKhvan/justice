@@ -12,42 +12,41 @@ import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 })
 export class AuthGuard extends KeycloakAuthGuard {
   constructor(
-    protected readonly router: Router,
-    protected readonly keycloak: KeycloakService
+    protected router: Router,
+    protected keycloakAngular: KeycloakService
   ) {
-    super(router, keycloak);
+    super(router, keycloakAngular);
   }
 
-  public async isAccessAllowed(
+  public isAccessAllowed(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Promise<boolean | UrlTree> {
-    // Force the user to log in if currently unauthenticated.
-    if (!this.authenticated) {
-      await this.keycloak.login({
-        redirectUri: window.location.origin + state.url,
-      });
-    }
+  ): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let permission;
+      if (!this.authenticated) {
+        this.keycloakAngular.login().catch((e) => console.error(e));
+        return reject(false);
+      }
 
-    if (await this.keycloak.isLoggedIn()) {
-      const token = await this.keycloak.getToken();
-      localStorage.setItem('accessToken', JSON.stringify(token));
+      const requiredRoles: string[] = route.data.roles;
+      if (!requiredRoles || requiredRoles.length === 0) {
+        permission = true;
+      } else {
+        if (!this.roles || this.roles.length === 0) {
+          permission = false;
+        }
+        if (requiredRoles.every((role) => this.roles.indexOf(role) > -1)) {
+          permission = true;
+        } else {
+          permission = false;
+        }
+      }
+      if (!permission) {
+        this.router.navigate(['/']);
+      }
 
-      // console.log(token);
-    } else {
-      localStorage.clear();
-    }
-
-    // // Get the roles required from the route.
-    const requiredRoles = route.data.roles;
-    //
-    // // Allow the user to to proceed if no additional roles are required to access the route.
-    if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
-      return true;
-    }
-    //
-    // // Allow the user to proceed if all the required roles are present.
-    return requiredRoles.some((role) => this.roles.includes(role));
-    // return this.router.createUrlTree(['']);
+      resolve(permission);
+    });
   }
 }

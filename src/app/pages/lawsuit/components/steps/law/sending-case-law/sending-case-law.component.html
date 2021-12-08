@@ -15,7 +15,7 @@
         <div class="select-field__title">Вид суда</div>
         <ng-select
           appearance="outline"
-          [items]="options"
+          [items]="viewLawDic"
           bindLabel="label"
           bindValue="id"
           placeholder="Вид суда"
@@ -39,7 +39,7 @@
         <div class="select-field__title">Тип суда</div>
         <ng-select
           appearance="outline"
-          [items]="options"
+          [items]="typeLawDic"
           bindLabel="label"
           bindValue="id"
           placeholder="Тип суда"
@@ -66,7 +66,7 @@
         <div class="select-field__title">Регион суда</div>
         <ng-select
           appearance="outline"
-          [items]="options"
+          [items]="regionLawDic"
           bindLabel="label"
           bindValue="id"
           placeholder="Регион суда"
@@ -92,7 +92,7 @@
         <div class="select-field__title">Регион</div>
         <ng-select
           appearance="outline"
-          [items]="options"
+          [items]="regionDic"
           bindLabel="label"
           bindValue="id"
           placeholder="Регион"
@@ -139,7 +139,7 @@
         <div class="select-field__title">Районный суд</div>
         <ng-select
           appearance="outline"
-          [items]="options"
+          [items]="districtLawDic"
           bindLabel="label"
           bindValue="id"
           placeholder="Районный суд "
@@ -220,7 +220,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div *ngIf="!formData" class="row justify-content-between mb-2">
     <div class="col-12">
       <button class="btn btn-dashed add">Получить из ИАБС</button>
     </div>
@@ -228,7 +228,10 @@
 
   <div class="row justify-content-between mb-2">
     <div class="col-12">
-      <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+      <app-file-uploader
+        [formData]="formData"
+        title="Прикрепить файл"
+      ></app-file-uploader>
     </div>
   </div>
 
@@ -303,6 +306,7 @@
   </div>
 
   <button
+    *ngIf="!formData"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

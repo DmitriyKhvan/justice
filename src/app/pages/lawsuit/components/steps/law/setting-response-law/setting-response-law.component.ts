@@ -19,15 +19,16 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./setting-response-law.component.scss'],
 })
 export class SettingResponseLawComponent implements OnInit, OnDestroy {
+  @Input() formData: any = null;
   @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
-  options = [
+  conductLawDic = [
     { id: 1, label: 'Положительный' },
     { id: 2, label: 'Отрицательный' },
   ];
 
-  options2 = [
+  actionDic = [
     { id: 1, label: 'Отложить' },
     { id: 2, label: 'Дело закрыто' },
     { id: 3, label: 'Новое обращение в суд' },
@@ -52,16 +53,45 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       // singleDate: { jsDate: d },
       // dateRange: null,
     };
-    this.form = new FormGroup({
-      conductLaw: new FormControl(null, Validators.required),
-      caseNumber: new FormControl(''),
-      datesLaw: new FormArray([new FormControl('', Validators.required)]),
 
-      action: new FormControl(null),
-      deferTo: new FormControl(''),
+    if (this.formData) {
+      this.form = new FormGroup({
+        conductLaw: new FormControl({
+          value: this.formData.data.decision,
+          disabled: true,
+        }),
+        caseNumber: new FormControl({
+          value: this.formData.data.docNumber,
+          disabled: true,
+        }),
+        datesLaw: new FormArray([]),
 
-      additionalInfo: new FormControl(null),
-    });
+        action: new FormControl({
+          value: this.formData.data.action,
+          disabled: true,
+        }),
+        deferTo: new FormControl({
+          value: this.formData.data.suspendDate,
+          disabled: true,
+        }),
+
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        conductLaw: new FormControl(null, Validators.required),
+        caseNumber: new FormControl(''),
+        datesLaw: new FormArray([new FormControl('', Validators.required)]),
+
+        action: new FormControl(null),
+        deferTo: new FormControl(''),
+
+        additionalInfo: new FormControl(null),
+      });
+    }
 
     this.subscribeToLawType();
     this.subscribeToActionType();

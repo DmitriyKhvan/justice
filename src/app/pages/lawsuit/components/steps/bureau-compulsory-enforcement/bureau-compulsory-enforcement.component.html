@@ -7,10 +7,12 @@
       ></app-select-action>
 
       <app-case-transfer
+        [actionId]="11"
         *ngIf="this.lawsuitService.actionIds.includes(11)"
       ></app-case-transfer>
 
       <app-stopping-bce
+        [actionId]="15"
         *ngIf="this.lawsuitService.actionIds.includes(15)"
       ></app-stopping-bce>
 

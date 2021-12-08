@@ -12,6 +12,7 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
   styleUrls: ['./sending-application.component.scss'],
 })
 export class SendingApplicationComponent implements OnInit {
+  @Input() formData: any = null;
   @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
@@ -33,11 +34,28 @@ export class SendingApplicationComponent implements OnInit {
       // dateRange: null,
     };
 
-    this.form = new FormGroup({
-      numberDoc: new FormControl(null, Validators.required),
-      dateDoc: new FormControl(null, Validators.required),
-      additionalInfo: new FormControl(null, Validators.required),
-    });
+    if (this.formData) {
+      this.form = new FormGroup({
+        numberDoc: new FormControl({
+          value: this.formData.data.outDocNumber,
+          disabled: true,
+        }),
+        dateDoc: new FormControl({
+          value: this.formData.data.outDocDate,
+          disabled: true,
+        }),
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        numberDoc: new FormControl(null, Validators.required),
+        dateDoc: new FormControl(null, Validators.required),
+        additionalInfo: new FormControl(null, Validators.required),
+      });
+    }
   }
 
   submit() {

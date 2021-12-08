@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
@@ -12,6 +12,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./making-response-notary.component.scss'],
 })
 export class MakingResponseNotaryComponent implements OnInit {
+  @Input() formData: any = null;
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
@@ -32,11 +34,28 @@ export class MakingResponseNotaryComponent implements OnInit {
       // dateRange: null,
     };
 
-    this.form = new FormGroup({
-      numberDoc: new FormControl(null, Validators.required),
-      dateDoc: new FormControl(null, Validators.required),
-      additionalInfo: new FormControl(null, Validators.required),
-    });
+    if (this.formData) {
+      this.form = new FormGroup({
+        numberDoc: new FormControl({
+          value: this.formData.data.inDocNumber,
+          disabled: true,
+        }),
+        dateDoc: new FormControl({
+          value: this.formData.data.inDocDate,
+          disabled: true,
+        }),
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        numberDoc: new FormControl(null, Validators.required),
+        dateDoc: new FormControl(null, Validators.required),
+        additionalInfo: new FormControl(null, Validators.required),
+      });
+    }
   }
 
   submit() {

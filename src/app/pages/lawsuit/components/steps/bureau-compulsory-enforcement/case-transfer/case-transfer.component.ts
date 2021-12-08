@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
@@ -12,6 +12,8 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
   styleUrls: ['./case-transfer.component.scss'],
 })
 export class CaseTransferComponent implements OnInit {
+  @Input() formData: any = null;
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 
@@ -24,7 +26,7 @@ export class CaseTransferComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    private lawsuitService: LawsuitService,
+    public lawsuitService: LawsuitService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -37,12 +39,35 @@ export class CaseTransferComponent implements OnInit {
       // dateRange: null,
     };
 
-    this.form = new FormGroup({
-      typeApplication: new FormControl(null, Validators.required),
-      numberDoc: new FormControl(null, Validators.required),
-      dateDoc: new FormControl(null, Validators.required),
-      additionalInfo: new FormControl(null, Validators.required),
-    });
+    if (this.formData) {
+      console.log('formData', this.formData);
+
+      this.form = new FormGroup({
+        typeApplication: new FormControl({
+          value: this.formData.data.type,
+          disabled: true,
+        }),
+        numberDoc: new FormControl({
+          value: this.formData.data.outDocNumber,
+          disabled: true,
+        }),
+        dateDoc: new FormControl({
+          value: this.formData.data.outDocDate,
+          disabled: true,
+        }),
+        additionalInfo: new FormControl({
+          value: this.formData.data.addInfo,
+          disabled: true,
+        }),
+      });
+    } else {
+      this.form = new FormGroup({
+        typeApplication: new FormControl(null, Validators.required),
+        numberDoc: new FormControl(null, Validators.required),
+        dateDoc: new FormControl(null, Validators.required),
+        additionalInfo: new FormControl(null, Validators.required),
+      });
+    }
   }
 
   submit() {

@@ -54,6 +54,7 @@ export class LawsuitService {
   contractId!: any; // uniqueId
   fromStepId!: any; // текущий шаг
   isDeniedStep: boolean = false;
+  decisions!: any;
 
   constructor(
     public http: HttpClient,
@@ -61,6 +62,29 @@ export class LawsuitService {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+
+  getPending({ contractId, mfo }: any): Observable<any> {
+    return this.http
+      .get(
+        `${environment.dbUrlBek}/headLawyer/getPending?uniqueId=${contractId}&mfo=${mfo}`
+      )
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
+  }
+
+  confirmAction(data: any): Observable<any> {
+    return this.http
+      .post(`${environment.dbUrlBek}/process/confirmAction`, data)
+      .pipe(
+        catchError((error) => {
+          console.log('error', error);
+          return throwError(error);
+        })
+      );
+  }
 
   getContractInfo(id: any): Observable<any> {
     return this.http

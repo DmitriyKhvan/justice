@@ -115,7 +115,7 @@ import { FileUploadService } from '../../../services/file-upload.service';
     </div>
 
     <ng-template #fileList>
-      <div *ngFor="let file of this.formData.data.files">
+      <div class="fileList" *ngFor="let file of this.formData.data.files">
         <i class="icon-attach mr-1"></i>
         <div class="file-field__list_text ml-1">
           {{ file.name }}
@@ -123,7 +123,13 @@ import { FileUploadService } from '../../../services/file-upload.service';
       </div>
     </ng-template>
   `,
-  styles: [],
+  styles: [
+    `
+      .fileList {
+        display: flex;
+      }
+    `,
+  ],
 })
 export class FileUploaderComponent implements OnInit {
   constructor(
