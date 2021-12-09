@@ -75,15 +75,13 @@ export class LawsuitService {
       );
   }
 
-  confirmAction(data: any): Observable<any> {
-    return this.http
-      .post(`${environment.dbUrlBek}/process/confirmAction`, data)
-      .pipe(
-        catchError((error) => {
-          console.log('error', error);
-          return throwError(error);
-        })
-      );
+  confirmAction(data: any, api: string): Observable<any> {
+    return this.http.post(`${environment.dbUrlBek}/${api}`, data).pipe(
+      catchError((error) => {
+        console.log('error', error);
+        return throwError(error);
+      })
+    );
   }
 
   getContractInfo(id: any): Observable<any> {
@@ -122,6 +120,7 @@ export class LawsuitService {
     console.log('this.steps', this.steps);
     console.log('id', id);
 
+    this.fromStepId = id;
     this.currentStep = this.steps.find((step: any) => step.stepid === +id);
     this.stepIndex =
       this.steps.findIndex((step: any) => step.stepid === +id) + 1;

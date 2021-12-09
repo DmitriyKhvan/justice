@@ -30,13 +30,15 @@ export class AuthGuard extends KeycloakAuthGuard {
       }
 
       const requiredRoles: string[] = route.data.roles;
+      console.log('requiredRoles', requiredRoles);
+
       if (!requiredRoles || requiredRoles.length === 0) {
         permission = true;
       } else {
         if (!this.roles || this.roles.length === 0) {
           permission = false;
         }
-        if (requiredRoles.every((role) => this.roles.indexOf(role) > -1)) {
+        if (requiredRoles.some((role) => this.roles.indexOf(role) > -1)) {
           permission = true;
         } else {
           permission = false;
@@ -47,6 +49,7 @@ export class AuthGuard extends KeycloakAuthGuard {
       }
 
       resolve(permission);
+      // resolve(true);
     });
   }
 }

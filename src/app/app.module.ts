@@ -142,6 +142,7 @@ import { MakingResponseNotaryTemplateComponent } from './pages/lawsuit/component
 import { SendingApplicationNotaryTemplateComponent } from './pages/lawsuit/components/steps/notary/sending-application-notary/sending-application-notary-template.component';
 import { SendingApplicationTemplateComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/sending-application/sending-application-template.component';
 import { MakingResponseTemplateComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/making-response/making-response-template.component';
+import { DeclensionOfWordsPipe } from './pipes/declension-of-words.pipe';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -265,6 +266,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SendingApplicationNotaryTemplateComponent,
     SendingApplicationTemplateComponent,
     MakingResponseTemplateComponent,
+    DeclensionOfWordsPipe,
   ],
   imports: [
     TooltipModule,

@@ -26,22 +26,32 @@ export class SendingApplicationNotaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let d: Date = new Date();
-    d.setDate(d.getDate() + 2);
-    let model: IMyDateModel = {
-      isRange: false,
-      // singleDate: { jsDate: d },
-      // dateRange: null,
-    };
+    // let d: Date = new Date();
+    // d.setDate(d.getDate() + 2);
+    // let model: IMyDateModel = {
+    //   isRange: false,
+    //   // singleDate: { jsDate: d },
+    //   // dateRange: null,
+    // };
 
     if (this.formData) {
+      let d: Date = new Date(
+        this.formData.data.outDocDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d },
+        // dateRange: null,
+      };
       this.form = new FormGroup({
         numberDoc: new FormControl({
           value: this.formData.data.outDocNumber,
           disabled: true,
         }),
         dateDoc: new FormControl({
-          value: this.formData.data.outDocDate,
+          value: model,
           disabled: true,
         }),
         additionalInfo: new FormControl({

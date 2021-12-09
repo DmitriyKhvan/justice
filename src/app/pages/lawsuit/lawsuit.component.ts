@@ -28,8 +28,12 @@ export class LawsuitComponent implements OnInit, AfterViewInit {
     this.route.params
       .pipe(
         switchMap(() => {
-          this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
-            'stepId'
+          // this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
+          //   'stepId'
+          // ];
+          this.lawsuitService.mfo = this.route.snapshot.queryParams['mfo'];
+          this.lawsuitService.contractId = this.route.snapshot.queryParams[
+            'contractId'
           ];
           return this.lawsuitService.getStepsProcess(
             this.route.snapshot.queryParams

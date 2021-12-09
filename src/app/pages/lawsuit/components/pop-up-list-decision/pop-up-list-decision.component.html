@@ -1,6 +1,6 @@
 <div
   [class]="isActive"
-  class="wrap-pop-up-right open"
+  class="wrap-pop-up-right"
   data-close="true"
   #wrapPopUpRight
 >
@@ -14,263 +14,309 @@
       <span class="count_title">В ожидании решения: </span>
       <div class="count_value">
         <span class="count_item"
-          >{{ lawsuitService?.decisions?.stepsCount }} Шаг</span
+          >{{ lawsuitService?.decisions?.stepsCount }}
+          {{
+            lawsuitService?.decisions?.stepsCount
+              | declensionOfWords: ["Шаг", "Шага", "Шагов"]
+          }}</span
         >
-        <span class="count_item"
-          >{{ lawsuitService?.decisions?.actionsCount }} действ...</span
-        >
+        <span class="count_item">
+          {{ lawsuitService?.decisions?.actionsCount }}
+          {{
+            lawsuitService?.decisions?.actionsCount
+              | declensionOfWords: ["действие", "действия", "действий"]
+          }}
+        </span>
       </div>
     </div>
 
     <div class="decisions">
-      <h3 class="decisions_title">Шаги</h3>
+      <ng-container *ngIf="!!lawsuitService?.decisions?.stepsCount">
+        <h3 class="decisions_title">Шаги</h3>
 
-      <div class="decision">
-        <div class="decision_title">
-          <span class="title1">Дата</span>
-          <span class="title2">Название действие</span>
-        </div>
-        <div class="decision_value" (click)="toggleDecision($event)">
-          <span class="value1">10.11.2021</span>
-          <span class="value2">Отправка заявки в ТПП</span>
-          <button class="decision_btn"></button>
-        </div>
-        <div class="decision_form">
-          <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
-            <h4 class="decisions_sub_title">Внесение ответа</h4>
-            <div class="row justify-content-between mb-2">
-              <div class="col-6">
-                <div class="select-field">
-                  <div class="select-field__title">Ваше решение</div>
-                  <ng-select
-                    appearance="outline"
-                    [items]="options"
-                    bindLabel="label"
-                    bindValue="value"
-                    placeholder="Ваше решение"
-                    #agreeSelect
-                    labelForId="yesno"
-                    [searchable]="false"
-                    formControlName="decision"
-                  ></ng-select>
-                  <div
-                    *ngIf="
-                      form.get('decision')?.touched &&
-                      form.get('decision')?.invalid
-                    "
-                    class="validation"
-                  >
-                    <small *ngIf="form.get('decision')?.errors?.required">
-                      Выберите данные
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row justify-content-between mb-2">
-              <div class="col-12">
-                <div class="text-field">
-                  <div class="text-field__title">Дополнительная информация</div>
-                  <label class="text-field__label">
-                    <textarea
-                      placeholder="Уточните детали"
-                      formControlName="additionalInfo"
-                    ></textarea>
-                  </label>
-
-                  <div
-                    *ngIf="
-                      form.get('additionalInfo')?.touched &&
-                      form.get('additionalInfo')?.invalid
-                    "
-                    class="validation"
-                  >
-                    <small *ngIf="form.get('additionalInfo')?.errors?.required">
-                      Введите данные
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button
-              type="submit"
-              class="page-form__actionbtn text-uppercase add"
-              [ngClass]="{ disableBtn: form.invalid || submitted }"
-              [disabled]="form.invalid || submitted"
-            >
-              Отправить
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <h3 class="decisions_title">Действия</h3>
-
-      <div
-        *ngFor="let step of lawsuitService.decisions?.actions"
-        class="decision"
-      >
-        <h4 class="decisions_sub_title">{{ step?.lang?.ru }}</h4>
-
-        <div class="decision_title">
-          <span class="title1">Дата</span>
-          <span class="title2">Название действие</span>
-        </div>
-        <div *ngFor="let action of step?.actions">
-          <div *ngFor="let actionSame of action?.process">
-            <div class="decision_value" (click)="toggleDecision($event)">
+        <div
+          *ngFor="let step of lawsuitService.decisions?.steps"
+          class="decision"
+        >
+          <div class="decision_title">
+            <span class="title1">Дата</span>
+            <span class="title2">Выбранный шаг</span>
+          </div>
+          <div class="decision_value" (click)="toggleDecision($event)">
+            <div class="decision_info">
               <span class="value1">{{
-                actionSame.createdAt | date: "dd.MM.yyyy"
+                step.createdAt | date: "dd.MM.yyyy"
               }}</span>
-              <span class="value2">{{ action?.lang?.ru }}</span>
+              <span class="value2">{{ step.toStepLang.ru }}</span>
               <button class="decision_btn"></button>
             </div>
+            <div class="completeDecision">
+              <i class="icon-check"></i>
+              <span>Решение по шагу отправлено!</span>
+            </div>
+          </div>
 
-            <div class="decision_form">
-              {{ action.id }}
+          <div class="decision_form">
+            <div class="select-action">
+              <h5 class="select-action__title">Выбранное действие</h5>
+              <span class="select-action__value">{{
+                step.toActionLang.ru
+              }}</span>
+            </div>
+            <form
+              class="page-form"
+              [formGroup]="form"
+              (ngSubmit)="submitDecisionStep(step.jumpId, $event)"
+            >
+              <h4 class="decisions_sub_title">Внесение ответа</h4>
+              <div class="row justify-content-between mb-2">
+                <div class="col-6">
+                  <div class="select-field">
+                    <div class="select-field__title">Ваше решение</div>
+                    <ng-select
+                      appearance="outline"
+                      [items]="options"
+                      bindLabel="label"
+                      bindValue="value"
+                      placeholder="Ваше решение"
+                      #agreeSelect
+                      labelForId="yesno"
+                      [searchable]="false"
+                      formControlName="decision"
+                    ></ng-select>
+                    <div
+                      *ngIf="
+                        form.get('decision')?.touched &&
+                        form.get('decision')?.invalid
+                      "
+                      class="validation"
+                    >
+                      <small *ngIf="form.get('decision')?.errors?.required">
+                        Выберите данные
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-content-between mb-2">
+                <div class="col-12">
+                  <div class="text-field">
+                    <div class="text-field__title">
+                      Дополнительная информация
+                    </div>
+                    <label class="text-field__label">
+                      <textarea
+                        placeholder="Уточните детали"
+                        formControlName="additionalInfo"
+                      ></textarea>
+                    </label>
 
-              <app-notification-form-template
-                *ngIf="action.id === 1"
-                [actionData]="actionSame"
-              ></app-notification-form-template>
-
-              <app-sending-application-template
-                *ngIf="action.id === 2"
-                [actionData]="actionSame"
-              ></app-sending-application-template>
-
-              <app-making-response-template
-                *ngIf="action.id === 3"
-                [actionData]="actionSame"
-              ></app-making-response-template>
-
-              <app-sending-case-law-template
-                *ngIf="action.id === 4"
-                [actionData]="actionSame"
-              ></app-sending-case-law-template>
-
-              <app-setting-response-law-template
-                *ngIf="action.id === 5"
-                [actionData]="actionSame"
-              ></app-setting-response-law-template>
-
-              <app-first-instance-decision-template
-                *ngIf="action.id === 6"
-                [actionData]="actionSame"
-              ></app-first-instance-decision-template>
-
-              <app-referral-for-appeal-template
-                *ngIf="action.id === 7"
-                [actionData]="actionSame"
-              ></app-referral-for-appeal-template>
-
-              <app-appeal-law-response-template
-                *ngIf="action.id === 8"
-                [actionData]="actionSame"
-              ></app-appeal-law-response-template>
-
-              <app-referral-case-to-cassation-template
-                *ngIf="action.id === 9"
-                [actionData]="actionSame"
-              ></app-referral-case-to-cassation-template>
-
-              <app-response-law-of-cassation-template
-                *ngIf="action.id === 10"
-                [actionData]="actionSame"
-              ></app-response-law-of-cassation-template>
-
-              <app-case-transfer-template
-                *ngIf="action.id === 11"
-                [actionData]="actionSame"
-              ></app-case-transfer-template>
-
-              <app-sending-application-notary-template
-                *ngIf="action.id === 12"
-                [actionData]="actionSame"
-              ></app-sending-application-notary-template>
-
-              <app-making-response-notary-template
-                *ngIf="action.id === 13"
-                [actionData]="actionSame"
-              ></app-making-response-notary-template>
-
-              <form
-                class="page-form"
-                [formGroup]="form"
-                (ngSubmit)="submit(actionSame.id)"
+                    <div
+                      *ngIf="
+                        form.get('additionalInfo')?.touched &&
+                        form.get('additionalInfo')?.invalid
+                      "
+                      class="validation"
+                    >
+                      <small
+                        *ngIf="form.get('additionalInfo')?.errors?.required"
+                      >
+                        Введите данные
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="submit"
+                class="page-form__actionbtn text-uppercase add"
+                [ngClass]="{ disableBtn: form.invalid || submitted }"
+                [disabled]="form.invalid || submitted"
               >
-                <h4 class="decisions_sub_title">Внесение ответа</h4>
-                <div class="row justify-content-between mb-2">
-                  <div class="col-6">
-                    <div class="select-field">
-                      <div class="select-field__title">Ваше решение</div>
-                      <ng-select
-                        appearance="outline"
-                        [items]="options"
-                        bindLabel="label"
-                        bindValue="value"
-                        placeholder="Ваше решение"
-                        #agreeSelect
-                        labelForId="yesno"
-                        [searchable]="false"
-                        formControlName="decision"
-                      ></ng-select>
-                      <div
-                        *ngIf="
-                          form.get('decision')?.touched &&
-                          form.get('decision')?.invalid
-                        "
-                        class="validation"
-                      >
-                        <small *ngIf="form.get('decision')?.errors?.required">
-                          Выберите данные
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row justify-content-between mb-2">
-                  <div class="col-12">
-                    <div class="text-field">
-                      <div class="text-field__title">
-                        Дополнительная информация
-                      </div>
-                      <label class="text-field__label">
-                        <textarea
-                          placeholder="Уточните детали"
-                          formControlName="additionalInfo"
-                        ></textarea>
-                      </label>
+                Отправить
+              </button>
+            </form>
+          </div>
+        </div>
+      </ng-container>
 
-                      <div
-                        *ngIf="
-                          form.get('additionalInfo')?.touched &&
-                          form.get('additionalInfo')?.invalid
-                        "
-                        class="validation"
-                      >
-                        <small
-                          *ngIf="form.get('additionalInfo')?.errors?.required"
+      <ng-container *ngIf="!!lawsuitService?.decisions?.actionsCount">
+        <h3 class="decisions_title">Действия</h3>
+
+        <div
+          *ngFor="let step of lawsuitService.decisions?.actions"
+          class="decision"
+        >
+          <h4 class="decisions_sub_title">{{ step?.lang?.ru }}</h4>
+
+          <div class="decision_title">
+            <span class="title1">Дата</span>
+            <span class="title2">Название действие</span>
+          </div>
+
+          <div *ngFor="let action of step?.actions">
+            <div *ngFor="let actionSame of action?.process">
+              <div class="decision_value" (click)="toggleDecision($event)">
+                <div class="decision_info">
+                  <span class="value1">{{
+                    actionSame.createdAt | date: "dd.MM.yyyy"
+                  }}</span>
+                  <span class="value2">{{ action?.lang?.ru }}</span>
+                  <button class="decision_btn"></button>
+                </div>
+
+                <div class="completeDecision">
+                  <i class="icon-check"></i>
+                  <span>Решение по действию отправлено!</span>
+                </div>
+              </div>
+
+              <div class="decision_form">
+                <!-- {{ action.id }} -->
+
+                <app-notification-form-template
+                  *ngIf="action.id === 1"
+                  [actionData]="actionSame"
+                ></app-notification-form-template>
+
+                <app-sending-application-template
+                  *ngIf="action.id === 2"
+                  [actionData]="actionSame"
+                ></app-sending-application-template>
+
+                <app-making-response-template
+                  *ngIf="action.id === 3"
+                  [actionData]="actionSame"
+                ></app-making-response-template>
+
+                <app-sending-case-law-template
+                  *ngIf="action.id === 4"
+                  [actionData]="actionSame"
+                ></app-sending-case-law-template>
+
+                <app-setting-response-law-template
+                  *ngIf="action.id === 5"
+                  [actionData]="actionSame"
+                ></app-setting-response-law-template>
+
+                <app-first-instance-decision-template
+                  *ngIf="action.id === 6"
+                  [actionData]="actionSame"
+                ></app-first-instance-decision-template>
+
+                <app-referral-for-appeal-template
+                  *ngIf="action.id === 7"
+                  [actionData]="actionSame"
+                ></app-referral-for-appeal-template>
+
+                <app-appeal-law-response-template
+                  *ngIf="action.id === 8"
+                  [actionData]="actionSame"
+                ></app-appeal-law-response-template>
+
+                <app-referral-case-to-cassation-template
+                  *ngIf="action.id === 9"
+                  [actionData]="actionSame"
+                ></app-referral-case-to-cassation-template>
+
+                <app-response-law-of-cassation-template
+                  *ngIf="action.id === 10"
+                  [actionData]="actionSame"
+                ></app-response-law-of-cassation-template>
+
+                <app-case-transfer-template
+                  *ngIf="action.id === 11"
+                  [actionData]="actionSame"
+                ></app-case-transfer-template>
+
+                <app-sending-application-notary-template
+                  *ngIf="action.id === 12"
+                  [actionData]="actionSame"
+                ></app-sending-application-notary-template>
+
+                <app-making-response-notary-template
+                  *ngIf="action.id === 13"
+                  [actionData]="actionSame"
+                ></app-making-response-notary-template>
+
+                <form
+                  class="page-form"
+                  [formGroup]="form"
+                  (ngSubmit)="submitDecisionAction(actionSame.id, $event)"
+                >
+                  <h4 class="decisions_sub_title">Внесение ответа</h4>
+                  <div class="row justify-content-between mb-2">
+                    <div class="col-6">
+                      <div class="select-field">
+                        <div class="select-field__title">Ваше решение</div>
+                        <ng-select
+                          appearance="outline"
+                          [items]="options"
+                          bindLabel="label"
+                          bindValue="value"
+                          placeholder="Ваше решение"
+                          #agreeSelect
+                          labelForId="yesno"
+                          [searchable]="false"
+                          formControlName="decision"
+                        ></ng-select>
+                        <div
+                          *ngIf="
+                            form.get('decision')?.touched &&
+                            form.get('decision')?.invalid
+                          "
+                          class="validation"
                         >
-                          Введите данные
-                        </small>
+                          <small *ngIf="form.get('decision')?.errors?.required">
+                            Выберите данные
+                          </small>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <button
-                  type="submit"
-                  class="page-form__actionbtn text-uppercase add"
-                  [ngClass]="{ disableBtn: form.invalid || submitted }"
-                  [disabled]="form.invalid || submitted"
-                >
-                  Отправить
-                </button>
-              </form>
+                  <div class="row justify-content-between mb-2">
+                    <div class="col-12">
+                      <div class="text-field">
+                        <div class="text-field__title">
+                          Дополнительная информация
+                        </div>
+                        <label class="text-field__label">
+                          <textarea
+                            placeholder="Уточните детали"
+                            formControlName="additionalInfo"
+                          ></textarea>
+                        </label>
+
+                        <div
+                          *ngIf="
+                            form.get('additionalInfo')?.touched &&
+                            form.get('additionalInfo')?.invalid
+                          "
+                          class="validation"
+                        >
+                          <small
+                            *ngIf="form.get('additionalInfo')?.errors?.required"
+                          >
+                            Введите данные
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    class="page-form__actionbtn text-uppercase add"
+                    [ngClass]="{ disableBtn: form.invalid || submitted }"
+                    [disabled]="form.invalid || submitted"
+                  >
+                    Отправить
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>

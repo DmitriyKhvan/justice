@@ -102,13 +102,10 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
     event.target.closest('.decision_value').classList.toggle('active');
   }
 
-  submit(processId: number | null = null) {
-    console.log('processId', processId);
-
+  submitDecisionAction(processId: number, event: any) {
     if (this.form.invalid) {
       return;
     }
-
     this.submitted = true;
 
     const data = {
@@ -117,15 +114,61 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
       headLawyerInfo: this.form.value.additionalInfo,
     };
 
-    this.lawsuitService.confirmAction(data).subscribe(
-      (actions) => {
+    this.lawsuitService.confirmAction(data, 'process/confirmAction').subscribe(
+      (decisions) => {
         // this.lawsuitService.historyActions = actions;
+        const el = event.target.closest('.decision_form')
+          .previousElementSibling;
+        el.classList.toggle('active');
+        el.classList.add('complete');
+
         this.submitted = false;
-        this.alert.success('Форма оформлена');
+        this.form.reset();
+
+        setTimeout(() => {
+          this.lawsuitService.decisions = decisions;
+        }, 3000);
+        // this.alert.success('Форма оформлена');
       },
       (error) => {
         this.submitted = false;
-        this.alert.danger('Форма не оформлена');
+        // this.alert.danger('Форма не оформлена');
+      }
+    );
+  }
+
+  submitDecisionStep(jumpId: number, event: any) {
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.submitted = true;
+
+    const data = {
+      jumpId,
+      status: this.form.value.decision,
+      headLawyerInfo: this.form.value.additionalInfo,
+    };
+
+    this.lawsuitService.confirmAction(data, 'process/confirmStep').subscribe(
+      (decisions) => {
+        // this.lawsuitService.historyActions = actions;
+        const el = event.target.closest('.decision_form')
+          .previousElementSibling;
+        el.classList.toggle('active');
+        el.classList.add('complete');
+
+        this.submitted = false;
+        this.form.reset();
+
+        setTimeout(() => {
+          this.lawsuitService.decisions = decisions;
+        }, 3000);
+        // this.alert.success('Форма оформлена');
+      },
+      (error) => {
+        this.submitted = false;
+        // this.alert.danger('Форма не оформлена');
       }
     );
   }

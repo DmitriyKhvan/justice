@@ -54,7 +54,7 @@ const routes: Routes = [
     component: MainComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: ['lawyer'],
+      roles: ['lawyer', 'head-lawyer'],
     },
     children: [
       { path: '', redirectTo: 'clients', pathMatch: 'full' },

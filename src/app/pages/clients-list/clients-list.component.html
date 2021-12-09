@@ -10,7 +10,7 @@
       [@showAction]="stateName"
     >
       <div
-        *ngIf="keycloak.isUserInRole('admin')"
+        *ngIf="keycloak.isUserInRole('head-lawyer')"
         class="page-action__item mr-2 listDecision"
         (click)="showListDecision()"
       >
@@ -22,14 +22,14 @@
         <i class="far fa-eye"></i>
         Детали
       </div>
-      <div class="page-action__item mr-2" (click)="showHistory()">
+      <!-- <div class="page-action__item mr-2" (click)="showHistory()">
         <i class="far fa-clock"></i>
         История
       </div>
       <div class="page-action__item">
         <i class="fas fa-sliders-h"></i>
         Редактировать
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="page-table">

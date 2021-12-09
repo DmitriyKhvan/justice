@@ -19,6 +19,8 @@ export class SelectActionComponent implements OnInit, OnDestroy {
 
   actions: any[] = [];
 
+  actionSub!: Subscription;
+
   constructor(
     public lawsuitService: LawsuitService,
     private route: ActivatedRoute
@@ -29,17 +31,24 @@ export class SelectActionComponent implements OnInit, OnDestroy {
       action: new FormControl(null, Validators.required),
     });
 
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => {
-          return this.lawsuitService.getActions(
-            this.route.snapshot.queryParams['stepId']
-          );
-        })
-      )
+    this.actionSub = this.lawsuitService
+      .getActions(this.lawsuitService.fromStepId)
       .subscribe((actions) => {
         this.actions = actions;
       });
+    // this.route.params
+    //   .pipe(
+    //     switchMap((params: Params) => {
+    //       console.log('select-action', this.route.snapshot.queryParams);
+
+    //       return this.lawsuitService.getActions(
+    //         this.route.snapshot.queryParams['stepId']
+    //       );
+    //     })
+    //   )
+    //   .subscribe((actions) => {
+    //     this.actions = actions;
+    //   });
   }
 
   submit() {
@@ -57,5 +66,9 @@ export class SelectActionComponent implements OnInit, OnDestroy {
     console.log('this.actions', this.actions);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    if (this.actionSub) {
+      this.actionSub.unsubscribe();
+    }
+  }
 }
