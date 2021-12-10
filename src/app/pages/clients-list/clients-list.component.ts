@@ -69,6 +69,8 @@ export class ClientsListComponent implements OnInit, DoCheck {
       pledge: '',
       totalDebt: '',
       delayDate: '',
+      stepsCount: 0,
+      actionsCount: 0,
     },
   ];
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
@@ -48,6 +49,17 @@ export class ReferralForAppealComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.formData) {
+      let d: Date = new Date(
+        this.formData.data.outDocDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d },
+        // dateRange: null,
+      };
+
       this.form = new FormGroup({
         viewLaw: new FormControl({
           value: this.formData.data.lawKind,
@@ -74,7 +86,7 @@ export class ReferralForAppealComponent implements OnInit {
           disabled: true,
         }),
         dateDoc: new FormControl({
-          value: this.formData.data.outDocDate,
+          value: model,
           disabled: true,
         }),
         additionalInfo: new FormControl({

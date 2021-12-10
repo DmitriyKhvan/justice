@@ -46,15 +46,37 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    let d: Date = new Date();
-    d.setDate(d.getDate() + 2);
-    let model: IMyDateModel = {
-      isRange: false,
-      // singleDate: { jsDate: d },
-      // dateRange: null,
-    };
+    // let d: Date = new Date();
+    // d.setDate(d.getDate() + 2);
+    // let model: IMyDateModel = {
+    //   isRange: false,
+    //   // singleDate: { jsDate: d },
+    //   // dateRange: null,
+    // };
 
     if (this.formData) {
+      let d1: Date = new Date(
+        this.formData.data.outDocDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model1: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d1 },
+        // dateRange: null,
+      };
+
+      let d2: Date = new Date(
+        this.formData.data.suspendDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model2: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d2 },
+        // dateRange: null,
+      };
+
       this.form = new FormGroup({
         conductLaw: new FormControl({
           value: this.formData.data.decision,
@@ -71,7 +93,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
           disabled: true,
         }),
         deferTo: new FormControl({
-          value: this.formData.data.suspendDate,
+          value: model2,
           disabled: true,
         }),
 

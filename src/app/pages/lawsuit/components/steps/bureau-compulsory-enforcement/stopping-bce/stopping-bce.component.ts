@@ -11,6 +11,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./stopping-bce.component.scss'],
 })
 export class StoppingBCEComponent implements OnInit {
+  @Input() actionId!: number;
   form!: FormGroup;
   submitted = false;
 

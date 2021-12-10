@@ -21,7 +21,7 @@ export class SendingApplicationNotaryComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    private lawsuitService: LawsuitService,
+    public lawsuitService: LawsuitService,
     public fileUploadService: FileUploadService
   ) {}
 

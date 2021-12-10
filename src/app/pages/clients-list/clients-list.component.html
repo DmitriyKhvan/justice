@@ -48,12 +48,15 @@
           <div class="page-table__th">
             Сумма кредита <i class="uil-angle-down"></i>
           </div>
-          <div class="page-table__th">Валюта</div>
+          <!-- <div class="page-table__th">Валюта</div> -->
           <div class="page-table__th">Начало</div>
           <div class="page-table__th">Завершение</div>
           <div class="page-table__th">Итого долг</div>
           <div class="page-table__th">
             Просрочка <i class="uil-angle-down"></i>
+          </div>
+          <div class="page-table__th">
+            В ожидании решения <i class="uil-angle-down"></i>
           </div>
         </div>
       </div>
@@ -80,12 +83,22 @@
           </div>
           <div class="page-table__td">{{ contract.contractId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>
-          <div class="page-table__td">{{ contract.creditCurrency }}</div>
+          <!-- <div class="page-table__td">{{ contract.creditCurrency }}</div> -->
           <div class="page-table__td">{{ contract.creditStart }}</div>
           <div class="page-table__td">{{ contract.creditEnd }}</div>
           <div class="page-table__td">{{ contract.totalDebt }}</div>
           <div class="page-table__td text-danger fw-bold">
             {{ contract.delayDate }}
+          </div>
+          <div class="page-table__td">
+            {{ contract.stepsCount }}
+            {{
+              contract.stepsCount | declensionOfWords: ["Шаг", "Шага", "Шагов"]
+            }}| {{ contract.actionsCount }}
+            {{
+              contract.actionsCount
+                | declensionOfWords: ["действие", "действия", "действий"]
+            }}
           </div>
         </div>
       </div>

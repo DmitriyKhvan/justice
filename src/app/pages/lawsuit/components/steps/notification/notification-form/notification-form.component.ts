@@ -26,18 +26,28 @@ export class NotificationFormComponent implements OnInit {
 
   ngOnInit(): void {
     // let d: Date = new Date();
-    let d: Date = new Date();
-    d.setDate(d.getDate() + 2);
-    let model: IMyDateModel = {
-      isRange: false,
-      // singleDate: { jsDate: d },
-      // dateRange: null,
-    };
+    // let d: Date = new Date();
+    // d.setDate(d.getDate() + 2);
+    // let model: IMyDateModel = {
+    //   isRange: false,
+    //   // singleDate: { jsDate: d },
+    //   // dateRange: null,
+    // };
 
     if (this.formData) {
+      let d: Date = new Date(
+        this.formData.data.lastPaymentDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d },
+        // dateRange: null,
+      };
       this.form = new FormGroup({
         notificationDate: new FormControl({
-          value: '05.11.2021',
+          value: model,
           disabled: true,
         }),
 
@@ -48,10 +58,7 @@ export class NotificationFormComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        notificationDate: new FormControl({
-          value: '05.11.2021',
-          disabled: true,
-        }),
+        notificationDate: new FormControl(null, Validators.required),
 
         additionalInfo: new FormControl(null, Validators.required),
       });
@@ -67,7 +74,7 @@ export class NotificationFormComponent implements OnInit {
 
     const data = {
       active: true,
-      lastPaymentDate: this.form.controls.notificationDate.value,
+      lastPaymentDate: this.form.value.notificationDate.singleDate.formatted,
       text: this.form.value.additionalInfo,
       files: this.fileUploadService.transformFilesData(),
     };

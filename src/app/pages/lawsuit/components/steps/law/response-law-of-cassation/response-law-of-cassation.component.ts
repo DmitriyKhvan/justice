@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -61,13 +62,46 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.formData) {
+      let d1: Date = new Date(
+        this.formData.data.decisionDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model1: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d1 },
+        // dateRange: null,
+      };
+
+      let d2: Date = new Date(
+        this.formData.data.decisionBeginDate?.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model2: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d2 },
+        // dateRange: null,
+      };
+
+      let d3: Date = new Date(
+        this.formData.data.suspendDate?.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model3: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d3 },
+        // dateRange: null,
+      };
+
       this.form = new FormGroup({
         caseNumber: new FormControl({
           value: this.formData.data.docNumber,
           disabled: true,
         }),
         decisionDate: new FormControl({
-          value: this.formData.data.decisionDate,
+          value: model1,
           disabled: true,
         }),
         decisionResult: new FormControl({
@@ -75,7 +109,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
           disabled: true,
         }),
         forceDecisionDate: new FormControl({
-          value: this.formData.data.decisionBeginDate,
+          value: model2,
           disabled: true,
         }), // Дата вступления решения в силу
 
@@ -118,7 +152,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
           disabled: true,
         }),
         postponeUntil: new FormControl({
-          value: this.formData.data.suspendDate,
+          value: model3,
           disabled: true,
         }),
         lawId: new FormControl({
@@ -358,6 +392,8 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // console.log('form', this.form.value.forceDecisionDate.singleDate.formatted);
+
     this.submitted = true;
 
     const data = {
@@ -371,7 +407,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
           : [],
       action: this.form.value.actionType,
       addInfo: this.form.value.additionalInfo,
-      suspendDate: this.form.value.postponeUntil,
+      suspendDate: this.form.value.postponeUntil?.singleDate?.formatted,
       appealKind: this.form.value.typeAppeal,
       appealTotalAmount: this.form.value.totalAmount,
       appealMainDebt: this.form.value.principalAmount,
@@ -381,7 +417,8 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
         ? this.fileUploadService.transformFilesData()
         : [],
       appealAddInfo: this.form.value.appealAddInfo,
-      decisionBeginDate: this.form.value.forceDecisionDate.singleDate.formatted,
+      decisionBeginDate: this.form.value.forceDecisionDate?.singleDate
+        ?.formatted,
       defendantAppeal: true,
       lawId: this.form.controls.lawId.value,
     };

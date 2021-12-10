@@ -26,15 +26,25 @@ export class MakingResponseNotaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let d: Date = new Date();
-    // this.formData.data.inDocDate.split('.').reverse().join('.')
-    d.setDate(d.getDate() + 2);
-    let model: IMyDateModel = {
-      isRange: false,
-      singleDate: { jsDate: d },
-      // dateRange: null,
-    };
+    // let d: Date = new Date();
+    // // this.formData.data.inDocDate.split('.').reverse().join('.')
+    // d.setDate(d.getDate() + 2);
+    // let model: IMyDateModel = {
+    //   isRange: false,
+    //   singleDate: { jsDate: d },
+    //   // dateRange: null,
+    // };
     if (this.formData) {
+      let d: Date = new Date(
+        this.formData.data.intDocDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d },
+        // dateRange: null,
+      };
       this.form = new FormGroup({
         numberDoc: new FormControl({
           value: this.formData.data.inDocNumber,

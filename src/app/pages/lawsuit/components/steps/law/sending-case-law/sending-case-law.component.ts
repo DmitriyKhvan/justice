@@ -51,15 +51,26 @@ export class SendingCaseLawComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let d: Date = new Date();
-    d.setDate(d.getDate() + 2);
-    let model: IMyDateModel = {
-      isRange: false,
-      // singleDate: { jsDate: d },
-      // dateRange: null,
-    };
+    // let d: Date = new Date();
+    // d.setDate(d.getDate() + 2);
+    // let model: IMyDateModel = {
+    //   isRange: false,
+    //   // singleDate: { jsDate: d },
+    //   // dateRange: null,
+    // };
 
     if (this.formData) {
+      let d: Date = new Date(
+        this.formData.data.lawInDate.split('.').reverse().join('.')
+      );
+
+      // d.setDate(d.getDate() + 2);
+      let model: IMyDateModel = {
+        isRange: false,
+        singleDate: { jsDate: d },
+        // dateRange: null,
+      };
+
       this.form = new FormGroup({
         kindLaw: new FormControl({
           value: this.formData.data.lawKind,
@@ -98,7 +109,7 @@ export class SendingCaseLawComponent implements OnInit {
           disabled: true,
         }),
         dateLaw: new FormControl({
-          value: this.formData.data.lawInDate,
+          value: model,
           disabled: true,
         }),
         additionalInfo: new FormControl({
