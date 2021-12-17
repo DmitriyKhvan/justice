@@ -10,52 +10,80 @@ export class AdminService {
   constructor(private http: HttpClient, private router: Router) {}
 
   createUser(user: any): Observable<any> {
-    return this.http.post(`${environment.dbUrl}/user/create`, user);
+    return this.http.post(
+      `${environment.authUrl}/admin/realms/JUSTICE/users`,
+      user
+    );
   }
 
-  getUsers(data: any): Observable<any> {
-    return this.http
-      .get(
-        `${environment.dbUrl}/user/users?page=${data.currentPage}&count=${data.itemsPerPage}&searchValue=${data.searchValue}`
-      )
-      .pipe(
-        map((res: any) => {
-          const users = res.users.map((el: any) => {
-            const roles: Array<string> = [];
-            const mfo: Array<string> = [];
-            el.roles.forEach((item: any) => {
-              roles.push(item.name);
-            });
+  getUsers({ currentPage = 0, itemsPerPage = 9999 }: any): Observable<any> {
+    return this.http.get(
+      `${environment.authUrl}/admin/realms/JUSTICE/users?first=${currentPage}&max=${itemsPerPage}`
+    );
+  }
 
-            el.mfo.forEach((item: any) => {
-              mfo.push(item.name_uz);
-            });
-            return { ...el, roles, mfo };
-          });
-          return { ...res, users };
-        })
-      );
+  getSearchUsers({
+    currentPage = 0,
+    itemsPerPage = 9999,
+    searchValue,
+  }: any): Observable<any> {
+    return this.http.get(
+      `${environment.authUrl}/admin/realms/JUSTICE/users?briefRepresentation=true&first=${currentPage}&max=${itemsPerPage}&search=${searchValue}`
+    );
   }
 
   getUserById(id: any): Observable<any> {
-    return this.http.get(`${environment.dbUrl}/user/user/${id}`);
+    return this.http.get(
+      `${environment.authUrl}/admin/realms/JUSTICE/users/${id}`
+    );
   }
 
-  updateUser(user: any): Observable<any> {
-    console.log('userrrrrrrr', user);
-
-    return this.http.post(`${environment.dbUrl}/user/update`, user);
+  updateUser(userId: string, user: object): Observable<any> {
+    return this.http.put(
+      `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}`,
+      user
+    );
   }
 
   removeUser(id: any): Observable<void> {
-    return this.http.delete<void>(`${environment.dbUrl}/user/delete?id=${id}`);
+    return this.http.delete<void>(
+      `${environment.authUrl}/admin/realms/JUSTICE/users/${id}`
+    );
   }
 
+  // getRegions(): Observable<any> {
+  //   return this.http.get(`${environment.dbUrlBek}/cases/IABSmfo`);
+  // }
+
   getRegions(): Observable<any> {
-    return this.http.get(`${environment.dbUrl}/dictionary/mfo`);
+    return this.http.get(`${environment.dbUrlBek}/references/getTree`);
   }
 
   getRoles(): Observable<any> {
-    return this.http.get(`${environment.dbUrl}/user/roles`);
+    return this.http.get(
+      `${environment.authUrl}/admin/realms/JUSTICE/clients/78e0fab3-a7ca-4b70-a949-925644fdd2fc/roles`
+    );
+  }
+
+  getUserRoles(userId: string): Observable<any> {
+    console.log('userId', userId);
+
+    return this.http.get(
+      `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}/role-mappings/clients/78e0fab3-a7ca-4b70-a949-925644fdd2fc`
+    );
+  }
+
+  setUserPassWord(userId: string, passData: object): Observable<any> {
+    return this.http.put(
+      `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}/reset-password`,
+      passData
+    );
+  }
+
+  setUserRoles(userId: string, roles: object) {
+    return this.http.post(
+      `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}/role-mappings/clients/78e0fab3-a7ca-4b70-a949-925644fdd2fc`,
+      roles
+    );
   }
 }

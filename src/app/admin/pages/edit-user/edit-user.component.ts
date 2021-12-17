@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { switchMap, map, tap, delay } from 'rxjs/operators';
+import { forkJoin, Subscription } from 'rxjs';
+import { switchMap, map, tap, delay, mergeMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { AdminService } from '../../shared/services/admin.service';
 
@@ -37,22 +37,34 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(
         // delay(5000),
-        switchMap((params: Params) => {
-          return this.adminService.getUserById(params['id']);
+        mergeMap((params: Params) => {
+          const getUser = this.adminService.getUserById(params['id']);
+          const userRoles = this.adminService.getUserRoles(params['id']);
+          return forkJoin({ getUser, userRoles });
         }),
-        tap(this.setRegion.bind(this))
+        tap((res) => this.setRegion.bind(this, res.getUser)())
       )
-      .subscribe((user: any) => {
-        this.user = user;
+      .subscribe((res: any) => {
+        this.user = res.getUser;
+        console.log('this.user', this.user);
 
         this.form = new FormGroup({
-          last_name: new FormControl(user.last_name, Validators.required),
-          first_name: new FormControl(user.first_name, Validators.required),
-          middle_name: new FormControl(user.middle_name, Validators.required),
-          role: new FormControl(user.roles, Validators.required),
+          lastName: new FormControl(this.user.lastName, Validators.required),
+          firstName: new FormControl(this.user.firstName, Validators.required),
+          middleName: new FormControl(
+            this.user.attributes.middleName,
+            Validators.required
+          ),
+          roles: new FormControl(res.userRoles, Validators.required),
           region: new FormControl(null, Validators.required),
-          district: new FormControl(user.mfo, Validators.required),
-          username: new FormControl(user.username, Validators.required),
+          district: new FormControl(
+            this.user.attributes.mfo,
+            Validators.required
+          ),
+          username: new FormControl({
+            value: this.user.username,
+            disabled: true,
+          }),
           password: new FormControl(null),
         });
 
@@ -65,26 +77,57 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   setRegion(user: any) {
-    this.adminService.getRegions().subscribe((regions) => {
-      this.regions = regions.data;
+    this.adminService
+      .getRegions()
+      // .pipe(
+      //   map((regions) => {
+      //     regions.data.push({
+      //       nameRu: 'ВCE',
+      //       regionId: 'ALL',
+      //       branches: [
+      //         {
+      //           id: 'All',
+      //           mfo: 'ALL',
+      //           nameRu: 'ВСЕ',
+      //         },
+      //       ],
+      //     });
 
-      const region: any = this.regions.find((region: any) => {
-        return region.branches.find(
-          (branche: any) => branche.mfo === user.mfo[0]
-        );
+      //     return regions;
+      //   })
+      // )
+      .subscribe((regions) => {
+        this.regions = regions.data;
+
+        console.log('this.regions', this.regions);
+
+        const region: any = this.regions.find((region: any) => {
+          return region.branches.find(
+            (branche: any) => branche.mfo === user.attributes.mfo[0]
+          );
+        });
+
+        this.districts = region.branches;
+
+        console.log('this.districts', this.districts);
+
+        this.form.patchValue({ region: region.regionId });
       });
-
-      this.districts = region.branches;
-
-      this.form.patchValue({ region: region.region_id });
-    });
   }
 
   setDistrict(region: any) {
     this.form.get('district')?.reset();
-    if (region) {
+    console.log('region', region);
+
+    if (region.code !== '00') {
       this.districts = region.branches;
       this.form.get('district')?.enable();
+    } else if (region.code === '00') {
+      this.districts = region.branches;
+      this.form.get('district')?.enable();
+      this.form.patchValue({
+        district: [region.branches[0].mfo],
+      });
     } else {
       this.form.get('district')?.disable();
     }
@@ -97,21 +140,56 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
 
-    this.uSub = this.adminService
-      .updateUser({
-        ...this.user,
-        last_name: this.form.value.last_name,
-        first_name: this.form.value.first_name,
-        middle_name: this.form.value.middle_name,
-        roles: this.form.value.role,
+    const user = {
+      ...this.user,
+      lastName: this.form.value.lastName,
+      firstName: this.form.value.firstName,
+      username: this.form.value.username,
+      attributes: {
+        ...this.user.attributes,
         mfo: this.form.value.district,
-        username: this.form.value.username,
-        password: this.form.value.password,
-      })
-      .subscribe(() => {
-        this.submitted = false;
-        this.alert.success('Пользователь обновлен');
+        middleName: this.form.value.middleName,
+        roles: this.form.value.roles.map((role: any) => role.name),
+      },
+    };
+
+    console.log('user', user);
+
+    const updateUser = this.adminService.updateUser(this.user.id, user);
+    const setRole = this.adminService.setUserRoles(
+      this.user.id,
+      this.form.value.roles
+    );
+
+    let observables = [updateUser, setRole];
+
+    if (this.form.value.password) {
+      const setPass = this.adminService.setUserPassWord(this.user.id, {
+        type: 'password',
+        value: this.form.value.password,
+        temporary: true,
       });
+
+      observables.push(setPass);
+    }
+
+    forkJoin(observables).subscribe(
+      (res) => {
+        console.log('res', res);
+        this.alert.success('Пользователь обновлен', {
+          login: user.username,
+          password: this.form.value.password,
+        });
+        // this.form.reset();
+        this.submitted = false;
+      },
+      (error) => {
+        console.log(error);
+
+        this.alert.danger('Пользователь не обновлен');
+        this.submitted = false;
+      }
+    );
   }
 
   ngOnDestroy(): void {

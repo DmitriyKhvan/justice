@@ -6,7 +6,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { first, mergeMap, map, catchError } from 'rxjs/operators';
 import { ClientsService } from './clients.service';
 import { environment } from 'src/environments/environment';
@@ -46,6 +46,8 @@ export class FileUploadService {
   currentUploaderFiles = this.UploaderFiles.asObservable();
 
   pushFiles(files: Array<SingleFile>): void {
+    console.log('files', files);
+
     this.UploaderFiles.next(files);
   }
 
@@ -97,7 +99,7 @@ export class FileUploadService {
     return new Promise((resolve: any, reject: any) => {
       try {
         const res = this.xhttp.post(
-          `${this.FileBaseUrl}/file/single-upload`,
+          `${this.FileBaseUrl}/file/upload`,
           DataPayload,
           {
             observe: 'events',
@@ -110,7 +112,8 @@ export class FileUploadService {
             this.UploaderFiles.value[index].fileUploaded = progress;
           } else if (data instanceof HttpResponse) {
             // const temp = data.body;
-            this.UploaderFiles.value[index].fileId = data.body.id;
+            this.UploaderFiles.value[index].fileId =
+              data.body.file_details[0].id;
             resolve(data);
           } else if (data instanceof HttpHeaderResponse) {
             if (data.status === 500) {
@@ -150,7 +153,7 @@ export class FileUploadService {
         this.UploaderFiles.value[i].filePayload,
         i
       );
-      console.log(uploaded);
+      // console.log(uploaded);
     }
   }
 
@@ -166,5 +169,12 @@ export class FileUploadService {
     this.allUploadFiles = [];
 
     return files;
+  }
+
+  downloadFile(id: number): Observable<any> {
+    return this.xhttp.get(
+      `${environment.fileBaseUrl}/file/downloadById?id=${id}`,
+      { observe: 'body', responseType: 'arraybuffer' }
+    );
   }
 }

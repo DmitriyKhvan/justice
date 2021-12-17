@@ -55,19 +55,8 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     // };
 
     if (this.formData) {
-      let d1: Date = new Date(
-        this.formData.data.outDocDate.split('.').reverse().join('.')
-      );
-
-      // d.setDate(d.getDate() + 2);
-      let model1: IMyDateModel = {
-        isRange: false,
-        singleDate: { jsDate: d1 },
-        // dateRange: null,
-      };
-
       let d2: Date = new Date(
-        this.formData.data.suspendDate.split('.').reverse().join('.')
+        this.formData.data.suspendDate?.split('.').reverse().join('.')
       );
 
       // d.setDate(d.getDate() + 2);
@@ -86,6 +75,9 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
           value: this.formData.data.docNumber,
           disabled: true,
         }),
+        // datesLaw: new FormArray([
+        //   new FormControl({ value: '', disabled: true }),
+        // ]),
         datesLaw: new FormArray([]),
 
         action: new FormControl({
@@ -101,6 +93,19 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
           value: this.formData.data.addInfo,
           disabled: true,
         }),
+      });
+
+      this.formData.data.lawDatetime.forEach((date: any) => {
+        let d1: Date = new Date(date.split('.').reverse().join('.'));
+
+        // d.setDate(d.getDate() + 2);
+        let model1: IMyDateModel = {
+          isRange: false,
+          singleDate: { jsDate: d1 },
+          // dateRange: null,
+        };
+
+        this.addDateLawDisable(model1);
       });
     } else {
       this.form = new FormGroup({
@@ -214,6 +219,11 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
   addDateLaw() {
     const control = new FormControl(null, [Validators.required]);
+    this.datesLaw.push(control);
+  }
+
+  addDateLawDisable(value: any) {
+    const control = new FormControl({ value, disabled: true });
     this.datesLaw.push(control);
   }
 

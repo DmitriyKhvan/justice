@@ -1,5 +1,9 @@
 <div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
-  <div class="alert" [@wrapAlert]="wrapAlertState">
+  <div
+    class="alert"
+    [@wrapAlert]="wrapAlertState"
+    (click)="$event.stopPropagation()"
+  >
     <button class="close"><i class="uil-times" (click)="close()"></i></button>
 
     <!-- <pre>

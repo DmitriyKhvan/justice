@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { forkJoin } from 'rxjs';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { AdminService } from '../../shared/services/admin.service';
 
@@ -28,7 +30,7 @@ export class AddUserComponent implements OnInit {
       last_name: new FormControl(null, Validators.required),
       first_name: new FormControl(null, Validators.required),
       middle_name: new FormControl(null, Validators.required),
-      role: new FormControl(null, Validators.required),
+      roles: new FormControl(null, Validators.required),
       region: new FormControl(null, Validators.required),
       district: new FormControl({ value: null, disabled: true }),
       username: new FormControl(null, Validators.required),
@@ -46,9 +48,16 @@ export class AddUserComponent implements OnInit {
 
   setRegion(region: any) {
     this.form.get('district')?.reset();
-    if (region) {
+
+    if (region.code !== '00') {
       this.districts = region.branches;
       this.form.get('district')?.enable();
+    } else if (region.code === '00') {
+      this.districts = region.branches;
+      this.form.get('district')?.enable();
+      this.form.patchValue({
+        district: [region.branches[0].mfo],
+      });
     } else {
       this.form.get('district')?.disable();
     }
@@ -64,30 +73,61 @@ export class AddUserComponent implements OnInit {
     this.submitted = true;
 
     const user: any = {
-      last_name: this.form.value.last_name,
-      first_name: this.form.value.first_name,
-      middle_name: this.form.value.middle_name,
-      roles: this.form.value.role,
-      mfo: this.form.value.district,
+      lastName: this.form.value.last_name,
+      firstName: this.form.value.first_name,
+      // roles: this.form.value.roles,
       username: this.form.value.username,
-      password: this.form.value.password,
-      status: 1,
+      // password: this.form.value.password,
+      enabled: true,
+      attributes: {
+        middleName: this.form.value.middle_name,
+        mfo: this.form.value.district,
+        roles: this.form.value.roles.map((role: any) => role.name),
+      },
     };
 
-    this.adminService.createUser(user).subscribe(
-      () => {
-        this.alert.success('Пользователь добавлен', {
-          login: user.username,
-          password: user.password,
-        });
-        this.form.reset();
-        this.submitted = false;
-      },
-      () => {
-        this.alert.danger('Пользователь не добавлен');
-        this.alert.success('Форма оформлена');
-        this.submitted = false;
-      }
-    );
+    // console.log('user', user);
+
+    this.adminService
+      .createUser(user)
+      .pipe(
+        switchMap(() => {
+          return this.adminService.getUsers({});
+        }),
+        map((users) => {
+          return users.find((u: any) => u.username === user.username);
+        }),
+        mergeMap((user: any) => {
+          const setPass = this.adminService.setUserPassWord(user.id, {
+            type: 'password',
+            value: this.form.value.password,
+            temporary: false,
+          });
+          const setRole = this.adminService.setUserRoles(
+            user.id,
+            this.form.value.roles
+          );
+
+          return forkJoin([setPass, setRole]);
+        }),
+        tap((result) => console.log('result', result))
+      )
+      .subscribe(
+        (res) => {
+          console.log('res', res);
+          this.alert.success('Пользователь добавлен', {
+            login: user.username,
+            password: this.form.value.password,
+          });
+          this.form.reset();
+          this.submitted = false;
+        },
+        (error) => {
+          console.log(error);
+
+          this.alert.danger('Пользователь не добавлен');
+          this.submitted = false;
+        }
+      );
   }
 }

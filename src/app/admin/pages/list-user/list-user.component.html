@@ -85,7 +85,8 @@
               [routerLink]="['/admin', 'editUser', user.id]"
               class="page-table__td text-capitalize"
             >
-              {{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}
+              {{ user.lastName }} {{ user.firstName }}
+              {{ user?.attributes?.middleName }}
             </div>
             <div
               [routerLink]="['/admin', 'editUser', user.id]"
@@ -97,13 +98,13 @@
               [routerLink]="['/admin', 'editUser', user.id]"
               class="page-table__td"
             >
-              {{ user.roles.join(", ") }}
+              {{ user.attributes?.roles?.join(", ") }}
             </div>
             <div
               [routerLink]="['/admin', 'editUser', user.id]"
               class="page-table__td"
             >
-              {{ user.mfo.join(", ") }}
+              {{ user.attributes?.filials?.join(", ") }}
             </div>
             <div
               [routerLink]="['/admin', 'editUser', user.id]"
@@ -111,7 +112,7 @@
             >
               <p
                 class="active row align-items-center m-0"
-                *ngIf="user.status === 1; else notActive"
+                *ngIf="user.enabled; else notActive"
               >
                 <small class="disc"></small>Активен
               </p>
@@ -126,9 +127,7 @@
             <div class="page-table__td">
               <i
                 (click)="confirmToggleActiveteUser(user)"
-                [class]="
-                  user.status === 1 ? 'iconly-boldLock' : 'iconly-boldUnlock'
-                "
+                [class]="user.enabled ? 'iconly-boldLock' : 'iconly-boldUnlock'"
                 class="btnIcon mr-1"
               >
                 <small class="tooltipAdmin">Приостановить доступ</small> </i

@@ -1,4 +1,10 @@
-import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -10,8 +16,9 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
   templateUrl: './history-actions.component.html',
   styleUrls: ['./history-actions.component.scss'],
 })
-export class HistoryActionsComponent implements OnInit, OnDestroy {
+export class HistoryActionsComponent implements OnInit, DoCheck, OnDestroy {
   historyActionSub!: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     public lawsuitService: LawsuitService,
@@ -62,15 +69,15 @@ export class HistoryActionsComponent implements OnInit, OnDestroy {
     //     );
     //   });
 
-    console.log('this.lawsuitService.mfo', this.lawsuitService.mfo);
-    console.log(
-      'this.lawsuitService.contractId',
-      this.lawsuitService.contractId
-    );
-    console.log(
-      'this.lawsuitService.fromStepId',
-      this.lawsuitService.fromStepId
-    );
+    // console.log('this.lawsuitService.mfo', this.lawsuitService.mfo);
+    // console.log(
+    //   'this.lawsuitService.contractId',
+    //   this.lawsuitService.contractId
+    // );
+    // console.log(
+    //   'this.lawsuitService.fromStepId',
+    //   this.lawsuitService.fromStepId
+    // );
 
     this.historyActionSub = this.lawsuitService
       .getStepActions({
@@ -79,7 +86,7 @@ export class HistoryActionsComponent implements OnInit, OnDestroy {
         stepId: this.lawsuitService.fromStepId,
       })
       .subscribe((histories) => {
-        console.log('histories', histories);
+        // console.log('histories', histories);
 
         this.lawsuitService.actionIds = [];
 
@@ -103,6 +110,10 @@ export class HistoryActionsComponent implements OnInit, OnDestroy {
           (step) => step.status === 1
         );
       });
+  }
+
+  ngDoCheck() {
+    // console.log('DoCheck');
   }
 
   popUpForm(action: any) {

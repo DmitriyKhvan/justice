@@ -7,7 +7,7 @@ export function initializeKeycloak(
   return async () =>
     await keycloak.init({
       config: {
-        url: environment.authUrl + '/auth',
+        url: environment.authUrl,
         realm: 'JUSTICE',
         clientId: 'justice',
       },

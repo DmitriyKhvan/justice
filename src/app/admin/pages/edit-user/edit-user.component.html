@@ -22,18 +22,18 @@
                   <input
                     type="text"
                     autocomplete="off"
-                    formControlName="last_name"
+                    formControlName="lastName"
                   />
                 </label>
 
                 <div
                   *ngIf="
-                    form.get('last_name')?.touched &&
-                    form.get('last_name')?.invalid
+                    form.get('lastName')?.touched &&
+                    form.get('lastName')?.invalid
                   "
                   class="validation"
                 >
-                  <small *ngIf="form.get('last_name')?.errors?.required">
+                  <small *ngIf="form.get('lastName')?.errors?.required">
                     Введите данные
                   </small>
                 </div>
@@ -47,18 +47,18 @@
                   <input
                     type="text"
                     autocomplete="off"
-                    formControlName="first_name"
+                    formControlName="firstName"
                   />
                 </label>
 
                 <div
                   *ngIf="
-                    form.get('first_name')?.touched &&
-                    form.get('first_name')?.invalid
+                    form.get('firstName')?.touched &&
+                    form.get('firstName')?.invalid
                   "
                   class="validation"
                 >
-                  <small *ngIf="form.get('first_name')?.errors?.required">
+                  <small *ngIf="form.get('firstName')?.errors?.required">
                     Введите данные
                   </small>
                 </div>
@@ -72,18 +72,18 @@
                   <input
                     type="text"
                     autocomplete="off"
-                    formControlName="middle_name"
+                    formControlName="middleName"
                   />
                 </label>
 
                 <div
                   *ngIf="
-                    form.get('middle_name')?.touched &&
-                    form.get('middle_name')?.invalid
+                    form.get('middleName')?.touched &&
+                    form.get('middleName')?.invalid
                   "
                   class="validation"
                 >
-                  <small *ngIf="form.get('middle_name')?.errors?.required">
+                  <small *ngIf="form.get('middleName')?.errors?.required">
                     Введите данные
                   </small>
                 </div>
@@ -100,12 +100,12 @@
                   appearance="outline"
                   [items]="roles"
                   bindLabel="name"
-                  bindValue="id"
+                  bindValue=""
                   placeholder="Выберите роль"
                   #agreeSelect
                   labelForId="yesno"
                   [searchable]="false"
-                  formControlName="role"
+                  formControlName="roles"
                 ></ng-select>
               </div>
               <div
@@ -126,8 +126,8 @@
                 <ng-select
                   appearance="outline"
                   [items]="regions"
-                  bindLabel="name_ru"
-                  bindValue="region_id"
+                  bindLabel="nameRu"
+                  bindValue="regionId"
                   placeholder="Выберите регион"
                   #agreeSelect
                   labelForId="yesno"
@@ -157,7 +157,7 @@
                   [multiple]="true"
                   appearance="outline"
                   [items]="districts"
-                  bindLabel="name_ru"
+                  bindLabel="nameRu"
                   bindValue="mfo"
                   placeholder="Выберите роль"
                   #agreeSelect

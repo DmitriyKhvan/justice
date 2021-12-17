@@ -95,19 +95,19 @@
                   appearance="outline"
                   [items]="roles"
                   bindLabel="name"
-                  bindValue="id"
+                  bindValue=""
                   placeholder="Выберите роль"
                   #agreeSelect
                   labelForId="yesno"
                   [searchable]="false"
-                  formControlName="role"
+                  formControlName="roles"
                 ></ng-select>
               </div>
               <div
-                *ngIf="form.get('role')?.touched && form.get('role')?.invalid"
+                *ngIf="form.get('roles')?.touched && form.get('roles')?.invalid"
                 class="validation"
               >
-                <small *ngIf="form.get('role')?.errors?.required">
+                <small *ngIf="form.get('roles')?.errors?.required">
                   Введите данные
                 </small>
               </div>
@@ -121,8 +121,8 @@
                 <ng-select
                   appearance="outline"
                   [items]="regions"
-                  bindLabel="name_ru"
-                  bindValue="region_id"
+                  bindLabel="nameRu"
+                  bindValue="regionId"
                   placeholder="Выберите регион"
                   #agreeSelect
                   labelForId="yesno"
@@ -152,7 +152,7 @@
                   [multiple]="true"
                   appearance="outline"
                   [items]="districts"
-                  bindLabel="name_ru"
+                  bindLabel="nameRu"
                   bindValue="mfo"
                   placeholder="Выберите район"
                   #agreeSelect

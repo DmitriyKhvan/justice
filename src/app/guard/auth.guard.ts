@@ -31,6 +31,7 @@ export class AuthGuard extends KeycloakAuthGuard {
 
       const requiredRoles: string[] = route.data.roles;
       console.log('requiredRoles', requiredRoles);
+      console.log('this.roles', this.roles);
 
       if (!requiredRoles || requiredRoles.length === 0) {
         permission = true;
@@ -45,7 +46,13 @@ export class AuthGuard extends KeycloakAuthGuard {
         }
       }
       if (!permission) {
-        this.router.navigate(['/']);
+        console.log(777);
+
+        if (this.keycloakAngular.isUserInRole('admin')) {
+          this.router.navigate(['/admin/listUser']);
+        } else {
+          this.router.navigate(['/']);
+        }
       }
 
       resolve(permission);

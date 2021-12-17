@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { map, tap } from 'rxjs/operators';
 import { FileUploadService } from '../../../services/file-upload.service';
 
 @Component({
@@ -14,7 +22,12 @@ import { FileUploadService } from '../../../services/file-upload.service';
     <div *ngIf="!this.formData; else fileList" class="file_field">
       <div class="file-field__title mb-1">{{ title }}</div>
       <div class="file-field__list mb-2">
-        <div
+        <!-- {{ uploadFilesCount }}
+        <pre>
+        {{ fileUploadService.allUploadFiles | json }}
+        </pre
+        > -->
+        <!-- <div
           *ngFor="
             let item of uploadFilesCount
               ? fileUploadService.allUploadFiles.slice(0, -uploadFilesCount)
@@ -47,7 +60,7 @@ import { FileUploadService } from '../../../services/file-upload.service';
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div
           *ngFor="let item of currentUploadFiles; index as i"
@@ -105,9 +118,9 @@ import { FileUploadService } from '../../../services/file-upload.service';
         </ng-container>
         <ng-template #btnText> Добавить файл </ng-template>
         <ng-template #elseBtnText> Добавить еще один файл </ng-template>
+        <!-- accept="image/jpeg, image/jpg, application/pdf" -->
         <input
           type="file"
-          accept="image/jpeg, image/jpg, application/pdf"
           multiple
           (input)="changed(); fileUploadService.poster($event)"
         />
@@ -115,7 +128,11 @@ import { FileUploadService } from '../../../services/file-upload.service';
     </div>
 
     <ng-template #fileList>
-      <div class="fileList" *ngFor="let file of this.formData.data.files">
+      <div
+        class="fileList"
+        *ngFor="let file of this.formData.data.files"
+        (click)="downloadFile(file.id, file.name)"
+      >
         <i class="icon-attach mr-1"></i>
         <div class="file-field__list_text ml-1">
           {{ file.name }}
@@ -127,11 +144,15 @@ import { FileUploadService } from '../../../services/file-upload.service';
     `
       .fileList {
         display: flex;
+        cursor: pointer;
+      }
+      .fileList:hover {
+        background: rgba(16, 39, 74, 0.1);
       }
     `,
   ],
 })
-export class FileUploaderComponent implements OnInit {
+export class FileUploaderComponent implements OnInit, OnDestroy {
   constructor(
     public fileUploadService: FileUploadService // public clientDetail: ClientsDetailComponent
   ) {}
@@ -148,19 +169,43 @@ export class FileUploaderComponent implements OnInit {
   uploadFilesCount: number = 0;
 
   ngOnInit(): void {
+    console.log(
+      'this.fileUploadService.currentUploaderFiles',
+      this.fileUploadService.currentUploaderFiles
+    );
+
     // выяснить почему два раза запускается
     this.fileUploadService.currentUploaderFiles.subscribe((data) => {
       console.log('data', data);
-      this.fileUploadService.allUploadFiles = [];
+      // this.fileUploadService.allUploadFiles = [];
 
       this.currentUploadFiles = data;
 
       this.currentUploadFiles.forEach((i) => {
-        console.log('forEach');
+        console.log('i', i);
 
         this.uploadFilesCount++;
         this.fileUploadService.allUploadFiles.push(i);
       });
+    });
+  }
+
+  downloadFile(id: number, filename: string | null = null) {
+    this.fileUploadService.downloadFile(id).subscribe((response: any) => {
+      let dataType = response.type;
+
+      let downloadLink = document.createElement('a');
+      let url = window.URL.createObjectURL(
+        new Blob([response], { type: dataType })
+      );
+      downloadLink.href = url;
+      // var page = window.open(url);
+      // page?.print();
+      if (filename) downloadLink.setAttribute('download', filename);
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      window.URL.revokeObjectURL(url);
+      downloadLink.remove();
     });
   }
 
@@ -215,5 +260,12 @@ export class FileUploaderComponent implements OnInit {
     }
 
     // console.log(this.uploadFiles.findIndex(el => el.fileId === fileId));
+  }
+
+  ngOnDestroy(): void {
+    console.log('Destroy');
+    this.fileUploadService.UploaderFiles.next([]);
+    this.fileUploadService.allUploadFiles = [];
+    this.uploadFilesCount = 0;
   }
 }

@@ -185,11 +185,15 @@
       </div>
 
       <div class="col-6">
-        <button *ngIf="idx > 0" class="removeItem" (click)="removeDateLaw(idx)">
+        <button
+          *ngIf="idx > 0 && !formData"
+          class="removeItem"
+          (click)="removeDateLaw(idx)"
+        >
           <i class="uil-trash"></i>
         </button>
         <button
-          *ngIf="idx === 0"
+          *ngIf="idx === 0 && !formData"
           class="btn btn-dashed add"
           (click)="addDateLaw()"
         >

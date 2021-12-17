@@ -103,7 +103,7 @@ export class LawsuitService {
   }
 
   getStepsProcess({ contractId, mfo }: any): Observable<any> {
-    console.log(contractId, mfo);
+    // console.log(contractId, mfo);
 
     return this.http
       .get(
@@ -117,8 +117,8 @@ export class LawsuitService {
   }
 
   getCurrentStep(id: number) {
-    console.log('this.steps', this.steps);
-    console.log('id', id);
+    // console.log('this.steps', this.steps);
+    // console.log('id', id);
 
     this.fromStepId = id;
     this.currentStep = this.steps.find((step: any) => step.stepid === +id);
@@ -127,8 +127,8 @@ export class LawsuitService {
 
     this.stepName = this.currentStep?.lang?.ru;
 
-    console.log(this.stepName);
-    console.log(this.stepIndex);
+    // console.log(this.stepName);
+    // console.log(this.stepIndex);
 
     this.router.navigate([], {
       queryParams: {
