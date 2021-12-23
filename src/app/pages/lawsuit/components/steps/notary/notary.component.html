@@ -4,13 +4,13 @@
       <app-select-action></app-select-action>
 
       <app-making-response-notary
-        [actionId]="13"
-        *ngIf="this.lawsuitService.actionIds.includes(13)"
+        [action]="this.lawsuitService.isActionForm(13)"
+        *ngIf="this.lawsuitService.isActionForm(13)"
       ></app-making-response-notary>
 
       <app-sending-application-notary
-        [actionId]="12"
-        *ngIf="this.lawsuitService.actionIds.includes(12)"
+        [action]="this.lawsuitService.isActionForm(12)"
+        *ngIf="this.lawsuitService.isActionForm(12)"
       ></app-sending-application-notary>
 
       <app-next-step></app-next-step>

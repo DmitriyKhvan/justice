@@ -30,8 +30,8 @@ export class AuthGuard extends KeycloakAuthGuard {
       }
 
       const requiredRoles: string[] = route.data.roles;
-      console.log('requiredRoles', requiredRoles);
-      console.log('this.roles', this.roles);
+      // console.log('requiredRoles', requiredRoles);
+      // console.log('this.roles', this.roles);
 
       if (!requiredRoles || requiredRoles.length === 0) {
         permission = true;

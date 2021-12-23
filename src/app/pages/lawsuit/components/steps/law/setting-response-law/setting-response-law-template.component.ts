@@ -11,46 +11,55 @@ import { Component, Input, OnInit } from '@angular/core';
         </div>
       </div>
 
-      <div class="row justify-content-between">
-        <div class="col-6">№ дела</div>
-        <div class="col-6">{{ actionData.data.docNumber }}</div>
-      </div>
+      <ng-container *ngIf="actionData.data.decision === 1">
+        <div class="row justify-content-between">
+          <div class="col-6">№ дела</div>
+          <div class="col-6">{{ actionData.data.docNumber }}</div>
+        </div>
+
+        <div
+          *ngFor="let date of actionData.data.lawDatetime"
+          class="row justify-content-between"
+        >
+          <div class="col-6">Дата и время проведения суда</div>
+          <div class="col-6">{{ date }}</div>
+        </div>
+      </ng-container>
 
       <div
-        *ngFor="let date of actionData.data.lawDatetime"
+        *ngIf="actionData.data.decision === 2"
         class="row justify-content-between"
       >
-        <div class="col-6">Дата и время проведения суда</div>
-        <div class="col-6">{{ date }}</div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">Проведение суда</div>
+        <div class="col-6">Действие</div>
         <div class="col-6">
           {{ getValue('actionDic', actionData.data.action) }}
         </div>
       </div>
 
-      <div class="row justify-content-between">
-        <div class="col-6">Отложить до</div>
-        <div class="col-6">{{ actionData.data.suspendDate }}</div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
-        <div class="col-6">{{ actionData.data.addInfo }}</div>
-      </div>
+      <ng-container *ngIf="actionData.data.action === 1">
+        <div class="row justify-content-between">
+          <div class="col-6">Отложить до</div>
+          <div class="col-6">{{ actionData.data.suspendDate }}</div>
+        </div>
+      </ng-container>
 
       <div class="row justify-content-between">
         <div class="col-6">Прикрепленные файлы</div>
         <div class="col-6">
-          <div class="fileList" *ngFor="let file of actionData.data.files">
-            <i class="icon-attach mr-1"></i>
-            <div class="file-field__list_text ml-1">
-              {{ file.name }}
-            </div>
-          </div>
+          <app-file-uploader [formData]="actionData"></app-file-uploader>
         </div>
+      </div>
+
+      <div
+        *ngIf="
+          actionData.data.action === 1 ||
+          actionData.data.action === 2 ||
+          actionData.data.action === 3
+        "
+        class="row justify-content-between"
+      >
+        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
     </div>
   `,

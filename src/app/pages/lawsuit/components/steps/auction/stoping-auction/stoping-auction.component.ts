@@ -78,7 +78,7 @@ export class StopingAuctionComponent implements OnInit {
       ],
     };
 
-    this.lawsuitService.apiFetch(data, 'auction/add').subscribe(
+    this.lawsuitService.apiFetch(data, 'auction/add', null).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

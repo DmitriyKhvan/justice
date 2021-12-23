@@ -19,12 +19,7 @@ import { Component, Input, OnInit } from '@angular/core';
       <div class="row justify-content-between">
         <div class="col-6">Прикрепленные файлы</div>
         <div class="col-6">
-          <div class="fileList" *ngFor="let file of actionData.data.files">
-            <i class="icon-attach mr-1"></i>
-            <div class="file-field__list_text ml-1">
-              {{ file.name }}
-            </div>
-          </div>
+          <app-file-uploader [formData]="actionData"></app-file-uploader>
         </div>
       </div>
     </div>

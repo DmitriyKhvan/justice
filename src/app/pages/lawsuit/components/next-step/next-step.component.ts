@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-next-step',
@@ -22,7 +23,8 @@ export class NextStepComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    public lawsuitService: LawsuitService
+    public lawsuitService: LawsuitService,
+    public popUpWatchFormService: PopUpInfoService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,10 @@ export class NextStepComponent implements OnInit {
     }
   }
 
+  popUpTemplateForm(action: any) {
+    this.popUpWatchFormService.popUpFormTemplate(true, action);
+  }
+
   submit() {
     if (this.form.invalid) {
       return;
@@ -65,7 +71,7 @@ export class NextStepComponent implements OnInit {
 
     console.log('data', data);
 
-    this.lawsuitService.apiFetch(data, 'process/nextStep').subscribe(
+    this.lawsuitService.apiFetch(data, 'process/nextStep', null).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

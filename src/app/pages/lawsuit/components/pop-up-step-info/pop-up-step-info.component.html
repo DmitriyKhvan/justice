@@ -1,6 +1,6 @@
 <div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
   <div
-    class="alert"
+    class="alert decisionInfo"
     [@wrapAlert]="wrapAlertState"
     (click)="$event.stopPropagation()"
   >
@@ -9,15 +9,15 @@
     <!-- <pre>
       {{ stepInfo | json }}
     </pre> -->
-
+    <h4 class="title">Главный юрист</h4>
     <div class="row justify-content-between mb-2">
-      <div class="col-4">
-        <div class="label-info">Дата отправления</div>
+      <div *ngIf="stepInfo?.status !== 2" class="col-6">
+        <div class="label-info">Дата принятия решения</div>
         <div class="value-info">
-          {{ stepInfo.createdAt | date: "dd.MM.yyyy" }}
+          {{ stepInfo?.updatedAt | date: "dd.MM.yyyy HH:mm" }}
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-6">
         <div class="label-info">Решение Г.Ю.</div>
         <div *ngIf="stepInfo.status === 1" class="value-info rejected">
           Отказано
@@ -29,12 +29,37 @@
           Одобрено
         </div>
       </div>
-      <div class="col-5">
-        <div class="label-info">Выбранный шаг</div>
-        <div class="value-info">{{ stepInfo.toStep.lang.ru }}</div>
+    </div>
+
+    <div *ngIf="stepInfo.status !== 2" class="row justify-content-between mb-2">
+      <div class="col-12">
+        <div class="label-info">Комментарий</div>
+        <div class="value-info">
+          {{
+            stepInfo.headLawyerInfo
+              ? stepInfo?.headLawyerInfo
+              : "Нет комментарий"
+          }}
+        </div>
       </div>
     </div>
 
+    <hr class="separater" />
+
+    <h4 class="title">Юрист</h4>
+    <div class="row justify-content-between mb-2">
+      <div class="col-6">
+        <div class="label-info">Дата отправки</div>
+        <div class="value-info">
+          {{ stepInfo.createdAt | date: "dd.MM.yyyy HH:mm" }}
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="label-info">Выбранный шаг</div>
+        <div class="value-info">{{ stepInfo?.toStep?.lang?.ru }}</div>
+      </div>
+    </div>
     <div class="row justify-content-between mb-2">
       <div class="col-12">
         <div class="label-info">Выбранное действие</div>

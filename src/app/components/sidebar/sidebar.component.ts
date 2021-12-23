@@ -1,75 +1,149 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MainService } from '../../services/main.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {delay} from 'rxjs/operators';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
+  debounce,
+  debounceTime,
+  delay,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
+import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
   selector: 'app-sidebar',
   template: `
-    <div class="sidebar-wrapper" *ngIf="mainService.sidebar || mainService.sidebarDetail">
-      <div class="sidebar" [@showSidebar]="sidebar">
-        <i class="uil-times-circle sidebar-close" (click)="mainService.sidebar = false"></i>
+    <!-- *ngIf="mainService.sidebar || mainService.sidebarDetail" -->
+    <div class="sidebar-wrapper">
+      <div class="sidebar" #sidebar [@showSidebar]="sidebar">
+        <i
+          class="uil-times-circle sidebar-close"
+          (click)="mainService.sidebar = false"
+        ></i>
         <div class="notifications">
-          <div class="notifications-item" (click)="showSidebarDetail()">
+          <h4 class="notificationTitle">Уведомления</h4>
+          <div class="searchBlock">
+            <i class="icon-search"></i>
+            <input type="text" #search placeholder="Поиск по № дела" />
+          </div>
+
+          <ng-container *ngIf="notifications.length; else noNotifications">
             <div class="notifications-title">
-              <i class="fas fa-circle"></i>
-              Процесс по делу №132100
+              <div class="notifications-number">
+                <span class="notifications-number__title">№ Дела</span>
+              </div>
+              <div class="notifications-name"></div>
+              <div class="notifications-date"><span>Дата</span></div>
             </div>
-            <div class="notifications-status">есть обновления</div>
-          </div>
-          <div class="notifications-item">
-            <div class="notifications-title">
-              <i class="fas fa-circle"></i>
-              Процесс по делу №132100
-            </div>
-            <div class="notifications-status">есть обновления</div>
-          </div>
-          <div class="notifications-item">
-            <div class="notifications-title">
-              <i class="fas fa-circle"></i>
-              Процесс по делу №132100
-            </div>
-            <div class="notifications-status">есть обновления</div>
-          </div>
-        </div>
-      </div>
-      <div class="sidebar" [@showSidebar]="sidebarDetail">
-        <i class="uil-times-circle sidebar-close" (click)="mainService.sidebar = false; mainService.sidebarDetail = false"></i>
-        <div class="sidebar-header">
-          <div class="sidebar-title">
-            <i class="icon-back mr-1" (click)="mainService.sidebarDetail = false"></i>
-            <span>
-              Процесс по делу
-              <span class="fw-bold">№132100</span>
-            </span>
-          </div>
-          <div
-            class="sidebar-header__link row align-items-center ml-4 mr-1 py-1"
-          >
-            <i class="icon-clock mr-1"></i>
-            История дела
-          </div>
-        </div>
-        <div class="sidebar-content">
-          <div class="sidebar-item ml-4 mr-1 py-1">
-            <div class="sidebar-item_header">
-              <i class="icon-clock mr-1"></i>
-              24 февраля 2020, 10:25
-            </div>
-            <div class="sidebar-item_content">
-              Сформирована заявка в палату
-              <div class="row">
-                <div class="col-8">
-                  <div
-                    class="btn btn-outlined-primary mt-1 text-uppercase fw-bold"
+
+            <div
+              *ngFor="let notification of notifications"
+              class="notifications-item"
+              (click)="showSidebarDetail(notification)"
+            >
+              <div class="notifications-number">
+                <i class="marker"></i>
+                <span>#{{ notification.data.uniqueId }}</span>
+              </div>
+
+              <div
+                *ngIf="notification.type === 'action'"
+                class="notifications-name"
+              >
+                <p>
+                  Действие "{{ notification.data.action.lang.ru }}"
+                  <span
+                    *ngIf="notification.data.actionStatus === 1"
+                    class="rejected"
+                    >отказано</span
                   >
-                    рассмотреть заявку
-                  </div>
-                </div>
+                  <span
+                    *ngIf="notification.data.actionStatus === 3"
+                    class="approved"
+                    >одобрено</span
+                  >
+                </p>
+              </div>
+
+              <div
+                *ngIf="notification.type === 'step'"
+                class="notifications-name"
+              >
+                <p>
+                  Переход на шаг "{{ notification.data.toStep.lang.ru }}"
+                  <span *ngIf="notification.data.status === 1" class="rejected"
+                    >отказано</span
+                  >
+                  <span *ngIf="notification.data.status === 3" class="approved"
+                    >одобрено</span
+                  >
+                </p>
+              </div>
+              <div class="notifications-date">
+                {{ notification.updatedAt | date: 'dd.MM.yyyy HH:mm' }}
               </div>
             </div>
+            <app-loader *ngIf="loader"></app-loader>
+          </ng-container>
+
+          <ng-template #noNotifications>
+            <app-loader *ngIf="loader; else message"></app-loader>
+            <!-- <app-loader></app-loader> -->
+
+            <ng-template #message>
+              <h4 class="notificationTitle add">Уведомления не найдены</h4>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="sidebar" [@showSidebar]="sidebarDetail">
+        <i
+          class="uil-times-circle sidebar-close"
+          (click)="
+            mainService.sidebar = false; mainService.sidebarDetail = false
+          "
+        ></i>
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <i
+              class="icon-back mr-1"
+              (click)="mainService.sidebarDetail = false"
+            ></i>
+            <span>
+              Процесс по делу
+              <span class="fw-bold">№{{ notification?.data?.uniqueId }}</span>
+            </span>
           </div>
         </div>
+
+        <app-notification-action
+          *ngIf="notification?.type === 'action'"
+          [notification]="notification"
+        ></app-notification-action>
+
+        <app-notification-step
+          *ngIf="notification?.type === 'step'"
+          [notification]="notification"
+        ></app-notification-step>
       </div>
     </div>
   `,
@@ -85,7 +159,7 @@ import {delay} from 'rxjs/operators';
       state(
         'hide',
         style({
-          transform: 'translateX(478px)',
+          transform: 'translateX(635px)',
         })
       ),
       transition('show => hide', animate('300ms ease-out')),
@@ -93,19 +167,139 @@ import {delay} from 'rxjs/operators';
     ]),
   ],
 })
-export class SidebarComponent implements OnInit {
-  constructor(public mainService: MainService) {}
+export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
+  // private inputRef!: ElementRef;
+  // private sidebarRef!: ElementRef;
+  // @ViewChild('search', { static: false }) set content(content: ElementRef) {
+  //   if (content) {
+  //     console.log(1111);
+  //     this.inputRef = content;
+  //   }
+  // }
 
-  ngOnInit(): void {}
+  // @ViewChild('sidebar', { static: false }) set content2(content2: ElementRef) {
+  //   if (content2) {
+  //     this.sidebarRef = content2;
+  //   }
+  // }
+
+  @ViewChild('search', { static: false }) inputRef!: ElementRef;
+
+  @ViewChild('sidebar', { static: false }) sidebarRef!: ElementRef;
+
+  pushSub!: Subscription;
+  searchSub!: Subscription;
+  scrollSub!: Subscription;
+  notifications: any[] = [];
+  notification!: any;
+  page: number = 1;
+  loader: boolean = true;
+  timerId!: any;
+
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    public mainService: MainService,
+    public lawsuitService: LawsuitService
+  ) {}
+
+  ngOnInit(): void {
+    this.selectNotifications();
+    this.timerId = setInterval(() => {
+      this.selectNotifications();
+    }, 20000);
+  }
+
+  selectNotifications() {
+    this.pushSub = this.lawsuitService
+      .pushNotifications({})
+      .subscribe((notifications) => {
+        this.loader = false;
+
+        this.notifications = [...notifications, ...this.notifications];
+        this.notifications = this.notifications.filter(
+          (v, i, a) =>
+            a.findIndex((t) => JSON.stringify(t) === JSON.stringify(v)) === i
+        );
+
+        console.log('newNotifications', this.notifications);
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.searchSub = fromEvent(this.inputRef.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(700),
+        map((event: any) => event.target.value.toLowerCase()),
+        distinctUntilChanged(),
+        switchMap((value) => {
+          this.loader = true;
+          return this.lawsuitService.pushNotifications({ value: value });
+        })
+      )
+      .subscribe((notifications) => {
+        this.loader = false;
+        this.notifications = notifications;
+      });
+
+    this.scrollSub = fromEvent(this.sidebarRef.nativeElement, 'scroll')
+      .pipe(
+        debounceTime(700),
+        map((event: any) => event.target),
+        tap(() => console.log(12345)),
+        filter((event: any) => {
+          console.log('event.scrollHeight', event.scrollHeight);
+          console.log('event.clientHeight', event.clientHeight);
+          console.log('event.scrollTop', event.scrollTop);
+
+          return event.scrollHeight === event.clientHeight + event.scrollTop;
+        }),
+        switchMap(() => {
+          this.loader = true;
+          this.page++;
+          return this.lawsuitService.pushNotifications({
+            page: this.page,
+            count: 20,
+          });
+        })
+      )
+      .subscribe((notifications) => {
+        this.loader = false;
+        if (notifications.length) {
+          this.notifications = [...this.notifications, ...notifications];
+        }
+        //  else {
+        //   this.scrollSub.unsubscribe();
+        // }
+      });
+  }
 
   get sidebar(): any {
-    return this.mainService.sidebar ? 'show' : 'hide';
+    return 'show';
+    // return this.mainService.sidebar ? 'show' : 'hide';
   }
   get sidebarDetail(): any {
     return this.mainService.sidebarDetail ? 'show' : 'hide';
   }
 
-  showSidebarDetail(): void {
+  showSidebarDetail(notification: any): void {
     this.mainService.sidebarDetail = true;
+
+    this.notification = notification;
+  }
+
+  ngOnDestroy(): void {
+    if (this.pushSub) {
+      this.pushSub.unsubscribe();
+    }
+
+    if (this.searchSub) {
+      this.searchSub.unsubscribe();
+    }
+
+    if (this.scrollSub) {
+      this.scrollSub.unsubscribe();
+    }
+
+    clearInterval(this.timerId);
   }
 }

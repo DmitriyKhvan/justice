@@ -1,4 +1,5 @@
 <div *ngIf="actions.length; else loader">
+  <!-- <pre>{{ actions | json }}</pre> -->
   <form
     *ngIf="actions.length > 1; else btnAction"
     class="page-form"
@@ -14,8 +15,8 @@
             class="custom-select"
             appearance="outline"
             [items]="actions"
-            bindLabel="lang.ru"
-            bindValue="id"
+            bindLabel="actionNameLang.ru"
+            bindValue=""
             placeholder="Действие"
             #agreeSelect
             labelForId="yesno"
@@ -48,11 +49,12 @@
 
   <ng-template #btnAction>
     <button
-      *ngIf="!lawsuitService.actionIds.length"
+      *ngIf="!lawsuitService.actions.length"
       class="page-form__actionbtn text-uppercase add"
-      (click)="this.lawsuitService.actionIds.push(actionId)"
+      (click)="lawsuitService.actions.push(actions[0])"
     >
-      {{ actionName }}
+      <!-- {{ actionName }} -->
+      {{ actions[0].actionNameLang.ru }}
     </button>
   </ng-template>
 </div>

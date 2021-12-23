@@ -13,7 +13,8 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 })
 export class SendingApplicationComponent implements OnInit {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -33,6 +34,10 @@ export class SendingApplicationComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+
+    const formTemplate = this.formTemplate
+      ? { value: null, disabled: true }
+      : null;
 
     if (this.formData) {
       let d: Date = new Date(
@@ -61,14 +66,14 @@ export class SendingApplicationComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        numberDoc: new FormControl(null, Validators.required),
-        dateDoc: new FormControl(null, Validators.required),
-        additionalInfo: new FormControl(null, Validators.required),
+        numberDoc: new FormControl(formTemplate, Validators.required),
+        dateDoc: new FormControl(formTemplate, Validators.required),
+        additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -83,7 +88,7 @@ export class SendingApplicationComponent implements OnInit {
       files: this.fileUploadService.transformFilesData(),
     };
 
-    this.lawsuitService.apiFetch(data, 'tpp/add/request').subscribe(
+    this.lawsuitService.apiFetch(data, 'tpp/add/request', actionId).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

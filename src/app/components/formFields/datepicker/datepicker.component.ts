@@ -8,7 +8,10 @@ declare var $: any;
     <div class="input-field" [formGroup]="form">
       <div class="input-field__title">{{ title }}</div>
 
-      <label class="input-field__label">
+      <label
+        class="input-field__label"
+        [class]="formTemplate ? 'readonly' : ''"
+      >
         <!--        <input type="text" class="datepicker-here" readonly />-->
         <input
           class="input-box"
@@ -51,6 +54,7 @@ declare var $: any;
 export class DatepickerComponent implements OnInit {
   @Input() title: any;
   @Input() form: any;
+  @Input() formTemplate: any = null;
   @Input() controlName: any;
 
   @Output() onselect: EventEmitter<any> = new EventEmitter<any>();

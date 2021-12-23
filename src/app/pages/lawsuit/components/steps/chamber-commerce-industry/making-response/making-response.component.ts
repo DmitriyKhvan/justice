@@ -13,7 +13,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class MakingResponseComponent implements OnInit {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -33,6 +34,10 @@ export class MakingResponseComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+
+    const formTemplate = this.formTemplate
+      ? { value: null, disabled: true }
+      : null;
 
     if (this.formData) {
       let d: Date = new Date(
@@ -61,14 +66,14 @@ export class MakingResponseComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        numberDoc: new FormControl(null, Validators.required),
-        dateDoc: new FormControl(null, Validators.required),
-        additionalInfo: new FormControl(null, Validators.required),
+        numberDoc: new FormControl(formTemplate, Validators.required),
+        dateDoc: new FormControl(formTemplate, Validators.required),
+        additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -86,7 +91,7 @@ export class MakingResponseComponent implements OnInit {
       reqId,
     };
 
-    this.lawsuitService.apiFetch(data, 'tpp/add/response').subscribe(
+    this.lawsuitService.apiFetch(data, 'tpp/add/response', actionId).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

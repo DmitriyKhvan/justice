@@ -1,14 +1,17 @@
 <div class="lawsuitTitleWrap">
-  <h2 class="lawsuitTitle">Получение и внесение ответа от суда</h2>
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
   <button
+    *ngIf="!formData && !formTemplate"
     class="remove_action_form__btn"
-    (click)="this.lawsuitService.removeActionForm(actionId)"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
   >
     <i class="uil-times"></i>
   </button>
 </div>
 
-<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between mb-2">
     <div class="col-6">
       <div class="select-field">
@@ -42,13 +45,13 @@
         *ngIf="this.form.get('conductLaw')?.value === 2"
         class="select-field"
       >
-        <div class="select-field__title">Проведение суда</div>
+        <div class="select-field__title">Действие</div>
         <ng-select
           appearance="outline"
           [items]="actionDic"
           bindLabel="label"
           bindValue="id"
-          placeholder="Проведение суда"
+          placeholder="Действие"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -73,7 +76,10 @@
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">№ дела</div>
-        <label class="input-field__label">
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
           <input type="text" autocomplete="off" formControlName="caseNumber" />
         </label>
 
@@ -139,6 +145,7 @@
       <app-datepicker
         title="Отложить до"
         [form]="form"
+        [formTemplate]="formTemplate"
         controlName="deferTo"
       ></app-datepicker>
     </div>
@@ -154,7 +161,10 @@
         <div class="input-field">
           <div class="input-field__title">Дата и время проведения суда</div>
 
-          <label class="input-field__label">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <input
               class="input-box"
               angular-mydatepicker
@@ -196,6 +206,7 @@
           *ngIf="idx === 0 && !formData"
           class="btn btn-dashed add"
           (click)="addDateLaw()"
+          [disabled]="formTemplate"
         >
           Добавить дату
         </button>
@@ -207,10 +218,14 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div
+    *ngIf="this.form.get('conductLaw')?.value"
+    class="row justify-content-between mb-2"
+  >
     <div class="col-12">
       <app-file-uploader
         [formData]="formData"
+        [formTemplate]="formTemplate"
         title="Прикрепить файл"
       ></app-file-uploader>
     </div>
@@ -227,7 +242,10 @@
     <div class="col-12">
       <div class="text-field">
         <div class="text-field__title">Дополнительная информация</div>
-        <label class="text-field__label">
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
           <textarea
             placeholder="Уточните детали"
             formControlName="additionalInfo"
@@ -250,7 +268,7 @@
   </div>
 
   <button
-    *ngIf="!formData"
+    *ngIf="!formData && !formTemplate"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

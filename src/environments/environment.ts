@@ -11,7 +11,8 @@ export const environment: Environment = {
   // dbUrl: 'http://10.1.1.226:3000',
   fileBaseUrl: 'http://10.1.1.20:9002',
   // authUrl: `http://auth.flexit.uz`,
-  authUrl: `http://10.1.1.146:8000/auth`,
+  // authUrl: `http://10.1.1.146:8000/auth`,
+  authUrl: `http://auth.flexit.uz/auth`,
 };
 
 /*

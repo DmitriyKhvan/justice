@@ -13,7 +13,8 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 })
 export class CaseTransferComponent implements OnInit {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -38,6 +39,10 @@ export class CaseTransferComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+
+    const formTemplateNull = this.formTemplate
+      ? { value: null, disabled: true }
+      : null;
 
     if (this.formData) {
       let d: Date = new Date(
@@ -71,15 +76,15 @@ export class CaseTransferComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        typeApplication: new FormControl(null, Validators.required),
-        numberDoc: new FormControl(null, Validators.required),
-        dateDoc: new FormControl(null, Validators.required),
-        additionalInfo: new FormControl(null, Validators.required),
+        typeApplication: new FormControl(formTemplateNull, Validators.required),
+        numberDoc: new FormControl(formTemplateNull, Validators.required),
+        dateDoc: new FormControl(formTemplateNull, Validators.required),
+        additionalInfo: new FormControl(formTemplateNull, Validators.required),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -95,7 +100,7 @@ export class CaseTransferComponent implements OnInit {
       files: this.fileUploadService.transformFilesData(),
     };
 
-    this.lawsuitService.apiFetch(data, 'mib/add/send').subscribe(
+    this.lawsuitService.apiFetch(data, 'mib/add/send', actionId).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

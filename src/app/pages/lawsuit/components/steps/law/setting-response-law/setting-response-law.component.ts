@@ -20,7 +20,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class SettingResponseLawComponent implements OnInit, OnDestroy {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
   conductLawDic = [
@@ -53,6 +54,8 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+
+    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
 
     if (this.formData) {
       let d2: Date = new Date(
@@ -110,13 +113,15 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     } else {
       this.form = new FormGroup({
         conductLaw: new FormControl(null, Validators.required),
-        caseNumber: new FormControl(''),
-        datesLaw: new FormArray([new FormControl('', Validators.required)]),
+        caseNumber: new FormControl(formTemplate),
+        datesLaw: new FormArray([
+          new FormControl(formTemplate, Validators.required),
+        ]),
 
         action: new FormControl(null),
-        deferTo: new FormControl(''),
+        deferTo: new FormControl(formTemplate),
 
-        additionalInfo: new FormControl(null),
+        additionalInfo: new FormControl(formTemplate),
       });
     }
 
@@ -231,7 +236,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     this.datesLaw.removeAt(idx);
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -258,7 +263,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       preId,
     };
 
-    this.lawsuitService.apiFetch(data, 'law/add/answer').subscribe(
+    this.lawsuitService.apiFetch(data, 'law/add/answer', actionId).subscribe(
       (actions) => {
         this.submitted = false;
         this.alert.success('Форма оформлена');

@@ -143,6 +143,9 @@ import { SendingApplicationNotaryTemplateComponent } from './pages/lawsuit/compo
 import { SendingApplicationTemplateComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/sending-application/sending-application-template.component';
 import { MakingResponseTemplateComponent } from './pages/lawsuit/components/steps/chamber-commerce-industry/making-response/making-response-template.component';
 import { DeclensionOfWordsPipe } from './pipes/declension-of-words.pipe';
+import { PopUpTemplateFormComponent } from './pages/lawsuit/components/pop-up-template-form/pop-up-template-form.component';
+import { NotificationStep } from './components/sidebar/components/notification-step';
+import { NotificationAction } from './components/sidebar/components/notification-action';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -267,6 +270,9 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SendingApplicationTemplateComponent,
     MakingResponseTemplateComponent,
     DeclensionOfWordsPipe,
+    PopUpTemplateFormComponent,
+    NotificationStep,
+    NotificationAction,
   ],
   imports: [
     TooltipModule,

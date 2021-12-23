@@ -1,0 +1,82 @@
+<div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
+  <div
+    class="alert decisionInfo"
+    [@wrapAlert]="wrapAlertState"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close"><i class="uil-times" (click)="close()"></i></button>
+
+    <!-- <pre>
+      {{ formData | json }}
+    </pre> -->
+
+    <h2 class="formTemplateTitle">Предварительный просмотр формы</h2>
+
+    <div class="formTemplate">
+      <app-notification-form
+        *ngIf="formTemplate.id === 1"
+        [formTemplate]="formTemplate"
+      ></app-notification-form>
+
+      <app-sending-application
+        *ngIf="formTemplate.id === 2"
+        [formTemplate]="formTemplate"
+      ></app-sending-application>
+      <app-making-response
+        *ngIf="formTemplate.id === 3"
+        [formTemplate]="formTemplate"
+      ></app-making-response>
+
+      <app-sending-case-law
+        *ngIf="formTemplate.id === 4"
+        [formTemplate]="formTemplate"
+      ></app-sending-case-law>
+
+      <app-setting-response-law
+        *ngIf="formTemplate.id === 5"
+        [formTemplate]="formTemplate"
+      ></app-setting-response-law>
+
+      <app-first-instance-decision
+        *ngIf="formTemplate.id === 6"
+        [formTemplate]="formTemplate"
+      ></app-first-instance-decision>
+
+      <app-referral-for-appeal
+        *ngIf="formTemplate.id === 7"
+        [formTemplate]="formTemplate"
+      ></app-referral-for-appeal>
+
+      <app-appeal-law-response
+        *ngIf="formTemplate.id === 8"
+        [formTemplate]="formTemplate"
+      ></app-appeal-law-response>
+
+      <app-referral-case-to-cassation
+        *ngIf="formTemplate.id === 9"
+        [formTemplate]="formTemplate"
+      >
+      </app-referral-case-to-cassation>
+
+      <app-response-law-of-cassation
+        *ngIf="formTemplate.id === 10"
+        [formTemplate]="formTemplate"
+      ></app-response-law-of-cassation>
+
+      <app-case-transfer
+        *ngIf="formTemplate.id === 11"
+        [formTemplate]="formTemplate"
+      ></app-case-transfer>
+
+      <app-sending-application-notary
+        *ngIf="formTemplate.id === 12"
+        [formTemplate]="formTemplate"
+      ></app-sending-application-notary>
+
+      <app-making-response-notary
+        *ngIf="formTemplate.id === 13"
+        [formTemplate]="formTemplate"
+      ></app-making-response-notary>
+    </div>
+  </div>
+</div>

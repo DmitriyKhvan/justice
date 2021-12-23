@@ -1,6 +1,6 @@
 <div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
   <div
-    class="alert"
+    class="alert decisionInfo"
     [@wrapAlert]="wrapAlertState"
     (click)="$event.stopPropagation()"
   >
@@ -10,14 +10,17 @@
       {{ formData | json }}
     </pre> -->
 
+    <h2 class="lawsuitTitle add">{{ formData.actionNameLang.ru }}</h2>
+
+    <h4 class="title">Главный юрист</h4>
     <div class="row justify-content-between mb-2">
-      <div class="col-4">
-        <div class="label-info">Дата отправления</div>
+      <div *ngIf="formData.actionStatus !== 2" class="col-6">
+        <div class="label-info">Дата принятия решения</div>
         <div class="value-info">
-          {{ formData.data.createdAt | date: "dd.MM.yyyy" }}
+          {{ formData.data.updatedAt | date: "dd.MM.yyyy HH:mm" }}
         </div>
       </div>
-      <div class="col-8">
+      <div class="col-6">
         <div class="label-info">Решение Г.Ю.</div>
         <div *ngIf="formData.actionStatus === 1" class="value-info rejected">
           Отказано
@@ -31,7 +34,34 @@
       </div>
     </div>
 
-    <app-notification-form
+    <div
+      *ngIf="formData.actionStatus !== 2"
+      class="row justify-content-between mb-2"
+    >
+      <div class="col-12">
+        <div class="label-info">Комментарий</div>
+        <div class="value-info">
+          {{
+            formData.headLawyerInfo
+              ? formData.headLawyerInfo
+              : "Нет комментарий"
+          }}
+        </div>
+      </div>
+    </div>
+
+    <hr class="separater" />
+
+    <h4 class="title">Юрист</h4>
+    <div class="row justify-content-between mb-2">
+      <div class="col-4">
+        <div class="label-info">Дата отправки</div>
+        <div class="value-info">
+          {{ formData.data.createdAt | date: "dd.MM.yyyy HH:mm" }}
+        </div>
+      </div>
+    </div>
+    <!-- <app-notification-form
       *ngIf="formData.actionId === 1"
       [formData]="formData"
     ></app-notification-form>
@@ -94,6 +124,71 @@
     <app-making-response-notary
       *ngIf="formData.actionId === 13"
       [formData]="formData"
-    ></app-making-response-notary>
+    ></app-making-response-notary> -->
+
+    <app-notification-form-template
+      *ngIf="formData.actionId === 1"
+      [actionData]="formData"
+    ></app-notification-form-template>
+
+    <app-sending-application-template
+      *ngIf="formData.actionId === 2"
+      [actionData]="formData"
+    ></app-sending-application-template>
+
+    <app-making-response-template
+      *ngIf="formData.actionId === 3"
+      [actionData]="formData"
+    ></app-making-response-template>
+
+    <app-sending-case-law-template
+      *ngIf="formData.actionId === 4"
+      [actionData]="formData"
+    ></app-sending-case-law-template>
+
+    <app-setting-response-law-template
+      *ngIf="formData.actionId === 5"
+      [actionData]="formData"
+    ></app-setting-response-law-template>
+
+    <app-first-instance-decision-template
+      *ngIf="formData.actionId === 6"
+      [actionData]="formData"
+    ></app-first-instance-decision-template>
+
+    <app-referral-for-appeal-template
+      *ngIf="formData.actionId === 7"
+      [actionData]="formData"
+    ></app-referral-for-appeal-template>
+
+    <app-appeal-law-response-template
+      *ngIf="formData.actionId === 8"
+      [actionData]="formData"
+    ></app-appeal-law-response-template>
+
+    <app-referral-case-to-cassation-template
+      *ngIf="formData.actionId === 9"
+      [actionData]="formData"
+    ></app-referral-case-to-cassation-template>
+
+    <app-response-law-of-cassation-template
+      *ngIf="formData.actionId === 10"
+      [actionData]="formData"
+    ></app-response-law-of-cassation-template>
+
+    <app-case-transfer-template
+      *ngIf="formData.actionId === 11"
+      [actionData]="formData"
+    ></app-case-transfer-template>
+
+    <app-sending-application-notary-template
+      *ngIf="formData.actionId === 12"
+      [actionData]="formData"
+    ></app-sending-application-notary-template>
+
+    <app-making-response-notary-template
+      *ngIf="formData.actionId === 13"
+      [actionData]="formData"
+    ></app-making-response-notary-template>
   </div>
 </div>

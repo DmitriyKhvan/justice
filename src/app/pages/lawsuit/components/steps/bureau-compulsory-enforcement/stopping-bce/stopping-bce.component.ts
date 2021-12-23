@@ -11,7 +11,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./stopping-bce.component.scss'],
 })
 export class StoppingBCEComponent implements OnInit {
-  @Input() actionId!: number;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -49,7 +49,7 @@ export class StoppingBCEComponent implements OnInit {
     });
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -67,7 +67,7 @@ export class StoppingBCEComponent implements OnInit {
       stopReason: this.form.value.stopReason,
     };
 
-    this.lawsuitService.apiFetch(data, 'mib/add/stop').subscribe(
+    this.lawsuitService.apiFetch(data, 'mib/add/stop', actionId).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

@@ -4,39 +4,39 @@
       <app-select-action></app-select-action>
 
       <app-sending-case-law
-        [actionId]="4"
-        *ngIf="this.lawsuitService.actionIds.includes(4)"
+        [action]="this.lawsuitService.isActionForm(4)"
+        *ngIf="this.lawsuitService.isActionForm(4)"
       ></app-sending-case-law>
 
       <app-setting-response-law
-        [actionId]="5"
-        *ngIf="this.lawsuitService.actionIds.includes(5)"
+        [action]="this.lawsuitService.isActionForm(5)"
+        *ngIf="this.lawsuitService.isActionForm(5)"
       ></app-setting-response-law>
 
       <app-first-instance-decision
-        [actionId]="6"
-        *ngIf="this.lawsuitService.actionIds.includes(6)"
+        [action]="this.lawsuitService.isActionForm(6)"
+        *ngIf="this.lawsuitService.isActionForm(6)"
       ></app-first-instance-decision>
 
       <app-referral-for-appeal
-        [actionId]="7"
-        *ngIf="this.lawsuitService.actionIds.includes(7)"
+        [action]="this.lawsuitService.isActionForm(7)"
+        *ngIf="this.lawsuitService.isActionForm(7)"
       ></app-referral-for-appeal>
 
       <app-appeal-law-response
-        [actionId]="8"
-        *ngIf="this.lawsuitService.actionIds.includes(8)"
+        [action]="this.lawsuitService.isActionForm(8)"
+        *ngIf="this.lawsuitService.isActionForm(8)"
       ></app-appeal-law-response>
 
       <app-referral-case-to-cassation
-        [actionId]="9"
-        *ngIf="this.lawsuitService.actionIds.includes(9)"
+        [action]="this.lawsuitService.isActionForm(9)"
+        *ngIf="this.lawsuitService.isActionForm(9)"
       >
       </app-referral-case-to-cassation>
 
       <app-response-law-of-cassation
-        [actionId]="10"
-        *ngIf="this.lawsuitService.actionIds.includes(10)"
+        [action]="this.lawsuitService.isActionForm(10)"
+        *ngIf="this.lawsuitService.isActionForm(10)"
       ></app-response-law-of-cassation>
 
       <app-next-step></app-next-step>

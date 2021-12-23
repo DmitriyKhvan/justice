@@ -23,8 +23,9 @@ export class LawsuitComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params
+    this.route.queryParams
       .pipe(
+        tap(() => console.log(999)),
         switchMap(() => {
           // this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
           //   'stepId'
@@ -46,6 +47,31 @@ export class LawsuitComponent implements OnInit, OnDestroy {
             : steps[steps.length - 1].stepid
         );
       });
+
+    // this.route.params
+    //   .pipe(
+    //     tap(() => console.log(999)),
+    //     switchMap(() => {
+    //       // this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
+    //       //   'stepId'
+    //       // ];
+    //       this.lawsuitService.mfo = this.route.snapshot.queryParams['mfo'];
+    //       this.lawsuitService.contractId = this.route.snapshot.queryParams[
+    //         'contractId'
+    //       ];
+    //       return this.lawsuitService.getStepsProcess(
+    //         this.route.snapshot.queryParams
+    //       );
+    //     })
+    //   )
+    //   .subscribe((steps) => {
+    //     this.lawsuitService.steps = steps;
+    //     this.lawsuitService.getCurrentStep(
+    //       this.route.snapshot.queryParams['stepId']
+    //         ? this.route.snapshot.queryParams['stepId']
+    //         : steps[steps.length - 1].stepid
+    //     );
+    //   });
     // this.refreshObject();
   }
 

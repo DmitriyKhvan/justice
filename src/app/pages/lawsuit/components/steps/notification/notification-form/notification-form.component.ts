@@ -13,6 +13,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class NotificationFormComponent implements OnInit {
   @Input() formData: any = null;
+  @Input() action!: any;
+  @Input() formTemplate: any = null;
   form!: FormGroup;
   submitted = false;
 
@@ -33,6 +35,7 @@ export class NotificationFormComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+    console.log('this.formTemplate', this.formTemplate);
 
     if (this.formData) {
       let d: Date = new Date(
@@ -58,14 +61,20 @@ export class NotificationFormComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        notificationDate: new FormControl(null, Validators.required),
+        notificationDate: new FormControl(
+          this.formTemplate ? { value: null, disabled: true } : null,
+          Validators.required
+        ),
 
-        additionalInfo: new FormControl(null, Validators.required),
+        additionalInfo: new FormControl(
+          this.formTemplate ? { value: null, disabled: true } : null,
+          Validators.required
+        ),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -79,7 +88,7 @@ export class NotificationFormComponent implements OnInit {
       files: this.fileUploadService.transformFilesData(),
     };
 
-    this.lawsuitService.apiFetch(data, 'notification/add').subscribe(
+    this.lawsuitService.apiFetch(data, 'notification/add', actionId).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

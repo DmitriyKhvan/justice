@@ -88,7 +88,7 @@ export class HistoryActionsComponent implements OnInit, DoCheck, OnDestroy {
       .subscribe((histories) => {
         // console.log('histories', histories);
 
-        this.lawsuitService.actionIds = [];
+        this.lawsuitService.actions = [];
 
         this.lawsuitService.historyActions = histories.actions.filter(
           (action: any) =>
@@ -99,9 +99,15 @@ export class HistoryActionsComponent implements OnInit, DoCheck, OnDestroy {
           (action: any) => action.data === null
         );
 
+        // console.log(
+        //   'this.lawsuitService.actionStart',
+        //   this.lawsuitService.actionStart
+        // );
+
         if (this.lawsuitService.actionStart) {
-          this.lawsuitService.actionIds.push(
-            this.lawsuitService.actionStart.actionId
+          this.lawsuitService.actions.push(
+            // this.lawsuitService.actionStart.actionId
+            this.lawsuitService.actionStart
           );
         }
 

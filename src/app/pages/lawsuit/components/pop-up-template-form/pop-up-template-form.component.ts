@@ -6,48 +6,17 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
-  selector: 'app-pop-up-watch-form',
-  templateUrl: './pop-up-watch-form.component.html',
-  styleUrls: ['./pop-up-watch-form.component.scss'],
+  selector: 'app-pop-up-template-form',
+  templateUrl: './pop-up-template-form.component.html',
+  styleUrls: ['./pop-up-template-form.component.scss'],
   animations: [
     trigger('wrapAlert', [transition('* => *', useAnimation(bounce))]),
   ],
 })
-export class PopUpWatchFormComponent implements OnInit {
+export class PopUpTemplateFormComponent implements OnInit {
   public isActive = false;
-  // public formData = {
-  //   processId: null,
-  //   uniqueId: null,
-  //   processMfo: '',
-  //   actionId: null,
-  //   actionNameLang: {
-  //     en: '',
-  //     ru: '',
-  //     uz: '',
-  //   },
-  //   actionConfirmation: true,
-  //   data: {
-  //     id: null,
-  //     uniqueId: null,
-  //     mfo: '',
-  //     active: true,
-  //     createdAt: '',
-  //     updatedAt: '',
-  //     lastPaymentDate: '',
-  //     text: '',
-  //     files: [
-  //       {
-  //         id: null,
-  //         name: '',
-  //       },
-  //     ],
-  //   },
-  //   actionStatus: null,
-  //   processCreatedAt: '',
-  //   processUpdatedAt: '',
-  // };
 
-  public formData!: any;
+  public formTemplate!: any;
 
   wrapAlertState = 'end';
 
@@ -59,18 +28,18 @@ export class PopUpWatchFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.popUpFormSub = this.popUpInfoService.popUpForm$.subscribe(
+    this.popUpFormSub = this.popUpInfoService.popUpFormTemplate$.subscribe(
       (popUpData: any) => {
         console.log(popUpData);
 
-        this.formData = popUpData.formData;
+        this.formTemplate = popUpData.formTemplate;
         this.isActive = popUpData.isActive;
       }
     );
   }
 
   close() {
-    this.popUpInfoService.closePopUpHistoryAction(false);
+    this.popUpInfoService.popUpFormTemplate$.next(false);
   }
 
   animationAlert() {

@@ -1,19 +1,16 @@
 <div class="lawsuit_form_content">
   <div class="row">
     <div class="col-4 page-sticky">
-      <app-select-action
-        actionName="Отправить дело в МИБ"
-        [actionId]="11"
-      ></app-select-action>
+      <app-select-action></app-select-action>
 
       <app-case-transfer
-        [actionId]="11"
-        *ngIf="this.lawsuitService.actionIds.includes(11)"
+        [action]="this.lawsuitService.isActionForm(11)"
+        *ngIf="this.lawsuitService.isActionForm(11)"
       ></app-case-transfer>
 
       <app-stopping-bce
-        [actionId]="15"
-        *ngIf="this.lawsuitService.actionIds.includes(15)"
+        [action]="this.lawsuitService.isActionForm(15)"
+        *ngIf="this.lawsuitService.isActionForm(15)"
       ></app-stopping-bce>
 
       <app-next-step></app-next-step>

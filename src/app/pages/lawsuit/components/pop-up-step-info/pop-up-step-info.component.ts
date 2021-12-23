@@ -15,32 +15,34 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 })
 export class PopUpStepInfoComponent implements OnInit, OnDestroy {
   public isActive = false;
-  public stepInfo = {
-    createdAt: '',
-    id: null,
-    mfo: '',
-    status: null,
-    toAction: {
-      id: null,
-      lang: {
-        en: '',
-        ru: '',
-        uz: '',
-      },
-      name: '',
-    },
-    toStep: {
-      id: 4,
-      lang: {
-        en: '',
-        ru: '',
-        uz: '',
-      },
-      name: '',
-    },
-    uniqueId: null,
-    updatedAt: '',
-  };
+  // public stepInfo = {
+  //   createdAt: '',
+  //   id: null,
+  //   mfo: '',
+  //   status: null,
+  //   toAction: {
+  //     id: null,
+  //     lang: {
+  //       en: '',
+  //       ru: '',
+  //       uz: '',
+  //     },
+  //     name: '',
+  //   },
+  //   toStep: {
+  //     id: 4,
+  //     lang: {
+  //       en: '',
+  //       ru: '',
+  //       uz: '',
+  //     },
+  //     name: '',
+  //   },
+  //   uniqueId: null,
+  //   updatedAt: '',
+  // };
+
+  public stepInfo!: any;
 
   wrapAlertState = 'end';
 

@@ -3,6 +3,10 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-appeal-law-response-template',
   template: `
+    <!-- <pre>
+    {{ actionData | json }}
+  </pre
+    > -->
     <div class="data-lawyer">
       <div class="row justify-content-between">
         <div class="col-6">№ дела</div>
@@ -50,7 +54,7 @@ import { Component, Input, OnInit } from '@angular/core';
             <div class="col-6">{{ actionData.data.appealOtherAmount }}</div>
           </div>
 
-          <div class="row justify-content-between">
+          <!-- <div class="row justify-content-between">
             <div class="col-6">Прикрепленные файлы</div>
             <div class="col-6">
               <div
@@ -62,6 +66,13 @@ import { Component, Input, OnInit } from '@angular/core';
                   {{ file.name }}
                 </div>
               </div>
+            </div>
+          </div> -->
+
+          <div class="row justify-content-between">
+            <div class="col-6">Прикрепленные файлы</div>
+            <div class="col-6">
+              <app-file-uploader [formData]="actionData"></app-file-uploader>
             </div>
           </div>
 

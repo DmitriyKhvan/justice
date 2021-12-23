@@ -1,15 +1,17 @@
-Ответ суда кассационной инстанции
 <div class="lawsuitTitleWrap">
-  <h2 class="lawsuitTitle">Ответ суда кассационной инстанции</h2>
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
   <button
+    *ngIf="!formData && !formTemplate"
     class="remove_action_form__btn"
-    (click)="this.lawsuitService.removeActionForm(actionId)"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
   >
     <i class="uil-times"></i>
   </button>
 </div>
 
-<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between mb-2">
     <div class="col-6">
       <div class="input-field">
@@ -24,6 +26,7 @@
       <app-datepicker
         title="Дата решения"
         [form]="form"
+        [formTemplate]="formTemplate"
         controlName="decisionDate"
       ></app-datepicker>
     </div>
@@ -44,6 +47,7 @@
       <app-datepicker
         title="Дата вступления решения в силу"
         [form]="form"
+        [formTemplate]="formTemplate"
         controlName="forceDecisionDate"
       ></app-datepicker>
     </div>
@@ -76,7 +80,10 @@
       <div class="col-6">
         <div class="input-field">
           <div class="input-field__title">Общая сумма</div>
-          <label class="input-field__label">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <input
               type="text"
               autocomplete="off"
@@ -101,7 +108,10 @@
       <div class="col-6">
         <div class="input-field">
           <div class="input-field__title">Сумма основного долга</div>
-          <label class="input-field__label">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <input
               type="text"
               autocomplete="off"
@@ -128,7 +138,10 @@
       <div class="col-6">
         <div class="input-field">
           <div class="input-field__title">Сумма неустойки</div>
-          <label class="input-field__label">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <input
               type="text"
               autocomplete="off"
@@ -155,7 +168,10 @@
           <div class="input-field__title">
             Сумма госпошлины и судебных издержек
           </div>
-          <label class="input-field__label">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <input
               type="text"
               autocomplete="off"
@@ -208,6 +224,7 @@
       <div class="col-12">
         <app-file-uploader
           [formData]="formData"
+          [formTemplate]="formTemplate"
           title="Прикрепить файл"
         ></app-file-uploader>
       </div>
@@ -217,7 +234,10 @@
       <div class="col-12">
         <div class="text-field">
           <div class="text-field__title">Дополнительная информация</div>
-          <label class="text-field__label">
+          <label
+            class="text-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <textarea
               placeholder="Уточните детали"
               formControlName="appealAddInfo"
@@ -243,14 +263,21 @@
   <div *ngIf="form.get('actionType')?.value === 3">
     <div class="row justify-content-between mb-2">
       <div class="col-12">
-        <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+        <app-file-uploader
+          [formData]="formData"
+          [formTemplate]="formTemplate"
+          title="Прикрепить файл"
+        ></app-file-uploader>
       </div>
     </div>
     <div class="row justify-content-between mb-2">
       <div class="col-12">
         <div class="text-field">
           <div class="text-field__title">Дополнительная информация</div>
-          <label class="text-field__label">
+          <label
+            class="text-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
             <textarea
               placeholder="Уточните детали"
               formControlName="additionalInfo"
@@ -274,7 +301,7 @@
   </div>
 
   <button
-    *ngIf="!formData"
+    *ngIf="!formData && !formTemplate"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

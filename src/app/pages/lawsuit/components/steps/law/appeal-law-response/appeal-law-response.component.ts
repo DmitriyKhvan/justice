@@ -13,7 +13,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class AppealLawResponseComponent implements OnInit, OnDestroy {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -61,6 +62,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
+
     if (this.formData) {
       let d1: Date = new Date(
         this.formData.data.decisionDate.split('.').reverse().join('.')
@@ -164,22 +167,22 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       const law = this.lawsuitService.getReqId(5);
       this.form = new FormGroup({
         caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
-        decisionDate: new FormControl('', Validators.required),
+        decisionDate: new FormControl(formTemplate, Validators.required),
         decisionResult: new FormControl(null, Validators.required),
-        forceDecisionDate: new FormControl(''), // Дата вступления решения в силу
+        forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
 
         appealAgainstLawDesicion: new FormControl(null), // Обжаловать решение суда
-        typeAppeal: new FormControl(null),
-        totalAmount: new FormControl(''),
-        principalAmount: new FormControl(''),
-        forfeitAmount: new FormControl(''),
-        stateDutyAmount: new FormControl(''),
-        additionalInfo: new FormControl(''),
+        typeAppeal: new FormControl(formTemplate),
+        totalAmount: new FormControl(formTemplate),
+        principalAmount: new FormControl(formTemplate),
+        forfeitAmount: new FormControl(formTemplate),
+        stateDutyAmount: new FormControl(formTemplate),
+        additionalInfo: new FormControl(formTemplate),
 
-        appealAddInfo: new FormControl(''),
+        appealAddInfo: new FormControl(formTemplate),
 
         actionType: new FormControl(null),
-        postponeUntil: new FormControl(''),
+        postponeUntil: new FormControl(formTemplate),
         lawId: new FormControl({ value: law?.id, disabled: true }),
       });
     }
@@ -387,7 +390,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.postponeUntil?.updateValueAndValidity();
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -423,16 +426,18 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       lawId: this.form.controls.lawId.value,
     };
 
-    this.lawsuitService.apiFetch(data, 'law/add/appealResponse').subscribe(
-      (actions) => {
-        this.submitted = false;
-        this.alert.success('Форма оформлена');
-      },
-      (error) => {
-        this.submitted = false;
-        this.alert.danger('Форма не оформлена');
-      }
-    );
+    this.lawsuitService
+      .apiFetch(data, 'law/add/appealResponse', actionId)
+      .subscribe(
+        (actions) => {
+          this.submitted = false;
+          this.alert.success('Форма оформлена');
+        },
+        (error) => {
+          this.submitted = false;
+          this.alert.danger('Форма не оформлена');
+        }
+      );
   }
 
   ngOnDestroy(): void {

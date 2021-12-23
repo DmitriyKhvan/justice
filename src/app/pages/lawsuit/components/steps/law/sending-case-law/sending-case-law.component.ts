@@ -13,7 +13,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class SendingCaseLawComponent implements OnInit {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -58,6 +59,12 @@ export class SendingCaseLawComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+
+    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
+
+    const formTemplateNull = this.formTemplate
+      ? { value: null, disabled: true }
+      : null;
 
     if (this.formData) {
       let d: Date = new Date(
@@ -118,23 +125,25 @@ export class SendingCaseLawComponent implements OnInit {
         }),
       });
     } else {
+      formTemplateNull;
       this.form = new FormGroup({
-        kindLaw: new FormControl(null, Validators.required),
-        typeLaw: new FormControl(null, Validators.required),
-        regionLaw: new FormControl(null, Validators.required),
-        region: new FormControl(null, Validators.required),
-        defendant: new FormControl(null, Validators.required),
-        districtLaw: new FormControl(null, Validators.required),
-        amountClaim: new FormControl({ value: '700 000', disabled: true }),
-        amountForfeit: new FormControl(null, Validators.required),
-        amountFine: new FormControl(null, Validators.required),
-        dateLaw: new FormControl(null, Validators.required),
-        additionalInfo: new FormControl(null, Validators.required),
+        kindLaw: new FormControl(formTemplateNull, Validators.required),
+        typeLaw: new FormControl(formTemplateNull, Validators.required),
+        regionLaw: new FormControl(formTemplateNull, Validators.required),
+        region: new FormControl(formTemplateNull, Validators.required),
+        defendant: new FormControl(formTemplate, Validators.required),
+        districtLaw: new FormControl(formTemplateNull, Validators.required),
+        // amountClaim: new FormControl({ value: '700 000', disabled: true }),
+        amountClaim: new FormControl(formTemplate, Validators.required),
+        amountForfeit: new FormControl(formTemplate, Validators.required),
+        amountFine: new FormControl(formTemplate, Validators.required),
+        dateLaw: new FormControl(formTemplateNull, Validators.required),
+        additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -155,7 +164,7 @@ export class SendingCaseLawComponent implements OnInit {
       active: true,
     };
 
-    this.lawsuitService.apiFetch(data, 'law/add/pre').subscribe(
+    this.lawsuitService.apiFetch(data, 'law/add/pre', actionId).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
         this.submitted = false;

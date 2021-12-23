@@ -102,12 +102,9 @@
   // padding: 24px 80px;
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
-  }
-  &::-webkit-scrollbar {
     width: 10px;
     height: 100%;
+    background: transparent;
   }
   &::-webkit-scrollbar-track {
     background-color: rgba(16, 39, 74, 0.2);
@@ -274,13 +271,11 @@
         &::placeholder {
           color: rgba(16, 39, 74, 0.6);
         }
-        &::-webkit-scrollbar {
-          width: 0;
-          background: transparent;
-        }
+
         &::-webkit-scrollbar {
           width: 10px;
           height: 100%;
+          background: transparent;
         }
         &::-webkit-scrollbar-track {
           background-color: rgba(42, 61, 116, 0.2);
@@ -308,6 +303,11 @@
     & .ng-select .ng-select-container {
       min-height: 40px;
     }
+  }
+
+  .ng-select.ng-select-disabled > .ng-select-container {
+    background-color: #e9ebef;
+    cursor: auto !important;
   }
 
   & .select-field.add {
@@ -349,6 +349,10 @@
       &.readonly {
         border: 1px solid rgba(16, 39, 74, 0.05);
         background: rgba(16, 39, 74, 0.05);
+
+        i {
+          color: rgba(16, 39, 74, 0.4);
+        }
       }
     }
   }
@@ -970,6 +974,9 @@ i.btnIcon {
 
 .lawsuitTitle {
   font-size: 20px;
+  &.add {
+    margin-bottom: 25px;
+  }
 }
 
 .lawsuitTitleWrap {
@@ -1028,13 +1035,29 @@ i.btnIcon {
 
   .alert {
     position: relative;
-    min-width: 405px;
+    // min-width: 430px;
+    min-width: 546px;
     padding: 20px;
     background-color: #fff;
     // left: 50%;
     // top: 50%;
     // transform: translate(-50%, -50%);
     border-radius: 5px;
+
+    max-height: calc(100vh - 30px);
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 100%;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: rgba(16, 39, 74, 0.2);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(16, 39, 74, 1);
+      border-radius: 5px;
+    }
 
     .alert-text {
       margin: 0;
@@ -1083,27 +1106,36 @@ i.btnIcon {
   }
 }
 
-.label-info {
-  color: #8c97a8;
-  margin-bottom: 10px;
-}
-
-.value-info {
-  color: #3c506c;
-
-  &.rejected {
-    color: #e60000;
+/* popUp step and action info Start*/
+.decisionInfo {
+  padding: 20px;
+  .title {
+    font-style: 16px;
+    font-weight: 700;
   }
-  &.pending {
-    color: #b58d00;
+
+  .label-info {
+    color: #8c97a8;
+    margin-bottom: 10px;
   }
-  &.approved {
-    color: #00a71a;
+
+  .value-info {
+    color: #3c506c;
+
+    &.rejected {
+      color: #e60000;
+    }
+    &.pending {
+      color: #b58d00;
+    }
+    &.approved {
+      color: #00a71a;
+    }
   }
 }
 
 .data-lawyer > div {
-  padding: 10px 15px;
+  padding: 10px 0;
 }
 
 .data-lawyer > div:nth-child(2n) {
@@ -1117,3 +1149,10 @@ i.btnIcon {
 .fileList {
   display: flex;
 }
+
+.separater {
+  border: 1px solid #e8eaed;
+  margin: 17px 0;
+}
+
+/* popUp step and action info End*/

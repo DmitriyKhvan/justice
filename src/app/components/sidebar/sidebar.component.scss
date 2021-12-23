@@ -9,14 +9,29 @@
 }
 
 .sidebar {
-  width: 478px;
+  width: 635px;
   height: 100%;
   background: #ffffff;
   position: absolute;
   right: 0;
   top: 0;
-  padding: 40px 26px;
+  padding: 25px 25px;
   box-shadow: 0 0 15px 0 rgba(16, 39, 74, 0.5);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 100%;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(42, 61, 116, 0.2);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(32, 60, 103, 0.61);
+    border-radius: 5px;
+  }
+
   &-close {
     position: absolute;
     top: 16px;
@@ -36,8 +51,6 @@
     & i {
       font-size: 20px;
       cursor: pointer;
-
-
     }
   }
   &-item {
@@ -48,33 +61,92 @@
       display: flex;
       align-items: center;
       margin-bottom: 5px;
-
     }
   }
 }
 
 .notifications {
-  &-item {
-    min-height: 40px;
+  .notificationTitle {
+    font-size: 24px;
+    margin-bottom: 25px;
+
+    &.add {
+      margin: 20px;
+      text-align: center;
+    }
+  }
+
+  .searchBlock {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 13px 17px;
+    border: 1px solid rgba(16, 39, 74, 0.3);
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    i {
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+    }
+  }
+
+  &-item,
+  &-title {
     display: flex;
     justify-content: space-between;
+    padding: 15px 0;
+  }
+
+  &-title {
+    .notifications-number__title {
+      margin-left: 22px;
+    }
     align-items: center;
+  }
+
+  &-item {
+    align-items: flex-start;
     border-bottom: 1px solid rgba(16, 39, 74, 0.1);
     cursor: pointer;
   }
-  &-title {
+
+  &-number {
     display: flex;
+    flex: 0 1 95px;
     align-items: center;
-    flex: 1 1 auto;
-    & i {
-      font-size: 10px;
-      margin-right: 8px;
-      color: #ea0000;
+
+    .marker {
+      width: 8px;
+      height: 8px;
+      margin-right: 15px;
+      border-radius: 50%;
+      background: #e60000;
     }
   }
-  &-status {
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 14px;
+  &-name {
+    display: flex;
+    flex: 0 1 335px;
+
+    p {
+      margin: 0;
+    }
+
+    .rejected {
+      color: #e60000;
+    }
+    .approved {
+      color: #00a71a;
+    }
+  }
+  &-date {
+    display: flex;
+    flex: 0 1 115px;
   }
 }

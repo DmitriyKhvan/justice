@@ -13,7 +13,8 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 })
 export class SendingApplicationNotaryComponent implements OnInit {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -33,6 +34,10 @@ export class SendingApplicationNotaryComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
+
+    const formTemplateNull = this.formTemplate
+      ? { value: null, disabled: true }
+      : null;
 
     if (this.formData) {
       let d: Date = new Date(
@@ -61,14 +66,14 @@ export class SendingApplicationNotaryComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        numberDoc: new FormControl(null, Validators.required),
-        dateDoc: new FormControl(null, Validators.required),
-        additionalInfo: new FormControl(null, Validators.required),
+        numberDoc: new FormControl(formTemplateNull, Validators.required),
+        dateDoc: new FormControl(formTemplateNull, Validators.required),
+        additionalInfo: new FormControl(formTemplateNull, Validators.required),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -81,16 +86,18 @@ export class SendingApplicationNotaryComponent implements OnInit {
       files: this.fileUploadService.transformFilesData(),
     };
 
-    this.lawsuitService.apiFetch(data, 'notary/add/request').subscribe(
-      (actions) => {
-        // this.lawsuitService.historyActions = actions;
-        this.submitted = false;
-        this.alert.success('Форма оформлена');
-      },
-      (error) => {
-        this.submitted = false;
-        this.alert.danger('Форма не оформлена');
-      }
-    );
+    this.lawsuitService
+      .apiFetch(data, 'notary/add/request', actionId)
+      .subscribe(
+        (actions) => {
+          // this.lawsuitService.historyActions = actions;
+          this.submitted = false;
+          this.alert.success('Форма оформлена');
+        },
+        (error) => {
+          this.submitted = false;
+          this.alert.danger('Форма не оформлена');
+        }
+      );
   }
 }

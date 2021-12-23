@@ -45,7 +45,7 @@ export class LawsuitService {
     //   actionscount: 1,
   };
 
-  actionIds: any[] = [];
+  actions: any[] = [];
   actionStart: any = { processId: null }; // начальная форма (действие) в шаге (следующий шаг)
   historyActions: any[] = []; // история действий текущего шага
   historySteps: any[] = []; // история шагов текущего шага
@@ -62,6 +62,20 @@ export class LawsuitService {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+
+  pushNotifications({ page = 1, count = 20, value = '' }): Observable<any> {
+    return this.http.get(
+      `${environment.dbUrlBek}/push/get?status=0&page=${page}&count=${count}&value=${value}`
+    );
+  }
+
+  isActionForm(id: number) {
+    return this.actions.find((action: any) => action.actionId === id);
+  }
+
+  removeActionForm(id: number | null): void {
+    this.actions = this.actions.filter((action) => action.actionId !== id);
+  }
 
   getPending({ contractId, mfo }: any): Observable<any> {
     return this.http
@@ -160,13 +174,7 @@ export class LawsuitService {
       );
   }
 
-  removeActionForm(id: number): void {
-    console.log('id', id);
-
-    this.actionIds = this.actionIds.filter((actionId) => actionId !== id);
-  }
-
-  apiFetch(data: any, api: string): Observable<any> {
+  apiFetch(data: any, api: string, actionId: number | null): Observable<any> {
     const dataFormat = {
       ...data,
       uniqueId: this.contractId,
@@ -177,6 +185,8 @@ export class LawsuitService {
     this.actionStart = {
       processId: null,
     };
+
+    this.removeActionForm(actionId);
 
     return this.http.post(`${environment.dbUrlBek}/${api}`, dataFormat).pipe(
       tap(this.setHistoryActions.bind(this)),
@@ -193,8 +203,6 @@ export class LawsuitService {
     );
 
     this.historySteps = histories.jumps;
-
-    this.actionIds = [];
   }
 
   getReqId(actionId: any) {

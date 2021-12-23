@@ -1,14 +1,17 @@
 <div class="lawsuitTitleWrap">
-  <h2 class="lawsuitTitle">Передача дела в Кассацию</h2>
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
   <button
+    *ngIf="!formData && !formTemplate"
     class="remove_action_form__btn"
-    (click)="this.lawsuitService.removeActionForm(actionId)"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
   >
     <i class="uil-times"></i>
   </button>
 </div>
 
-<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <app-select
@@ -69,7 +72,10 @@
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">№ исх. документа</div>
-        <label class="input-field__label">
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
           <input type="text" autocomplete="off" formControlName="numberDoc" />
         </label>
 
@@ -88,6 +94,7 @@
 
     <div class="col-6">
       <app-datepicker
+        [formTemplate]="formTemplate"
         title="Дата исх. документа"
         [form]="form"
         controlName="dateDoc"
@@ -98,7 +105,10 @@
     <div class="col-12">
       <div class="text-field">
         <div class="text-field__title">Дополнительная информация</div>
-        <label class="text-field__label">
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
           <textarea
             placeholder="Уточните детали"
             formControlName="additionalInfo"
@@ -124,13 +134,14 @@
     <div class="col-12">
       <app-file-uploader
         [formData]="formData"
+        [formTemplate]="formTemplate"
         title="Прикрепить файл"
       ></app-file-uploader>
     </div>
   </div>
 
   <button
-    *ngIf="!formData"
+    *ngIf="!formData && !formTemplate"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

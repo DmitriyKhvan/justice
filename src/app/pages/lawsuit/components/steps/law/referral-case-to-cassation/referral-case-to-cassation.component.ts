@@ -12,7 +12,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class ReferralCaseToCassationComponent implements OnInit {
   @Input() formData: any = null;
-  @Input() actionId!: number;
+  @Input() formTemplate: any = null;
+  @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
@@ -48,6 +49,11 @@ export class ReferralCaseToCassationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
+    const formTemplateNull = this.formTemplate
+      ? { value: null, disabled: true }
+      : null;
+
     if (this.formData) {
       let d: Date = new Date(
         this.formData.data.outDocDate.split('.').reverse().join('.')
@@ -96,19 +102,19 @@ export class ReferralCaseToCassationComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        viewLaw: new FormControl(null, Validators.required),
-        typeLaw: new FormControl(null, Validators.required),
-        regionLaw: new FormControl(null, Validators.required),
-        region: new FormControl(null, Validators.required),
-        districtLaw: new FormControl(null, Validators.required),
-        numberDoc: new FormControl('', Validators.required),
-        dateDoc: new FormControl('', Validators.required),
-        additionalInfo: new FormControl('', Validators.required),
+        viewLaw: new FormControl(formTemplateNull, Validators.required),
+        typeLaw: new FormControl(formTemplateNull, Validators.required),
+        regionLaw: new FormControl(formTemplateNull, Validators.required),
+        region: new FormControl(formTemplateNull, Validators.required),
+        districtLaw: new FormControl(formTemplateNull, Validators.required),
+        numberDoc: new FormControl(formTemplate, Validators.required),
+        dateDoc: new FormControl(formTemplate, Validators.required),
+        additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
   }
 
-  submit() {
+  submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
@@ -131,15 +137,17 @@ export class ReferralCaseToCassationComponent implements OnInit {
       active: true,
     };
 
-    this.lawsuitService.apiFetch(data, 'law/add/cassationRequest').subscribe(
-      (actions) => {
-        this.submitted = false;
-        this.alert.success('Форма оформлена');
-      },
-      (error) => {
-        this.submitted = false;
-        this.alert.danger('Форма не оформлена');
-      }
-    );
+    this.lawsuitService
+      .apiFetch(data, 'law/add/cassationRequest', actionId)
+      .subscribe(
+        (actions) => {
+          this.submitted = false;
+          this.alert.success('Форма оформлена');
+        },
+        (error) => {
+          this.submitted = false;
+          this.alert.danger('Форма не оформлена');
+        }
+      );
   }
 }

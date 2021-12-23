@@ -111,7 +111,10 @@ import { FileUploadService } from '../../../services/file-upload.service';
           </div>
         </div>
       </div>
-      <label class="file-field__uploadbtn mb-2">
+      <label
+        class="file-field__uploadbtn mb-2"
+        [class]="formTemplate ? 'readonly' : ''"
+      >
         <ng-container
           *ngIf="currentUploadFiles.length; then elseBtnText; else btnText"
         >
@@ -120,6 +123,7 @@ import { FileUploadService } from '../../../services/file-upload.service';
         <ng-template #elseBtnText> Добавить еще один файл </ng-template>
         <!-- accept="image/jpeg, image/jpg, application/pdf" -->
         <input
+          [disabled]="formTemplate"
           type="file"
           multiple
           (input)="changed(); fileUploadService.poster($event)"
@@ -144,10 +148,19 @@ import { FileUploadService } from '../../../services/file-upload.service';
     `
       .fileList {
         display: flex;
+        align-items: center;
         cursor: pointer;
       }
       .fileList:hover {
         background: rgba(16, 39, 74, 0.1);
+      }
+      .fileList i {
+        font-size: 24px;
+      }
+
+      .readonly {
+        opacity: 0.3;
+        border: 1px dashed #10274a;
       }
     `,
   ],
@@ -159,6 +172,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
 
   @Input() title: any = 'Прикрепить скан документа';
   @Input() formData: any = null;
+  @Input() formTemplate: any = null;
 
   @Output() fileSelected: EventEmitter<any> = new EventEmitter();
 
