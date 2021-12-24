@@ -59,8 +59,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getUsers();
 
-    this.usersTransform();
-
     this.searchSub = fromEvent(this.inputRef.nativeElement, 'keyup')
       .pipe(
         debounceTime(700),
@@ -141,6 +139,9 @@ export class ListUserComponent implements OnInit, OnDestroy {
           console.log(users);
 
           this.users = users;
+
+          this.usersTransform();
+
           this.loading = false;
         },
         (error) => {

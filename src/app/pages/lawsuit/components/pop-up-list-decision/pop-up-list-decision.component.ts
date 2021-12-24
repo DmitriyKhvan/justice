@@ -87,6 +87,7 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
         tap((event: any) => {
           if (event.dataset.close) {
             this.popUpInfoService.popUpListDecision('close');
+            clearInterval(this.lawsuitService.timerIdDecisions);
           }
         })
       )

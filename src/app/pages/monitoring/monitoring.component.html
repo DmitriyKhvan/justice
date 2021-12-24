@@ -1,0 +1,68 @@
+<div class="mx-5 px-5 pt-2 h-100">
+  <h2>Мониторинг заявок</h2>
+  <div class="funcBlock page-form">
+    <div class="filters">
+      <div class="select-field filter">
+        <div class="select-field__title">Регион</div>
+        <ng-select
+          appearance="outline"
+          [items]="regionsDic"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="Вид суда"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+        ></ng-select>
+      </div>
+
+      <div class="select-field filter">
+        <div class="select-field__title">Филиал</div>
+        <ng-select
+          appearance="outline"
+          [items]="filialsDic"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="Вид суда"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+        ></ng-select>
+      </div>
+      <div class="input-field filter">
+        <div class="input-field__title">Период</div>
+        <label class="input-field__label">
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+      </div>
+    </div>
+    <button class="exportBtn">
+      <i class="uil-down-arrow"></i><span>Экспортировать</span>
+    </button>
+  </div>
+
+  <div class="monitoring">
+    <div class="monitoring-header">
+      <h3 class="monitoring-title">Карта Республики Узбекиста</h3>
+      <div class="monitoring-btns">
+        <i class="uil-map-marker"></i>
+        <i class="uil-arrow-growth"></i>
+        <i class="uil-graph-bar"></i>
+        <i class="uil-chart-pie-alt"></i>
+      </div>
+    </div>
+
+    <div class="monitoring-body">
+      <app-map></app-map>
+    </div>
+  </div>
+</div>

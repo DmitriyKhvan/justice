@@ -54,7 +54,15 @@ export class LawsuitService {
   contractId!: any; // uniqueId
   fromStepId!: any; // текущий шаг
   isDeniedStep: boolean = false;
-  decisions!: any;
+  // decisions!: any;
+  decisions: any = {
+    actions: [],
+    actionsCount: 0,
+    steps: [],
+    stepsCount: 0,
+  };
+
+  timerIdDecisions!: any; // таймер для решений гл. юрист
 
   constructor(
     public http: HttpClient,

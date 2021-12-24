@@ -1,0 +1,35 @@
+.mapBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 30px 0;
+
+  .map {
+    svg {
+      path {
+        cursor: pointer;
+
+        &:hover {
+          fill: #4cc015;
+        }
+      }
+    }
+  }
+
+  .filials {
+    li {
+      display: flex;
+      margin-bottom: 10px;
+      align-items: center;
+      list-style: none;
+
+      i {
+        width: 10px;
+        height: 10px;
+        margin-right: 15px;
+        background: #3392d0;
+        border-radius: 3px;
+      }
+    }
+  }
+}

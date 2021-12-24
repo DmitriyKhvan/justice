@@ -36,9 +36,7 @@ import { MainService } from 'src/app/services/main.service';
           <div class="label-info">Комментарий</div>
           <div class="value-info">
             {{
-              notification?.data?.headLawyerInfo
-                ? notification?.data?.headLawyerInfo
-                : 'Нет комментарий'
+              notification?.message ? notification?.message : 'Нет комментарий'
             }}
           </div>
         </div>

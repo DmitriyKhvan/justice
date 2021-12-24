@@ -74,6 +74,8 @@ export class ClientsListComponent implements OnInit, DoCheck {
     },
   ];
 
+  timerId!: any;
+
   constructor(
     public mainService: MainService,
     public clientsService: ClientsService,
@@ -138,14 +140,23 @@ export class ClientsListComponent implements OnInit, DoCheck {
   }
 
   showListDecision(): void {
+    this.selectDecisions();
+    // this.lawsuitService.timerIdDecisions = setInterval(() => {
+    //   this.selectDecisions();
+    // }, 5000);
+
+    this.popUpInfoService.popUpListDecision('open', {});
+  }
+
+  selectDecisions() {
     this.route.params
       .pipe(
-        tap(() => console.log('888', this.route.snapshot.queryParams)),
+        // tap(() => console.log('888', this.route.snapshot.queryParams)),
         switchMap((params: Params) => {
-          console.log(
-            'this.route.snapshot.queryParams',
-            this.route.snapshot.queryParams
-          );
+          // console.log(
+          //   'this.route.snapshot.queryParams',
+          //   this.route.snapshot.queryParams
+          // );
 
           return this.lawsuitService.getPending(
             this.route.snapshot.queryParams
@@ -153,11 +164,16 @@ export class ClientsListComponent implements OnInit, DoCheck {
         })
       )
       .subscribe((decisions) => {
-        console.log(decisions);
+        const resArr = { ...this.lawsuitService.decisions, ...decisions };
 
-        this.lawsuitService.decisions = decisions;
+        resArr.actions = resArr.actions.filter(
+          (v: any, i: any, a: any) =>
+            a.findIndex((t: any) => JSON.stringify(t) === JSON.stringify(v)) ===
+            i
+        );
+        console.log('resArr', resArr);
+
+        this.lawsuitService.decisions = resArr;
       });
-
-    this.popUpInfoService.popUpListDecision('open', {});
   }
 }

@@ -206,7 +206,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectNotifications();
     this.timerId = setInterval(() => {
       this.selectNotifications();
-    }, 20000);
+    }, 5000);
+    // this.timerId = setTimeout(() => this.selectNotifications(), 10000);
   }
 
   selectNotifications() {
@@ -215,11 +216,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((notifications) => {
         this.loader = false;
 
-        this.notifications = [...notifications, ...this.notifications];
-        this.notifications = this.notifications.filter(
+        const resArr = [...notifications, ...this.notifications];
+        this.notifications = resArr.filter(
           (v, i, a) =>
             a.findIndex((t) => JSON.stringify(t) === JSON.stringify(v)) === i
         );
+
+        // this.timerId = setTimeout(this.selectNotifications, 10000);
 
         console.log('newNotifications', this.notifications);
       });
@@ -231,6 +234,15 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         debounceTime(700),
         map((event: any) => event.target.value.toLowerCase()),
         distinctUntilChanged(),
+        tap((value) => {
+          if (value) {
+            clearInterval(this.timerId);
+          } else {
+            this.timerId = setInterval(() => {
+              this.selectNotifications();
+            }, 5000);
+          }
+        }),
         switchMap((value) => {
           this.loader = true;
           return this.lawsuitService.pushNotifications({ value: value });
@@ -245,7 +257,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         debounceTime(700),
         map((event: any) => event.target),
-        tap(() => console.log(12345)),
         filter((event: any) => {
           console.log('event.scrollHeight', event.scrollHeight);
           console.log('event.clientHeight', event.clientHeight);
@@ -265,7 +276,11 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((notifications) => {
         this.loader = false;
         if (notifications.length) {
-          this.notifications = [...this.notifications, ...notifications];
+          const resArr = [...notifications, ...this.notifications];
+          this.notifications = resArr.filter(
+            (v, i, a) =>
+              a.findIndex((t) => JSON.stringify(t) === JSON.stringify(v)) === i
+          );
         }
         //  else {
         //   this.scrollSub.unsubscribe();

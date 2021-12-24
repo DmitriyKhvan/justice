@@ -146,6 +146,8 @@ import { DeclensionOfWordsPipe } from './pipes/declension-of-words.pipe';
 import { PopUpTemplateFormComponent } from './pages/lawsuit/components/pop-up-template-form/pop-up-template-form.component';
 import { NotificationStep } from './components/sidebar/components/notification-step';
 import { NotificationAction } from './components/sidebar/components/notification-action';
+import { MonitoringComponent } from './pages/monitoring/monitoring.component';
+import { MapComponent } from './pages/monitoring/components/map/map.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -273,6 +275,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     PopUpTemplateFormComponent,
     NotificationStep,
     NotificationAction,
+    MonitoringComponent,
+    MapComponent,
   ],
   imports: [
     TooltipModule,

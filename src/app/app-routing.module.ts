@@ -18,6 +18,7 @@ import { EditUserComponent } from './admin/pages/edit-user/edit-user.component';
 import { ListUserComponent } from './admin/pages/list-user/list-user.component';
 import { LawsuitComponent } from './pages/lawsuit/lawsuit.component';
 import { AuthGuard } from './guard/auth.guard';
+import { MonitoringComponent } from './pages/monitoring/monitoring.component';
 
 const routes: Routes = [
   // {
@@ -59,6 +60,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'clients', pathMatch: 'full' },
       { path: 'clients', component: ClientsComponent },
+      { path: 'monitoring', component: MonitoringComponent },
       { path: 'login', component: LoginComponent },
       {
         path: 'clients/list',

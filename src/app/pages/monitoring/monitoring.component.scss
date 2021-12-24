@@ -1,0 +1,78 @@
+.funcBlock {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  .filters {
+    display: flex;
+    align-items: center;
+    .filter {
+      flex: none;
+      width: 235px;
+      margin-right: 30px;
+    }
+  }
+
+  .exportBtn {
+    width: 207px;
+    height: 48px;
+    background: #10274a;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+
+    i {
+      margin-right: 16px;
+    }
+  }
+}
+
+.monitoring {
+  height: calc(100vh - 231px);
+  margin-top: 30px;
+  box-shadow: 0px 3px 8px rgba(16, 39, 74, 0.15);
+  border-radius: 10px;
+  &-header {
+    position: relative;
+    padding: 11px;
+    background: #f4f6f8;
+    border-radius: 5px 5px 0px 0px;
+    text-align: center;
+  }
+
+  &-title {
+    margin: 0;
+  }
+
+  &-btns {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translate(0, -50%);
+
+    i {
+      font-size: 20px;
+      color: #909bab;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &::before {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+      }
+
+      &:hover::before {
+        border-radius: 5px;
+        color: #fff;
+        background: #3392d0;
+      }
+    }
+  }
+
+  &-body {
+  }
+}
