@@ -91,14 +91,25 @@
             {{ contract.delayDate }}
           </div>
           <div class="page-table__td">
-            {{ contract.stepsCount }}
-            {{
-              contract.stepsCount | declensionOfWords: ["Шаг", "Шага", "Шагов"]
-            }}| {{ contract.actionsCount }}
-            {{
-              contract.actionsCount
-                | declensionOfWords: ["действие", "действия", "действий"]
-            }}
+            <div class="count_value">
+              <span class="count_item"
+                >{{ contract.stepsCount }}
+                {{
+                  contract.stepsCount
+                    | declensionOfWords: ["Шаг", "Шага", "Шагов"]
+                }}</span
+              >
+
+              <div class="verSepareter"></div>
+
+              <span class="count_item">
+                {{ contract.actionsCount }}
+                {{
+                  contract.actionsCount
+                    | declensionOfWords: ["действие", "действия", "действий"]
+                }}
+              </span>
+            </div>
           </div>
         </div>
       </div>

@@ -236,6 +236,9 @@
     &:nth-child(2) {
       flex: 0 1 340px;
     }
+    &:nth-child(11) {
+      flex: 0 1 195px;
+    }
   }
 }
 
@@ -1156,3 +1159,47 @@ i.btnIcon {
 }
 
 /* popUp step and action info End*/
+
+.count {
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+  width: 100%;
+  height: 48px;
+  background: #fbf9f2;
+  border-radius: 5px;
+
+  &_title {
+    font-weight: 500;
+    margin-right: 11px;
+  }
+
+  &_value {
+    display: flex;
+    align-items: center;
+    color: #b58d00;
+
+    .verSepareter {
+      width: 1px;
+      height: 20px;
+      background: #cccfd1;
+      margin: 0 11px;
+    }
+
+    .count_item {
+      position: relative;
+      // margin: 0 11px;
+
+      // &:first-child::before {
+      //   content: "";
+      //   position: absolute;
+      //   right: -11px;
+      //   top: 50%;
+      //   transform: translate(0, -50%);
+      //   width: 1px;
+      //   height: 20px;
+      //   background: #cccfd1;
+      // }
+    }
+  }
+}

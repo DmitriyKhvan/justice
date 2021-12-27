@@ -22,10 +22,11 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, interval, Subscription } from 'rxjs';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -204,15 +205,35 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectNotifications();
-    this.timerId = setInterval(() => {
-      this.selectNotifications();
-    }, 5000);
-    // this.timerId = setTimeout(() => this.selectNotifications(), 10000);
+    // this.timerId = setInterval(() => {
+    //   this.selectNotifications();
+    // }, 5000);
   }
 
+  // selectNotifications() {
+  //   this.pushSub = this.lawsuitService
+  //     .pushNotifications({})
+  //     .subscribe((notifications) => {
+  //       this.loader = false;
+
+  //       const resArr = [...notifications, ...this.notifications];
+  //       this.notifications = resArr.filter(
+  //         (v, i, a) =>
+  //           a.findIndex((t) => JSON.stringify(t) === JSON.stringify(v)) === i
+  //       );
+
+  //       console.log('newNotifications', this.notifications);
+  //     });
+  // }
+
   selectNotifications() {
-    this.pushSub = this.lawsuitService
-      .pushNotifications({})
+    this.pushSub = interval(5000)
+      .pipe(
+        startWith(''),
+        switchMap(() => {
+          return this.lawsuitService.pushNotifications({});
+        })
+      )
       .subscribe((notifications) => {
         this.loader = false;
 
@@ -221,8 +242,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           (v, i, a) =>
             a.findIndex((t) => JSON.stringify(t) === JSON.stringify(v)) === i
         );
-
-        // this.timerId = setTimeout(this.selectNotifications, 10000);
 
         console.log('newNotifications', this.notifications);
       });
@@ -236,11 +255,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         distinctUntilChanged(),
         tap((value) => {
           if (value) {
-            clearInterval(this.timerId);
+            this.pushSub.unsubscribe();
+            // clearInterval(this.timerId);
           } else {
-            this.timerId = setInterval(() => {
-              this.selectNotifications();
-            }, 5000);
+            this.selectNotifications();
+            // this.timerId = setInterval(() => {
+            //   this.selectNotifications();
+            // }, 5000);
           }
         }),
         switchMap((value) => {
@@ -315,6 +336,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.scrollSub.unsubscribe();
     }
 
-    clearInterval(this.timerId);
+    if (this.pushSub) {
+      this.pushSub.unsubscribe();
+    }
+    // clearInterval(this.timerId);
   }
 }

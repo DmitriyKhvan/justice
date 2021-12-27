@@ -20,6 +20,9 @@
               | declensionOfWords: ["Шаг", "Шага", "Шагов"]
           }}</span
         >
+
+        <div class="verSepareter"></div>
+
         <span class="count_item">
           {{ lawsuitService?.decisions?.actionsCount }}
           {{
@@ -151,7 +154,7 @@
 
           <div class="decision_title">
             <span class="title1">Дата</span>
-            <span class="title2">Название действие</span>
+            <span class="title2">Название действия</span>
           </div>
 
           <div *ngFor="let action of step?.actions">
