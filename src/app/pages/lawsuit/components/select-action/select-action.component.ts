@@ -57,15 +57,11 @@ export class SelectActionComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('this.form.value', this.form.value);
+    // console.log('this.form.value', this.form.value);
 
     this.lawsuitService.actions.push(this.form.value.action);
-    // this.actions = this.actions.filter(
-    //   (action) => !this.lawsuitService.actionIds.includes(action.id)
-    // );
 
-    console.log('this.lawsuitService.actionIds', this.lawsuitService.actions);
-    // console.log('this.actions', this.actions);
+    // console.log('this.lawsuitService.actionIds', this.lawsuitService.actions);
   }
 
   ngOnDestroy(): void {

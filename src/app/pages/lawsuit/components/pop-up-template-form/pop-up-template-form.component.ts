@@ -30,8 +30,6 @@ export class PopUpTemplateFormComponent implements OnInit {
   ngOnInit(): void {
     this.popUpFormSub = this.popUpInfoService.popUpFormTemplate$.subscribe(
       (popUpData: any) => {
-        console.log(popUpData);
-
         this.formTemplate = popUpData.formTemplate;
         this.isActive = popUpData.isActive;
       }

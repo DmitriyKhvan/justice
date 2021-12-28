@@ -46,8 +46,6 @@ export class AuthGuard extends KeycloakAuthGuard {
         }
       }
       if (!permission) {
-        console.log(777);
-
         if (this.keycloakAngular.isUserInRole('admin')) {
           this.router.navigate(['/admin/listUser']);
         } else {

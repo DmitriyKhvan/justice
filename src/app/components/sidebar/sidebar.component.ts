@@ -242,8 +242,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           (v, i, a) =>
             a.findIndex((t) => JSON.stringify(t) === JSON.stringify(v)) === i
         );
-
-        console.log('newNotifications', this.notifications);
       });
   }
 
@@ -279,10 +277,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         debounceTime(700),
         map((event: any) => event.target),
         filter((event: any) => {
-          console.log('event.scrollHeight', event.scrollHeight);
-          console.log('event.clientHeight', event.clientHeight);
-          console.log('event.scrollTop', event.scrollTop);
-
           return event.scrollHeight === event.clientHeight + event.scrollTop;
         }),
         switchMap(() => {

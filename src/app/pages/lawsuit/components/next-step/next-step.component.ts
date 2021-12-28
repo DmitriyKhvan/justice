@@ -43,7 +43,6 @@ export class NextStepComponent implements OnInit {
 
   setActionStep(event: any) {
     this.form.reset({ ...this.form.value, nextAction: null });
-    console.log(event);
     if (event) {
       this.actions = event.actions;
     } else {

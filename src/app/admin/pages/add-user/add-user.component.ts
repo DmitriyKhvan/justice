@@ -68,7 +68,7 @@ export class AddUserComponent implements OnInit {
       return;
     }
 
-    console.log('this.form', this.form.value);
+    // console.log('this.form', this.form.value);
 
     this.submitted = true;
 
@@ -114,7 +114,7 @@ export class AddUserComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          console.log('res', res);
+          // console.log('res', res);
           this.alert.success('Пользователь добавлен', {
             login: user.username,
             password: this.form.value.password,
@@ -123,7 +123,7 @@ export class AddUserComponent implements OnInit {
           this.submitted = false;
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
 
           this.alert.danger('Пользователь не добавлен');
           this.submitted = false;

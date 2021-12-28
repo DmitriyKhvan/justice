@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Iconly-Broken";
   src: url("../icons/Iconly-Broken.eot?34gwe1");
-  src: url("../icons/Iconly-Light.eot?34gwe1");
+  /* src: url("../icons/Iconly-Light.eot?34gwe1"); */
   src: url("../icons/Iconly-Broken.eot?34gwe1#iefix")
       format("embedded-opentype"),
     url("../icons/Iconly-Broken.ttf?34gwe1") format("truetype"),
@@ -16,7 +16,7 @@
 [class*=" iconly-broken"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "Iconly-Broken" !important;
-  speak: never;
+  /* speak: never; */
   font-style: normal;
   font-weight: normal;
   font-variant: normal;

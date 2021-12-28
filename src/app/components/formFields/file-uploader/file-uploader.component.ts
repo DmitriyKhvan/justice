@@ -183,21 +183,18 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   uploadFilesCount: number = 0;
 
   ngOnInit(): void {
-    console.log(
-      'this.fileUploadService.currentUploaderFiles',
-      this.fileUploadService.currentUploaderFiles
-    );
+    // console.log(
+    //   'this.fileUploadService.currentUploaderFiles',
+    //   this.fileUploadService.currentUploaderFiles
+    // );
 
     // выяснить почему два раза запускается
     this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-      console.log('data', data);
       // this.fileUploadService.allUploadFiles = [];
 
       this.currentUploadFiles = data;
 
       this.currentUploadFiles.forEach((i) => {
-        console.log('i', i);
-
         this.uploadFilesCount++;
         this.fileUploadService.allUploadFiles.push(i);
       });
@@ -241,10 +238,10 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   }
 
   deleteFile(fileName: any, flag: string): void {
-    console.log('fileName', fileName);
-    console.log(' this.uploadFilesCount', this.uploadFilesCount);
-    console.log('this.allUploadFiles', this.fileUploadService.allUploadFiles);
-    console.log('this.currentUploadFiles', this.currentUploadFiles);
+    // console.log('fileName', fileName);
+    // console.log(' this.uploadFilesCount', this.uploadFilesCount);
+    // console.log('this.allUploadFiles', this.fileUploadService.allUploadFiles);
+    // console.log('this.currentUploadFiles', this.currentUploadFiles);
     // debugger;
 
     if (flag === 'allUploadFiles') {
@@ -266,18 +263,12 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
         ),
         1
       );
-      console.log(
-        'this.allUploadFiles2',
-        this.fileUploadService.allUploadFiles
-      );
-      console.log('this.uploadFilesCount2', this.uploadFilesCount);
     }
 
     // console.log(this.uploadFiles.findIndex(el => el.fileId === fileId));
   }
 
   ngOnDestroy(): void {
-    console.log('Destroy');
     this.fileUploadService.UploaderFiles.next([]);
     this.fileUploadService.allUploadFiles = [];
     this.uploadFilesCount = 0;

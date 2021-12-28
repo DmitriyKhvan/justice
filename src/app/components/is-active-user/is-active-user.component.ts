@@ -36,7 +36,6 @@ export class IsActiveUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy');
     this.subscription.unsubscribe();
   }
 }

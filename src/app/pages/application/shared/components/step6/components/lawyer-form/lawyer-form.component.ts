@@ -76,11 +76,7 @@ export class LawyerFormStep6Component implements OnInit {
     }
 
     this.submitted = true;
-
-    console.log(this.form);
   }
 
-  getObject(obj: any) {
-    console.log(obj);
-  }
+  getObject(obj: any) {}
 }

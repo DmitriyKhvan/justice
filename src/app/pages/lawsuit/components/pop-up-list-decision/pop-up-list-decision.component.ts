@@ -71,8 +71,6 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
 
     this.popUpInfoSub = this.popUpInfoService.popUpListDecision$.subscribe(
       (popUpData: any) => {
-        console.log('popUpData', popUpData);
-
         this.isActive = popUpData.isActive;
         this.listDecision = popUpData.listDecision;
       }

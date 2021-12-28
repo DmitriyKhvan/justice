@@ -4,7 +4,7 @@ import { ClientsService } from '../../../../services/clients.service';
 import { FileUploaderComponent } from '../../../../components/formFields/file-uploader/file-uploader.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parseJson } from '@angular/cli/utilities/json-file';
-import {MainService} from '../../../../services/main.service';
+import { MainService } from '../../../../services/main.service';
 
 @Component({
   selector: 'app-send-alert-step',
@@ -83,7 +83,5 @@ export class SendAlertStepComponent implements OnInit {
     this.fileUploadService.UploaderFiles.next([]);
   }
 
-  logger(evt: any): any {
-    console.log(evt);
-  }
+  logger(evt: any): any {}
 }

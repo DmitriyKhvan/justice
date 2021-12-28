@@ -25,7 +25,6 @@ export class LawsuitComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.queryParams
       .pipe(
-        tap(() => console.log(999)),
         switchMap(() => {
           // this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
           //   'stepId'

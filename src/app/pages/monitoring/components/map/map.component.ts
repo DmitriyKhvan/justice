@@ -31,11 +31,10 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mfoSub = fromEvent(this.mapRef.nativeElement, 'click')
       .pipe(
         map((event: any) => event.target),
-        filter((event) => event.id),
-        tap((event: any) => console.log('event', event))
+        filter((event) => event.id)
       )
       .subscribe((area) => {
-        console.log(area.getBoundingClientRect());
+        // console.log(area.getBoundingClientRect());
       });
   }
 

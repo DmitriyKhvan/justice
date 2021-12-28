@@ -38,7 +38,5 @@ export class Step2Component implements OnInit {
     }
 
     // this.submitted = true;
-
-    console.log(this.form);
   }
 }

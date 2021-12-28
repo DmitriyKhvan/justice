@@ -47,8 +47,6 @@ export class LawyerFormStep8FailureComponent implements OnInit {
       return;
     }
 
-    console.log(this.form);
-
     this.submitted = true;
   }
 }

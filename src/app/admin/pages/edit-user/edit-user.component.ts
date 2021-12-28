@@ -46,7 +46,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: any) => {
         this.user = res.getUser;
-        console.log('this.user', this.user);
 
         this.form = new FormGroup({
           lastName: new FormControl(this.user.lastName, Validators.required),
@@ -99,8 +98,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
       .subscribe((regions) => {
         this.regions = regions.data;
 
-        console.log('this.regions', this.regions);
-
         const region: any = this.regions.find((region: any) => {
           return region.branches.find(
             (branche: any) => branche.mfo === user.attributes.mfo[0]
@@ -109,15 +106,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
         this.districts = region.branches;
 
-        console.log('this.districts', this.districts);
-
         this.form.patchValue({ region: region.regionId });
       });
   }
 
   setDistrict(region: any) {
     this.form.get('district')?.reset();
-    console.log('region', region);
 
     if (region.code !== '00') {
       this.districts = region.branches;
@@ -153,8 +147,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
       },
     };
 
-    console.log('user', user);
-
     const updateUser = this.adminService.updateUser(this.user.id, user);
     const setRole = this.adminService.setUserRoles(
       this.user.id,
@@ -175,7 +167,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     forkJoin(observables).subscribe(
       (res) => {
-        console.log('res', res);
         this.alert.success('Пользователь обновлен', {
           login: user.username,
           password: this.form.value.password,
@@ -184,8 +175,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.submitted = false;
       },
       (error) => {
-        console.log(error);
-
         this.alert.danger('Пользователь не обновлен');
         this.submitted = false;
       }

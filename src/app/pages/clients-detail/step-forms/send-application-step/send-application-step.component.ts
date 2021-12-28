@@ -208,7 +208,5 @@ export class SendApplicationStepComponent implements OnInit {
     }
   }
 
-  logger(pld: any): void {
-    console.log(pld);
-  }
+  logger(pld: any): void {}
 }

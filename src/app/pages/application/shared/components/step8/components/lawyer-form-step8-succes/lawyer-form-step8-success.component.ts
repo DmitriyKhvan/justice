@@ -48,8 +48,6 @@ export class LawyerFormStep8SuccesComponent implements OnInit {
       return;
     }
 
-    console.log(this.form);
-
     this.submitted = true;
   }
 }

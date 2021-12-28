@@ -32,8 +32,6 @@ export class Step5_2Component implements OnInit {
       return;
     }
 
-    console.log(this.form2);
-
     this.submitted = true;
   }
 }

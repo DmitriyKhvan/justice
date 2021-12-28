@@ -199,7 +199,6 @@ export class LawsuitService {
     return this.http.post(`${environment.dbUrlBek}/${api}`, dataFormat).pipe(
       tap(this.setHistoryActions.bind(this)),
       catchError((error) => {
-        console.log(error);
         return throwError(error);
       })
     );

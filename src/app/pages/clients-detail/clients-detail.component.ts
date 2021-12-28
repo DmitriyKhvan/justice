@@ -64,7 +64,5 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     });
   }
 
-  logger(evt: any): void {
-    console.log('emitted', evt);
-  }
+  logger(evt: any): void {}
 }

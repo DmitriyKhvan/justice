@@ -30,7 +30,6 @@ export class AlertComponent implements OnInit, OnDestroy {
       this.text = alert.text;
       this.type = alert.type;
       this.loginPass = alert.loginPass;
-      console.log('loginPas', alert.loginPass);
 
       // const timeout = setTimeout(() => {
       //   clearTimeout(timeout);

@@ -243,8 +243,6 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
 
-    console.log('this.form.value.datesLaw', this.form.value.datesLaw);
-
     const preId = this.lawsuitService.getReqId(4)?.id;
 
     const lawDatetime = this.form.value.datesLaw?.map(

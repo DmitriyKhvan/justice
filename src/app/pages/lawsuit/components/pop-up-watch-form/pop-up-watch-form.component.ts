@@ -61,8 +61,6 @@ export class PopUpWatchFormComponent implements OnInit {
   ngOnInit(): void {
     this.popUpFormSub = this.popUpInfoService.popUpForm$.subscribe(
       (popUpData: any) => {
-        console.log(popUpData);
-
         this.formData = popUpData.formData;
         this.isActive = popUpData.isActive;
       }

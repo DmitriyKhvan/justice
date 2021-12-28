@@ -29,7 +29,6 @@ export class Step1Component implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('onInit(): SampleDatePickerReacticeForms');
     let d: Date = new Date();
     d.setDate(d.getDate() + 2);
     let model: IMyDateModel = {
@@ -62,15 +61,13 @@ export class Step1Component implements OnInit {
 
     // this.form.get('numberLetter').disable();
 
-    console.log('form', this.form);
-
     this.stepService.submit().subscribe(
       () => {
         debugger;
         this.alert.success('Форма оформлена');
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
         this.submitted = false;
         this.alert.danger('Форма не оформлена');
       }

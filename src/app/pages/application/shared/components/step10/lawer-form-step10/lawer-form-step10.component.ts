@@ -48,7 +48,5 @@ export class LawerFormStep10Component implements OnInit {
     }
 
     this.submitted = true;
-
-    console.log(this.form);
   }
 }

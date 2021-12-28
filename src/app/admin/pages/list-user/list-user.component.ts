@@ -136,7 +136,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
         (users) => {
           // this.users = users.users;
           // this.totalItems = users.count;
-          console.log(users);
 
           this.users = users;
 
@@ -174,8 +173,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
         this.alert.warning('Пользователь был удален');
       },
       (error) => {
-        console.log(error);
-
         this.alert.danger('Пользователь не удален');
       }
     );
@@ -197,8 +194,6 @@ export class ListUserComponent implements OnInit, OnDestroy {
         this.alert.warning(`Пользователь был ${isActiveUser}`);
       },
       (error) => {
-        console.log(error);
-
         this.alert.danger(`Пользователь не был ${isActiveUser}`);
       }
     );

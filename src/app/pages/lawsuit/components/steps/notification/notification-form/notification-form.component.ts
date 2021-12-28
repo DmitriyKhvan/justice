@@ -35,7 +35,6 @@ export class NotificationFormComponent implements OnInit {
     //   // singleDate: { jsDate: d },
     //   // dateRange: null,
     // };
-    console.log('this.formTemplate', this.formTemplate);
 
     if (this.formData) {
       let d: Date = new Date(

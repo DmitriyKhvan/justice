@@ -20,14 +20,10 @@ export class Step1Service {
       .pipe(
         tap(this.testFn),
         catchError((error) => {
-          console.log(error);
           return throwError(error);
         })
       );
   }
 
-  testFn() {
-    // debugger;
-    console.log('testFn');
-  }
+  testFn() {}
 }

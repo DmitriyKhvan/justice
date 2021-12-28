@@ -88,8 +88,6 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
-      console.log('val', val);
-
       this.clientsService.getListByMfo(val.mfo).subscribe((value) => {
         this.clientsService.listByMfo.next(value);
       });
@@ -171,7 +169,6 @@ export class ClientsListComponent implements OnInit, DoCheck {
             a.findIndex((t: any) => JSON.stringify(t) === JSON.stringify(v)) ===
             i
         );
-        console.log('resArr', resArr);
 
         this.lawsuitService.decisions = resArr;
       });

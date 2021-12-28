@@ -46,8 +46,6 @@ export class FileUploadService {
   currentUploaderFiles = this.UploaderFiles.asObservable();
 
   pushFiles(files: Array<SingleFile>): void {
-    console.log('files', files);
-
     this.UploaderFiles.next(files);
   }
 

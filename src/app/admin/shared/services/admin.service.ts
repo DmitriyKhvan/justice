@@ -66,7 +66,7 @@ export class AdminService {
   }
 
   getUserRoles(userId: string): Observable<any> {
-    console.log('userId', userId);
+    // console.log('userId', userId);
 
     return this.http.get(
       `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}/role-mappings/clients/78e0fab3-a7ca-4b70-a949-925644fdd2fc`

@@ -97,9 +97,7 @@ export class ChambersDecisionStepComponent implements OnInit, OnDestroy {
     this.sb?.unsubscribe();
   }
 
-  logger(evt: any): void {
-    console.log(evt);
-  }
+  logger(evt: any): void {}
 
   nextStep(): void {
     if (this.stepStatus === 0) {

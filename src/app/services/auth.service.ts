@@ -49,7 +49,6 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log('error', error);
     const { message } = error.error;
     switch (message) {
       case 'INVALID_LOGIN':
@@ -92,7 +91,7 @@ export class AuthService {
       this.time = decodedToken.user.user_exp;
       // this.userRole$.next(decodedToken.user.username);
 
-      console.log('decodedToken', decodedToken);
+      // console.log('decodedToken', decodedToken);
 
       localStorage.setItem('tokenData', JSON.stringify(response));
       localStorage.setItem('tokenExp', JSON.stringify(decodedToken.exp * 1000));
@@ -135,7 +134,7 @@ export class AuthService {
 
     if (tokenData) {
       const expDate = new Date(Number(localStorage.getItem('tokenExp')));
-      console.log('expDate', expDate);
+
       if (new Date() > expDate) {
         // debugger;
         this.refreshToken(tokenData).subscribe();
@@ -148,7 +147,6 @@ export class AuthService {
   }
 
   startTimerLogout() {
-    console.log('time', this.time);
     clearTimeout(this.timer);
     this.timer = setTimeout(() => this.logout('authFailed'), this.time);
   }
