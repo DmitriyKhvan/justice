@@ -1,14 +1,9 @@
-FROM node:14.17.3-buster
+FROM nginx
 
-WORKDIR /app
+COPY dist/* /usr/share/nginx/html
 
-COPY package.json package.json
-COPY package-lock.json package-lock.json
+WORKDIR /usr/share/nginx/html
 
-RUN npm install
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 4200
-
-COPY . .
-
-CMD ["npm","start"]

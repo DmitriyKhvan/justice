@@ -1,0 +1,25 @@
+.monitoringTable {
+  padding: 10px;
+  .title {
+    text-align: center;
+  }
+
+  table {
+    border-color: #909bab;
+    color: #222;
+    tr {
+      th {
+        text-align: center;
+
+        &.guarantee {
+          width: 30%;
+        }
+      }
+    }
+  }
+}
+
+.noFilials {
+  text-align: center;
+  margin: 20px;
+}

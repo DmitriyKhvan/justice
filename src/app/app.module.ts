@@ -148,6 +148,8 @@ import { NotificationStep } from './components/sidebar/components/notification-s
 import { NotificationAction } from './components/sidebar/components/notification-action';
 import { MonitoringComponent } from './pages/monitoring/monitoring.component';
 import { MapComponent } from './pages/monitoring/components/map/map.component';
+import { TooltipMapComponent } from './pages/monitoring/components/tooltipMap';
+import { TableComponent } from './pages/monitoring/components/table/table.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -277,6 +279,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NotificationAction,
     MonitoringComponent,
     MapComponent,
+    TooltipMapComponent,
+    TableComponent,
   ],
   imports: [
     TooltipModule,

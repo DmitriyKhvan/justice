@@ -9,6 +9,10 @@
       path {
         cursor: pointer;
 
+        &.active {
+          fill: #4cc015;
+        }
+
         &:hover {
           fill: #4cc015;
         }
@@ -30,6 +34,42 @@
         background: #3392d0;
         border-radius: 3px;
       }
+    }
+  }
+}
+
+.tooltipMap {
+  display: none;
+  position: absolute;
+  padding: 14px;
+  background: #10274a;
+  box-shadow: 0px 3px 8px rgba(16, 39, 74, 0.15);
+  border-radius: 5px;
+  color: #fff;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 100%;
+    left: 50%;
+    background: #10274a;
+    margin-top: -5px;
+    transform: translate(-50%, 0) rotate(45deg);
+  }
+
+  .date {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-bottom: 10px;
+  }
+
+  .area {
+    font-size: 14px;
+
+    .city {
+      margin-right: 43px;
     }
   }
 }

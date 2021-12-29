@@ -71,6 +71,10 @@ export class LawsuitService {
     private route: ActivatedRoute
   ) {}
 
+  monitoring(mfos: any): Observable<any> {
+    return this.http.post(`${environment.dbUrlBek}/cases/monit`, mfos);
+  }
+
   pushNotifications({ page = 1, count = 20, value = '' }): Observable<any> {
     return this.http.get(
       `${environment.dbUrlBek}/push/get?status=0&page=${page}&count=${count}&value=${value}`
