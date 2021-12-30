@@ -39,6 +39,7 @@ export class AddUserComponent implements OnInit {
 
     this.adminService.getRoles().subscribe((roles) => {
       this.roles = roles;
+      console.log('roles', this.roles);
     });
 
     this.adminService.getRegions().subscribe((regions) => {

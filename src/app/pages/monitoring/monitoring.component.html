@@ -49,7 +49,11 @@
         </label>
       </div> -->
     </div>
-    <button class="exportBtn">
+    <button
+      [disabled]="filials.length ? false : true"
+      class="exportBtn"
+      (click)="fireEvent()"
+    >
       <i class="uil-down-arrow"></i><span>Экспортировать</span>
     </button>
   </div>
@@ -69,8 +73,8 @@
           (click)="selectTab('Карта Республики Узбекиста', 'map')"
         ></i>
 
-        <i class="uil-graph-bar"></i>
-        <i class="uil-chart-pie-alt"></i>
+        <!-- <i class="uil-graph-bar"></i>
+        <i class="uil-chart-pie-alt"></i> -->
       </div>
     </div>
 
@@ -79,6 +83,7 @@
       <app-table
         *ngIf="flag === 'monitoring'"
         [monitoring]="monitoring"
+        #childComp
       ></app-table>
     </div>
   </div>

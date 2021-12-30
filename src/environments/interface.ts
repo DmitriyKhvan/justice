@@ -1,7 +1,7 @@
 export interface Environment {
   production: boolean;
-  dbUrl: string;
-  dbUrlBek: string;
+  dbUrl: any;
+  dbUrlBek: any;
   fileBaseUrl: any;
-  authUrl: string;
+  authUrl: any;
 }

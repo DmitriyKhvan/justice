@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
@@ -8,6 +15,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, OnDestroy {
+  @ViewChild('table') table!: ElementRef;
   @Input() monitoring: any[] = [];
   monSub!: Subscription;
   // monitoring!: any;

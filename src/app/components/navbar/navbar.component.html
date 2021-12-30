@@ -68,7 +68,14 @@
     >
       <i class="icon-user notification mr-1"></i>
       <!-- Исполнитель юрист -->
-      {{ keycloak.getUsername() }}
+      <!-- {{ keycloak.getUsername() }} -->
+      {{
+        keycloak.isUserInRole("head-lawyer")
+          ? "Главный юрист"
+          : keycloak.isUserInRole("lawyer")
+          ? "Юрист"
+          : "Админ"
+      }}
     </div>
     <div
       class="app-navbar_item px-2"

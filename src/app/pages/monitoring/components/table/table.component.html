@@ -1,7 +1,7 @@
 <div *ngIf="monitoring.length; else noMonitoring" class="monitoringTable">
   <h2 class="title">"Trastbank" XAB da muammoli kreditlar haqida MA'LUMOT</h2>
 
-  <table border="1" cellpadding="5" width="100%">
+  <table #table border="1" cellpadding="5" width="100%">
     <tr>
       <th rowspan="2">№</th>
       <th rowspan="2">Nomi</th>
@@ -38,7 +38,7 @@
       </td>
       <td></td>
       <td>{{ data.totalDebt }}</td>
-      <td>{{ data.status }}</td>
+      <td>{{ data.statusName }}</td>
     </tr>
   </table>
 </div>

@@ -24,6 +24,11 @@
     i {
       margin-right: 16px;
     }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: no-drop;
+    }
   }
 }
 

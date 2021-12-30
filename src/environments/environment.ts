@@ -8,9 +8,9 @@ export const environment: Environment = {
   production: false,
   dbUrl: 'http://10.1.1.20:3000',
   dbUrlBek: 'http://10.1.1.77:3000/api/v1.0.0/justice',
+  // dbUrlBek: 'http://' + window.location.hostname + ':3000/api/v1.0.0/justice',
   fileBaseUrl: 'http://10.1.1.20:9002',
-  // fileBaseUrl:
-  //   process.env['FILE_SERVER_HOST'] + ':' + process.env['FILE_SERVER_PORT'],
+  // fileBaseUrl: 'http://' + window.location.hostname + ':9002',
 
   authUrl: `http://auth.flexit.uz/auth`,
 };
