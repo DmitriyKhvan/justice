@@ -67,6 +67,7 @@ export class SelectActionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.actionSub) {
       this.actionSub.unsubscribe();
+      this.actions = [];
     }
   }
 }

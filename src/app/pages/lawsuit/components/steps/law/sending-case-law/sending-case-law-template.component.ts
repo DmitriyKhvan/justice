@@ -61,7 +61,7 @@ import { Component, Input, OnInit } from '@angular/core';
       <div class="row justify-content-between">
         <div class="col-6">Прикрепленные файлы</div>
         <div class="col-6">
-          <app-file-uploader [formData]="actionData"></app-file-uploader>
+          <app-file-downloader [formData]="actionData"></app-file-downloader>
         </div>
       </div>
 

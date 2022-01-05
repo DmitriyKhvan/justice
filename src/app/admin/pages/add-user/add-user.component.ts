@@ -110,8 +110,7 @@ export class AddUserComponent implements OnInit {
           );
 
           return forkJoin([setPass, setRole]);
-        }),
-        tap((result) => console.log('result', result))
+        })
       )
       .subscribe(
         (res) => {

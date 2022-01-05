@@ -42,9 +42,7 @@ export class MonitoringComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-    console.log(this.childComp.table);
-  }
+  ngAfterViewInit() {}
 
   fireEvent() {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
@@ -63,7 +61,6 @@ export class MonitoringComponent implements OnInit, AfterViewInit {
   }
 
   setDistrict(region: any) {
-    console.log(region);
     if (region) {
       this.filialsDic = region.branches;
       this.filials = [];
@@ -84,11 +81,6 @@ export class MonitoringComponent implements OnInit, AfterViewInit {
       .pipe(debounceTime(700))
       .subscribe((monitoring) => {
         this.monitoring = monitoring;
-        console.log(this.monitoring);
-
-        setTimeout(() => {
-          console.log(this.childComp.table);
-        });
       });
   }
 }

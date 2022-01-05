@@ -146,7 +146,7 @@ export class ReferralForAppealComponent implements OnInit {
         },
         (error) => {
           this.submitted = false;
-          this.alert.danger('Форма не оформлена');
+          // this.alert.danger('Форма не оформлена');
         }
       );
   }

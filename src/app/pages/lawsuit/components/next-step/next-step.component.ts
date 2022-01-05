@@ -35,6 +35,10 @@ export class NextStepComponent implements OnInit {
       );
     });
 
+    // this.lawsuitService.getSteps().subscribe((steps) => {
+    //   this.restSteps = steps;
+    // });
+
     this.form = new FormGroup({
       nextStep: new FormControl(null, Validators.required),
       nextAction: new FormControl(null, Validators.required),
@@ -68,8 +72,6 @@ export class NextStepComponent implements OnInit {
       toStepId: this.form.value.nextStep,
     };
 
-    console.log('data', data);
-
     this.lawsuitService.apiFetch(data, 'process/nextStep', null).subscribe(
       (actions) => {
         // this.lawsuitService.historyActions = actions;
@@ -78,7 +80,7 @@ export class NextStepComponent implements OnInit {
       },
       (error) => {
         this.submitted = false;
-        this.alert.danger('Форма не оформлена');
+        // this.alert.danger('Форма не оформлена');
       }
     );
   }

@@ -107,6 +107,7 @@ export class ClientsListComponent implements OnInit, DoCheck {
       queryParams: {
         ...this.route.snapshot.queryParams,
         contractId: pld.contractId,
+        stepId: pld.lastStepId,
       },
     });
   }

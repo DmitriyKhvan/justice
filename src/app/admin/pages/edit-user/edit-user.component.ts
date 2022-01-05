@@ -175,7 +175,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.submitted = false;
       },
       (error) => {
-        this.alert.danger('Пользователь не обновлен');
+        // this.alert.danger('Пользователь не обновлен');
         this.submitted = false;
       }
     );

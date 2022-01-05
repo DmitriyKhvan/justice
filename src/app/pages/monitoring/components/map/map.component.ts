@@ -29,7 +29,6 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mfoSub = this.clientsService.getMfo().subscribe((filials) => {
       this.filials = filials.data;
-      console.log('filials', this.filials);
     });
 
     this.mfoSub = fromEvent(this.mapRef.nativeElement, 'click')
@@ -50,11 +49,9 @@ export class MapComponent implements OnInit, OnDestroy {
         filter((event) => event.hasAttribute('code'))
       )
       .subscribe((area) => {
-        console.log(area.getBoundingClientRect());
         const code = area.getAttribute('code');
 
         this.filial = this.filials.find((i: any) => i.code === code);
-        console.log('filial', this.filial);
 
         area.classList.add('active');
         const coords = area.getBoundingClientRect();

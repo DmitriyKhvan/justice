@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -68,7 +69,8 @@ export class LawsuitService {
     public http: HttpClient,
     public auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alert: AlertService
   ) {}
 
   monitoring(mfos: any): Observable<any> {
@@ -96,6 +98,7 @@ export class LawsuitService {
       )
       .pipe(
         catchError((error) => {
+          this.alert.danger(error.error.message);
           return throwError(error);
         })
       );
@@ -104,7 +107,7 @@ export class LawsuitService {
   confirmAction(data: any, api: string): Observable<any> {
     return this.http.post(`${environment.dbUrlBek}/${api}`, data).pipe(
       catchError((error) => {
-        console.log('error', error);
+        this.alert.danger(error.error.message);
         return throwError(error);
       })
     );
@@ -115,6 +118,7 @@ export class LawsuitService {
       .get(`${environment.dbUrlBek}/cases/getContract?contractId=${id}`)
       .pipe(
         catchError((error) => {
+          this.alert.danger(error.error.message);
           return throwError(error);
         })
       );
@@ -123,20 +127,20 @@ export class LawsuitService {
   getSteps(): Observable<any> {
     return this.http.get(`${environment.dbUrlBek}/step`).pipe(
       catchError((error) => {
+        this.alert.danger(error.error.message);
         return throwError(error);
       })
     );
   }
 
   getStepsProcess({ contractId, mfo }: any): Observable<any> {
-    // console.log(contractId, mfo);
-
     return this.http
       .get(
         `${environment.dbUrlBek}/process/getSteps?uniqueId=${contractId}&mfo=${mfo}&lang=ru`
       )
       .pipe(
         catchError((error) => {
+          this.alert.danger(error.error.message);
           return throwError(error);
         })
       );
@@ -146,7 +150,6 @@ export class LawsuitService {
     // console.log('this.steps', this.steps);
     // console.log('id', id);
 
-    this.fromStepId = id;
     this.currentStep = this.steps.find((step: any) => step.stepid === +id);
     this.stepIndex =
       this.steps.findIndex((step: any) => step.stepid === +id) + 1;
@@ -156,12 +159,16 @@ export class LawsuitService {
     // console.log(this.stepName);
     // console.log(this.stepIndex);
 
+    // if (id !== this.fromStepId) {
+    this.fromStepId = id;
+
     this.router.navigate([], {
       queryParams: {
         ...this.route.snapshot.queryParams,
         stepId: id,
       },
     });
+    // }
   }
 
   getStepActions({ mfo, contractId, stepId }: any): Observable<any> {
@@ -171,6 +178,7 @@ export class LawsuitService {
       )
       .pipe(
         catchError((error) => {
+          this.alert.danger(error.error.message);
           return throwError(error);
         })
       );
@@ -181,6 +189,7 @@ export class LawsuitService {
       .get(`${environment.dbUrlBek}/action/byStepId/${stepId}`)
       .pipe(
         catchError((error) => {
+          this.alert.danger(error.error.message);
           return throwError(error);
         })
       );
@@ -203,6 +212,8 @@ export class LawsuitService {
     return this.http.post(`${environment.dbUrlBek}/${api}`, dataFormat).pipe(
       tap(this.setHistoryActions.bind(this)),
       catchError((error) => {
+        // console.log(error);
+        this.alert.danger(error.error.message);
         return throwError(error);
       })
     );

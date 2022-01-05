@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+import { mergeMap, switchMap, tap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -26,9 +26,11 @@ export class LawsuitComponent implements OnInit, OnDestroy {
     this.route.queryParams
       .pipe(
         switchMap(() => {
-          // this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
-          //   'stepId'
-          // ];
+          this.lawsuitService.actions = [];
+          this.lawsuitService.historyActions = [];
+          this.lawsuitService.historySteps = [];
+          this.lawsuitService.steps = [];
+
           this.lawsuitService.mfo = this.route.snapshot.queryParams['mfo'];
           this.lawsuitService.contractId = this.route.snapshot.queryParams[
             'contractId'
@@ -36,20 +38,73 @@ export class LawsuitComponent implements OnInit, OnDestroy {
           return this.lawsuitService.getStepsProcess(
             this.route.snapshot.queryParams
           );
+        }),
+        tap((steps) => {
+          this.lawsuitService.steps = steps;
+          this.lawsuitService.getCurrentStep(
+            this.route.snapshot.queryParams['stepId']
+              ? this.route.snapshot.queryParams['stepId']
+              : steps[steps.length - 1].stepid
+          );
+        }),
+        switchMap(() => {
+          return this.lawsuitService.getStepActions({
+            mfo: this.route.snapshot.queryParams['mfo'],
+            contractId: this.route.snapshot.queryParams['contractId'],
+            stepId: this.route.snapshot.queryParams['stepId'],
+          });
+        }),
+        tap((histories) => {
+          // console.log('histories', histories);
+          // this.lawsuitService.actions = [];
+          this.lawsuitService.historyActions = histories.actions.filter(
+            (action: any) =>
+              action.actionStatus !== 0 && action.actionStatus !== 4
+          );
+          this.lawsuitService.actionStart = histories.actions.find(
+            (action: any) => action.data === null
+          );
+          // console.log(
+          //   'this.lawsuitService.actionStart',
+          //   this.lawsuitService.actionStart
+          // );
+          if (this.lawsuitService.actionStart) {
+            this.lawsuitService.actions.push(
+              // this.lawsuitService.actionStart.actionId
+              this.lawsuitService.actionStart
+            );
+          }
+          this.lawsuitService.historySteps = histories.jumps;
+          this.lawsuitService.isDeniedStep = this.lawsuitService.historySteps.some(
+            (step) => step.status === 1
+          );
         })
       )
-      .subscribe((steps) => {
-        this.lawsuitService.steps = steps;
-        this.lawsuitService.getCurrentStep(
-          this.route.snapshot.queryParams['stepId']
-            ? this.route.snapshot.queryParams['stepId']
-            : steps[steps.length - 1].stepid
-        );
-      });
+      .subscribe();
+
+    // this.route.queryParams
+    //   .pipe(
+    //     switchMap(() => {
+    //       this.lawsuitService.mfo = this.route.snapshot.queryParams['mfo'];
+    //       this.lawsuitService.contractId = this.route.snapshot.queryParams[
+    //         'contractId'
+    //       ];
+    //       return this.lawsuitService.getStepsProcess(
+    //         this.route.snapshot.queryParams
+    //       );
+    //     })
+    //   )
+    //   .subscribe((steps) => {
+    //     this.lawsuitService.steps = steps;
+    //     this.lawsuitService.getCurrentStep(
+    //       this.route.snapshot.queryParams['stepId']
+    //         ? this.route.snapshot.queryParams['stepId']
+    //         : steps[steps.length - 1].stepid
+    //     );
+    //   });
 
     // this.route.params
     //   .pipe(
-    //     tap(() => console.log(999)),
     //     switchMap(() => {
     //       // this.lawsuitService.fromStepId = this.route.snapshot.queryParams[
     //       //   'stepId'
@@ -71,7 +126,7 @@ export class LawsuitComponent implements OnInit, OnDestroy {
     //         : steps[steps.length - 1].stepid
     //     );
     //   });
-    // this.refreshObject();
+    // // this.refreshObject();
   }
 
   // refreshObject() {

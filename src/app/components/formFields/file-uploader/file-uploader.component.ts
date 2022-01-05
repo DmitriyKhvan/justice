@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { FileUploadService } from '../../../services/file-upload.service';
 
@@ -19,15 +20,14 @@ import { FileUploadService } from '../../../services/file-upload.service';
     {{ uploadFilesCount }}
   </pre
     > -->
-    <div *ngIf="!this.formData; else fileList" class="file_field">
+    <div class="file_field">
       <div class="file-field__title mb-1">{{ title }}</div>
       <div class="file-field__list mb-2">
-        <!-- {{ uploadFilesCount }}
-        <pre>
+        <!-- <pre>
         {{ fileUploadService.allUploadFiles | json }}
         </pre
         > -->
-        <!-- <div
+        <div
           *ngFor="
             let item of uploadFilesCount
               ? fileUploadService.allUploadFiles.slice(0, -uploadFilesCount)
@@ -60,7 +60,7 @@ import { FileUploadService } from '../../../services/file-upload.service';
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <div
           *ngFor="let item of currentUploadFiles; index as i"
@@ -130,34 +130,9 @@ import { FileUploadService } from '../../../services/file-upload.service';
         />
       </label>
     </div>
-
-    <ng-template #fileList>
-      <div
-        class="fileList"
-        *ngFor="let file of this.formData.data.files"
-        (click)="downloadFile(file.id, file.name)"
-      >
-        <i class="icon-attach mr-1"></i>
-        <div class="file-field__list_text ml-1">
-          {{ file.name }}
-        </div>
-      </div>
-    </ng-template>
   `,
   styles: [
     `
-      .fileList {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
-      .fileList:hover {
-        background: rgba(16, 39, 74, 0.1);
-      }
-      .fileList i {
-        font-size: 24px;
-      }
-
       .readonly {
         opacity: 0.3;
         border: 1px dashed #10274a;
@@ -171,16 +146,15 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   ) {}
 
   @Input() title: any = 'Прикрепить скан документа';
-  @Input() formData: any = null;
   @Input() formTemplate: any = null;
 
   @Output() fileSelected: EventEmitter<any> = new EventEmitter();
 
-  acceptList = [];
-
   currentUploadFiles: Array<any> = [];
-  // allUploadFiles: any[] = [];
+  allUploadFiles: any[] = [];
   uploadFilesCount: number = 0;
+
+  uploadFileSub!: Subscription;
 
   ngOnInit(): void {
     // console.log(
@@ -188,36 +162,18 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
     //   this.fileUploadService.currentUploaderFiles
     // );
 
-    // выяснить почему два раза запускается
-    this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-      // this.fileUploadService.allUploadFiles = [];
+    this.uploadFileSub = this.fileUploadService.currentUploaderFiles.subscribe(
+      (data) => {
+        // this.fileUploadService.allUploadFiles = [];
 
-      this.currentUploadFiles = data;
+        this.currentUploadFiles = data;
 
-      this.currentUploadFiles.forEach((i) => {
-        this.uploadFilesCount++;
-        this.fileUploadService.allUploadFiles.push(i);
-      });
-    });
-  }
-
-  downloadFile(id: number, filename: string | null = null) {
-    this.fileUploadService.downloadFile(id).subscribe((response: any) => {
-      let dataType = response.type;
-
-      let downloadLink = document.createElement('a');
-      let url = window.URL.createObjectURL(
-        new Blob([response], { type: dataType })
-      );
-      downloadLink.href = url;
-      // var page = window.open(url);
-      // page?.print();
-      if (filename) downloadLink.setAttribute('download', filename);
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      window.URL.revokeObjectURL(url);
-      downloadLink.remove();
-    });
+        this.currentUploadFiles.forEach((i) => {
+          this.uploadFilesCount++;
+          this.fileUploadService.allUploadFiles.push(i);
+        });
+      }
+    );
   }
 
   showTooltip(evt: any): void {
@@ -232,9 +188,6 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
 
   changed(): void {
     this.uploadFilesCount = 0;
-    // this.uploadFiles.length
-    //   ? this.fileSelected.emit(true)
-    //   : this.fileSelected.emit(false);
   }
 
   deleteFile(fileName: any, flag: string): void {
@@ -269,8 +222,11 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.fileUploadService.UploaderFiles.next([]);
-    this.fileUploadService.allUploadFiles = [];
-    this.uploadFilesCount = 0;
+    if (this.uploadFileSub) {
+      this.uploadFileSub.unsubscribe();
+      this.fileUploadService.UploaderFiles.next([]);
+      this.fileUploadService.allUploadFiles = [];
+      this.uploadFilesCount = 0;
+    }
   }
 }

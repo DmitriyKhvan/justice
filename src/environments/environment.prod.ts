@@ -8,5 +8,5 @@ export const environment: Environment = {
   // fileBaseUrl: 'http://10.1.1.20:9002',
   fileBaseUrl: 'http://' + window.location.hostname + ':9002',
 
-  authUrl: `http://auth.flexit.uz/auth`,
+  authUrl: 'http://' + window.location.hostname + '/auth',
 };

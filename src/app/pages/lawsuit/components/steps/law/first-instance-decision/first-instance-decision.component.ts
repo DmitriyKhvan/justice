@@ -433,7 +433,7 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.submitted = false;
-        this.alert.danger('Форма не оформлена');
+        // this.alert.danger('Форма не оформлена');
       }
     );
   }

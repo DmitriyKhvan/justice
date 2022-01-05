@@ -50,7 +50,7 @@ export class ClientsService {
 
     return this.http.post<any>(`${environment.dbUrlBek}/cases/getList`, {
       page: 1,
-      count: 10,
+      count: 1000,
       mfo,
     });
   }

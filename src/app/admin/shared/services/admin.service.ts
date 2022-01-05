@@ -1,25 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { AlertService } from 'src/app/services/alert.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private alert: AlertService
+  ) {}
 
   createUser(user: any): Observable<any> {
-    return this.http.post(
-      `${environment.authUrl}/admin/realms/JUSTICE/users`,
-      user
-    );
+    return this.http
+      .post(`${environment.authUrl}/admin/realms/JUSTICE/users`, user)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
 
   getUsers({ currentPage = 0, itemsPerPage = 9999 }: any): Observable<any> {
-    return this.http.get(
-      `${environment.authUrl}/admin/realms/JUSTICE/users?first=${currentPage}&max=${itemsPerPage}`
-    );
+    return this.http
+      .get(
+        `${environment.authUrl}/admin/realms/JUSTICE/users?first=${currentPage}&max=${itemsPerPage}`
+      )
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
 
   getSearchUsers({
@@ -39,16 +55,25 @@ export class AdminService {
   }
 
   updateUser(userId: string, user: object): Observable<any> {
-    return this.http.put(
-      `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}`,
-      user
-    );
+    return this.http
+      .put(`${environment.authUrl}/admin/realms/JUSTICE/users/${userId}`, user)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
 
   removeUser(id: any): Observable<void> {
-    return this.http.delete<void>(
-      `${environment.authUrl}/admin/realms/JUSTICE/users/${id}`
-    );
+    return this.http
+      .delete<void>(`${environment.authUrl}/admin/realms/JUSTICE/users/${id}`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
 
   // getRegions(): Observable<any> {

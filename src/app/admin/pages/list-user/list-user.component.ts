@@ -173,7 +173,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
         this.alert.warning('Пользователь был удален');
       },
       (error) => {
-        this.alert.danger('Пользователь не удален');
+        // this.alert.danger('Пользователь не удален');
       }
     );
   }
@@ -194,7 +194,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
         this.alert.warning(`Пользователь был ${isActiveUser}`);
       },
       (error) => {
-        this.alert.danger(`Пользователь не был ${isActiveUser}`);
+        // this.alert.danger(`Пользователь не был ${isActiveUser}`);
       }
     );
   }
