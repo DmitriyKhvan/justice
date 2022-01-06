@@ -64,7 +64,16 @@
     <div class="page-table__body">
       <div
         class="page-table__tr"
-        *ngFor="let contract of contractList; index as i"
+        *ngFor="
+          let contract of contractList
+            | paginate
+              : {
+                  itemsPerPage: itemsPerPage,
+                  currentPage: currentPage,
+                  totalItems: totalItems
+                };
+          index as i
+        "
         [class.page-table__tr__active]="selectedItem === i"
         (click)="selectItem(contract, i)"
         (dblclick)="showDetails()"
@@ -114,5 +123,31 @@
         </div>
       </div>
     </div>
+
+    <!-- pagination -->
+  </div>
+
+  <div class="d-flex page-table__tr__wrapper paginationBlock add">
+    <div class="d-flex align-items-center">
+      <small class="paginationTitle">Строк на странице:</small>
+      <ng-select
+        class="my-select"
+        [items]="pages"
+        [(ngModel)]="itemsPerPage"
+        (change)="pageChanged(1)"
+        bindLabel="label"
+        bindValue="value"
+        [clearable]="false"
+        #agreeSelect
+      ></ng-select>
+    </div>
+
+    <pagination-controls
+      class="my-pagination"
+      (pageChange)="pageChanged($event)"
+      previousLabel=""
+      nextLabel=""
+      [autoHide]="true"
+    ></pagination-controls>
   </div>
 </div>

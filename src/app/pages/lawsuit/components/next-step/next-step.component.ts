@@ -64,6 +64,8 @@ export class NextStepComponent implements OnInit {
       return;
     }
 
+    this.submitted = true;
+
     const data = {
       uniqueId: this.lawsuitService.contractId,
       mfo: this.lawsuitService.mfo,

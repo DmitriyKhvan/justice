@@ -1,4 +1,5 @@
-<div class="page-card">
+<div *ngIf="flagPageCard; else pageCardMini" class="page-card">
+  <i class="uil-times tooglePageCard" (click)="tooglePageCard(false)"></i>
   <div class="page-card__header px-3 pt-2">
     Проблемный кредит #{{ contract.contractId }}
   </div>
@@ -87,3 +88,13 @@
     </div>
   </div>
 </div>
+
+<ng-template #pageCardMini>
+  <div class="page-card-mini">
+    <i
+      class="uil-angle-right tooglePageCardMini"
+      (click)="tooglePageCard(true)"
+    ></i>
+    <span>Информация о проблемном кредите #{{ contract.contractId }}</span>
+  </div>
+</ng-template>

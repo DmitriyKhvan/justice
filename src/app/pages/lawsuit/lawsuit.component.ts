@@ -16,6 +16,8 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 })
 export class LawsuitComponent implements OnInit, OnDestroy {
   requestTimeout: any = null;
+  resize: boolean = true;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -159,6 +161,10 @@ export class LawsuitComponent implements OnInit, OnDestroy {
   //       this.requestTimeout = setTimeout(() => this.refreshObject(), 1000);
   //     });
   // }
+
+  onAdd(value: any) {
+    this.resize = value;
+  }
 
   goToBack(): void {
     this.router.navigate(['clients/list'], {

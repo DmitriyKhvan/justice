@@ -10,7 +10,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   templateUrl: './stopping-bce.component.html',
   styleUrls: ['./stopping-bce.component.scss'],
 })
-export class StoppingBCEComponent implements OnInit {
+export class StoppingBCEComponent implements OnInit, OnDestroy {
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
@@ -27,10 +27,17 @@ export class StoppingBCEComponent implements OnInit {
     { value: 4, label: 'Суд' },
   ];
 
-  reasonStoppingDic = [
-    { value: 1, label: 'Полная' },
-    { value: 2, label: 'Временная' },
-  ];
+  reasonStoppingDic: any[] = [];
+
+  readonly: string = '';
+
+  stopSuspendDate!: any;
+  stopReason!: any;
+
+  private stopTypeSub!: Subscription | undefined;
+  private stopInitiatorSub!: Subscription | undefined;
+
+  private dicSub!: Subscription;
 
   constructor(
     private alert: AlertService,
@@ -47,6 +54,81 @@ export class StoppingBCEComponent implements OnInit {
       additionalInfo: new FormControl(null, Validators.required),
       stopReason: new FormControl(null, Validators.required),
     });
+
+    this.stopSuspendDate = this.form.get('stopSuspendDate');
+    this.stopReason = this.form.get('stopReason');
+
+    this.subscribeToStopType();
+  }
+
+  private subscribeToStopType(): void {
+    this.stopTypeSub = this.form
+      .get('stopType')
+      ?.valueChanges.subscribe((value) => {
+        this.toggleStopSuspendDateValidators(value, 'stopType');
+      });
+
+    this.stopInitiatorSub = this.form
+      .get('stopInitiator')
+      ?.valueChanges.subscribe((value) => {
+        this.toggleStopSuspendDateValidators(value, 'stopInitiator');
+        this.changeDic(value);
+      });
+  }
+
+  changeDic(value: any) {
+    this.form.patchValue({
+      stopReason: null,
+    });
+
+    if (value === 1) {
+      this.dicSub = this.lawsuitService
+        .getDic('STOP_REASON_CLIENT')
+        .subscribe(
+          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
+        );
+    } else if (value === 2) {
+      this.dicSub = this.lawsuitService
+        .getDic('STOP_REASON_BANK')
+        .subscribe(
+          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
+        );
+    } else if (value === 3) {
+      this.dicSub = this.lawsuitService
+        .getDic('STOP_REASON_MIB')
+        .subscribe(
+          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
+        );
+    } else {
+      this.dicSub = this.lawsuitService
+        .getDic('STOP_REASON_COURT')
+        .subscribe(
+          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
+        );
+    }
+  }
+
+  toggleStopSuspendDateValidators(value: any, field: any): void {
+    this.form.patchValue({
+      stopSuspendDate: null,
+    });
+    if (
+      (value !== 1 && field === 'stopType') ||
+      (value !== 1 && field === 'stopInitiator')
+    ) {
+      this.stopSuspendDate.enable();
+      this.readonly = '';
+
+      this.stopSuspendDate?.setValidators(Validators.required);
+    } else {
+      this.stopSuspendDate.disable();
+
+      this.readonly = 'readonly';
+
+      this.stopSuspendDate?.clearAsyncValidators();
+    }
+
+    this.stopSuspendDate?.updateValueAndValidity();
   }
 
   submit(actionId: number) {
@@ -78,5 +160,19 @@ export class StoppingBCEComponent implements OnInit {
         // this.alert.danger('Форма не оформлена');
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.stopTypeSub) {
+      this.stopTypeSub.unsubscribe();
+    }
+
+    if (this.stopInitiatorSub) {
+      this.stopInitiatorSub.unsubscribe();
+    }
+
+    if (this.dicSub) {
+      this.dicSub.unsubscribe();
+    }
   }
 }

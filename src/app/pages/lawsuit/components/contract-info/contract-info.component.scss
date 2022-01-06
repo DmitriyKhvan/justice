@@ -1,0 +1,55 @@
+.page-card {
+  position: relative;
+
+  .tooglePageCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 13px 8px;
+    font-size: 18px;
+    background: #b0b9c4;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+
+    &::before {
+      margin: 0;
+    }
+  }
+}
+
+.page-card-mini {
+  position: relative;
+  margin-top: 35px;
+  width: 100%;
+  padding: 11px 20px;
+  background: #e9ebef;
+  border-radius: 0px 10px 10px 0px;
+
+  .tooglePageCardMini {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    right: -14px;
+    transform: translate(0, -50%);
+    font-size: 26px;
+    color: #fff;
+    background: #10274a;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    cursor: pointer;
+
+    &::before {
+      margin: 0;
+    }
+  }
+}

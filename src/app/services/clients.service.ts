@@ -41,7 +41,7 @@ export class ClientsService {
     return this.http.get<any>(`${environment.dbUrlBek}/cases/IABSmfo`);
   }
 
-  getListByMfo(mfo: any): Observable<any> {
+  getListByMfo({ page, count, mfo }: any): Observable<any> {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(
     //     `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
@@ -49,8 +49,8 @@ export class ClientsService {
     // );
 
     return this.http.post<any>(`${environment.dbUrlBek}/cases/getList`, {
-      page: 1,
-      count: 1000,
+      page,
+      count,
       mfo,
     });
   }

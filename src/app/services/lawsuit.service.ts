@@ -232,4 +232,15 @@ export class LawsuitService {
       .filter((action) => action.actionId === actionId)
       .slice(-1)[0]?.data;
   }
+
+  getDic(dicName: string): Observable<any> {
+    return this.http
+      .get(`${environment.dbUrlBek}/references/getSprByType?type=${dicName}`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
+  }
 }

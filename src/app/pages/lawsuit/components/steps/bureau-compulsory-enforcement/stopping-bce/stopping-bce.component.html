@@ -24,10 +24,19 @@
           [searchable]="false"
           formControlName="stopType"
         ></ng-select>
+        <div
+          *ngIf="form.get('stopType')?.touched && form.get('stopType')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('stopType')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
       </div>
     </div>
     <div class="col-6">
       <app-datepicker
+        [formTemplate]="readonly"
         title="Дата возобновления процесса"
         [form]="form"
         controlName="stopSuspendDate"
@@ -49,6 +58,17 @@
           [searchable]="false"
           formControlName="stopInitiator"
         ></ng-select>
+        <div
+          *ngIf="
+            form.get('stopInitiator')?.touched &&
+            form.get('stopInitiator')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('stopInitiator')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
       </div>
     </div>
     <div class="col-6">
@@ -98,14 +118,24 @@
         <ng-select
           appearance="outline"
           [items]="reasonStoppingDic"
-          bindLabel="label"
-          bindValue="value"
+          bindLabel="lang.ru"
+          bindValue="id"
           placeholder="Причина остановки"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
           formControlName="stopReason"
         ></ng-select>
+        <div
+          *ngIf="
+            form.get('stopReason')?.touched && form.get('stopReason')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('stopReason')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
       </div>
     </div>
   </div>

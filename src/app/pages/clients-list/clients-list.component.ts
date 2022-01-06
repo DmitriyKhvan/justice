@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import {
   animate,
   state,
@@ -13,6 +13,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-clients-list',
@@ -37,10 +38,20 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
     ]),
   ],
 })
-export class ClientsListComponent implements OnInit, DoCheck {
+export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   range: any = [];
 
   selectedItem = null;
+
+  currentPage: number = 1;
+  totalItems!: number;
+  pages: Array<any> = [
+    { label: 10, value: 10 },
+    { label: 20, value: 20 },
+    { label: 30, value: 30 },
+    { label: 'Все', value: 'all' },
+  ];
+  itemsPerPage: number = this.pages[0].value;
 
   contractList = [
     {
@@ -76,6 +87,8 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
   timerId!: any;
 
+  contractsSub!: Subscription;
+
   constructor(
     public mainService: MainService,
     public clientsService: ClientsService,
@@ -87,17 +100,60 @@ export class ClientsListComponent implements OnInit, DoCheck {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.clientsService.getListByMfo(val.mfo).subscribe((value) => {
-        this.clientsService.listByMfo.next(value);
-      });
-    });
+    // this.route.queryParams.subscribe((val) => {
+    //   this.clientsService.getListByMfo(val.mfo).subscribe((value) => {
+    //     this.clientsService.listByMfo.next(value);
+    //   });
+    // });
+
+    // this.route.params
+    //   .pipe(
+    //     switchMap(() => {
+    //       const data = {
+    //         page: this.currentPage,
+    //         count: this.itemsPerPage,
+    //         mfo: this.route.snapshot.queryParams['mfo'],
+    //       };
+
+    //       return this.clientsService.getListByMfo(data);
+    //     })
+    //   )
+    //   .subscribe((value) => {
+    //     console.log(value);
+
+    //     this.contractList = value.contracts;
+    //     this.totalItems = value.count;
+    //   });
+
+    this.getContracts();
   }
 
   ngDoCheck(): void {
-    this.clientsService.listByMfo.subscribe((value) => {
-      this.contractList = value;
-    });
+    // this.clientsService.listByMfo.subscribe((value: any) => {
+    //   console.log(value);
+    //   this.contractList = value.contracts;
+    //   this.totalItems = value.count;
+    // });
+  }
+
+  pageChanged(currentPage: number) {
+    this.currentPage = currentPage;
+    this.getContracts();
+  }
+
+  getContracts() {
+    const data = {
+      page: this.currentPage,
+      count: this.itemsPerPage,
+      mfo: this.route.snapshot.queryParams['mfo'],
+    };
+
+    this.contractsSub = this.clientsService
+      .getListByMfo(data)
+      .subscribe((contracts: any) => {
+        this.contractList = contracts.contracts;
+        this.totalItems = contracts.count;
+      });
   }
 
   selectItem(pld: any, idx: any): void {
@@ -173,5 +229,11 @@ export class ClientsListComponent implements OnInit, DoCheck {
 
         this.lawsuitService.decisions = resArr;
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.contractsSub) {
+      this.contractsSub.unsubscribe();
+    }
   }
 }
