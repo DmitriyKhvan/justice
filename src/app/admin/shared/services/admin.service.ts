@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
@@ -120,10 +120,29 @@ export class AdminService {
     );
   }
 
-  setUserRoles(userId: string, roles: object) {
+  setUserRoles(userId: string, roles: any): Observable<any> {
     return this.http.post(
       `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}/role-mappings/clients/78e0fab3-a7ca-4b70-a949-925644fdd2fc`,
       roles
     );
+  }
+
+  removeUserRoles(userId: string, roles: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      body: [roles],
+    };
+
+    return this.http
+      .delete<void>(
+        `${environment.authUrl}/admin/realms/JUSTICE/users/${userId}/role-mappings/clients/78e0fab3-a7ca-4b70-a949-925644fdd2fc`,
+        httpOptions
+      )
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
 }

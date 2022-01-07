@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -17,6 +18,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   user!: any;
 
   uSub!: Subscription;
+  rSub!: Subscription;
 
   roles = [];
 
@@ -179,6 +181,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.submitted = false;
       }
     );
+  }
+
+  remove(event: any) {
+    // console.log(event.value);
+
+    this.rSub = this.adminService
+      .removeUserRoles(this.user.id, event.value)
+      .subscribe();
   }
 
   ngOnDestroy(): void {
