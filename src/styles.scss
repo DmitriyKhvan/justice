@@ -1211,8 +1211,7 @@ i.btnIcon {
   &.add {
     position: fixed;
     bottom: 0;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin: 20px 80px;
     width: 100%;
   }
 
@@ -1289,6 +1288,37 @@ i.btnIcon {
       border: 1px solid rgba(16, 39, 74, 0.3);
       margin-right: -1px;
     }
+  }
+}
+
+.my-select.ng-select {
+  width: 61px;
+  .ng-select-container {
+    border: none;
+    background: transparent;
+
+    &:hover {
+      box-shadow: none;
+    }
+
+    .ng-value-container {
+      font-weight: 600;
+      color: var(--primary-color);
+      padding-left: 5px;
+    }
+  }
+
+  .ng-dropdown-panel {
+    border: none;
+  }
+
+  .ng-arrow-wrapper .ng-arrow::before {
+    font-size: 35px;
+  }
+
+  .ng-arrow-wrapper {
+    width: 28px;
+    height: 40px;
   }
 }
 

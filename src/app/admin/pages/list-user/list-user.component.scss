@@ -64,37 +64,6 @@
   }
 }
 
-.my-select.ng-select ::ng-deep {
-  width: 53px;
-  .ng-select-container {
-    border: none;
-    background: transparent;
-
-    &:hover {
-      box-shadow: none;
-    }
-
-    .ng-value-container {
-      font-weight: 600;
-      color: var(--primary-color);
-      padding-left: 5px;
-    }
-  }
-
-  .ng-dropdown-panel {
-    border: none;
-  }
-
-  .ng-arrow-wrapper .ng-arrow::before {
-    font-size: 35px;
-  }
-
-  .ng-arrow-wrapper {
-    width: 28px;
-    height: 40px;
-  }
-}
-
 .notUserss {
   height: calc(100% - 60px);
 }

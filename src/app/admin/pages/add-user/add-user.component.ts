@@ -83,7 +83,7 @@ export class AddUserComponent implements OnInit {
       attributes: {
         middleName: this.form.value.middle_name,
         mfo: this.form.value.district,
-        roles: this.form.value.roles.map((role: any) => role.name),
+        roles: this.form.value.roles.map((role: any) => role.description),
       },
     };
 

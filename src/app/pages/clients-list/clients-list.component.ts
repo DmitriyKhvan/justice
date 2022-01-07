@@ -49,7 +49,7 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     { label: 10, value: 10 },
     { label: 20, value: 20 },
     { label: 30, value: 30 },
-    { label: 'Все', value: 'all' },
+    { label: 'Все', value: -1 },
   ];
   itemsPerPage: number = this.pages[0].value;
 

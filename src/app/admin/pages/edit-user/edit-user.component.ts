@@ -143,7 +143,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
         ...this.user.attributes,
         mfo: this.form.value.district,
         middleName: this.form.value.middleName,
-        roles: this.form.value.roles.map((role: any) => role.name),
+        roles: this.form.value.roles.map((role: any) => role.description),
       },
     };
 

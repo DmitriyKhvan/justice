@@ -25,10 +25,14 @@ export class AdminService {
       );
   }
 
-  getUsers({ currentPage = 0, itemsPerPage = 9999 }: any): Observable<any> {
+  getUsers({
+    currentPage = 0,
+    itemsPerPage = 9999,
+    searchValue = '',
+  }: any): Observable<any> {
     return this.http
       .get(
-        `${environment.authUrl}/admin/realms/JUSTICE/users?first=${currentPage}&max=${itemsPerPage}`
+        `${environment.authUrl}/admin/realms/JUSTICE/users?search=${searchValue}&first=${currentPage}&max=${itemsPerPage}`
       )
       .pipe(
         catchError((error) => {
@@ -38,15 +42,26 @@ export class AdminService {
       );
   }
 
-  getSearchUsers({
-    currentPage = 0,
-    itemsPerPage = 9999,
-    searchValue,
-  }: any): Observable<any> {
-    return this.http.get(
-      `${environment.authUrl}/admin/realms/JUSTICE/users?briefRepresentation=true&first=${currentPage}&max=${itemsPerPage}&search=${searchValue}`
-    );
+  getCountUsers(): Observable<any> {
+    return this.http
+      .get(`${environment.authUrl}/admin/realms/JUSTICE/users/count`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
+
+  // getSearchUsers({
+  //   currentPage = 0,
+  //   itemsPerPage = 9999,
+  //   searchValue,
+  // }: any): Observable<any> {
+  //   return this.http.get(
+  //     `${environment.authUrl}/admin/realms/JUSTICE/users?briefRepresentation=true&first=${currentPage}&max=${itemsPerPage}&search=${searchValue}`
+  //   );
+  // }
 
   getUserById(id: any): Observable<any> {
     return this.http.get(

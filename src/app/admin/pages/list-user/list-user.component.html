@@ -24,10 +24,11 @@
           class="my-select"
           [items]="pages"
           [(ngModel)]="itemsPerPage"
-          (change)="pageChanged(1)"
+          (change)="pageChanged(0)"
           bindLabel="label"
           bindValue="value"
           [clearable]="false"
+          [searchable]="false"
           #agreeSelect
         ></ng-select>
       </div>

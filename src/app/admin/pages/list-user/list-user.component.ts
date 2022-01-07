@@ -43,7 +43,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
     { label: 5, value: 5 },
     { label: 10, value: 10 },
     { label: 20, value: 20 },
-    // { label: 'Все', value: 'all' },
+    { label: 'Все', value: 999999999 },
   ];
   itemsPerPage: number = this.pages[0].value;
   searchValue: string = '';
@@ -64,34 +64,12 @@ export class ListUserComponent implements OnInit, OnDestroy {
         debounceTime(700),
         map((event: any) => event.target.value.toLowerCase()),
         // filter((value) => value.length > 2),
-        distinctUntilChanged(),
-        mergeMap((value) => {
-          const data = {
-            itemsPerPage: this.itemsPerPage,
-            currentPage: this.currentPage,
-            searchValue: value,
-          };
-          const users = this.adminService.getUsers(data);
-          const usersSearch = this.adminService.getSearchUsers(data);
-          return forkJoin({ users, usersSearch });
-        })
+        distinctUntilChanged()
       )
-      .subscribe((res: any) => {
-        this.users = res.users
-          .filter((user: any) =>
-            res.usersSearch.some((u: any) => u.id === user.id)
-          )
-          .map((user: any) => {
-            return {
-              ...user,
-              attributes: {
-                ...user.attributes,
-                filials: [],
-              },
-            };
-          });
-
-        this.usersTransform();
+      .subscribe((value: any) => {
+        this.currentPage = 0;
+        this.searchValue = value;
+        this.getUsers();
       });
   }
 
@@ -112,16 +90,33 @@ export class ListUserComponent implements OnInit, OnDestroy {
 
   getUsers() {
     this.loading = true;
+
     const data = {
-      // itemsPerPage: this.itemsPerPage,
-      // currentPage: this.currentPage,
-      // searchValue: this.searchValue,
+      itemsPerPage: this.itemsPerPage,
+      currentPage: (this.currentPage - 1) * this.itemsPerPage,
+      searchValue: this.searchValue,
     };
-    this.uSub = this.adminService
-      .getUsers(data)
-      .pipe(
-        map((users: any) => {
-          return users.map((user: any) => {
+
+    const users = this.adminService.getUsers(data);
+    const countUsers = this.adminService.getCountUsers();
+    // const usersSearch = this.adminService.getSearchUsers(data);
+
+    forkJoin({ users, countUsers }).subscribe(
+      (res: any) => {
+        // if (this.searchValue) {
+        //   this.totalItems = res.users.length;
+        //   console.log(this.totalItems);
+        // } else {
+        //   this.totalItems = res.countUsers;
+        // }
+
+        this.totalItems = res.countUsers;
+
+        this.users = res.users
+          // .filter((user: any) =>
+          //   res.usersSearch.some((u: any) => u.id === user.id)
+          // )
+          .map((user: any) => {
             return {
               ...user,
               attributes: {
@@ -130,24 +125,54 @@ export class ListUserComponent implements OnInit, OnDestroy {
               },
             };
           });
-        })
-      )
-      .subscribe(
-        (users) => {
-          // this.users = users.users;
-          // this.totalItems = users.count;
 
-          this.users = users;
-
-          this.usersTransform();
-
-          this.loading = false;
-        },
-        (error) => {
-          this.loading = false;
-        }
-      );
+        this.usersTransform();
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
   }
+
+  // getUsers() {
+  //   this.loading = true;
+  //   const data = {
+  //     // itemsPerPage: this.itemsPerPage,
+  //     // currentPage: this.currentPage,
+  //     // searchValue: this.searchValue,
+  //   };
+  //   this.uSub = this.adminService
+  //     .getUsers(data)
+  //     .pipe(
+  //       map((users: any) => {
+  //         return users.map((user: any) => {
+  //           return {
+  //             ...user,
+  //             attributes: {
+  //               ...user.attributes,
+  //               filials: [],
+  //             },
+  //           };
+  //         });
+  //       })
+  //     )
+  //     .subscribe(
+  //       (users) => {
+  //         // this.users = users.users;
+  //         // this.totalItems = users.count;
+
+  //         this.users = users;
+
+  //         this.usersTransform();
+
+  //         this.loading = false;
+  //       },
+  //       (error) => {
+  //         this.loading = false;
+  //       }
+  //     );
+  // }
 
   confirmRemoveUser(user: any) {
     this.confirm.confirm(

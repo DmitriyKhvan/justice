@@ -127,7 +127,7 @@
     <!-- pagination -->
   </div>
 
-  <div class="d-flex page-table__tr__wrapper paginationBlock add">
+  <div class="d-flex paginationBlock add">
     <div class="d-flex align-items-center">
       <small class="paginationTitle">Строк на странице:</small>
       <ng-select
@@ -138,6 +138,7 @@
         bindLabel="label"
         bindValue="value"
         [clearable]="false"
+        [searchable]="false"
         #agreeSelect
       ></ng-select>
     </div>
