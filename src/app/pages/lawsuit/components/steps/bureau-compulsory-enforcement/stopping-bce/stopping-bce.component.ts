@@ -21,10 +21,10 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
   ];
 
   stopInitiatorDic = [
-    { value: 1, label: 'Клиент' },
-    { value: 2, label: 'Банк' },
-    { value: 3, label: 'МИБ' },
-    { value: 4, label: 'Суд' },
+    { value: 3, label: 'Клиент' },
+    { value: 4, label: 'Банк' },
+    { value: 5, label: 'МИБ' },
+    { value: 6, label: 'Суд' },
   ];
 
   reasonStoppingDic: any[] = [];
@@ -109,23 +109,27 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
   }
 
   toggleStopSuspendDateValidators(value: any, field: any): void {
+    console.log(value, field);
+
     this.form.patchValue({
       stopSuspendDate: null,
     });
     if (
-      (value !== 1 && field === 'stopType') ||
-      (value !== 1 && field === 'stopInitiator')
+      value == 1 ||
+      this.form.get('stopInitiator')?.value == 3 ||
+      value == 3 ||
+      this.form.get('stopType')?.value == 1
     ) {
-      this.stopSuspendDate.enable();
-      this.readonly = '';
-
-      this.stopSuspendDate?.setValidators(Validators.required);
-    } else {
       this.stopSuspendDate.disable();
 
       this.readonly = 'readonly';
 
       this.stopSuspendDate?.clearAsyncValidators();
+    } else {
+      this.stopSuspendDate.enable();
+      this.readonly = '';
+
+      this.stopSuspendDate?.setValidators(Validators.required);
     }
 
     this.stopSuspendDate?.updateValueAndValidity();

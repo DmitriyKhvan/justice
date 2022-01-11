@@ -53,49 +53,67 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [AuthGuard],
-    data: {
-      roles: ['lawyer', 'head-lawyer'],
-    },
+
     children: [
       { path: '', redirectTo: 'clients', pathMatch: 'full' },
-      { path: 'clients', component: ClientsComponent },
-      { path: 'monitoring', component: MonitoringComponent },
-      { path: 'login', component: LoginComponent },
+      {
+        path: 'clients',
+        component: ClientsComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: ['lawyer', 'head-lawyer'],
+        },
+      },
+      {
+        path: 'monitoring',
+        component: MonitoringComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: ['monitoring'],
+        },
+      },
       {
         path: 'clients/list',
         component: ClientsListComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: ['lawyer', 'head-lawyer'],
+        },
       },
       {
         path: 'clients/detail',
         component: ClientsDetailComponent,
-        data: { taskInfo: {} },
+        canActivate: [AuthGuard],
+        data: {
+          roles: ['lawyer', 'head-lawyer'],
+        },
+        // data: { taskInfo: {} },
       },
-      // {
-      //   path: 'clients/lawsuit/:stepId',
-      //   component: LawsuitComponent,
-      // },
-
       {
         path: 'clients/lawsuit',
         component: LawsuitComponent,
+        canActivate: [AuthGuard],
+        data: {
+          roles: ['lawyer', 'head-lawyer'],
+        },
       },
-      {
-        path: 'clients/history',
-        component: HistoryComponent,
-      },
-      {
-        path: 'claims',
-        component: DamageClaimsComponent,
-      },
-      {
-        path: 'claims/application',
-        component: ApplicationComponent,
-      },
-      {
-        path: 'search',
-        component: SearchComponent,
-      },
+      // { path: 'login', component: LoginComponent },
+      // {
+      //   path: 'clients/history',
+      //   component: HistoryComponent,
+      // },
+      // {
+      //   path: 'claims',
+      //   component: DamageClaimsComponent,
+      // },
+      // {
+      //   path: 'claims/application',
+      //   component: ApplicationComponent,
+      // },
+      // {
+      //   path: 'search',
+      //   component: SearchComponent,
+      // },
     ],
   },
   { path: 'error', component: ErrorComponent },

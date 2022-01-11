@@ -73,8 +73,8 @@ export class LawsuitService {
     private alert: AlertService
   ) {}
 
-  monitoring(mfos: any): Observable<any> {
-    return this.http.post(`${environment.dbUrlBek}/cases/monit`, mfos);
+  monitoring(data: any): Observable<any> {
+    return this.http.post(`${environment.dbUrlBek}/cases/monit`, data);
   }
 
   pushNotifications({ page = 1, count = 20, value = '' }): Observable<any> {
@@ -221,7 +221,8 @@ export class LawsuitService {
 
   setHistoryActions(histories: any): void {
     this.historyActions = histories.actions.filter(
-      (action: any) => action.actionStatus !== 0 && action.actionStatus !== 4
+      // (action: any) => action.actionStatus !== 0 && action.actionStatus !== 4
+      (action: any) => action.actionStatus !== 0
     );
 
     this.historySteps = histories.jumps;

@@ -30,9 +30,28 @@
           labelForId="yesno"
           [searchable]="false"
           [(ngModel)]="filials"
-          (ngModelChange)="setFilials($event)"
+          (ngModelChange)="setFilterData($event, 'mfos')"
+          [disabled]="filials[0] === 'ALL'"
         ></ng-select>
       </div>
+
+      <div class="select-field filter">
+        <div class="select-field__title">Статус</div>
+        <ng-select
+          [multiple]="true"
+          appearance="outline"
+          [items]="statusDic"
+          bindLabel="lang.ru"
+          bindValue="value"
+          placeholder="Выберите филиал"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          [(ngModel)]="status"
+          (ngModelChange)="setFilterData($event, 'status')"
+        ></ng-select>
+      </div>
+
       <!-- <div class="input-field filter">
         <div class="input-field__title">Период</div>
         <label class="input-field__label">
@@ -83,6 +102,7 @@
       <app-table
         *ngIf="flag === 'monitoring'"
         [monitoring]="monitoring"
+        [loader]="loader"
         #childComp
       ></app-table>
     </div>

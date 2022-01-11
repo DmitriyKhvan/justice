@@ -1,10 +1,12 @@
 <div
   class="app-navbar row no-gutters justify-content-between align-items-stretch"
 >
+  <!-- <pre> {{ keycloak.loadUserProfile }}</pre> -->
+
   <div
     *ngIf="
       keycloak.isUserInRole('lawyer') || keycloak.isUserInRole('head-lawyer');
-      else adminMenu
+      else monitoring
     "
     class="app-navbar_wrapper row no-gutters justify-content-between"
   >
@@ -19,10 +21,7 @@
       <i class="icon-group mr-1" style="font-size: 38px"></i>
       Клиенты
     </div>
-    <div class="app-navbar_item px-2" routerLink="/monitoring">
-      <i class="uil-chart-pie-alt mr-1"></i>
-      Мониторинг
-    </div>
+
     <!-- <div class="app-navbar_item px-2" style="">
       <i class="icon-document_1 mr-1"></i>
       Документы
@@ -37,6 +36,22 @@
       Заявки по ущербам
     </div> -->
   </div>
+
+  <ng-template #monitoring>
+    <div
+      class="app-navbar_item px-2"
+      style="
+        margin-left: 186px;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      "
+      *ngIf="keycloak.isUserInRole('monitoring'); else adminMenu"
+      class="app-navbar_item px-2"
+      routerLink="/monitoring"
+    >
+      <i class="icon-group mr-1" style="font-size: 38px"></i>
+      Мониторинг
+    </div>
+  </ng-template>
 
   <ng-template #adminMenu>
     <div
@@ -67,15 +82,18 @@
       style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
     >
       <i class="icon-user notification mr-1"></i>
-      <!-- Исполнитель юрист -->
-      <!-- {{ keycloak.getUsername() }} -->
-      {{
+      <!-- {{
         keycloak.isUserInRole("head-lawyer")
           ? "Главный юрист"
           : keycloak.isUserInRole("lawyer")
           ? "Юрист"
+          : keycloak.isUserInRole("monitoring")
+          ? "Мониторинг"
           : "Админ"
-      }}
+      }} -->
+
+      {{ profile?.lastName }} {{ profile?.firstName }}
+      {{ profile?.attributes?.middleName }}
     </div>
     <div
       class="app-navbar_item px-2"

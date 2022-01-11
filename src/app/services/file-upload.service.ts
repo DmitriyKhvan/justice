@@ -10,6 +10,7 @@ import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { first, mergeMap, map, catchError } from 'rxjs/operators';
 import { ClientsService } from './clients.service';
 import { environment } from 'src/environments/environment';
+import { AlertService } from './alert.service';
 
 export interface FileError {
   status: boolean;
@@ -39,7 +40,8 @@ export class FileUploadService {
 
   constructor(
     private xhttp: HttpClient,
-    public clientsService: ClientsService
+    public clientsService: ClientsService,
+    private alert: AlertService
   ) {}
 
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
@@ -115,12 +117,18 @@ export class FileUploadService {
             resolve(data);
           } else if (data instanceof HttpHeaderResponse) {
             if (data.status === 500) {
+              console.log('Загрузка файлов 500 ошибка', data);
+              this.UploaderFiles.next([]);
+              // this.alert.danger(error.error.message);
+
               reject({
                 status: false,
                 id: 'none',
                 type: 'server',
               });
             } else if (data.status === 400) {
+              console.log('Загрузка файлов 400 ошибка', data);
+              this.UploaderFiles.next([]);
               reject({
                 status: false,
                 id: 'none',

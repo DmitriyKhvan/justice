@@ -38,11 +38,17 @@
       </td>
       <td></td>
       <td>{{ data.totalDebt }}</td>
-      <td>{{ data.statusName }}</td>
+      <td>{{ data.statusName.ru }}</td>
     </tr>
   </table>
 </div>
 
 <ng-template #noMonitoring>
-  <h2 class="noFilials">Выберите филиал</h2>
+  <h2 class="noFilials" *ngIf="!monitoring.length && !loader; else loaderBlock">
+    Выберите филиал
+  </h2>
+</ng-template>
+
+<ng-template #loaderBlock>
+  <app-loader></app-loader>
 </ng-template>

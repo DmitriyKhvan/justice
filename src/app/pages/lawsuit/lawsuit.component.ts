@@ -61,7 +61,8 @@ export class LawsuitComponent implements OnInit, OnDestroy {
           // this.lawsuitService.actions = [];
           this.lawsuitService.historyActions = histories.actions.filter(
             (action: any) =>
-              action.actionStatus !== 0 && action.actionStatus !== 4
+              // action.actionStatus !== 0 && action.actionStatus !== 4
+              action.actionStatus !== 0
           );
           this.lawsuitService.actionStart = histories.actions.find(
             (action: any) => action.data === null

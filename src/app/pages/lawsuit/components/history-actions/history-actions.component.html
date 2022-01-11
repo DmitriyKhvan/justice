@@ -1,13 +1,29 @@
-<h2 class="title_lawsuit">История решений Г.Ю. по действиям</h2>
+<h2 class="title_lawsuit">
+  <span *ngIf="lawsuitService.fromStepId != 1; else notificationTitle"
+    >История решений Г.Ю. по действиям</span
+  >
+
+  <ng-template #notificationTitle>
+    <span>История уведомлений</span>
+  </ng-template>
+</h2>
 
 <div
   class="historyAction"
-  *ngFor="let action of this.lawsuitService.historyActions; let idx = index"
+  *ngFor="let action of lawsuitService.historyActions; let idx = index"
 >
-  <h2 class="subTitle_lawsuit">{{ action.actionNameLang.ru }}</h2>
+  <h2 *ngIf="lawsuitService.fromStepId != 1" class="subTitle_lawsuit">
+    {{ action.actionNameLang.ru }}
+  </h2>
 
   <div class="history_action__field">
-    <div class="row history_action__field__title no-gutters">
+    <div
+      *ngIf="
+        (lawsuitService.fromStepId == 1 && idx === 0) ||
+        lawsuitService.fromStepId != 1
+      "
+      class="row history_action__field__title no-gutters"
+    >
       <div class="col-4 add">Дата</div>
       <div class="col-8">Решение Г.Ю.</div>
     </div>
@@ -21,8 +37,9 @@
         <span *ngIf="action.actionStatus === 2" class="pending"
           >В ожидании</span
         >
-        <span *ngIf="action.actionStatus === 3" class="approved"
-          >Одобренно</span
+        <span *ngIf="action.actionStatus === 3" class="approved">Одобрено</span>
+        <span *ngIf="action.actionStatus === 4" class="approved"
+          >Отправлено</span
         >
         <i class="icon-eye" (click)="popUpForm(action)"></i>
       </div>

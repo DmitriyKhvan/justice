@@ -55,12 +55,12 @@ export class AddUserComponent implements OnInit {
       this.form.get('district')?.enable();
     } else if (region.code === '00') {
       this.districts = region.branches;
-      this.form.get('district')?.enable();
+      this.form.get('district')?.disable();
       this.form.patchValue({
         district: [region.branches[0].mfo],
       });
     } else {
-      this.form.get('district')?.disable();
+      this.form.get('district')?.enable();
     }
   }
 

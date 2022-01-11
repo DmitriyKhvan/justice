@@ -12,45 +12,47 @@
 
     <h2 class="lawsuitTitle add">{{ formData.actionNameLang.ru }}</h2>
 
-    <h4 class="title">Главный юрист</h4>
-    <div class="row justify-content-between mb-2">
-      <div *ngIf="formData.actionStatus !== 2" class="col-6">
-        <div class="label-info">Дата принятия решения</div>
-        <div class="value-info">
-          {{ formData.data.updatedAt | date: "dd.MM.yyyy HH:mm" }}
+    <ng-container *ngIf="lawsuitService.fromStepId != 1">
+      <h4 class="title">Главный юрист</h4>
+      <div class="row justify-content-between mb-2">
+        <div *ngIf="formData.actionStatus !== 2" class="col-6">
+          <div class="label-info">Дата принятия решения</div>
+          <div class="value-info">
+            {{ formData.data.updatedAt | date: "dd.MM.yyyy HH:mm" }}
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="label-info">Решение Г.Ю.</div>
+          <div *ngIf="formData.actionStatus === 1" class="value-info rejected">
+            Отказано
+          </div>
+          <div *ngIf="formData.actionStatus === 2" class="value-info pending">
+            В ожидании
+          </div>
+          <div *ngIf="formData.actionStatus === 3" class="value-info approved">
+            Одобрено
+          </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="label-info">Решение Г.Ю.</div>
-        <div *ngIf="formData.actionStatus === 1" class="value-info rejected">
-          Отказано
-        </div>
-        <div *ngIf="formData.actionStatus === 2" class="value-info pending">
-          В ожидании
-        </div>
-        <div *ngIf="formData.actionStatus === 3" class="value-info approved">
-          Одобрено
-        </div>
-      </div>
-    </div>
 
-    <div
-      *ngIf="formData.actionStatus !== 2"
-      class="row justify-content-between mb-2"
-    >
-      <div class="col-12">
-        <div class="label-info">Комментарий</div>
-        <div class="value-info">
-          {{
-            formData.headLawyerInfo
-              ? formData.headLawyerInfo
-              : "Нет комментарий"
-          }}
+      <div
+        *ngIf="formData.actionStatus !== 2"
+        class="row justify-content-between mb-2"
+      >
+        <div class="col-12">
+          <div class="label-info">Комментарий</div>
+          <div class="value-info">
+            {{
+              formData.headLawyerInfo
+                ? formData.headLawyerInfo
+                : "Нет комментарий"
+            }}
+          </div>
         </div>
       </div>
-    </div>
 
-    <hr class="separater" />
+      <hr class="separater" />
+    </ng-container>
 
     <h4 class="title">Юрист</h4>
     <div class="row justify-content-between mb-2">
