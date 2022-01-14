@@ -151,6 +151,7 @@ import { MapComponent } from './pages/monitoring/components/map/map.component';
 import { TooltipMapComponent } from './pages/monitoring/components/tooltipMap';
 import { TableComponent } from './pages/monitoring/components/table/table.component';
 import { FileDownloaderComponent } from './components/formFields/file-downloader/file-downloader.component';
+import { PopUpTemplateTextComponent } from './pages/lawsuit/components/pop-up-template-text/pop-up-template-text.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -283,6 +284,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     TooltipMapComponent,
     TableComponent,
     FileDownloaderComponent,
+    PopUpTemplateTextComponent,
   ],
   imports: [
     TooltipModule,

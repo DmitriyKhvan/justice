@@ -30,4 +30,15 @@ export class DictionariesService {
         })
       );
   }
+
+  getDicByActionId(id: number): Observable<any> {
+    return this.http
+      .get(`${environment.dbUrlBek}/references/getSprByActionId?actionId=${id}`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
+  }
 }

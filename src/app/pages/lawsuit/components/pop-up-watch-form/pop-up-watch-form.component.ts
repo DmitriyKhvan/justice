@@ -13,39 +13,8 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
     trigger('wrapAlert', [transition('* => *', useAnimation(bounce))]),
   ],
 })
-export class PopUpWatchFormComponent implements OnInit {
+export class PopUpWatchFormComponent implements OnInit, OnDestroy {
   public isActive = false;
-  // public formData = {
-  //   processId: null,
-  //   uniqueId: null,
-  //   processMfo: '',
-  //   actionId: null,
-  //   actionNameLang: {
-  //     en: '',
-  //     ru: '',
-  //     uz: '',
-  //   },
-  //   actionConfirmation: true,
-  //   data: {
-  //     id: null,
-  //     uniqueId: null,
-  //     mfo: '',
-  //     active: true,
-  //     createdAt: '',
-  //     updatedAt: '',
-  //     lastPaymentDate: '',
-  //     text: '',
-  //     files: [
-  //       {
-  //         id: null,
-  //         name: '',
-  //       },
-  //     ],
-  //   },
-  //   actionStatus: null,
-  //   processCreatedAt: '',
-  //   processUpdatedAt: '',
-  // };
 
   public formData!: any;
 
@@ -77,7 +46,7 @@ export class PopUpWatchFormComponent implements OnInit {
 
   ngOnDestroy(): void {
     if (this.popUpFormSub) {
-      this.popUpFormSub.unsubscribe;
+      this.popUpFormSub.unsubscribe();
     }
   }
 }

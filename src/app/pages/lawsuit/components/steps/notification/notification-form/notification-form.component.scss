@@ -1,0 +1,42 @@
+.template {
+  border-radius: 5px 5px 0 0;
+}
+
+.template-func {
+  display: flex;
+  margin-top: -5px;
+
+  .btn-template {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #b8bfc9;
+    background: #f4f6f8;
+    width: 50%;
+    padding: 9px;
+    outline: none;
+    color: #738096;
+
+    &.add {
+      border-radius: 0px 0px 0px 5px;
+    }
+
+    &.select {
+      border-radius: 0px 0px 5px 0px;
+      border-left: none;
+    }
+
+    i {
+      font-size: 18px;
+      margin-right: 11px;
+
+      &::before {
+        margin: 0;
+      }
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
+}

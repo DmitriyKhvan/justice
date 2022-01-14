@@ -10,6 +10,7 @@ import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { AlertService } from 'src/app/services/alert.service';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
@@ -24,25 +25,19 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
-  conductLawDic = [
-    { id: 1, label: 'Положительный' },
-    { id: 2, label: 'Отрицательный' },
-  ];
-
-  actionDic = [
-    { id: 1, label: 'Отложить' },
-    { id: 2, label: 'Дело закрыто' },
-    { id: 3, label: 'Новое обращение в суд' },
-  ];
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
   private lawTypeSupscription!: Subscription | undefined;
   private actionTypeSupscription!: Subscription | undefined;
 
+  dicSub!: Subscription;
+  dictionaries!: any;
+
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -127,6 +122,12 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
     this.subscribeToLawType();
     this.subscribeToActionType();
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
   }
 
   get datesLaw() {
@@ -171,10 +172,10 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     const additionalInfo = this.form.get('additionalInfo');
     const validators: ValidatorFn[] = [Validators.required];
 
-    if (actionType === 1) {
+    if (actionType === 45) {
       deferTo?.setValidators(validators);
       additionalInfo?.setValidators(validators);
-    } else if (actionType === 2 || actionType === 3) {
+    } else if (actionType === 46 || actionType === 47) {
       deferTo?.clearValidators();
     }
 
@@ -193,14 +194,14 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
     const validators: ValidatorFn[] = [Validators.required];
 
-    if (lawType === 1) {
+    if (lawType === 43) {
       caseNumber?.setValidators([Validators.required]);
       dateLaw?.setValidators(validators);
 
       action?.clearValidators();
       deferTo?.clearValidators();
       additionalInfo?.clearValidators();
-    } else if (lawType === 2) {
+    } else if (lawType === 44) {
       action?.setValidators(validators);
       deferTo?.setValidators(validators);
       additionalInfo?.setValidators(validators);

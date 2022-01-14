@@ -1,61 +1,89 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 
 @Component({
   selector: 'app-sending-case-law-template',
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Вид суда</div>
+        <div class="col-6">Cуды</div>
         <div class="col-6">
-          {{ getValue('viewLawDic', actionData.data.lawKind) }}
+          {{ getValue('courtKind', actionData.data.lawKind) }}
         </div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Тип суда</div>
+        <div class="col-6">Подсудность дел</div>
         <div class="col-6">
-          {{ getValue('typeLawDic', actionData.data.lawType) }}
-        </div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">Регион суда</div>
-        <div class="col-6">
-          {{ getValue('regionLawDic', actionData.data.lawRegion) }}
+          {{ getValue('courtType', actionData.data.lawType) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
         <div class="col-6">Регион</div>
         <div class="col-6">
-          {{ getValue('regionDic', actionData.data.region) }}
+          {{ getValue('regionDistrict', actionData.data.region) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Ответчик</div>
-        <div class="col-6">{{ actionData.data.defendant }}</div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">Районный суд</div>
+        <div class="col-6">Район</div>
         <div class="col-6">
-          {{ getValue('districtLawDic', actionData.data.lawDistrict) }}
+          {{
+            getDistrict(
+              'regionDistrict',
+              actionData.data.region,
+              actionData.data.district
+            )
+          }}
         </div>
       </div>
 
-      <div class="row justify-content-between">
-        <div class="col-6">Сумма иска</div>
-        <div class="col-6">{{ actionData.data.lawSum }}</div>
+      <div
+        *ngFor="
+          let defendant of actionData.data?.defendantArray;
+          let idx = index
+        "
+        class="row justify-content-between"
+      >
+        <div class="col-6">Ответчик {{ idx + 1 }}</div>
+        <div class="col-6">{{ defendant }}</div>
+      </div>
+
+      <div
+        *ngFor="
+          let thirdParties of actionData.data?.thirdPartiesArray;
+          let idx = index
+        "
+        class="row justify-content-between"
+      >
+        <div class="col-6">3-лицо {{ idx + 1 }}</div>
+        <div class="col-6">{{ thirdParties }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма неустойки</div>
-        <div class="col-6">{{ actionData.data.penaltySum }}</div>
+        <div class="col-6">Сумма основного долга</div>
+        <div class="col-6">{{ actionData.data.principalAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма штрафа/пени</div>
-        <div class="col-6">{{ actionData.data.fineSum }}</div>
+        <div class="col-6">Сумма процента</div>
+        <div class="col-6">{{ actionData.data.percentAmount }}</div>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">Сумма пени</div>
+        <div class="col-6">{{ actionData.data.penaltyAmount }}</div>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">Сумма штрафа</div>
+        <div class="col-6">{{ actionData.data.fineAmount }}</div>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">Общая сумма иска</div>
+        <div class="col-6">{{ actionData.data.totalClaimAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
@@ -66,11 +94,6 @@ import { Component, Input, OnInit } from '@angular/core';
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дата внесение в суд</div>
-        <div class="col-6">{{ actionData.data.lawInDate }}</div>
-      </div>
-
-      <div class="row justify-content-between">
         <div class="col-6">Дополнительная информация</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
@@ -78,59 +101,40 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
   styles: [],
 })
-export class SendingCaseLawTemplateComponent implements OnInit {
+export class SendingCaseLawTemplateComponent implements OnInit, OnDestroy {
   @Input() actionData!: any;
 
-  options = {
-    viewLawDic: [
-      { id: 1, label: 'Вид суда1' },
-      { id: 2, label: 'Вид суда2' },
-    ],
+  dicSub!: Subscription;
+  dictionaries!: any;
 
-    typeLawDic: [
-      { id: 1, label: 'Тип суда1' },
-      { id: 2, label: 'Тип суда2' },
-    ],
+  constructor(private dicService: DictionariesService) {}
 
-    regionLawDic: [
-      { id: 1, label: 'Регион суда1' },
-      { id: 2, label: 'Регион суда2' },
-    ],
-
-    regionDic: [
-      { id: 1, label: 'Регион1' },
-      { id: 2, label: 'Регион2' },
-    ],
-
-    districtLawDic: [
-      { id: 1, label: 'Районный суд1' },
-      { id: 2, label: 'Районный суд2' },
-    ],
-  };
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dicSub = this.dicService
+      .getDicByActionId(this.actionData.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
+  }
 
   getValue(dicName: string, val: any): any {
-    if (dicName === 'viewLawDic') {
-      return this.options[dicName].find((i: any) => i.id === val)?.label;
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
+        .ru;
     }
+  }
 
-    if (dicName === 'typeLawDic') {
-      return this.options[dicName].find((i: any) => i.id === val)?.label;
+  getDistrict(dicName: string, regionId: number, districtId: number): any {
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]
+        ?.find((region: any) => region.id === regionId)
+        ?.child.find((district: any) => district.id === districtId).lang.ru;
     }
+  }
 
-    if (dicName === 'regionLawDic') {
-      return this.options[dicName].find((i: any) => i.id === val)?.label;
-    }
-
-    if (dicName === 'regionDic') {
-      return this.options[dicName].find((i: any) => i.id === val)?.label;
-    }
-
-    if (dicName === 'districtLawDic') {
-      return this.options[dicName].find((i: any) => i.id === val)?.label;
+  ngOnDestroy(): void {
+    if (this.dicSub) {
+      this.dicSub.unsubscribe();
     }
   }
 }

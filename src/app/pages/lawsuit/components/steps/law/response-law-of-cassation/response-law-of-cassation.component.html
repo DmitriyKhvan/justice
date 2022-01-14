@@ -39,11 +39,13 @@
         placeholder="Результат решения"
         [form]="form"
         controlName="decisionResult"
-        [options]="resultDesicion"
+        [options]="dictionaries?.courtDecision"
+        [bindLabel]="'lang.ru'"
+        [bindValue]="'id'"
       ></app-select>
     </div>
 
-    <div class="col-6" *ngIf="form.get('decisionResult')?.value === 2">
+    <div class="col-6" *ngIf="form.get('decisionResult')?.value === 34">
       <app-datepicker
         title="Дата вступления решения в силу"
         [form]="form"
@@ -52,13 +54,15 @@
       ></app-datepicker>
     </div>
 
-    <div class="col-6" *ngIf="form.get('decisionResult')?.value === 1">
+    <div class="col-6" *ngIf="form.get('decisionResult')?.value === 36">
       <app-select
         title="Обжаловать решение суда"
         placeholder="Обжаловать решение суда"
         [form]="form"
         controlName="appealAgainstLawDesicion"
-        [options]="lawDesicion"
+        [options]="dictionaries?.yesNo"
+        [bindLabel]="'lang.ru'"
+        [bindValue]="'value'"
       ></app-select>
     </div>
   </div>
@@ -71,7 +75,9 @@
           placeholder="Вид обжалование"
           [form]="form"
           controlName="typeAppeal"
-          [options]="appealType"
+          [options]="dictionaries?.appealType"
+          [bindLabel]="'lang.ru'"
+          [bindValue]="'id'"
         ></app-select>
       </div>
     </div>
@@ -206,10 +212,12 @@
           placeholder="Действия"
           [form]="form"
           controlName="actionType"
-          [options]="actionTypeDic"
+          [options]="dictionaries?.notAppealAction"
+          [bindLabel]="'lang.ru'"
+          [bindValue]="'id'"
         ></app-select>
       </div>
-      <div class="col-6" *ngIf="form.get('actionType')?.value === 2">
+      <div class="col-6" *ngIf="form.get('actionType')?.value === 49">
         <app-datepicker
           title="Отложить до"
           [form]="form"
@@ -219,7 +227,7 @@
     </div>
   </div>
 
-  <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
+  <!-- <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
     <div class="row justify-content-between mb-2">
       <div class="col-12">
         <app-file-uploader
@@ -258,47 +266,47 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div *ngIf="form.get('actionType')?.value === 3">
-    <div class="row justify-content-between mb-2">
-      <div class="col-12">
-        <app-file-uploader
-          [formData]="formData"
-          [formTemplate]="formTemplate"
-          title="Прикрепить файл"
-        ></app-file-uploader>
-      </div>
+  <!-- <div *ngIf="form.get('actionType')?.value === 3"> -->
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <app-file-uploader
+        [formData]="formData"
+        [formTemplate]="formTemplate"
+        title="Прикрепить файл"
+      ></app-file-uploader>
     </div>
-    <div class="row justify-content-between mb-2">
-      <div class="col-12">
-        <div class="text-field">
-          <div class="text-field__title">Дополнительная информация</div>
-          <label
-            class="text-field__label"
-            [class]="formTemplate ? 'readonly' : ''"
-          >
-            <textarea
-              placeholder="Уточните детали"
-              formControlName="additionalInfo"
-            ></textarea>
-          </label>
+  </div>
+  <div class="row justify-content-between mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
 
-          <div
-            *ngIf="
-              form.get('additionalInfo')?.touched &&
-              form.get('additionalInfo')?.invalid
-            "
-            class="validation"
-          >
-            <small *ngIf="form.get('additionalInfo')?.errors?.required">
-              Введите данные
-            </small>
-          </div>
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            Введите данные
+          </small>
         </div>
       </div>
     </div>
   </div>
+  <!-- </div> -->
 
   <button
     *ngIf="!formData && !formTemplate"
@@ -316,13 +324,13 @@
     >
 
     <ng-template #second>
-      <span *ngIf="this.form.get('actionType')?.value === 2; else third"
+      <span *ngIf="this.form.get('actionType')?.value === 49; else third"
         >Отложить на время</span
       >
     </ng-template>
 
     <ng-template #third>
-      <span *ngIf="this.form.get('actionType')?.value === 3; else fourth"
+      <span *ngIf="this.form.get('actionType')?.value === 50; else fourth"
         >Закрыть дело</span
       >
     </ng-template>

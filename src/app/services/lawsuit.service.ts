@@ -244,4 +244,37 @@ export class LawsuitService {
         })
       );
   }
+
+  addTextTemplate(text: string): Observable<any> {
+    return this.http
+      .post(`${environment.dbUrlBek}/notification/sample/add`, { text })
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
+  }
+
+  removeTextTemplate(id: number): Observable<any> {
+    return this.http
+      .delete(`${environment.dbUrlBek}/notification/sample/remove/${id}`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
+  }
+
+  listTextTemplate(): Observable<any> {
+    return this.http
+      .get(`${environment.dbUrlBek}/notification/sample/findAll`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
+  }
 }

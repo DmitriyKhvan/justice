@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
@@ -18,24 +19,6 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted = false;
 
-  resultDesicion = [
-    { value: 1, label: 'Не удовлетворено' },
-    { value: 2, label: 'Удовлетворено' },
-  ];
-
-  lawDesicion = [
-    { value: true, label: 'Да' },
-    { value: false, label: 'Нет' },
-  ];
-
-  appealType = [{ value: 1, label: 'Апелляция' }];
-
-  actionTypeDic = [
-    { value: 1, label: 'Продолжить дело' },
-    { value: 2, label: 'Отложить на время' },
-    { value: 3, label: 'Закрыть дело' },
-  ];
-
   // caseNumber!: any;
   forceDecisionDate!: any;
   appealAgainstLawDesicion!: any;
@@ -46,7 +29,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   stateDutyAmount!: any;
   additionalInfo!: any;
 
-  appealAddInfo!: any;
+  // appealAddInfo!: any;
 
   actionType!: any;
   postponeUntil!: any;
@@ -55,9 +38,13 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   private appealLawDecisionSub!: Subscription | undefined;
   private actionTypeSub!: Subscription | undefined;
 
+  dicSub!: Subscription;
+  dictionaries!: any;
+
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -145,10 +132,10 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
           disabled: true,
         }),
 
-        appealAddInfo: new FormControl({
-          value: this.formData.data.appealAddInfo,
-          disabled: true,
-        }),
+        // appealAddInfo: new FormControl({
+        //   value: this.formData.data.appealAddInfo,
+        //   disabled: true,
+        // }),
 
         actionType: new FormControl({
           value: this.formData.data.action,
@@ -179,7 +166,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
         stateDutyAmount: new FormControl(formTemplate),
         additionalInfo: new FormControl(formTemplate),
 
-        appealAddInfo: new FormControl(formTemplate),
+        // appealAddInfo: new FormControl(formTemplate),
 
         actionType: new FormControl(null),
         postponeUntil: new FormControl(formTemplate),
@@ -198,7 +185,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.stateDutyAmount = this.form.get('stateDutyAmount');
     this.additionalInfo = this.form.get('additionalInfo');
 
-    this.appealAddInfo = this.form.get('appealAddInfo');
+    // this.appealAddInfo = this.form.get('appealAddInfo');
 
     this.actionType = this.form.get('actionType');
     this.postponeUntil = this.form.get('postponeUntil');
@@ -206,14 +193,20 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.subToResultDecision();
     this.subToAppealLawDecision();
     this.subToActionType();
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
   }
 
   private subToActionType(): void {
     this.actionTypeSub = this.form
       .get('actionType')
       ?.valueChanges.subscribe((value) => {
-        this.fileUploadService.UploaderFiles.next([]);
-        this.fileUploadService.allUploadFiles = [];
+        // this.fileUploadService.UploaderFiles.next([]);
+        // this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
@@ -224,7 +217,7 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
           // principalAmount: null,
           // forfeitAmount: null,
           // stateDutyAmount: null,
-          additionalInfo: '',
+          // additionalInfo: '',
 
           // actionType: null,
           postponeUntil: '',
@@ -238,8 +231,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.appealLawDecisionSub = this.form
       .get('appealAgainstLawDesicion')
       ?.valueChanges.subscribe((value) => {
-        this.fileUploadService.UploaderFiles.next([]);
-        this.fileUploadService.allUploadFiles = [];
+        // this.fileUploadService.UploaderFiles.next([]);
+        // this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
@@ -250,8 +243,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
           principalAmount: '',
           forfeitAmount: '',
           stateDutyAmount: '',
-          additionalInfo: '',
-          appealAddInfo: '',
+          // additionalInfo: '',
+          // appealAddInfo: '',
 
           actionType: null,
           postponeUntil: '',
@@ -265,8 +258,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.resultDecisionSub = this.form
       .get('decisionResult')
       ?.valueChanges.subscribe((value) => {
-        this.fileUploadService.UploaderFiles.next([]);
-        this.fileUploadService.allUploadFiles = [];
+        // this.fileUploadService.UploaderFiles.next([]);
+        // this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
@@ -277,8 +270,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
           principalAmount: '',
           forfeitAmount: '',
           stateDutyAmount: '',
-          additionalInfo: '',
-          appealAddInfo: '',
+          // additionalInfo: '',
+          // appealAddInfo: '',
 
           actionType: null,
           postponeUntil: '',
@@ -289,18 +282,20 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   }
 
   private toggleValidatorsActionType(actionType: any) {
-    if (actionType === 2) {
+    console.log(actionType);
+
+    if (actionType === 49) {
       this.postponeUntil?.setValidators([Validators.required]);
 
-      this.additionalInfo?.clearValidators();
-    } else if (actionType === 3) {
-      this.additionalInfo?.setValidators([Validators.required]);
+      // this.additionalInfo?.clearValidators();
+    } else if (actionType === 48 || actionType === 50) {
+      // this.additionalInfo?.setValidators([Validators.required]);
 
       this.postponeUntil?.clearValidators();
     }
 
     this.postponeUntil?.updateValueAndValidity();
-    this.additionalInfo?.updateValueAndValidity();
+    // this.additionalInfo?.updateValueAndValidity();
   }
 
   private toggleValidatorsAppealLawDecision(appealLawDecision: any) {
@@ -311,22 +306,22 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       this.forfeitAmount?.setValidators([Validators.required]);
       this.stateDutyAmount?.setValidators([Validators.required]);
       // this.additionalInfo?.setValidators([Validators.required]);
-      this.appealAddInfo?.setValidators([Validators.required]);
+      // this.appealAddInfo?.setValidators([Validators.required]);
 
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
-      this.additionalInfo?.clearValidators();
+      // this.additionalInfo?.clearValidators();
     } else if (appealLawDecision === false) {
       this.actionType?.setValidators([Validators.required]);
-      this.postponeUntil?.setValidators([Validators.required]);
+      // this.postponeUntil?.setValidators([Validators.required]);
 
       this.typeAppeal?.clearValidators();
       this.totalAmount?.clearValidators();
       this.principalAmount?.clearValidators();
       this.forfeitAmount?.clearValidators();
       this.stateDutyAmount?.clearValidators();
-      this.additionalInfo?.clearValidators();
-      this.appealAddInfo?.clearValidators();
+      // this.additionalInfo?.clearValidators();
+      // this.appealAddInfo?.clearValidators();
     }
 
     this.typeAppeal?.updateValueAndValidity();
@@ -334,15 +329,15 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.principalAmount?.updateValueAndValidity();
     this.forfeitAmount?.updateValueAndValidity();
     this.stateDutyAmount?.updateValueAndValidity();
-    this.additionalInfo?.updateValueAndValidity();
-    this.appealAddInfo?.updateValueAndValidity();
+    // this.additionalInfo?.updateValueAndValidity();
+    // this.appealAddInfo?.updateValueAndValidity();
 
     this.actionType?.updateValueAndValidity();
     this.postponeUntil?.updateValueAndValidity();
   }
 
   private toggleValidatorsDecisionResult(desicionResult: any): void {
-    if (desicionResult === 1) {
+    if (desicionResult === 36) {
       this.appealAgainstLawDesicion?.setValidators([Validators.required]);
 
       // this.caseNumber?.clearValidators();
@@ -353,12 +348,12 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       this.principalAmount?.clearValidators();
       this.forfeitAmount?.clearValidators();
       this.stateDutyAmount?.clearValidators();
-      this.additionalInfo?.clearValidators();
-      this.appealAddInfo?.clearValidators();
+      // this.additionalInfo?.clearValidators();
+      // this.appealAddInfo?.clearValidators();
 
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
-    } else if (desicionResult === 2) {
+    } else if (desicionResult === 34) {
       this.forceDecisionDate?.setValidators([Validators.required]);
 
       // this.caseNumber?.clearValidators();
@@ -369,8 +364,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       this.principalAmount?.clearValidators();
       this.forfeitAmount?.clearValidators();
       this.stateDutyAmount?.clearValidators();
-      this.additionalInfo?.clearValidators();
-      this.appealAddInfo?.clearValidators();
+      // this.additionalInfo?.clearValidators();
+      // this.appealAddInfo?.clearValidators();
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     }
@@ -383,8 +378,8 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
     this.principalAmount?.updateValueAndValidity();
     this.forfeitAmount?.updateValueAndValidity();
     this.stateDutyAmount?.updateValueAndValidity();
-    this.additionalInfo?.updateValueAndValidity();
-    this.appealAddInfo?.updateValueAndValidity();
+    // this.additionalInfo?.updateValueAndValidity();
+    // this.appealAddInfo?.updateValueAndValidity();
 
     this.actionType?.updateValueAndValidity();
     this.postponeUntil?.updateValueAndValidity();
@@ -404,10 +399,11 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       decisionDate: this.form.value.decisionDate.singleDate.formatted,
       decisionResult: this.form.value.decisionResult,
       appeal: this.form.value.appealAgainstLawDesicion, //false
-      files:
-        this.form.value.actionType === 3
-          ? this.fileUploadService.transformFilesData()
-          : [],
+      // files:
+      //   this.form.value.actionType === 3
+      //     ? this.fileUploadService.transformFilesData()
+      //     : [],
+      files: this.fileUploadService.transformFilesData(),
       action: this.form.value.actionType,
       addInfo: this.form.value.additionalInfo,
       suspendDate: this.form.value.postponeUntil?.singleDate?.formatted,
@@ -416,15 +412,17 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       appealMainDebt: this.form.value.principalAmount,
       appealPenaltySum: this.form.value.forfeitAmount,
       appealOtherAmount: this.form.value.stateDutyAmount,
-      appealFiles: this.form.value.appealAgainstLawDesicion
-        ? this.fileUploadService.transformFilesData()
-        : [],
-      appealAddInfo: this.form.value.appealAddInfo,
+      // appealFiles: this.form.value.appealAgainstLawDesicion
+      //   ? this.fileUploadService.transformFilesData()
+      //   : [],
+      // appealAddInfo: this.form.value.appealAddInfo,
       decisionBeginDate: this.form.value.forceDecisionDate?.singleDate
         ?.formatted,
       defendantAppeal: true,
       lawId: this.form.controls.lawId.value,
     };
+
+    console.log(data);
 
     this.lawsuitService
       .apiFetch(data, 'law/add/appealResponse', actionId)

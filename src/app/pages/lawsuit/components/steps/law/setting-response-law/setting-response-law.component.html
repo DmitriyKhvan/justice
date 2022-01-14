@@ -18,8 +18,8 @@
         <div class="select-field__title">Проведение суда</div>
         <ng-select
           appearance="outline"
-          [items]="conductLawDic"
-          bindLabel="label"
+          [items]="dictionaries?.conductingTrial"
+          bindLabel="lang.ru"
           bindValue="id"
           placeholder="Проведение суда"
           #agreeSelect
@@ -42,14 +42,14 @@
 
     <div class="col-6">
       <div
-        *ngIf="this.form.get('conductLaw')?.value === 2"
+        *ngIf="this.form.get('conductLaw')?.value === 44"
         class="select-field"
       >
         <div class="select-field__title">Действие</div>
         <ng-select
           appearance="outline"
-          [items]="actionDic"
-          bindLabel="label"
+          [items]="dictionaries?.lawAnswerAction"
+          bindLabel="lang.ru"
           bindValue="id"
           placeholder="Действие"
           #agreeSelect
@@ -70,7 +70,7 @@
   </div>
 
   <div
-    *ngIf="this.form.get('conductLaw')?.value === 1"
+    *ngIf="this.form.get('conductLaw')?.value === 43"
     class="row justify-content-between mb-2"
   >
     <div class="col-6">
@@ -98,7 +98,7 @@
   </div>
 
   <div
-    *ngIf="this.form.get('action')?.value === 1"
+    *ngIf="this.form.get('action')?.value === 45"
     class="row justify-content-between mb-2"
   >
     <div class="col-6">
@@ -151,7 +151,7 @@
     </div>
   </div>
 
-  <div *ngIf="this.form.get('conductLaw')?.value === 1">
+  <div *ngIf="this.form.get('conductLaw')?.value === 43">
     <div
       class="row justify-content-between align-items-end mb-2"
       formArrayName="datesLaw"
@@ -218,54 +218,52 @@
     </div>
   </div>
 
-  <div
-    *ngIf="this.form.get('conductLaw')?.value"
-    class="row justify-content-between mb-2"
-  >
-    <div class="col-12">
-      <app-file-uploader
-        [formData]="formData"
-        [formTemplate]="formTemplate"
-        title="Прикрепить файл"
-      ></app-file-uploader>
+  <ng-container *ngIf="this.form.get('conductLaw')?.value">
+    <div class="row justify-content-between">
+      <div class="col-12">
+        <app-file-uploader
+          [formData]="formData"
+          [formTemplate]="formTemplate"
+          title="Прикрепить файл"
+        ></app-file-uploader>
+      </div>
     </div>
-  </div>
 
-  <div
-    *ngIf="
+    <!-- *ngIf="
       this.form.get('action')?.value === 1 ||
       this.form.get('action')?.value === 2 ||
       this.form.get('action')?.value === 3
-    "
-    class="row justify-content-between mb-2"
-  >
-    <div class="col-12">
-      <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
-        <label
-          class="text-field__label"
-          [class]="formTemplate ? 'readonly' : ''"
-        >
-          <textarea
-            placeholder="Уточните детали"
-            formControlName="additionalInfo"
-          ></textarea>
-        </label>
+    " -->
 
-        <div
-          *ngIf="
-            form.get('additionalInfo')?.touched &&
-            form.get('additionalInfo')?.invalid
-          "
-          class="validation"
-        >
-          <small *ngIf="form.get('additionalInfo')?.errors?.required">
-            Введите данные
-          </small>
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <div class="text-field">
+          <div class="text-field__title">Дополнительная информация</div>
+          <label
+            class="text-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <textarea
+              placeholder="Уточните детали"
+              formControlName="additionalInfo"
+            ></textarea>
+          </label>
+
+          <div
+            *ngIf="
+              form.get('additionalInfo')?.touched &&
+              form.get('additionalInfo')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('additionalInfo')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 
   <button
     *ngIf="!formData && !formTemplate"
@@ -274,16 +272,16 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    <span *ngIf="this.form.get('action')?.value === 1; else third"
+    <span *ngIf="this.form.get('action')?.value === 45; else third"
       >Отложить на время</span
     >
     <ng-template #third>
-      <span *ngIf="this.form.get('action')?.value === 2; else fourth"
+      <span *ngIf="this.form.get('action')?.value === 46; else fourth"
         >Закрыть дело</span
       >
     </ng-template>
     <ng-template #fourth>
-      <span *ngIf="this.form.get('action')?.value === 3; else fifth"
+      <span *ngIf="this.form.get('action')?.value === 47; else fifth"
         >Вернуться в предыдущий шаг</span
       >
     </ng-template>

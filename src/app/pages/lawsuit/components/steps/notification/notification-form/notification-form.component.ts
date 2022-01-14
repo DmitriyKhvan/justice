@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { Subscription } from 'rxjs';
 import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-notification-form',
@@ -20,10 +22,13 @@ export class NotificationFormComponent implements OnInit {
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
+  popUpTextSub!: Subscription;
+
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
-    public fileUploadService: FileUploadService
+    public fileUploadService: FileUploadService,
+    private popUpInfoService: PopUpInfoService
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +75,31 @@ export class NotificationFormComponent implements OnInit {
           Validators.required
         ),
       });
+    }
+
+    this.popUpTextSub = this.popUpInfoService.popUpTextTemplate$.subscribe(
+      (data: any) => {
+        if (data.text) {
+          this.form.patchValue({
+            additionalInfo: data.text,
+          });
+
+          // this.alert.success('Шаблон выбран.');
+        }
+      }
+    );
+  }
+
+  selectTemplate(value: boolean) {
+    this.popUpInfoService.popUpTextTemplate(value);
+  }
+
+  addTemplate(text: string) {
+    console.log(text);
+    if (text) {
+      this.lawsuitService
+        .addTextTemplate(text)
+        .subscribe(() => this.alert.success('Текст успешно добавлен.'));
     }
   }
 

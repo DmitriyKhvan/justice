@@ -1,0 +1,39 @@
+<div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
+  <div
+    class="alert decisionInfo"
+    [@wrapAlert]="wrapAlertState"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close">
+      <i class="uil-times" (click)="close()"></i>
+    </button>
+
+    <h2 class="lawsuitTitle">Выберите шаблонный текст</h2>
+
+    <ul class="textList">
+      <ng-container *ngFor="let text of listText">
+        <li class="textItem" (click)="selectTemplate(text.text)">
+          <i class="uil-times" (click)="confirmRemoveText($event)"></i>
+          <p>
+            {{ text.text }}
+          </p>
+        </li>
+
+        <div class="confirmText">
+          <span>Удалить шаблонный текст?</span>
+          <div class="confirmBtns">
+            <button class="templateBtn yes" (click)="cancel($event)">
+              Нет
+            </button>
+            <button
+              class="templateBtn no"
+              (click)="removeText($event, text.id)"
+            >
+              Да
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ul>
+  </div>
+</div>

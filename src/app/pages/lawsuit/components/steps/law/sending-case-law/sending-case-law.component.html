@@ -15,13 +15,13 @@
   <div class="row justify-content-between mb-2">
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Вид суда</div>
+        <div class="select-field__title">Суды</div>
         <ng-select
           appearance="outline"
-          [items]="viewLawDic"
-          bindLabel="label"
+          [items]="dictionaries?.courtKind"
+          bindLabel="lang.ru"
           bindValue="id"
-          placeholder="Вид суда"
+          placeholder="Суды"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -39,13 +39,13 @@
     </div>
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Тип суда</div>
+        <div class="select-field__title">Подсудность дел</div>
         <ng-select
           appearance="outline"
-          [items]="typeLawDic"
-          bindLabel="label"
+          [items]="dictionaries?.courtType"
+          bindLabel="lang.ru"
           bindValue="id"
-          placeholder="Тип суда"
+          placeholder="Подсудность дел"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -64,7 +64,7 @@
   </div>
 
   <div class="row justify-content-between mb-2">
-    <div class="col-6">
+    <!-- <div class="col-6">
       <div class="select-field">
         <div class="select-field__title">Регион суда</div>
         <ng-select
@@ -89,14 +89,14 @@
           </small>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="col-6">
       <div class="select-field">
         <div class="select-field__title">Регион</div>
         <ng-select
           appearance="outline"
-          [items]="regionDic"
-          bindLabel="label"
+          [items]="dictionaries?.regionDistrict"
+          bindLabel="lang.ru"
           bindValue="id"
           placeholder="Регион"
           #agreeSelect
@@ -114,45 +114,20 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
-      <div class="input-field">
-        <div class="input-field__title">Ответчик</div>
-        <label
-          class="input-field__label"
-          [class]="formTemplate ? 'readonly' : ''"
-        >
-          <input type="text" autocomplete="off" formControlName="defendant" />
-        </label>
-
-        <div
-          *ngIf="
-            form.get('defendant')?.touched && form.get('defendant')?.invalid
-          "
-          class="validation"
-        >
-          <small *ngIf="form.get('defendant')?.errors?.required">
-            Введите данные
-          </small>
-        </div>
-      </div>
-    </div>
 
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Районный суд</div>
+        <div class="select-field__title">Район</div>
         <ng-select
           appearance="outline"
-          [items]="districtLawDic"
-          bindLabel="label"
+          [items]="districtDic"
+          bindLabel="lang.ru"
           bindValue="id"
-          placeholder="Районный суд "
+          placeholder="Район"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
-          formControlName="districtLaw"
+          formControlName="district"
         ></ng-select>
         <div
           *ngIf="
@@ -168,23 +143,36 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
-    <div class="col-6">
+  <div
+    formArrayName="defendantArray"
+    *ngFor="let defendant of defendantArray.controls; let idx = index"
+    class="row justify-content-between mb-2"
+  >
+    <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Сумма иска</div>
-        <label class="input-field__label">
-          <input type="text" autocomplete="off" formControlName="amountClaim" />
-        </label>
+        <div class="input-field__title">Ответчик {{ idx + 1 }}</div>
+        <div class="input-field__custome">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input type="text" autocomplete="off" [formControlName]="idx" />
+          </label>
+
+          <button
+            *ngIf="idx > 0"
+            class="removeItem"
+            (click)="removeDefendant(idx)"
+          >
+            <i class="uil-trash"></i>
+          </button>
+        </div>
 
         <div
-          *ngIf="
-            form.get('amountClaim')?.touched && form.get('amountClaim')?.invalid
-          "
+          *ngIf="defendant?.touched && defendant?.invalid"
           class="validation"
         >
-          <small *ngIf="form.get('amountClaim')?.errors?.required">
-            Введите данные
-          </small>
+          <small *ngIf="defendant?.errors?.required"> Введите данные </small>
         </div>
       </div>
     </div>
@@ -192,8 +180,88 @@
 
   <div class="row justify-content-between mb-2">
     <div class="col-6">
+      <button type="button" class="btn btn-dashed add" (click)="addDefendant()">
+        Добавить
+      </button>
+    </div>
+  </div>
+
+  <div
+    formArrayName="thirdPartiesArray"
+    *ngFor="let thirdParties of thirdPartiesArray.controls; let idx = index"
+    class="row justify-content-between mb-2"
+  >
+    <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Сумма неустойки</div>
+        <div class="input-field__title">3-лицо {{ idx + 1 }}</div>
+        <div class="input-field__custome">
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input type="text" autocomplete="off" [formControlName]="idx" />
+          </label>
+
+          <button
+            *ngIf="idx > 0"
+            class="removeItem"
+            (click)="removeThirdParties(idx)"
+          >
+            <i class="uil-trash"></i>
+          </button>
+        </div>
+
+        <div
+          *ngIf="thirdParties?.touched && thirdParties?.invalid"
+          class="validation"
+        >
+          <small *ngIf="thirdParties?.errors?.required"> Введите данные </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <button
+        type="button"
+        class="btn btn-dashed add"
+        (click)="addThirdParties()"
+      >
+        Добавить
+      </button>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Сумма основного долга</div>
+        <label class="input-field__label">
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="principalAmount"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('principalAmount')?.touched &&
+            form.get('principalAmount')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('principalAmount')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Сумма процента</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -201,18 +269,48 @@
           <input
             type="text"
             autocomplete="off"
-            formControlName="amountForfeit"
+            formControlName="percentAmount"
           />
         </label>
 
         <div
           *ngIf="
-            form.get('amountForfeit')?.touched &&
-            form.get('amountForfeit')?.invalid
+            form.get('percentAmount')?.touched &&
+            form.get('percentAmount')?.invalid
           "
           class="validation"
         >
-          <small *ngIf="form.get('amountForfeit')?.errors?.required">
+          <small *ngIf="form.get('percentAmount')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Сумма пени</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="penaltyAmount"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('penaltyAmount')?.touched &&
+            form.get('penaltyAmount')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('penaltyAmount')?.errors?.required">
             Введите данные
           </small>
         </div>
@@ -221,21 +319,21 @@
 
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Сумма штрафа/пени</div>
+        <div class="input-field__title">Сумма штрафа</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
         >
-          <input type="text" autocomplete="off" formControlName="amountFine" />
+          <input type="text" autocomplete="off" formControlName="fineAmount" />
         </label>
 
         <div
           *ngIf="
-            form.get('amountFine')?.touched && form.get('amountFine')?.invalid
+            form.get('fineAmount')?.touched && form.get('fineAmount')?.invalid
           "
           class="validation"
         >
-          <small *ngIf="form.get('amountFine')?.errors?.required">
+          <small *ngIf="form.get('fineAmount')?.errors?.required">
             Введите данные
           </small>
         </div>
@@ -243,13 +341,43 @@
     </div>
   </div>
 
-  <div *ngIf="!formData" class="row justify-content-between mb-2">
-    <div class="col-12">
-      <button type="button" class="btn btn-dashed add">Получить из ИАБС</button>
+  <div class="row justify-content-between mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Общая сумма иска</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="totalClaimAmount"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('totalClaimAmount')?.touched &&
+            form.get('totalClaimAmount')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('totalClaimAmount')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <!-- <div *ngIf="!formData" class="row justify-content-between mb-2">
+    <div class="col-12">
+      <button type="button" class="btn btn-dashed add">Получить из ИАБС</button>
+    </div>
+  </div> -->
+
+  <div class="row justify-content-between">
     <div class="col-12">
       <app-file-uploader
         [formData]="formData"
@@ -260,14 +388,13 @@
   </div>
 
   <div class="row justify-content-between mb-2">
-    <div class="col-6">
+    <!-- <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">Дата внесение в суд</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
         >
-          <!--        <input type="text" class="datepicker-here" readonly />-->
           <input
             class="input-box"
             angular-mydatepicker
@@ -303,7 +430,7 @@
           </small>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div class="row justify-content-between mb-2">
