@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
-import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import { datepickerSettings } from 'src/app/settings';
 
 @Component({
   selector: 'app-making-response-notary',

@@ -282,8 +282,6 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   }
 
   private toggleValidatorsActionType(actionType: any) {
-    console.log(actionType);
-
     if (actionType === 49) {
       this.postponeUntil?.setValidators([Validators.required]);
 

@@ -39,14 +39,14 @@ export class AuthService {
     return localStorage.getItem('tokenData');
   }
 
-  login(user: User): Observable<any> {
-    return this.http
-      .post(`${environment.dbUrl}/user/login`, user)
-      .pipe(
-        tap(this.setToken.bind(this)),
-        catchError(this.handleError.bind(this))
-      );
-  }
+  // login(user: User): Observable<any> {
+  //   return this.http
+  //     .post(`${environment.dbUrl}/user/login`, user)
+  //     .pipe(
+  //       tap(this.setToken.bind(this)),
+  //       catchError(this.handleError.bind(this))
+  //     );
+  // }
 
   private handleError(error: HttpErrorResponse) {
     const { message } = error.error;
@@ -101,16 +101,16 @@ export class AuthService {
     }
   }
 
-  refreshToken(tokenData: any): Observable<any> {
-    // debugger;
-    return this.http
-      .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))
-      .pipe(
-        shareReplay(),
-        tap(this.setToken)
-        // catchError(this.handleError.bind(this))
-      );
-  }
+  // refreshToken(tokenData: any): Observable<any> {
+  //   // debugger;
+  //   return this.http
+  //     .post(`${environment.dbUrl}/user/refreshToken`, JSON.parse(tokenData))
+  //     .pipe(
+  //       shareReplay(),
+  //       tap(this.setToken)
+  //       // catchError(this.handleError.bind(this))
+  //     );
+  // }
 
   // fetchWithAuth(): Observable<any> | void {
   //   let tokenData = localStorage.getItem('tokenData');
@@ -128,23 +128,23 @@ export class AuthService {
   //   }
   // }
 
-  fetchWithAuth(req: Observable<any>): Observable<any> {
-    // debugger;
-    let tokenData = localStorage.getItem('tokenData');
+  // fetchWithAuth(req: Observable<any>): Observable<any> {
+  //   // debugger;
+  //   let tokenData = localStorage.getItem('tokenData');
 
-    if (tokenData) {
-      const expDate = new Date(Number(localStorage.getItem('tokenExp')));
+  //   if (tokenData) {
+  //     const expDate = new Date(Number(localStorage.getItem('tokenExp')));
 
-      if (new Date() > expDate) {
-        // debugger;
-        this.refreshToken(tokenData).subscribe();
-      }
-      return req;
-    } else {
-      this.logout('authFailed');
-      return throwError({ error: { status: 403, message: 'INVALID_TOKEN' } });
-    }
-  }
+  //     if (new Date() > expDate) {
+  //       // debugger;
+  //       this.refreshToken(tokenData).subscribe();
+  //     }
+  //     return req;
+  //   } else {
+  //     this.logout('authFailed');
+  //     return throwError({ error: { status: 403, message: 'INVALID_TOKEN' } });
+  //   }
+  // }
 
   startTimerLogout() {
     clearTimeout(this.timer);

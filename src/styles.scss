@@ -72,7 +72,7 @@
 .page-header {
   height: 60px;
   background: #f4f6f8;
-  padding: 0 80px;
+  padding: 0 20px;
 }
 .page-title {
   font-size: 21px;
@@ -209,7 +209,7 @@
     justify-content: space-between;
     align-items: center;
     &__wrapper {
-      margin: 0 80px;
+      margin: 0 20px;
       &:hover {
         transition: background 0.2s;
         background: rgba(16, 39, 74, 0.05);

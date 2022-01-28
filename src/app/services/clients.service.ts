@@ -41,7 +41,13 @@ export class ClientsService {
     return this.http.get<any>(`${environment.dbUrlBek}/cases/IABSmfo`);
   }
 
-  getListByMfo({ page, count, mfo }: any): Observable<any> {
+  getListByMfo({
+    page,
+    count,
+    mfo,
+    sortValue,
+    sortType,
+  }: any): Observable<any> {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(
     //     `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
@@ -52,31 +58,33 @@ export class ClientsService {
       page,
       count,
       mfo,
+      sortValue,
+      sortType,
     });
   }
 
-  contractDetails(id: any): Observable<any> {
-    return this.http.post(`${environment.dbUrl}/process/open`, {
-      case_id: id,
-    });
-  }
+  // contractDetails(id: any): Observable<any> {
+  //   return this.http.post(`${environment.dbUrl}/process/open`, {
+  //     case_id: id,
+  //   });
+  // }
 
-  completeTaskStep(body: any): Observable<any> {
-    return this.http.post(
-      `${environment.dbUrl}/process/task/send?role=${this.mainService.ROLE}`,
-      body
-    );
-  }
+  // completeTaskStep(body: any): Observable<any> {
+  //   return this.http.post(
+  //     `${environment.dbUrl}/process/task/send?role=${this.mainService.ROLE}`,
+  //     body
+  //   );
+  // }
 
-  getTask(taskId: number, step: number): Observable<any> {
-    return this.http.get(
-      `${environment.dbUrl}/process/task/get?task_id=${taskId}&step=${step}`
-    );
-  }
+  // getTask(taskId: number, step: number): Observable<any> {
+  //   return this.http.get(
+  //     `${environment.dbUrl}/process/task/get?task_id=${taskId}&step=${step}`
+  //   );
+  // }
 
-  addTaskComment(body: any): Observable<any> {
-    return this.http.post(`${environment.dbUrl}/comments`, body);
-  }
+  // addTaskComment(body: any): Observable<any> {
+  //   return this.http.post(`${environment.dbUrl}/comments`, body);
+  // }
 
   downloadFile(id: any): any {
     if (id) {

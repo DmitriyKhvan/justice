@@ -76,13 +76,18 @@
         </label>
         <div class="template-func">
           <button
+            type="button"
             [disabled]="!form.get('additionalInfo')?.value"
             class="btn-template add"
             (click)="addTemplate(form.get('additionalInfo')?.value)"
           >
             <i class="uil-plus"></i><span>Добавить в шаблоны</span>
           </button>
-          <button class="btn-template select" (click)="selectTemplate(true)">
+          <button
+            type="button"
+            class="btn-template select"
+            (click)="selectTemplate(true)"
+          >
             <i class="uil-file-alt"></i><span>Выбрать шаблонный текст</span>
           </button>
         </div>

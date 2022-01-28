@@ -12,7 +12,13 @@
         *ngIf="this.lawsuitService.isActionForm(3)"
       ></app-making-response>
 
-      <app-next-step></app-next-step>
+      <app-next-step
+        *ngIf="
+          lawsuitService.stepIndex === lawsuitService.steps.length &&
+          lawsuitService.historyActions.length &&
+          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+        "
+      ></app-next-step>
     </div>
     <div class="col-4 page-sticky">
       <app-history-actions></app-history-actions>

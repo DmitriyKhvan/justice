@@ -1,21 +1,8 @@
-import {
-  ContentChildren,
-  QueryList,
-  Component,
-  DoCheck,
-  OnInit,
-  OnChanges,
-  Output,
-  EventEmitter,
-  AfterContentInit,
-} from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { FileUploadService } from '../../services/file-upload.service';
-import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
-import { StepComponent } from '../../components/stepper/step/step.component';
-
-declare var $: any;
 
 @Component({
   selector: 'app-clients-detail',

@@ -1,40 +1,41 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 
 @Component({
   selector: 'app-referral-for-appeal-template',
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Вид суда</div>
+        <div class="col-6">Суды</div>
         <div class="col-6">
-          {{ getValue('viewLawDic', actionData.data.lawKind) }}
+          {{ getValue('courtKind', actionData.data.lawKind) }}
         </div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Тип суда</div>
+        <div class="col-6">Подсудность дел</div>
         <div class="col-6">
-          {{ getValue('typeLawDic', actionData.data.lawType) }}
-        </div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">Регион суда</div>
-        <div class="col-6">
-          {{ getValue('regionLawDic', actionData.data.lawRegion) }}
+          {{ getValue('courtType', actionData.data.lawType) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
         <div class="col-6">Регион</div>
         <div class="col-6">
-          {{ getValue('regionDic', actionData.data.region) }}
+          {{ getValue('regionDistrict', actionData.data.region) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Районный суд</div>
+        <div class="col-6">Район</div>
         <div class="col-6">
-          {{ getValue('districtLawDic', actionData.data.lawDistrict) }}
+          {{
+            getDistrict(
+              'regionDistrict',
+              actionData.data.region,
+              actionData.data.district
+            )
+          }}
         </div>
       </div>
 
@@ -63,59 +64,40 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
   styles: [],
 })
-export class ReferralForAppealTemplateComponent implements OnInit {
+export class ReferralForAppealTemplateComponent implements OnInit, OnDestroy {
   @Input() actionData!: any;
 
-  options = {
-    viewLawDic: [
-      { value: 1, label: 'Вид1' },
-      { value: 2, label: 'Вид2' },
-    ],
+  dicSub!: Subscription;
+  dictionaries: any = null;
 
-    typeLawDic: [
-      { value: 1, label: 'Тип1' },
-      { value: 2, label: 'Тип2' },
-    ],
+  constructor(private dicService: DictionariesService) {}
 
-    regionLawDic: [
-      { value: 1, label: 'Регион суда1' },
-      { value: 2, label: 'Регион суда2' },
-    ],
-
-    regionDic: [
-      { value: 1, label: 'Регион1' },
-      { value: 2, label: 'Регион2' },
-    ],
-
-    districtLawDic: [
-      { value: 1, label: 'Районный суд1' },
-      { value: 2, label: 'Районный суд2' },
-    ],
-  };
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dicSub = this.dicService
+      .getDicByActionId(this.actionData.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
+  }
 
   getValue(dicName: string, val: any): any {
-    if (dicName === 'viewLawDic') {
-      return this.options[dicName].find((i: any) => i.value === val)?.label;
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
+        .ru;
     }
+  }
 
-    if (dicName === 'typeLawDic') {
-      return this.options[dicName].find((i: any) => i.value === val)?.label;
+  getDistrict(dicName: string, regionId: number, districtId: number): any {
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]
+        ?.find((region: any) => region.id === regionId)
+        ?.child.find((district: any) => district.id === districtId).lang.ru;
     }
+  }
 
-    if (dicName === 'regionLawDic') {
-      return this.options[dicName].find((i: any) => i.value === val)?.label;
-    }
-
-    if (dicName === 'regionDic') {
-      return this.options[dicName].find((i: any) => i.value === val)?.label;
-    }
-
-    if (dicName === 'districtLawDic') {
-      return this.options[dicName].find((i: any) => i.value === val)?.label;
+  ngOnDestroy(): void {
+    if (this.dicSub) {
+      this.dicSub.unsubscribe();
     }
   }
 }

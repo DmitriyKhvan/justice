@@ -1,33 +1,34 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
-import { datepickerSettings } from 'src/app/pages/application/shared/settings';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
+import { Subscription } from 'rxjs';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
+import { datepickerSettings } from 'src/app/settings';
 
 @Component({
   selector: 'app-case-transfer',
   templateUrl: './case-transfer.component.html',
   styleUrls: ['./case-transfer.component.scss'],
 })
-export class CaseTransferComponent implements OnInit {
+export class CaseTransferComponent implements OnInit, OnDestroy {
   @Input() formData: any = null;
   @Input() formTemplate: any = null;
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
-  options = [
-    { id: 1, label: 'В электронном виде' },
-    { id: 2, label: 'В бумажном виде' },
-  ];
-
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
+
+  dictionaries!: any;
+  dicSub!: Subscription;
 
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -82,6 +83,12 @@ export class CaseTransferComponent implements OnInit {
         additionalInfo: new FormControl(formTemplateNull, Validators.required),
       });
     }
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
   }
 
   submit(actionId: number) {
@@ -111,5 +118,11 @@ export class CaseTransferComponent implements OnInit {
         // this.alert.danger('Форма не оформлена');
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.dicSub) {
+      this.dicSub.unsubscribe();
+    }
   }
 }

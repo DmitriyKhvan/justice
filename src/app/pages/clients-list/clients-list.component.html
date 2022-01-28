@@ -3,7 +3,8 @@
     class="page-header row no-gutters justify-content-between align-items-center"
   >
     <div class="page-title">
-      Список должников по Шахриханскому филиалу на 19 ноября 2019
+      Список должников по {{ filialName }} филиалу на
+      {{ currentDate | date: "dd.MM.yyyy" }}
     </div>
     <div
       class="page-actions row no-gutters justify-content-between align-items-center"
@@ -39,24 +40,86 @@
           class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
         >
           <div class="page-table__th">#</div>
-          <div class="page-table__th">Имя</div>
-          <div class="page-table__th">ИНН</div>
           <div class="page-table__th">
-            Тип клиента <i class="uil-angle-down"></i>
+            Имя
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('clientFio', $event)"
+            ></i>
           </div>
-          <div class="page-table__th">ID договора</div>
           <div class="page-table__th">
-            Сумма кредита <i class="uil-angle-down"></i>
+            ИНН
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('clientInn', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Тип клиента
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('clientType', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            ID договора
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('contractId', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Сумма кредита
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('creditSumm', $event)"
+            ></i>
           </div>
           <!-- <div class="page-table__th">Валюта</div> -->
-          <div class="page-table__th">Начало</div>
-          <div class="page-table__th">Завершение</div>
-          <div class="page-table__th">Итого долг</div>
           <div class="page-table__th">
-            Просрочка <i class="uil-angle-down"></i>
+            Начало
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('creditStart', $event)"
+            ></i>
           </div>
           <div class="page-table__th">
-            В ожидании решения <i class="uil-angle-down"></i>
+            Завершение
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('creditEnd', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Итого долг
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('totalDebt', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Просрочка
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('delayDate', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            В ожидании решения
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('actionsCount', $event)"
+            ></i>
           </div>
         </div>
       </div>
@@ -86,9 +149,13 @@
             {{ contract.clientFio }}
           </div>
           <div class="page-table__td">{{ contract.clientInn }}</div>
-          <div class="page-table__td" [ngSwitch]="contract.clientType">
+          <!-- <div class="page-table__td" [ngSwitch]="contract.clientType">
             <span *ngSwitchCase="'F'"> Физическое лицо </span>
             <span *ngSwitchCase="'Y'"> Юридическое лицо </span>
+          </div> -->
+
+          <div class="page-table__td">
+            {{ contract.clientTypeName.ru }}
           </div>
           <div class="page-table__td">{{ contract.contractId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>

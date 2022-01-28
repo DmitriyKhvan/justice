@@ -1,4 +1,12 @@
-import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   animate,
   state,
@@ -11,9 +19,10 @@ import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
 import { KeycloakService } from 'keycloak-angular';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-clients-list',
@@ -39,6 +48,7 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
+  @ViewChildren('sorting') sortingRef!: QueryList<ElementRef>;
   range: any = [];
 
   selectedItem = null;
@@ -52,42 +62,18 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     { label: 'Все', value: -1 },
   ];
   itemsPerPage: number = this.pages[0].value;
+  sortValue: string = '';
+  sortType: string = 'ASC';
+  sortClass: string = 'uil-angle-down';
 
-  contractList = [
-    {
-      id: 0,
-      clientId: 0,
-      clientInn: '',
-      clientFio: '',
-      clientType: '',
-      clientPhone: '',
-      clientAddress: '',
-      clientMfo: '',
-      contractId: 0,
-      contractDate: '',
-      creditSumm: '',
-      creditCurrency: 0,
-      creditStart: '',
-      creditEnd: '',
-      guarantorName: '',
-      guarantorInn: '',
-      interestRate: '',
-      statuUpbuilding: 0,
-      remainderCurrentDebt: '',
-      remainderOverdueDebt: '',
-      remainderAccruedPercent: '',
-      remainderAccruedPercentOverdueDebt: '',
-      pledge: '',
-      totalDebt: '',
-      delayDate: '',
-      stepsCount: 0,
-      actionsCount: 0,
-    },
-  ];
+  contractList!: any;
 
   timerId!: any;
 
   contractsSub!: Subscription;
+  mSub!: Subscription;
+  filialName!: string;
+  currentDate: Date = new Date();
 
   constructor(
     public mainService: MainService,
@@ -125,7 +111,43 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     //     this.totalItems = value.count;
     //   });
 
+    this.mSub = this.clientsService
+      .getMfo()
+      .pipe(map((data: any) => data.data))
+      .subscribe((data) => {
+        this.filialName = data
+          .map((filials: any) => filials.branches)
+          .flat()
+          .find(
+            (mfo: any) => mfo.mfo === this.route.snapshot.queryParams['mfo']
+          )?.nameRu;
+      });
+
     this.getContracts();
+  }
+
+  sort(sortValue: string, event: any) {
+    if (event.target.classList.contains('uil-angle-down')) {
+      this.resetSortClass();
+
+      event.target.className = 'uil-angle-up sorting';
+      this.sortValue = sortValue;
+      this.sortType = 'ASC';
+    } else {
+      this.resetSortClass();
+
+      event.target.className = 'uil-angle-down sorting';
+      this.sortValue = sortValue;
+      this.sortType = 'DESC';
+    }
+
+    this.getContracts();
+  }
+
+  resetSortClass() {
+    this.sortingRef.forEach((el: any) => {
+      el.nativeElement.className = 'uil-angle-down sorting';
+    });
   }
 
   ngDoCheck(): void {
@@ -146,6 +168,8 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
       page: this.currentPage,
       count: this.itemsPerPage,
       mfo: this.route.snapshot.queryParams['mfo'],
+      sortValue: this.sortValue,
+      sortType: this.sortType,
     };
 
     this.contractsSub = this.clientsService
@@ -234,6 +258,10 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   ngOnDestroy(): void {
     if (this.contractsSub) {
       this.contractsSub.unsubscribe();
+    }
+
+    if (this.mSub) {
+      this.mSub.unsubscribe();
     }
   }
 }

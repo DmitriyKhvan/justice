@@ -7,9 +7,9 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
     <div
       class="fileList"
       *ngFor="
-        let file of this.formData.data.files.length
+        let file of this.formData.data.files
           ? this.formData.data.files
-          : this.formData.data.appealFiles
+          : this.formData.data.stopFiles
       "
       (click)="downloadFile(file.id, file.name)"
     >

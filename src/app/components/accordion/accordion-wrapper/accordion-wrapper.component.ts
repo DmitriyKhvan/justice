@@ -10,15 +10,12 @@ import { AccordionItemComponent } from '../accordion-item/accordion-item.compone
 
 @Component({
   selector: 'app-accordion-wrapper',
-  template: `
-    <ng-content></ng-content>
-  `,
-  styles: [
-  ]
+  template: ` <ng-content></ng-content> `,
+  styles: [],
 })
 export class AccordionWrapperComponent implements OnInit, AfterContentInit {
-
-  @ContentChildren(AccordionItemComponent) accordionItemComponent!: QueryList<AccordionItemComponent>;
+  @ContentChildren(AccordionItemComponent)
+  accordionItemComponent!: QueryList<AccordionItemComponent>;
   currentStep = 1;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
@@ -33,10 +30,11 @@ export class AccordionWrapperComponent implements OnInit, AfterContentInit {
     // console.log(this.stepComponent);
     this.accordionItemComponent.first.isFirst = true;
     this.accordionItemComponent.last.isLast = true;
-    this.accordionItemComponent.toArray().forEach((step: AccordionItemComponent, idx: number) => {
-      step.currentStep = this.currentStep;
-      step.stepNumber = step.step;
-    });
+    this.accordionItemComponent
+      .toArray()
+      .forEach((step: AccordionItemComponent, idx: number) => {
+        step.currentStep = this.currentStep;
+        step.stepNumber = step.step;
+      });
   }
-
 }

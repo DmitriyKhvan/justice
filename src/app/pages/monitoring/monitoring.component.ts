@@ -11,9 +11,9 @@ import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ClientsService } from 'src/app/services/clients.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
-import { datepickerSettings } from '../application/shared/settings';
 import { TableComponent } from './components/table/table.component';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
+import { datepickerSettings } from 'src/app/settings';
 
 @Component({
   selector: 'app-monitoring',

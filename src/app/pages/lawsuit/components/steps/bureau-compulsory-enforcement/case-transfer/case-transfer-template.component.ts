@@ -1,23 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 
 @Component({
   selector: 'app-case-transfer-template',
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Вид суда</div>
+        <div class="col-6">Тип подачи заявки</div>
         <div class="col-6">
-          {{ getValue(actionData.data.type) }}
+          {{ getValue('conductingTrial', actionData.data.type) }}
         </div>
       </div>
       <div class="row justify-content-between">
         <div class="col-6">№ исх. документа</div>
         <div class="col-6">{{ actionData.data.outDocNumber }}</div>
       </div>
+
       <div class="row justify-content-between">
         <div class="col-6">Дата исх. документа</div>
         <div class="col-6">{{ actionData.data.outDocDate }}</div>
       </div>
+
       <div class="row justify-content-between">
         <div class="col-6">Дополнительная информация</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
@@ -35,16 +39,23 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CaseTransferTemplateComponent implements OnInit {
   @Input() actionData!: any;
 
-  options = [
-    { id: 1, label: 'В электронном виде' },
-    { id: 2, label: 'В бумажном виде' },
-  ];
+  dicSub!: Subscription;
+  dictionaries!: any;
 
-  constructor() {}
+  constructor(private dicService: DictionariesService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dicSub = this.dicService
+      .getDicByActionId(this.actionData.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
+  }
 
-  getValue(val: number): any {
-    return this.options.find((i) => i.id === val)?.label;
+  getValue(dicName: string, val: any): any {
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
+        .ru;
+    }
   }
 }

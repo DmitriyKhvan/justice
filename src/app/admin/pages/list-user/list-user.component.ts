@@ -196,6 +196,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
       () => {
         this.users = this.users.filter((u: any) => u.id !== user.id);
         this.alert.warning('Пользователь был удален');
+        this.getUsers();
       },
       (error) => {
         // this.alert.danger('Пользователь не удален');

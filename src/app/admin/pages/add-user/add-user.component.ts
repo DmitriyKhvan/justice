@@ -32,7 +32,7 @@ export class AddUserComponent implements OnInit {
       middle_name: new FormControl(null, Validators.required),
       roles: new FormControl(null, Validators.required),
       region: new FormControl(null, Validators.required),
-      district: new FormControl({ value: null, disabled: true }),
+      district: new FormControl({ value: null, disabled: false }),
       username: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
     });
@@ -50,7 +50,12 @@ export class AddUserComponent implements OnInit {
   setRegion(region: any) {
     this.form.get('district')?.reset();
 
-    if (region.code !== '00') {
+    if (!region) {
+      this.form.get('district')?.disable();
+      this.form.patchValue({
+        district: null,
+      });
+    } else if (region.code !== '00') {
       this.districts = region.branches;
       this.form.get('district')?.enable();
     } else if (region.code === '00') {
@@ -59,8 +64,6 @@ export class AddUserComponent implements OnInit {
       this.form.patchValue({
         district: [region.branches[0].mfo],
       });
-    } else {
-      this.form.get('district')?.enable();
     }
   }
 
@@ -82,12 +85,12 @@ export class AddUserComponent implements OnInit {
       enabled: true,
       attributes: {
         middleName: this.form.value.middle_name,
-        mfo: this.form.value.district,
+        mfo: this.form.controls.district.value,
         roles: this.form.value.roles.map((role: any) => role.description),
       },
     };
 
-    // console.log('user', user);
+    console.log('user', user);
 
     this.adminService
       .createUser(user)

@@ -15,9 +15,9 @@
         <div class="select-field__title">Тип остановки</div>
         <ng-select
           appearance="outline"
-          [items]="stopTypeDic"
-          bindLabel="label"
-          bindValue="value"
+          [items]="dictionaries?.stopType"
+          bindLabel="lang.ru"
+          bindValue="id"
           placeholder="Тип остановки"
           #agreeSelect
           labelForId="yesno"
@@ -49,9 +49,9 @@
         <div class="select-field__title">Инициатор остановки</div>
         <ng-select
           appearance="outline"
-          [items]="stopInitiatorDic"
-          bindLabel="label"
-          bindValue="value"
+          [items]="dictionaries?.initiatorType"
+          bindLabel="lang.ru"
+          bindValue="id"
           placeholder="Инициатор остановки"
           #agreeSelect
           labelForId="yesno"

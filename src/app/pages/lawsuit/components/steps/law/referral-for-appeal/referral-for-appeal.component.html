@@ -14,57 +14,105 @@
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
-      <app-select
-        title="Вид суда"
-        placeholder="Вид суда"
-        [form]="form"
-        controlName="viewLaw"
-        [options]="viewLawDic"
-      ></app-select>
+      <div class="select-field">
+        <div class="select-field__title">Суды</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.courtKind"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Суды"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="lawKind"
+        ></ng-select>
+        <div
+          *ngIf="form.get('lawKind')?.touched && form.get('lawKind')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('lawKind')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
     </div>
 
     <div class="col-6">
-      <app-select
-        title="Тип суда"
-        placeholder="Тип суда"
-        [form]="form"
-        controlName="typeLaw"
-        [options]="typeLawDic"
-      ></app-select>
+      <div class="select-field">
+        <div class="select-field__title">Подсудность дел</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.courtType"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Подсудность дел"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="lawType"
+        ></ng-select>
+        <div
+          *ngIf="form.get('lawType')?.touched && form.get('lawType')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('lawType')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
-      <app-select
-        title="Регион суда"
-        placeholder="Регион суда"
-        [form]="form"
-        controlName="regionLaw"
-        [options]="regionLawDic"
-      ></app-select>
+      <div class="select-field">
+        <div class="select-field__title">Регион</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.regionDistrict"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Регион"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="region"
+        ></ng-select>
+        <div
+          *ngIf="form.get('region')?.touched && form.get('region')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('region')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
     </div>
 
     <div class="col-6">
-      <app-select
-        title="Регион"
-        placeholder="Регион"
-        [form]="form"
-        controlName="region"
-        [options]="regionDic"
-      ></app-select>
-    </div>
-  </div>
-
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <app-select
-        title="Районный суд"
-        placeholder="Районный суд"
-        [form]="form"
-        controlName="districtLaw"
-        [options]="districtLawDic"
-      ></app-select>
+      <div class="select-field">
+        <div class="select-field__title">Район</div>
+        <ng-select
+          appearance="outline"
+          [items]="districtDic"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Район"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="district"
+        ></ng-select>
+        <div
+          *ngIf="form.get('district')?.touched && form.get('district')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('district')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
     </div>
   </div>
 

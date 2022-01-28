@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
@@ -10,41 +12,23 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   templateUrl: './referral-for-appeal.component.html',
   styleUrls: ['./referral-for-appeal.component.scss'],
 })
-export class ReferralForAppealComponent implements OnInit {
+export class ReferralForAppealComponent implements OnInit, OnDestroy {
   @Input() formData: any = null;
   @Input() formTemplate: any = null;
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
-  viewLawDic = [
-    { value: 1, label: 'Вид1' },
-    { value: 2, label: 'Вид2' },
-  ];
+  dicSub!: Subscription;
+  regionSub!: Subscription | undefined;
 
-  typeLawDic = [
-    { value: 1, label: 'Тип1' },
-    { value: 2, label: 'Тип2' },
-  ];
-
-  regionLawDic = [
-    { value: 1, label: 'Регион суда1' },
-    { value: 2, label: 'Регион суда2' },
-  ];
-
-  regionDic = [
-    { value: 1, label: 'Регион1' },
-    { value: 2, label: 'Регион2' },
-  ];
-
-  districtLawDic = [
-    { value: 1, label: 'Районный суд1' },
-    { value: 2, label: 'Районный суд2' },
-  ];
+  dictionaries!: any;
+  districtDic: any[] = [];
 
   constructor(
     public lawsuitService: LawsuitService,
     private alert: AlertService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -67,26 +51,25 @@ export class ReferralForAppealComponent implements OnInit {
       };
 
       this.form = new FormGroup({
-        viewLaw: new FormControl({
+        lawKind: new FormControl({
           value: this.formData.data.lawKind,
           disabled: true,
         }),
-        typeLaw: new FormControl({
+        lawType: new FormControl({
           value: this.formData.data.lawType,
           disabled: true,
         }),
-        regionLaw: new FormControl({
-          value: this.formData.data.lawRegion,
-          disabled: true,
-        }),
+
         region: new FormControl({
           value: this.formData.data.region,
           disabled: true,
         }),
-        districtLaw: new FormControl({
-          value: this.formData.data.lawDistrict,
+
+        district: new FormControl({
+          value: this.formData.data.district,
           disabled: true,
         }),
+
         numberDoc: new FormControl({
           value: this.formData.data.outDocNumber,
           disabled: true,
@@ -102,16 +85,43 @@ export class ReferralForAppealComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
-        viewLaw: new FormControl(formTemplateNull, Validators.required),
-        typeLaw: new FormControl(formTemplateNull, Validators.required),
-        regionLaw: new FormControl(formTemplateNull, Validators.required),
+        lawKind: new FormControl(formTemplateNull, Validators.required),
+        lawType: new FormControl(formTemplateNull, Validators.required),
         region: new FormControl(formTemplateNull, Validators.required),
-        districtLaw: new FormControl(formTemplateNull, Validators.required),
+        district: new FormControl(
+          { value: null, disabled: true },
+          Validators.required
+        ),
+
         numberDoc: new FormControl(formTemplate, Validators.required),
         dateDoc: new FormControl(formTemplate, Validators.required),
         additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
+
+    this.regionSub = this.form
+      .get('region')
+      ?.valueChanges.subscribe((id: number) => {
+        if (id) {
+          this.districtDic = this.dictionaries.regionDistrict.find(
+            (reg: any) => reg.id === id
+          ).child;
+
+          this.form.get('district')?.enable();
+        } else {
+          this.districtDic = [];
+          this.form.patchValue({
+            district: null,
+          });
+          this.form.get('district')?.disable();
+        }
+      });
   }
 
   submit(actionId: number) {
@@ -121,14 +131,14 @@ export class ReferralForAppealComponent implements OnInit {
 
     this.submitted = true;
 
-    const lawId = this.lawsuitService.getReqId(5).id;
+    const lawId = this.lawsuitService.getReqId(5)?.id;
 
     const data = {
-      lawKind: this.form.value.viewLaw,
-      lawType: this.form.value.typeLaw,
-      lawRegion: this.form.value.regionLaw,
+      lawKind: this.form.value.lawKind,
+      lawType: this.form.value.lawType,
       region: this.form.value.region,
-      lawDistrict: this.form.value.districtLaw,
+      district: this.form.value.district,
+
       outDocNumber: this.form.value.numberDoc,
       outDocDate: this.form.value.dateDoc.singleDate.formatted,
       files: this.fileUploadService.transformFilesData(),
@@ -149,5 +159,15 @@ export class ReferralForAppealComponent implements OnInit {
           // this.alert.danger('Форма не оформлена');
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    if (this.regionSub) {
+      this.regionSub.unsubscribe();
+    }
+
+    if (this.dicSub) {
+      this.dicSub.unsubscribe();
+    }
   }
 }

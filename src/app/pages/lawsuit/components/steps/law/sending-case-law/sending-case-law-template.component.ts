@@ -105,7 +105,7 @@ export class SendingCaseLawTemplateComponent implements OnInit, OnDestroy {
   @Input() actionData!: any;
 
   dicSub!: Subscription;
-  dictionaries!: any;
+  dictionaries: any = null;
 
   constructor(private dicService: DictionariesService) {}
 

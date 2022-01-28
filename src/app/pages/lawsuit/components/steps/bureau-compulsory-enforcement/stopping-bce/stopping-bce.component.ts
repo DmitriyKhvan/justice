@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
@@ -15,24 +16,14 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted = false;
 
-  stopTypeDic = [
-    { value: 1, label: 'Полная' },
-    { value: 2, label: 'Временная' },
-  ];
-
-  stopInitiatorDic = [
-    { value: 3, label: 'Клиент' },
-    { value: 4, label: 'Банк' },
-    { value: 5, label: 'МИБ' },
-    { value: 6, label: 'Суд' },
-  ];
-
   reasonStoppingDic: any[] = [];
 
   readonly: string = '';
 
   stopSuspendDate!: any;
   stopReason!: any;
+
+  dictionaries!: any;
 
   private stopTypeSub!: Subscription | undefined;
   private stopInitiatorSub!: Subscription | undefined;
@@ -42,6 +33,7 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -57,6 +49,12 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
 
     this.stopSuspendDate = this.form.get('stopSuspendDate');
     this.stopReason = this.form.get('stopReason');
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
 
     this.subscribeToStopType();
   }
@@ -81,30 +79,16 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
       stopReason: null,
     });
 
-    if (value === 1) {
-      this.dicSub = this.lawsuitService
-        .getDic('STOP_REASON_CLIENT')
-        .subscribe(
-          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
-        );
-    } else if (value === 2) {
-      this.dicSub = this.lawsuitService
-        .getDic('STOP_REASON_BANK')
-        .subscribe(
-          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
-        );
-    } else if (value === 3) {
-      this.dicSub = this.lawsuitService
-        .getDic('STOP_REASON_MIB')
-        .subscribe(
-          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
-        );
+    if (!value) {
+      this.reasonStoppingDic = [];
+    } else if (value === 5) {
+      this.reasonStoppingDic = this.dictionaries.stopReasonClient;
+    } else if (value === 6) {
+      this.reasonStoppingDic = this.dictionaries.stopReasonBank;
+    } else if (value === 7) {
+      this.reasonStoppingDic = this.dictionaries.stopReasonMib;
     } else {
-      this.dicSub = this.lawsuitService
-        .getDic('STOP_REASON_COURT')
-        .subscribe(
-          (reasonStoppingDic) => (this.reasonStoppingDic = reasonStoppingDic)
-        );
+      this.reasonStoppingDic = this.dictionaries.stopReasonCourt;
     }
   }
 
@@ -116,15 +100,15 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
     });
     if (
       value == 1 ||
-      this.form.get('stopInitiator')?.value == 3 ||
-      value == 3 ||
+      this.form.get('stopInitiator')?.value == 5 ||
+      value == 5 ||
       this.form.get('stopType')?.value == 1
     ) {
       this.stopSuspendDate.disable();
 
       this.readonly = 'readonly';
 
-      this.stopSuspendDate?.clearAsyncValidators();
+      this.stopSuspendDate?.clearValidators();
     } else {
       this.stopSuspendDate.enable();
       this.readonly = '';
@@ -145,7 +129,7 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
     const data = {
       active: true,
       stopType: this.form.value.stopType,
-      stopSuspendDate: this.form.value.stopSuspendDate.singleDate.formatted,
+      stopSuspendDate: this.form.value.stopSuspendDate?.singleDate?.formatted,
       stopInitiator: this.form.value.stopInitiator,
       stopDocDate: this.form.value.dateDoc.singleDate.formatted,
       stopAddInfo: this.form.value.additionalInfo,

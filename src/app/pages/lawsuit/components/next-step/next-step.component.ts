@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormControlName,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
@@ -14,21 +17,24 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
   templateUrl: './next-step.component.html',
   styleUrls: ['./next-step.component.scss'],
 })
-export class NextStepComponent implements OnInit {
+export class NextStepComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted = false;
 
   restSteps: any[] = [];
   actions: any[] = [];
 
+  sSub!: Subscription;
+
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
-    public popUpWatchFormService: PopUpInfoService
+    public popUpWatchFormService: PopUpInfoService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.lawsuitService.getSteps().subscribe((steps) => {
+    this.sSub = this.lawsuitService.getSteps().subscribe((steps) => {
       this.restSteps = steps.filter(
         (step: any) =>
           !this.lawsuitService.steps.some((e) => e.stepid === step.id)
@@ -85,5 +91,13 @@ export class NextStepComponent implements OnInit {
         // this.alert.danger('Форма не оформлена');
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.sSub) {
+      console.log('next-step-destroy');
+
+      this.sSub.unsubscribe();
+    }
   }
 }

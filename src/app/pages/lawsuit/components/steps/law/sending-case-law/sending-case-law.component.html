@@ -130,12 +130,10 @@
           formControlName="district"
         ></ng-select>
         <div
-          *ngIf="
-            form.get('districtLaw')?.touched && form.get('districtLaw')?.invalid
-          "
+          *ngIf="form.get('district')?.touched && form.get('district')?.invalid"
           class="validation"
         >
-          <small *ngIf="form.get('districtLaw')?.errors?.required">
+          <small *ngIf="form.get('district')?.errors?.required">
             Выберите данные
           </small>
         </div>

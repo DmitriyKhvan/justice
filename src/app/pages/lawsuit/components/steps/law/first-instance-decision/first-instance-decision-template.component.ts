@@ -81,7 +81,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
             </div>
           </div>
 
-          <ng-container *ngIf="actionData.data.action == 49">
+          <ng-container *ngIf="actionData.data.action === 49">
             <div class="row justify-content-between">
               <div class="col-6">Отложить до</div>
               <div class="col-6">{{ actionData.data.suspendDate }}</div>

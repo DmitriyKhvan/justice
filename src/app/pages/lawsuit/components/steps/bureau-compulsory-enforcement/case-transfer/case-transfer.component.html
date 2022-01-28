@@ -17,8 +17,8 @@
         <div class="select-field__title">Тип подачи заявки</div>
         <ng-select
           appearance="outline"
-          [items]="options"
-          bindLabel="label"
+          [items]="dictionaries?.conductingTrial"
+          bindLabel="lang.ru"
           bindValue="id"
           placeholder="Тип подачи заявки"
           #agreeSelect

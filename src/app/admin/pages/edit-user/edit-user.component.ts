@@ -114,18 +114,20 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   setDistrict(region: any) {
     this.form.get('district')?.reset();
-
-    if (region.code !== '00') {
+    if (!region) {
+      this.form.get('district')?.disable();
+      this.form.patchValue({
+        district: null,
+      });
+    } else if (region.code !== '00') {
       this.districts = region.branches;
       this.form.get('district')?.enable();
     } else if (region.code === '00') {
       this.districts = region.branches;
-      this.form.get('district')?.enable();
+      this.form.get('district')?.disable();
       this.form.patchValue({
         district: [region.branches[0].mfo],
       });
-    } else {
-      this.form.get('district')?.disable();
     }
   }
 
@@ -143,7 +145,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       username: this.form.value.username,
       attributes: {
         ...this.user.attributes,
-        mfo: this.form.value.district,
+        mfo: this.form.controls.district.value,
         middleName: this.form.value.middleName,
         roles: this.form.value.roles.map((role: any) => role.description),
       },
