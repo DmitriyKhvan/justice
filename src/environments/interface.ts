@@ -4,3 +4,9 @@ export interface Environment {
   fileBaseUrl: any;
   authUrl: any;
 }
+
+declare global {
+  interface Window {
+    __env: any;
+  }
+}

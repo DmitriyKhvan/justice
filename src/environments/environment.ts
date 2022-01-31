@@ -7,13 +7,13 @@ import { Environment } from './interface';
 export const environment: Environment = {
   production: false,
   dbUrlBek: 'http://10.1.1.177:3001/api/v1.0.0/justice',
-  // dbUrlBek: 'http://' + window.location.hostname + ':3000/api/v1.0.0/justice',
   fileBaseUrl: 'http://10.1.1.177:9002',
-  // fileBaseUrl: 'http://10.1.1.77:9009',
-  // fileBaseUrl: 'http://' + window.location.hostname + ':9002',
-
   // authUrl: `http://auth.flexit.uz/auth`,
   authUrl: `http://10.1.1.99:8080/auth`,
+
+  // dbUrlBek: window.__env.dbUrlBek,
+  // fileBaseUrl: window.__env.fileBaseUrl,
+  // authUrl: window.__env.authUrl,
 };
 
 /*
