@@ -30,7 +30,7 @@
 
     <div class="row no-gutters history_action__field__data">
       <div class="col-4 add">
-        {{ action.processCreatedAt | date: "dd.MM.yyyy" }}
+        {{ action.data.createdAt | date: "dd.MM.yyyy" }}
       </div>
       <div class="col-8 history_action__field__data__status">
         <span *ngIf="action.actionStatus === 1" class="rejected">Отказано</span>

@@ -6,8 +6,8 @@ import { Environment } from './interface';
 
 export const environment: Environment = {
   production: false,
-  dbUrlBek: 'http://10.1.1.177:3001/api/v1.0.0/justice',
-  fileBaseUrl: 'http://10.1.1.177:9002',
+  dbUrlBek: 'http://10.1.1.177:3000/api/v1.0.0/justice',
+  fileBaseUrl: 'http://10.1.1.20:9002',
   // authUrl: `http://auth.flexit.uz/auth`,
   authUrl: `http://10.1.1.99:8080/auth`,
 

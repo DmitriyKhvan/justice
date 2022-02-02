@@ -90,8 +90,6 @@ export class AddUserComponent implements OnInit {
       },
     };
 
-    console.log('user', user);
-
     this.adminService
       .createUser(user)
       .pipe(
@@ -126,9 +124,10 @@ export class AddUserComponent implements OnInit {
           this.submitted = false;
         },
         (error) => {
-          // console.log(error);
+          console.log(error);
 
-          this.alert.danger('Пользователь не добавлен');
+          // this.alert.danger('Пользователь не добавлен');
+          this.alert.danger(error.error.errorMessage || error.message);
           this.submitted = false;
         }
       );

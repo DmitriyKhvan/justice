@@ -85,6 +85,17 @@ export class ListUserComponent implements OnInit, OnDestroy {
           });
         });
       });
+
+      this.users.sort((a: any, b: any) => {
+        if (a.createdTimestamp > b.createdTimestamp) {
+          return -1;
+        }
+        if (a.createdTimestamp < b.createdTimestamp) {
+          return 1;
+        }
+
+        return 0;
+      });
     });
   }
 
