@@ -190,6 +190,7 @@ export class FileUploadService {
   downloadFile(id: number): Observable<any> {
     return this.xhttp.get(
       `${environment.fileBaseUrl}/file/downloadById?id=${id}`,
+      // `http://10.1.1.200:3000/file/download/12`,
       { observe: 'body', responseType: 'arraybuffer' }
     );
   }
