@@ -4,7 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-select',
   template: `
     <div class="select-field" [formGroup]="form">
-      <div class="select-field__title">{{ title }}</div>
+      <div *ngIf="title" class="select-field__title">{{ title }}</div>
       <ng-select
         appearance="outline"
         [items]="options"

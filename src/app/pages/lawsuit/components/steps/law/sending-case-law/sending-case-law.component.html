@@ -12,7 +12,7 @@
 </div>
 
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="select-field">
         <div class="select-field__title">Суды</div>
@@ -63,7 +63,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <!-- <div class="col-6">
       <div class="select-field">
         <div class="select-field__title">Регион суда</div>
@@ -144,7 +144,7 @@
   <div
     formArrayName="defendantArray"
     *ngFor="let defendant of defendantArray.controls; let idx = index"
-    class="row justify-content-between mb-2"
+    class="row justify-content-between align-items-end mb-2"
   >
     <div class="col-12">
       <div class="input-field">
@@ -176,7 +176,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <button type="button" class="btn btn-dashed add" (click)="addDefendant()">
         Добавить
@@ -187,7 +187,7 @@
   <div
     formArrayName="thirdPartiesArray"
     *ngFor="let thirdParties of thirdPartiesArray.controls; let idx = index"
-    class="row justify-content-between mb-2"
+    class="row justify-content-between align-items-end mb-2"
   >
     <div class="col-12">
       <div class="input-field">
@@ -219,7 +219,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <button
         type="button"
@@ -231,7 +231,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">Сумма основного долга</div>
@@ -286,7 +286,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">Сумма пени</div>
@@ -339,7 +339,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">Общая сумма иска</div>
@@ -375,7 +375,7 @@
     </div>
   </div> -->
 
-  <div class="row justify-content-between">
+  <div class="row justify-content-between align-items-end">
     <div class="col-12">
       <app-file-uploader
         [formData]="formData"
@@ -385,7 +385,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <!-- <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">Дата внесение в суд</div>
@@ -431,7 +431,7 @@
     </div> -->
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
         <div class="text-field__title">Дополнительная информация</div>

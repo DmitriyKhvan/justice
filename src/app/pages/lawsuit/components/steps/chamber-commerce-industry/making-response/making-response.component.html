@@ -11,7 +11,7 @@
   </button>
 </div>
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">№ вх. документа</div>
@@ -81,7 +81,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
         <div class="text-field__title">Дополнительная информация</div>
@@ -110,7 +110,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-between mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <app-file-uploader
         [formData]="formData"

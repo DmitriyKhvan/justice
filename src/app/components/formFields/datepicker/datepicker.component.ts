@@ -6,7 +6,7 @@ declare var $: any;
   selector: 'app-datepicker',
   template: `
     <div class="input-field" [formGroup]="form">
-      <div class="input-field__title">{{ title }}</div>
+      <div *ngIf="title" class="input-field__title">{{ title }}</div>
 
       <label
         class="input-field__label"

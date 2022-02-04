@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { MainService } from './main.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { ContractInfo } from '../interfaces';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,14 +32,20 @@ export class ClientsService {
   constructor(
     private http: HttpClient,
     private mainService: MainService,
-    private auth: AuthService
+    private auth: AuthService,
+    private alert: AlertService
   ) {}
 
   getMfo(): Observable<any> {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
     // );
-    return this.http.get<any>(`${environment.dbUrlBek}/cases/IABSmfo`);
+    return this.http.get<any>(`${environment.dbUrlBek}/cases/IABSmfo`).pipe(
+      catchError((error) => {
+        this.alert.danger(error.error.message);
+        return throwError(error);
+      })
+    );
   }
 
   getListByMfo({

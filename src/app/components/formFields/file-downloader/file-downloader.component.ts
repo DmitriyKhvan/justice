@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FileUploadService } from 'src/app/services/file-upload.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-file-downloader',
@@ -43,21 +44,17 @@ export class FileDownloaderComponent implements OnInit {
   ngOnInit(): void {}
 
   downloadFile(id: number, filename: string | null = null) {
-    this.fileUploadService.downloadFile(id).subscribe((response: any) => {
-      let dataType = response.type;
+    const url = `${environment.fileBaseUrl}/file/downloadById?id=${id}`;
 
-      let downloadLink = document.createElement('a');
-      let url = window.URL.createObjectURL(
-        new Blob([response], { type: dataType })
-      );
-      downloadLink.href = url;
-      // var page = window.open(url);
-      // page?.print();
-      if (filename) downloadLink.setAttribute('download', filename);
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      window.URL.revokeObjectURL(url);
-      downloadLink.remove();
-    });
+    const downloadLink = document.createElement('a');
+
+    downloadLink.href = url;
+    // var page = window.open(url);
+    // page?.print();
+    if (filename) downloadLink.setAttribute('download', filename);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    window.URL.revokeObjectURL(url);
+    downloadLink.remove();
   }
 }
