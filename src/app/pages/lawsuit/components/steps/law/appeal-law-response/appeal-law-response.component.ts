@@ -49,7 +49,17 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
+    let formTemplate: any = '';
+    let formTemplateNull: any = null;
+
+    if (this.formTemplate) {
+      this.action = {
+        actionId: this.formTemplate.id,
+      };
+
+      formTemplate = { value: '', disabled: true };
+      formTemplateNull = { value: null, disabled: true };
+    }
 
     if (this.formData) {
       let d1: Date = new Date(

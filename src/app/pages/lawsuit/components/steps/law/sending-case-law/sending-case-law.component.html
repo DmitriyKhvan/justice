@@ -178,7 +178,12 @@
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
-      <button type="button" class="btn btn-dashed add" (click)="addDefendant()">
+      <button
+        [disabled]="formTemplate"
+        type="button"
+        class="btn btn-dashed add"
+        (click)="addDefendant()"
+      >
         Добавить
       </button>
     </div>
@@ -222,6 +227,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <button
+        [disabled]="formTemplate"
         type="button"
         class="btn btn-dashed add"
         (click)="addThirdParties()"
@@ -235,7 +241,10 @@
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">Сумма основного долга</div>
-        <label class="input-field__label">
+        <label
+          [class]="formTemplate ? 'readonly' : ''"
+          class="input-field__label"
+        >
           <input
             type="text"
             autocomplete="off"

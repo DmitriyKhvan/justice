@@ -50,7 +50,17 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     //   // dateRange: null,
     // };
 
-    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
+    let formTemplate: any = '';
+    let formTemplateNull: any = null;
+
+    if (this.formTemplate) {
+      this.action = {
+        actionId: this.formTemplate.id,
+      };
+
+      formTemplate = { value: '', disabled: true };
+      formTemplateNull = { value: null, disabled: true };
+    }
 
     if (this.formData) {
       let d2: Date = new Date(

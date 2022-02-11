@@ -35,9 +35,17 @@ export class SendingApplicationComponent implements OnInit {
     //   // dateRange: null,
     // };
 
-    const formTemplate = this.formTemplate
-      ? { value: null, disabled: true }
-      : null;
+    let formTemplate: any = '';
+    let formTemplateNull: any = null;
+
+    if (this.formTemplate) {
+      this.action = {
+        actionId: this.formTemplate.id,
+      };
+
+      formTemplate = { value: '', disabled: true };
+      formTemplateNull = { value: null, disabled: true };
+    }
 
     if (this.formData) {
       let d: Date = new Date(

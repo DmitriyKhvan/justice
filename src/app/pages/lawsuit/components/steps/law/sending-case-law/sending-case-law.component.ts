@@ -51,11 +51,17 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
     //   // dateRange: null,
     // };
 
-    const formTemplate = this.formTemplate ? { value: '', disabled: true } : '';
+    let formTemplate: any = '';
+    let formTemplateNull: any = null;
 
-    const formTemplateNull = this.formTemplate
-      ? { value: null, disabled: true }
-      : null;
+    if (this.formTemplate) {
+      this.action = {
+        actionId: this.formTemplate.id,
+      };
+
+      formTemplate = { value: '', disabled: true };
+      formTemplateNull = { value: null, disabled: true };
+    }
 
     if (this.formData) {
       let d: Date = new Date(
@@ -123,10 +129,10 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
         region: new FormControl(formTemplateNull, Validators.required),
         // defendant: new FormControl(formTemplate, Validators.required),
         defendantArray: new FormArray([
-          new FormControl('', [Validators.required]),
+          new FormControl(formTemplate, [Validators.required]),
         ]),
 
-        thirdPartiesArray: new FormArray([new FormControl('')]),
+        thirdPartiesArray: new FormArray([new FormControl(formTemplate)]),
 
         district: new FormControl(
           { value: null, disabled: true },
