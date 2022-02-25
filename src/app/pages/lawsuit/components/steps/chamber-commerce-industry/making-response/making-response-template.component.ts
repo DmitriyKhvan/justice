@@ -1,9 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 
 @Component({
   selector: 'app-making-response-template',
   template: `
     <div class="data-lawyer">
+      <div class="row justify-content-between">
+        <div class="col-6">Тип ответа</div>
+        <div class="col-6">
+          {{ getValue('formDocType', actionData.data.type) }}
+        </div>
+      </div>
       <div class="row justify-content-between">
         <div class="col-6">№ вх. документа</div>
         <div class="col-6">{{ actionData.data.inDocNumber }}</div>
@@ -28,7 +36,26 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MakingResponseTemplateComponent implements OnInit {
   @Input() actionData!: any;
-  constructor() {}
 
-  ngOnInit(): void {}
+  dicSub!: Subscription;
+  dictionaries!: any;
+
+  constructor(private dicService: DictionariesService) {}
+
+  ngOnInit(): void {
+    console.log(this.actionData);
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.actionData.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
+  }
+
+  getValue(dicName: string, val: any): any {
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
+        .ru;
+    }
+  }
 }

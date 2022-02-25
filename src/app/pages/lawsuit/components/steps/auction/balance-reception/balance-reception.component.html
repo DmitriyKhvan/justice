@@ -1,0 +1,131 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
+  <button
+    *ngIf="!formTemplate"
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
+  >
+    <i class="uil-times"></i>
+  </button>
+</div>
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Входящий номер документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input type="text" autocomplete="off" formControlName="inDocNumber" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('inDocNumber')?.touched && form.get('inDocNumber')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('inDocNumber')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Дата Входящего документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="inDocDate"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('inDocDate')?.touched && form.get('inDocDate')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.inDocDate.errors &&
+              form.controls.inDocDate.errors.required &&
+              !form.controls.inDocDate.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.inDocDate.errors &&
+              form.controls.inDocDate.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <app-file-uploader
+        [formTemplate]="formTemplate"
+        title="Прикрепить файл"
+      ></app-file-uploader>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="addInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="form.get('addInfo')?.touched && form.get('addInfo')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('addInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    *ngIf="!formTemplate"
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [disabled]="form.invalid || submitted"
+  >
+    Отправить
+  </button>
+</form>

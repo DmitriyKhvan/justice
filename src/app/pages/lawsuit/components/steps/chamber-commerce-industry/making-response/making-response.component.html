@@ -12,6 +12,36 @@
 </div>
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="select-field">
+        <div class="select-field__title">Тип ответа</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.formDocType"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Тип подачи заявки"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="type"
+        ></ng-select>
+        <div
+          *ngIf="
+            form.get('typeApplication')?.touched &&
+            form.get('typeApplication')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('typeApplication')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
         <div class="input-field__title">№ вх. документа</div>

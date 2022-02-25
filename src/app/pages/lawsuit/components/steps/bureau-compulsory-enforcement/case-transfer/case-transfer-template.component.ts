@@ -9,7 +9,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       <div class="row justify-content-between">
         <div class="col-6">Тип подачи заявки</div>
         <div class="col-6">
-          {{ getValue('conductingTrial', actionData.data.type) }}
+          {{ getValue('formDocType', actionData.data.type) }}
         </div>
       </div>
       <div class="row justify-content-between">

@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
@@ -20,9 +22,13 @@ export class MakingResponseComponent implements OnInit {
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
+  dicSub!: Subscription;
+  dictionaries!: any;
+
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -74,11 +80,19 @@ export class MakingResponseComponent implements OnInit {
       });
     } else {
       this.form = new FormGroup({
+        type: new FormControl(formTemplateNull, Validators.required),
         numberDoc: new FormControl(formTemplate, Validators.required),
         dateDoc: new FormControl(formTemplate, Validators.required),
         additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
+
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+        console.log(this.dictionaries);
+      });
   }
 
   submit(actionId: number) {
@@ -92,6 +106,7 @@ export class MakingResponseComponent implements OnInit {
 
     const data = {
       active: true,
+      type: this.form.value.type,
       inDocNumber: this.form.value.numberDoc,
       inDocDate: this.form.value.dateDoc.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,

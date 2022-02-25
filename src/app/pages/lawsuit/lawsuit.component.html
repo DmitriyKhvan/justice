@@ -56,6 +56,14 @@
         <app-auction
           *ngIf="this.lawsuitService.currentStep?.stepid === 6"
         ></app-auction>
+
+        <app-law-enforcement
+          *ngIf="this.lawsuitService.currentStep?.stepid === 7"
+        ></app-law-enforcement>
+
+        <app-stop-process
+          *ngIf="this.lawsuitService.currentStep?.stepid === -1"
+        ></app-stop-process>
       </div>
     </div>
   </div>

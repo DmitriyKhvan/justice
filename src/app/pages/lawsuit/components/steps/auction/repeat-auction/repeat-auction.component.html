@@ -1,0 +1,208 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
+  <button
+    *ngIf="!formTemplate"
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
+  >
+    <i class="uil-times"></i>
+  </button>
+</div>
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">№ Лота</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input type="text" autocomplete="off" formControlName="lotNumber" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('lotNumber')?.touched && form.get('lotNumber')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('lotNumber')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Дата начала первого торга</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="beginDateLot"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('beginDateLot')?.touched &&
+            form.get('beginDateLot')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.beginDateLot.errors &&
+              form.controls.beginDateLot.errors.required &&
+              !form.controls.beginDateLot.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.beginDateLot.errors &&
+              form.controls.beginDateLot.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Дата конец первого торга</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="endDateLot"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('endDateLot')?.touched && form.get('endDateLot')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.endDateLot.errors &&
+              form.controls.endDateLot.errors.required &&
+              !form.controls.endDateLot.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.endDateLot.errors &&
+              form.controls.endDateLot.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="select-field">
+        <div class="select-field__title">Выбор результата Лота</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.result"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Выбор"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="result"
+        ></ng-select>
+        <div
+          *ngIf="form.get('result')?.touched && form.get('result')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('result')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <app-file-uploader
+        [formTemplate]="formTemplate"
+        title="Прикрепить файл"
+      ></app-file-uploader>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="addInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="form.get('addInfo')?.touched && form.get('addInfo')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('addInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    *ngIf="!formTemplate"
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [disabled]="form.invalid || submitted"
+  >
+    Отправить
+  </button>
+</form>

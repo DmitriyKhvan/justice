@@ -7,19 +7,6 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Суды</div>
-        <div class="col-6">
-          {{ getValue('courtKind', actionData.data.lawKind) }}
-        </div>
-      </div>
-      <div class="row justify-content-between">
-        <div class="col-6">Подсудность дел</div>
-        <div class="col-6">
-          {{ getValue('courtType', actionData.data.lawType) }}
-        </div>
-      </div>
-
-      <div class="row justify-content-between">
         <div class="col-6">№ исх. документа</div>
         <div class="col-6">{{ actionData.data.outDocNumber }}</div>
       </div>

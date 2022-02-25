@@ -92,7 +92,6 @@ export class MakingResponseNotaryComponent implements OnInit {
     const reqId = this.lawsuitService.getReqId(12)?.id;
 
     const data = {
-      active: true,
       inDocNumber: this.form.value.numberDoc,
       inDocDate: this.form.value.dateDoc.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,

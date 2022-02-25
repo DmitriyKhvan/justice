@@ -1,17 +1,36 @@
 <div class="lawsuit_form_content">
   <div class="row">
     <div class="col-4 page-sticky">
-      <!-- <app-select-action></app-select-action> -->
+      <app-select-action></app-select-action>
 
-      <app-stoping-auction></app-stoping-auction>
+      <app-first-auction
+        [action]="this.lawsuitService.isActionForm(14)"
+        *ngIf="this.lawsuitService.isActionForm(14)"
+      ></app-first-auction>
 
-      <!-- <app-next-step></app-next-step> -->
+      <app-repeat-auction
+        [action]="this.lawsuitService.isActionForm(17)"
+        *ngIf="this.lawsuitService.isActionForm(17)"
+      ></app-repeat-auction>
+
+      <app-balance-reception
+        [action]="this.lawsuitService.isActionForm(18)"
+        *ngIf="this.lawsuitService.isActionForm(18)"
+      ></app-balance-reception>
+
+      <app-next-step
+        *ngIf="
+          lawsuitService.stepIndex === lawsuitService.steps.length &&
+          lawsuitService.historyActions.length &&
+          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+        "
+      ></app-next-step>
     </div>
     <div class="col-4 page-sticky">
       <app-history-actions></app-history-actions>
     </div>
     <div class="col-4 page-sticky">
-      <!-- <app-history-step></app-history-step> -->
+      <app-history-step></app-history-step>
     </div>
   </div>
 </div>

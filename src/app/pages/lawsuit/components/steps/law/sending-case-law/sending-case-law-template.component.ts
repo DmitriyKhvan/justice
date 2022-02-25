@@ -7,7 +7,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Cуды</div>
+        <div class="col-6">Подведомственность суда</div>
         <div class="col-6">
           {{ getValue('courtKind', actionData.data.lawKind) }}
         </div>
@@ -84,6 +84,16 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       <div class="row justify-content-between">
         <div class="col-6">Общая сумма иска</div>
         <div class="col-6">{{ actionData.data.totalClaimAmount }}</div>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">№ исх. документа</div>
+        <div class="col-6">{{ actionData.data.outDocNumber }}</div>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">Дата исх. документа</div>
+        <div class="col-6">{{ actionData.data.outDocDate }}</div>
       </div>
 
       <div class="row justify-content-between">

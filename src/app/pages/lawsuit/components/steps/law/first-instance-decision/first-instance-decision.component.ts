@@ -6,6 +6,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import currencyTransform from 'src/app/utils/format-number';
 
 @Component({
   selector: 'app-first-instance-decision',
@@ -23,13 +24,14 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   forceDecisionDate!: any;
   appealAgainstLawDesicion!: any;
   typeAppeal!: any;
-  totalAmount!: any;
-  principalAmount!: any;
-  forfeitAmount!: any;
-  stateDutyAmount!: any;
-  additionalInfo!: any;
 
-  // appealAddInfo!: any;
+  appealPrincipalAmount!: any;
+  appealInterestAmount!: any;
+  appealPenaltyAmount!: any;
+  appealFineAmount!: any;
+  appealStateDutyCourtCostsAmount!: any;
+  appealClaimAmount!: any;
+  additionalInfo!: any;
 
   actionType!: any;
   postponeUntil!: any;
@@ -38,7 +40,15 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   private appealLawDecisionSub!: Subscription | undefined;
   private actionTypeSub!: Subscription | undefined;
 
-  dicSub!: Subscription;
+  private appealPrincipalAmountSub!: Subscription | undefined;
+  private appealInterestAmountSub!: Subscription | undefined;
+  private appealPenaltyAmountSub!: Subscription | undefined;
+  private appealFineAmountSub!: Subscription | undefined;
+  private appealStateDutyCourtCostsAmountSub!: Subscription | undefined;
+  private appealClaimAmountSub!: Subscription | undefined;
+
+  private dicSub!: Subscription;
+
   dictionaries!: any;
 
   constructor(
@@ -49,160 +59,119 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    let formTemplate: any = '';
-    let formTemplateNull: any = null;
-
     if (this.formTemplate) {
       this.action = {
         actionId: this.formTemplate.id,
       };
 
-      formTemplate = { value: '', disabled: true };
-      formTemplateNull = { value: null, disabled: true };
-    }
+      const formTemplate = { value: '', disabled: true };
+      const formTemplateNull = { value: null, disabled: true };
 
-    if (this.formData) {
-      let d1: Date = new Date(
-        this.formData.data.decisionDate.split('.').reverse().join('.')
-      );
-
-      // d.setDate(d.getDate() + 2);
-      let model1: IMyDateModel = {
-        isRange: false,
-        singleDate: { jsDate: d1 },
-        // dateRange: null,
-      };
-
-      let d2: Date = new Date(
-        this.formData.data.decisionBeginDate?.split('.').reverse().join('.')
-      );
-
-      // d.setDate(d.getDate() + 2);
-      let model2: IMyDateModel = {
-        isRange: false,
-        singleDate: { jsDate: d2 },
-        // dateRange: null,
-      };
-
-      let d3: Date = new Date(
-        this.formData.data.suspendDate?.split('.').reverse().join('.')
-      );
-
-      // d.setDate(d.getDate() + 2);
-      let model3: IMyDateModel = {
-        isRange: false,
-        singleDate: { jsDate: d3 },
-        // dateRange: null,
-      };
-
-      this.form = new FormGroup({
-        caseNumber: new FormControl({
-          value: this.formData.data.docNumber,
-          disabled: true,
-        }),
-        decisionDate: new FormControl({
-          value: model1,
-          disabled: true,
-        }),
-        decisionResult: new FormControl({
-          value: this.formData.data.decisionResult,
-          disabled: true,
-        }),
-        forceDecisionDate: new FormControl({
-          value: model2,
-          disabled: true,
-        }), // Дата вступления решения в силу
-
-        appealAgainstLawDesicion: new FormControl({
-          value: this.formData.data.appeal,
-          disabled: true,
-        }), // Обжаловать решение суда
-        typeAppeal: new FormControl({
-          value: this.formData.data.appealKind,
-          disabled: true,
-        }),
-        totalAmount: new FormControl({
-          value: this.formData.data.appealTotalAmount,
-          disabled: true,
-        }),
-        principalAmount: new FormControl({
-          value: this.formData.data.appealMainDebt,
-          disabled: true,
-        }),
-        forfeitAmount: new FormControl({
-          value: this.formData.data.appealPenaltySum,
-          disabled: true,
-        }),
-        stateDutyAmount: new FormControl({
-          value: this.formData.data.appealOtherAmount,
-          disabled: true,
-        }),
-        additionalInfo: new FormControl({
-          value: this.formData.data.addInfo,
-          disabled: true,
-        }),
-
-        // appealAddInfo: new FormControl({
-        //   value: this.formData.data.appealAddInfo,
-        //   disabled: true,
-        // }),
-
-        actionType: new FormControl({
-          value: this.formData.data.action,
-          disabled: true,
-        }),
-        postponeUntil: new FormControl({
-          value: model3,
-          disabled: true,
-        }),
-        lawId: new FormControl({
-          value: this.formData.data.lawId,
-          disabled: true,
-        }),
-      });
+      this.formBuild(formTemplate, formTemplateNull);
     } else {
-      const law = this.lawsuitService.getReqId(5);
-      this.form = new FormGroup({
-        caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
-        decisionDate: new FormControl(formTemplate, Validators.required),
-        decisionResult: new FormControl(null, Validators.required),
-        forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
+      this.formBuild();
 
-        appealAgainstLawDesicion: new FormControl(null), // Обжаловать решение суда
-        typeAppeal: new FormControl(formTemplate),
-        totalAmount: new FormControl(formTemplate),
-        principalAmount: new FormControl(formTemplate),
-        forfeitAmount: new FormControl(formTemplate),
-        stateDutyAmount: new FormControl(formTemplate),
-        additionalInfo: new FormControl(formTemplate),
+      // this.caseNumber = this.form.get('caseNumber');
+      this.forceDecisionDate = this.form.get('forceDecisionDate');
+      this.appealAgainstLawDesicion = this.form.get('appealAgainstLawDesicion');
 
-        // appealAddInfo: new FormControl(formTemplate),
+      this.typeAppeal = this.form.get('typeAppeal');
+      this.appealPrincipalAmount = this.form.get('appealPrincipalAmount');
+      this.appealInterestAmount = this.form.get('appealInterestAmount');
+      this.appealPenaltyAmount = this.form.get('appealPenaltyAmount');
+      this.appealFineAmount = this.form.get('appealFineAmount');
+      this.appealStateDutyCourtCostsAmount = this.form.get(
+        'appealStateDutyCourtCostsAmount'
+      );
+      this.appealClaimAmount = this.form.get('appealClaimAmount');
 
-        actionType: new FormControl(null),
-        postponeUntil: new FormControl(formTemplate),
-        lawId: new FormControl({ value: law?.id, disabled: true }),
-      });
+      this.additionalInfo = this.form.get('additionalInfo');
+
+      // this.appealAddInfo = this.form.get('appealAddInfo');
+
+      this.actionType = this.form.get('actionType');
+      this.postponeUntil = this.form.get('postponeUntil');
+
+      this.subToResultDecision();
+      this.subToAppealLawDecision();
+      this.subToActionType();
+
+      this.appealPrincipalAmountSub = this.appealPrincipalAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealPrincipalAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealInterestAmountSub = this.appealInterestAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealInterestAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealPenaltyAmountSub = this.appealPenaltyAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealPenaltyAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealFineAmountSub = this.appealFineAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealFineAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealStateDutyCourtCostsAmountSub = this.appealStateDutyCourtCostsAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealStateDutyCourtCostsAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealClaimAmountSub = this.appealClaimAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.form.patchValue(
+            {
+              appealClaimAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
     }
-
-    // this.caseNumber = this.form.get('caseNumber');
-    this.forceDecisionDate = this.form.get('forceDecisionDate');
-    this.appealAgainstLawDesicion = this.form.get('appealAgainstLawDesicion');
-
-    this.typeAppeal = this.form.get('typeAppeal');
-    this.totalAmount = this.form.get('totalAmount');
-    this.principalAmount = this.form.get('principalAmount');
-    this.forfeitAmount = this.form.get('forfeitAmount');
-    this.stateDutyAmount = this.form.get('stateDutyAmount');
-    this.additionalInfo = this.form.get('additionalInfo');
-
-    // this.appealAddInfo = this.form.get('appealAddInfo');
-
-    this.actionType = this.form.get('actionType');
-    this.postponeUntil = this.form.get('postponeUntil');
-
-    this.subToResultDecision();
-    this.subToAppealLawDecision();
-    this.subToActionType();
 
     this.dicSub = this.dicService
       .getDicByActionId(this.action.actionId)
@@ -211,22 +180,50 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       });
   }
 
+  private formBuild(
+    formTemplate: any = '',
+    formTemplateNull: any = null
+  ): void {
+    const law = this.lawsuitService.getReqId(5);
+    this.form = new FormGroup({
+      caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
+      decisionDate: new FormControl(formTemplate, Validators.required),
+      decisionResult: new FormControl(null, Validators.required),
+      forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
+
+      appealAgainstLawDesicion: new FormControl(null), // Обжаловать решение суда
+      typeAppeal: new FormControl(formTemplate),
+
+      appealPrincipalAmount: new FormControl(formTemplate),
+      appealInterestAmount: new FormControl(formTemplate),
+      appealPenaltyAmount: new FormControl(formTemplate),
+      appealFineAmount: new FormControl(formTemplate),
+      appealStateDutyCourtCostsAmount: new FormControl(formTemplate),
+      appealClaimAmount: new FormControl(formTemplate),
+
+      additionalInfo: new FormControl(formTemplate),
+      actionType: new FormControl(null),
+      postponeUntil: new FormControl(formTemplate),
+      lawId: new FormControl({ value: law?.id, disabled: true }),
+    });
+  }
+
   private subToActionType(): void {
     this.actionTypeSub = this.form
       .get('actionType')
       ?.valueChanges.subscribe((value) => {
-        // this.fileUploadService.UploaderFiles.next([]);
-        // this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
           // forceDecisionDate: null,
           // appealAgainstLawDesicion: null,
           // typeAppeal: null,
-          // totalAmount: null,
-          // principalAmount: null,
-          // forfeitAmount: null,
-          // stateDutyAmount: null,
+          // appealPrincipalAmount: null,
+          // appealInterestAmount: null,
+          // appealPenaltyAmount: null,
+          // appealFineAmount: null,
+          // appealStateDutyCourtCostsAmount: null,
+          // appealClaimAmount: null,
           // additionalInfo: '',
 
           // actionType: null,
@@ -241,18 +238,18 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
     this.appealLawDecisionSub = this.form
       .get('appealAgainstLawDesicion')
       ?.valueChanges.subscribe((value) => {
-        // this.fileUploadService.UploaderFiles.next([]);
-        // this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
           // forceDecisionDate: null,
           // appealAgainstLawDesicion: null,
           typeAppeal: null,
-          totalAmount: '',
-          principalAmount: '',
-          forfeitAmount: '',
-          stateDutyAmount: '',
+          appealPrincipalAmount: '',
+          appealInterestAmount: '',
+          appealPenaltyAmount: '',
+          appealFineAmount: '',
+          appealStateDutyCourtCostsAmount: '',
+          appealClaimAmount: '',
           // additionalInfo: '',
           // appealAddInfo: '',
 
@@ -268,18 +265,18 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
     this.resultDecisionSub = this.form
       .get('decisionResult')
       ?.valueChanges.subscribe((value) => {
-        // this.fileUploadService.UploaderFiles.next([]);
-        // this.fileUploadService.allUploadFiles = [];
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
           forceDecisionDate: '',
           appealAgainstLawDesicion: null,
           typeAppeal: null,
-          totalAmount: '',
-          principalAmount: '',
-          forfeitAmount: '',
-          stateDutyAmount: '',
+          appealPrincipalAmount: '',
+          appealInterestAmount: '',
+          appealPenaltyAmount: '',
+          appealFineAmount: '',
+          appealStateDutyCourtCostsAmount: '',
+          appealClaimAmount: '',
           // additionalInfo: '',
           // appealAddInfo: '',
 
@@ -294,111 +291,122 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   private toggleValidatorsActionType(actionType: any) {
     if (actionType === 49) {
       this.postponeUntil?.setValidators([Validators.required]);
-
-      // this.additionalInfo?.clearValidators();
     } else if (actionType === 48 || actionType === 50) {
-      // this.additionalInfo?.setValidators([Validators.required]);
-
       this.postponeUntil?.clearValidators();
     }
-
     this.postponeUntil?.updateValueAndValidity();
-    // this.additionalInfo?.updateValueAndValidity();
   }
 
   private toggleValidatorsAppealLawDecision(appealLawDecision: any) {
     if (appealLawDecision === true) {
       this.typeAppeal?.setValidators([Validators.required]);
-      this.totalAmount?.setValidators([Validators.required]);
-      this.principalAmount?.setValidators([Validators.required]);
-      this.forfeitAmount?.setValidators([Validators.required]);
-      this.stateDutyAmount?.setValidators([Validators.required]);
-      // this.additionalInfo?.setValidators([Validators.required]);
-      // this.appealAddInfo?.setValidators([Validators.required]);
+      this.appealPrincipalAmount?.setValidators([Validators.required]);
+      this.appealInterestAmount?.setValidators([Validators.required]);
+      this.appealPenaltyAmount?.setValidators([Validators.required]);
+      this.appealFineAmount?.setValidators([Validators.required]);
+      this.appealStateDutyCourtCostsAmount?.setValidators([
+        Validators.required,
+      ]);
+      this.appealClaimAmount?.setValidators([Validators.required]);
 
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
-      // this.additionalInfo?.clearValidators();
     } else if (appealLawDecision === false) {
       this.actionType?.setValidators([Validators.required]);
-      // this.postponeUntil?.setValidators([Validators.required]);
 
       this.typeAppeal?.clearValidators();
-      this.totalAmount?.clearValidators();
-      this.principalAmount?.clearValidators();
-      this.forfeitAmount?.clearValidators();
-      this.stateDutyAmount?.clearValidators();
-      // this.additionalInfo?.clearValidators();
-      // this.appealAddInfo?.clearValidators();
+      this.appealPrincipalAmount?.clearValidators();
+      this.appealInterestAmount?.clearValidators();
+      this.appealPenaltyAmount?.clearValidators();
+      this.appealFineAmount?.clearValidators();
+      this.appealStateDutyCourtCostsAmount?.clearValidators();
+      this.appealClaimAmount?.clearValidators();
     }
 
     this.typeAppeal?.updateValueAndValidity();
-    this.totalAmount?.updateValueAndValidity();
-    this.principalAmount?.updateValueAndValidity();
-    this.forfeitAmount?.updateValueAndValidity();
-    this.stateDutyAmount?.updateValueAndValidity();
-    // this.additionalInfo?.updateValueAndValidity();
-    // this.appealAddInfo?.updateValueAndValidity();
-
+    this.appealPrincipalAmount?.updateValueAndValidity();
+    this.appealInterestAmount?.updateValueAndValidity();
+    this.appealPenaltyAmount?.updateValueAndValidity();
+    this.appealFineAmount?.updateValueAndValidity();
+    this.appealStateDutyCourtCostsAmount?.updateValueAndValidity();
+    this.appealClaimAmount?.updateValueAndValidity();
     this.actionType?.updateValueAndValidity();
     this.postponeUntil?.updateValueAndValidity();
   }
 
   private toggleValidatorsDecisionResult(desicionResult: any): void {
-    if (desicionResult === 36) {
+    if (desicionResult === 35 || desicionResult === 36) {
       this.appealAgainstLawDesicion?.setValidators([Validators.required]);
-
-      // this.caseNumber?.clearValidators();
       this.forceDecisionDate?.clearValidators();
-      // this.appealAgainstLawDesicion?.clearValidators();
       this.typeAppeal?.clearValidators();
-      this.totalAmount?.clearValidators();
-      this.principalAmount?.clearValidators();
-      this.forfeitAmount?.clearValidators();
-      this.stateDutyAmount?.clearValidators();
-      // this.additionalInfo?.clearValidators();
-      // this.appealAddInfo?.clearValidators();
+      this.appealPrincipalAmount?.clearValidators();
+      this.appealInterestAmount?.clearValidators();
+      this.appealPenaltyAmount?.clearValidators();
+      this.appealFineAmount?.clearValidators();
+      this.appealStateDutyCourtCostsAmount?.clearValidators();
+      this.appealClaimAmount?.clearValidators();
 
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     } else if (desicionResult === 34) {
       this.forceDecisionDate?.setValidators([Validators.required]);
-
-      // this.caseNumber?.clearValidators();
-      // this.forceDecisionDate?.clearValidators();
       this.appealAgainstLawDesicion?.clearValidators();
       this.typeAppeal?.clearValidators();
-      this.totalAmount?.clearValidators();
-      this.principalAmount?.clearValidators();
-      this.forfeitAmount?.clearValidators();
-      this.stateDutyAmount?.clearValidators();
-      // this.additionalInfo?.clearValidators();
-      // this.appealAddInfo?.clearValidators();
+      this.appealPrincipalAmount?.clearValidators();
+      this.appealInterestAmount?.clearValidators();
+      this.appealPenaltyAmount?.clearValidators();
+      this.appealFineAmount?.clearValidators();
+      this.appealStateDutyCourtCostsAmount?.clearValidators();
+      this.appealClaimAmount?.clearValidators();
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     }
 
-    // this.caseNumber?.updateValueAndValidity();
     this.forceDecisionDate?.updateValueAndValidity();
     this.appealAgainstLawDesicion?.updateValueAndValidity();
     this.typeAppeal?.updateValueAndValidity();
-    this.totalAmount?.updateValueAndValidity();
-    this.principalAmount?.updateValueAndValidity();
-    this.forfeitAmount?.updateValueAndValidity();
-    this.stateDutyAmount?.updateValueAndValidity();
-    // this.additionalInfo?.updateValueAndValidity();
-    // this.appealAddInfo?.updateValueAndValidity();
-
+    this.appealPrincipalAmount?.updateValueAndValidity();
+    this.appealInterestAmount?.updateValueAndValidity();
+    this.appealPenaltyAmount?.updateValueAndValidity();
+    this.appealFineAmount?.updateValueAndValidity();
+    this.appealStateDutyCourtCostsAmount?.updateValueAndValidity();
+    this.appealClaimAmount?.updateValueAndValidity();
     this.actionType?.updateValueAndValidity();
     this.postponeUntil?.updateValueAndValidity();
+  }
+
+  getTotalClaimAmount() {
+    let appealClaimAmount =
+      +Number(
+        this.form.get('appealPrincipalAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(
+        this.form.get('appealInterestAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(
+        this.form.get('appealPenaltyAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(
+        this.form.get('appealFineAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      Number(
+        this.form
+          .get('appealStateDutyCourtCostsAmount')
+          ?.value.replace(/[^0-9]/gim, '')
+      );
+
+    this.form.patchValue(
+      {
+        appealClaimAmount: currencyTransform(String(appealClaimAmount)),
+      },
+      { emitEvent: false }
+    );
   }
 
   submit(actionId: number) {
     if (this.form.invalid) {
       return;
     }
-
-    // console.log('form', this.form.value.forceDecisionDate.singleDate.formatted);
 
     this.submitted = true;
 
@@ -407,23 +415,19 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       decisionDate: this.form.value.decisionDate.singleDate.formatted,
       decisionResult: this.form.value.decisionResult,
       appeal: this.form.value.appealAgainstLawDesicion, //false
-      // files:
-      //   this.form.value.actionType === 3
-      //     ? this.fileUploadService.transformFilesData()
-      //     : [],
       files: this.fileUploadService.transformFilesData(),
       action: this.form.value.actionType,
       addInfo: this.form.value.additionalInfo,
       suspendDate: this.form.value.postponeUntil?.singleDate?.formatted,
       appealKind: this.form.value.typeAppeal,
-      appealTotalAmount: this.form.value.totalAmount,
-      appealMainDebt: this.form.value.principalAmount,
-      appealPenaltySum: this.form.value.forfeitAmount,
-      appealOtherAmount: this.form.value.stateDutyAmount,
-      // appealFiles: this.form.value.appealAgainstLawDesicion
-      //   ? this.fileUploadService.transformFilesData()
-      //   : [],
-      // appealAddInfo: this.form.value.appealAddInfo,
+
+      appealPrincipalAmount: this.form.value.appealPrincipalAmount,
+      appealInterestAmount: this.form.value.appealInterestAmount,
+      appealPenaltyAmount: this.form.value.appealPenaltyAmount,
+      appealFineAmount: this.form.value.appealFineAmount,
+      appealStateDutyCourtCostsAmount: this.form.value
+        .appealStateDutyCourtCostsAmount,
+      appealClaimAmount: this.form.value.appealClaimAmount,
       decisionBeginDate: this.form.value.forceDecisionDate?.singleDate
         ?.formatted,
       defendantAppeal: true,
@@ -431,20 +435,28 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
     };
 
     this.lawsuitService.apiFetch(data, 'law/add/firstInst', actionId).subscribe(
-      (actions) => {
-        this.submitted = false;
+      (action) => {
         this.alert.success('Форма оформлена');
       },
       (error) => {
-        this.submitted = false;
         // this.alert.danger('Форма не оформлена');
+      },
+      () => {
+        this.submitted = false;
       }
     );
   }
 
   ngOnDestroy(): void {
+    this.dicSub?.unsubscribe();
     this.resultDecisionSub?.unsubscribe();
     this.appealLawDecisionSub?.unsubscribe();
     this.actionTypeSub?.unsubscribe();
+    this.appealPrincipalAmountSub?.unsubscribe();
+    this.appealInterestAmountSub?.unsubscribe();
+    this.appealPenaltyAmountSub?.unsubscribe();
+    this.appealFineAmountSub?.unsubscribe();
+    this.appealStateDutyCourtCostsAmountSub?.unsubscribe();
+    this.appealClaimAmountSub?.unsubscribe();
   }
 }

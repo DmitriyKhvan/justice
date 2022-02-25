@@ -11,39 +11,39 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 export class ContractInfoComponent implements OnInit {
   @Output() toogleSize = new EventEmitter();
 
-  contract = {
-    id: 0,
-    clientId: 0,
-    clientInn: '',
-    clientFio: '',
-    clientType: '',
-    clientPhone: '',
-    clientAddress: '',
-    clientMfo: '',
-    contractId: 0,
-    contractDate: '',
-    creditSumm: '',
-    creditCurrency: 0,
-    creditStart: '',
-    creditEnd: '',
-    guarantorName: '',
-    guarantorInn: '',
-    interestRate: '',
-    statuUpbuilding: 0,
-    remainderCurrentDebt: '',
-    remainderOverdueDebt: '',
-    remainderOverduePercent: '',
-    remainderAccruedPercent: '',
-    remainderAccruedPercentOverdueDebt: '',
-    pledge: '',
-    totalDebt: '',
-    delayDate: '',
-  };
+  // contract = {
+  //   id: 0,
+  //   clientId: 0,
+  //   clientInn: '',
+  //   clientFio: '',
+  //   clientType: '',
+  //   clientPhone: '',
+  //   clientAddress: '',
+  //   clientMfo: '',
+  //   contractId: 0,
+  //   contractDate: '',
+  //   creditSumm: '',
+  //   creditCurrency: 0,
+  //   creditStart: '',
+  //   creditEnd: '',
+  //   guarantorName: '',
+  //   guarantorInn: '',
+  //   interestRate: '',
+  //   statuUpbuilding: 0,
+  //   remainderCurrentDebt: '',
+  //   remainderOverdueDebt: '',
+  //   remainderOverduePercent: '',
+  //   remainderAccruedPercent: '',
+  //   remainderAccruedPercentOverdueDebt: '',
+  //   pledge: '',
+  //   totalDebt: '',
+  //   delayDate: '',
+  // };
 
   flagPageCard: boolean = true;
 
   constructor(
-    private lawsuitService: LawsuitService,
+    public lawsuitService: LawsuitService,
     private route: ActivatedRoute
   ) {}
 
@@ -57,7 +57,7 @@ export class ContractInfoComponent implements OnInit {
         })
       )
       .subscribe((contract) => {
-        this.contract = contract;
+        this.lawsuitService.contract = contract;
       });
   }
 

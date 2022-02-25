@@ -81,9 +81,6 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
       });
     } else {
       this.form = new FormGroup({
-        lawKind: new FormControl(formTemplateNull, Validators.required),
-        lawType: new FormControl(formTemplateNull, Validators.required),
-
         numberDoc: new FormControl(formTemplate, Validators.required),
         dateDoc: new FormControl(formTemplate, Validators.required),
         additionalInfo: new FormControl(formTemplate, Validators.required),
@@ -107,8 +104,6 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
     const lawId = this.lawsuitService.getReqId(5)?.id;
 
     const data = {
-      lawKind: this.form.value.lawKind,
-      lawType: this.form.value.lawType,
       lawName: 1,
       outDocNumber: this.form.value.numberDoc,
       outDocDate: this.form.value.dateDoc.singleDate.formatted,

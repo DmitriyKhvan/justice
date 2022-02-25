@@ -73,18 +73,18 @@ export class SettingResponseLawTemplateComponent implements OnInit {
 
   constructor(private dicService: DictionariesService) {}
 
-  getValue(dicName: string, val: any): any {
-    if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
-    }
-  }
-
   ngOnInit(): void {
     this.dicSub = this.dicService
       .getDicByActionId(this.actionData.actionId)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
       });
+  }
+
+  getValue(dicName: string, val: any): any {
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
+        .ru;
+    }
   }
 }

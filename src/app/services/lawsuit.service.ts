@@ -64,6 +64,7 @@ export class LawsuitService {
   };
 
   timerIdDecisions!: any; // таймер для решений гл. юрист
+  contract!: any;
 
   constructor(
     public http: HttpClient,
@@ -201,6 +202,7 @@ export class LawsuitService {
       uniqueId: this.contractId,
       mfo: this.mfo,
       processId: this.actionStart?.processId,
+      active: true,
     };
 
     this.actionStart = {
@@ -245,9 +247,9 @@ export class LawsuitService {
       );
   }
 
-  addTextTemplate(text: string): Observable<any> {
+  addTextTemplate(data: object): Observable<any> {
     return this.http
-      .post(`${environment.dbUrlBek}/notification/sample/add`, { text })
+      .post(`${environment.dbUrlBek}/notification/sample/add`, data)
       .pipe(
         catchError((error) => {
           this.alert.danger(error.error.message);
@@ -269,7 +271,9 @@ export class LawsuitService {
 
   listTextTemplate(): Observable<any> {
     return this.http
-      .get(`${environment.dbUrlBek}/notification/sample/findAll`)
+      .get(
+        `${environment.dbUrlBek}/notification/sample/find/${this.contract.clientType}`
+      )
       .pipe(
         catchError((error) => {
           this.alert.danger(error.error.message);

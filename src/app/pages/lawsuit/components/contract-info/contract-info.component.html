@@ -1,28 +1,28 @@
 <div *ngIf="flagPageCard; else pageCardMini" class="page-card">
   <i class="uil-times tooglePageCard" (click)="tooglePageCard(false)"></i>
   <div class="page-card__header px-3 pt-2">
-    Проблемный кредит #{{ contract.contractId }}
+    Проблемный кредит #{{ lawsuitService.contract?.contractId }}
   </div>
   <div class="page-card__body">
     <div class="row page-card__details px-3">
       <div class="col-5">Сумма кредита по договору</div>
-      <div class="col-7">{{ contract.creditSumm }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.creditSumm }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Дата начала кредита</div>
-      <div class="col-7">{{ contract.creditStart }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.creditStart }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Дата окончания кредита</div>
-      <div class="col-7">{{ contract.creditEnd }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.creditEnd }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Валюта кредита</div>
-      <div class="col-7">{{ contract.creditCurrency }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.creditCurrency }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Процентная ставка</div>
-      <div class="col-7">{{ contract.interestRate }}%</div>
+      <div class="col-7">{{ lawsuitService.contract?.interestRate }}%</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Статус наращивания/ненаращивания</div>
@@ -30,31 +30,39 @@
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Остаток текущего долга</div>
-      <div class="col-7">{{ contract.remainderCurrentDebt }}</div>
+      <div class="col-7">
+        {{ lawsuitService.contract?.remainderCurrentDebt }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Остаток просроченного основного долга</div>
-      <div class="col-7">{{ contract.remainderOverdueDebt }}</div>
+      <div class="col-7">
+        {{ lawsuitService.contract?.remainderOverdueDebt }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Остаток начисленных %</div>
-      <div class="col-7">{{ contract.remainderOverduePercent }}</div>
+      <div class="col-7">
+        {{ lawsuitService.contract?.remainderOverduePercent }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Остаток просроченных %</div>
-      <div class="col-7">{{ contract.remainderAccruedPercent }}</div>
+      <div class="col-7">
+        {{ lawsuitService.contract?.remainderAccruedPercent }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">
         Остаток начисленных % по просроченному основному долгу
       </div>
       <div class="col-7">
-        {{ contract.remainderAccruedPercentOverdueDebt }}%
+        {{ lawsuitService.contract?.remainderAccruedPercentOverdueDebt }}%
       </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">ФИО заемщика</div>
-      <div class="col-7">{{ contract.clientFio }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.clientFio }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">ФИО поручителя</div>
@@ -62,11 +70,11 @@
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Номер договора</div>
-      <div class="col-7">{{ contract.contractId }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.contractId }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Дата заключения договора</div>
-      <div class="col-7">{{ contract.contractDate }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.contractDate }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Вид залога</div>
@@ -80,11 +88,13 @@
   <div class="page-card__footer py-1">
     <div class="row page-card__details px-3">
       <div class="col-5">ИТОГО задолженность</div>
-      <div class="col-7 text-danger">{{ contract.totalDebt }}</div>
+      <div class="col-7 text-danger">
+        {{ lawsuitService.contract?.totalDebt }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Дата просрочки</div>
-      <div class="col-7">{{ contract.delayDate }}</div>
+      <div class="col-7">{{ lawsuitService.contract?.delayDate }}</div>
     </div>
   </div>
 </div>
@@ -95,6 +105,10 @@
       class="uil-angle-right tooglePageCardMini"
       (click)="tooglePageCard(true)"
     ></i>
-    <span>Информация о проблемном кредите #{{ contract.contractId }}</span>
+    <span
+      >Информация о проблемном кредите #{{
+        lawsuitService.contract?.contractId
+      }}</span
+    >
   </div>
 </ng-template>

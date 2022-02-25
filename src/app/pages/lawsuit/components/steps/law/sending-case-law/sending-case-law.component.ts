@@ -2,12 +2,13 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime, filter, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
+import currencyTransform from 'src/app/utils/format-number';
 
 @Component({
   selector: 'app-sending-case-law',
@@ -29,6 +30,7 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
   percentAmountSub!: Subscription | undefined;
   penaltyAmountSub!: Subscription | undefined;
   fineAmountSub!: Subscription | undefined;
+  totalClaimAmountSub!: Subscription | undefined;
 
   defendantArraySub!: Subscription | undefined;
 
@@ -150,9 +152,28 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
         fineAmount: new FormControl(formTemplate, Validators.required),
         totalClaimAmount: new FormControl(formTemplate, Validators.required),
 
+        outDocNumber: new FormControl(formTemplate, Validators.required),
+        outDocDate: new FormControl(formTemplate, Validators.required),
+
         additionalInfo: new FormControl(formTemplate, Validators.required),
       });
     }
+
+    // this.form.valueChanges.subscribe((form) => {
+    //   if (form.principalAmount) {
+    //     this.form.patchValue(
+    //       {
+    //         principalAmount: this.currencyPipe.transform(
+    //           form.principalAmount.replace(/\D/g, '').replace(/^0+/, ''),
+    //           'USD',
+    //           'symbol',
+    //           '1.0-0'
+    //         ),
+    //       },
+    //       { emitEvent: false }
+    //     );
+    //   }
+    // });
 
     this.dicSub = this.dicService
       .getDicByActionId(this.action.actionId)
@@ -193,42 +214,109 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
 
     this.principalAmountSub = this.form
       .get('principalAmount')
-      ?.valueChanges.pipe(debounceTime(700))
-      .subscribe(() => {
+      ?.valueChanges.pipe
+      // debounceTime(700)
+      ()
+      .subscribe((val) => {
         this.getTotalClaimAmount();
+
+        this.form.patchValue(
+          {
+            principalAmount: currencyTransform(val),
+          },
+          { emitEvent: false }
+        );
       });
 
     this.percentAmountSub = this.form
       .get('percentAmount')
-      ?.valueChanges.pipe(debounceTime(700))
-      .subscribe(() => {
+      ?.valueChanges.pipe
+      // debounceTime(700)
+      ()
+      .subscribe((val) => {
         this.getTotalClaimAmount();
+        this.form.patchValue(
+          {
+            percentAmount: currencyTransform(val),
+          },
+          { emitEvent: false }
+        );
       });
 
     this.penaltyAmountSub = this.form
       .get('penaltyAmount')
-      ?.valueChanges.pipe(debounceTime(700))
-      .subscribe(() => {
+      ?.valueChanges.pipe
+      // debounceTime(700)
+      ()
+      .subscribe((val) => {
         this.getTotalClaimAmount();
+        this.form.patchValue(
+          {
+            penaltyAmount: currencyTransform(val),
+          },
+          { emitEvent: false }
+        );
       });
 
     this.fineAmountSub = this.form
       .get('fineAmount')
-      ?.valueChanges.pipe(debounceTime(700))
-      .subscribe(() => {
+      ?.valueChanges.pipe
+      // debounceTime(700)
+      ()
+      .subscribe((val) => {
         this.getTotalClaimAmount();
+        this.form.patchValue(
+          {
+            fineAmount: currencyTransform(val),
+          },
+          { emitEvent: false }
+        );
       });
+
+    this.totalClaimAmountSub = this.form
+      .get('totalClaimAmount')
+      ?.valueChanges.pipe
+      // debounceTime(700)
+      ()
+      .subscribe((val) => {
+        this.form.patchValue(
+          {
+            totalClaimAmount: currencyTransform(val),
+          },
+          { emitEvent: false }
+        );
+      });
+
+    // this.form.valueChanges.subscribe((form) => {
+    //   if (form.totalClaimAmount) {
+    //     this.form.patchValue(
+    //       {
+    //         // totalClaimAmount: new Intl.NumberFormat().format(
+    //         //   form.totalClaimAmount.replace(/[^0-9.]/gim, '')
+    //         // ),
+    //         totalClaimAmount: currencyTransform(form.totalClaimAmount),
+    //       },
+    //       { emitEvent: false }
+    //     );
+    //   }
+    // });
   }
 
   getTotalClaimAmount() {
     let totalClaimAmount =
-      +this.form.get('principalAmount')?.value +
-      +this.form.get('percentAmount')?.value +
-      +this.form.get('penaltyAmount')?.value +
-      +this.form.get('fineAmount')?.value;
-    this.form.patchValue({
-      totalClaimAmount,
-    });
+      +Number(
+        this.form.get('principalAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(this.form.get('percentAmount')?.value.replace(/[^0-9]/gim, '')) +
+      +Number(this.form.get('penaltyAmount')?.value.replace(/[^0-9]/gim, '')) +
+      +Number(this.form.get('fineAmount')?.value.replace(/[^0-9]/gim, ''));
+    this.form.patchValue(
+      {
+        // totalClaimAmount: this.currencyTransform(String(totalClaimAmount)),
+        totalClaimAmount: currencyTransform(String(totalClaimAmount)),
+      },
+      { emitEvent: false }
+    );
   }
 
   get defendantArray() {
@@ -280,6 +368,8 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
       penaltyAmount: this.form.value.penaltyAmount,
       fineAmount: this.form.value.fineAmount,
       totalClaimAmount: this.form.value.totalClaimAmount,
+      outDocNumber: this.form.value.outDocNumber,
+      outDocDate: this.form.value.outDocDate.singleDate.formatted,
       files: this.fileUploadService.transformFilesData(),
       // lawInDate: this.form.value.dateLaw.singleDate.formatted,
       addInfo: this.form.value.additionalInfo,
@@ -300,32 +390,13 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.dicSub) {
-      this.dicSub.unsubscribe();
-    }
-
-    if (this.regionSub) {
-      this.regionSub.unsubscribe();
-    }
-
-    if (this.principalAmountSub) {
-      this.principalAmountSub.unsubscribe();
-    }
-
-    if (this.percentAmountSub) {
-      this.percentAmountSub.unsubscribe();
-    }
-
-    if (this.penaltyAmountSub) {
-      this.penaltyAmountSub.unsubscribe();
-    }
-
-    if (this.fineAmountSub) {
-      this.fineAmountSub.unsubscribe();
-    }
-
-    if (this.defendantArraySub) {
-      this.defendantArraySub.unsubscribe();
-    }
+    this.dicSub?.unsubscribe();
+    this.regionSub?.unsubscribe();
+    this.principalAmountSub?.unsubscribe();
+    this.percentAmountSub?.unsubscribe();
+    this.penaltyAmountSub?.unsubscribe();
+    this.fineAmountSub?.unsubscribe();
+    this.defendantArraySub?.unsubscribe();
+    this.totalClaimAmountSub?.unsubscribe();
   }
 }

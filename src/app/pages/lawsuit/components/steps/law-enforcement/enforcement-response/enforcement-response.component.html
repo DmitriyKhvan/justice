@@ -1,0 +1,211 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
+  <button
+    *ngIf="formTemplate"
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
+  >
+    <i class="uil-times"></i>
+  </button>
+</div>
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="select-field">
+        <div class="select-field__title">Выбор органа</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.lawEnforcement"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Выбор"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="organ"
+        ></ng-select>
+        <div
+          *ngIf="form.get('organ')?.touched && form.get('organ')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('organ')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Регион</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.regionDistrict"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Регион"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="region"
+        ></ng-select>
+        <div
+          *ngIf="form.get('region')?.touched && form.get('region')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('region')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Район</div>
+        <ng-select
+          appearance="outline"
+          [items]="districtDic"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Район"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="district"
+        ></ng-select>
+        <div
+          *ngIf="form.get('district')?.touched && form.get('district')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('district')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Номер документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input type="text" autocomplete="off" formControlName="inDocNumber" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('inDocNumber')?.touched && form.get('inDocNumber')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('inDocNumber')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Ввод даты документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="inDocDate"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('inDocDate')?.touched && form.get('inDocDate')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.inDocDate.errors &&
+              form.controls.inDocDate.errors.required &&
+              !form.controls.inDocDate.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.inDocDate.errors &&
+              form.controls.inDocDate.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="addInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="form.get('addInfo')?.touched && form.get('addInfo')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('addInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <app-file-uploader
+        [formTemplate]="formTemplate"
+        title="Прикрепить файл"
+      ></app-file-uploader>
+    </div>
+  </div>
+
+  <button
+    *ngIf="!formTemplate"
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    Отправить
+  </button>
+</form>

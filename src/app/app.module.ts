@@ -76,7 +76,6 @@ import { SendingApplicationNotaryComponent } from './pages/lawsuit/components/st
 import { BureauCompulsoryEnforcementComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/bureau-compulsory-enforcement.component';
 import { CaseTransferComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/case-transfer/case-transfer.component';
 import { AuctionComponent } from './pages/lawsuit/components/steps/auction/auction.component';
-import { StopingAuctionComponent } from './pages/lawsuit/components/steps/auction/stoping-auction/stoping-auction.component';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './init/keycloak-init.factory';
 import { FirstInstanceDecisionComponent } from './pages/lawsuit/components/steps/law/first-instance-decision/first-instance-decision.component';
@@ -113,6 +112,21 @@ import { TableComponent } from './pages/monitoring/components/table/table.compon
 import { FileDownloaderComponent } from './components/formFields/file-downloader/file-downloader.component';
 import { PopUpTemplateTextComponent } from './pages/lawsuit/components/pop-up-template-text/pop-up-template-text.component';
 import { StoppingBCETemplateComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/stopping-bce/stopping-bce-template.component';
+import { CurrencyPipe } from '@angular/common';
+import { StopProcessComponent } from './pages/lawsuit/components/steps/stop-process/stop-process.component';
+import { FirstAuctionComponent } from './pages/lawsuit/components/steps/auction/first-auction/first-auction.component';
+import { RepeatAuctionComponent } from './pages/lawsuit/components/steps/auction/repeat-auction/repeat-auction.component';
+import { BalanceReceptionComponent } from './pages/lawsuit/components/steps/auction/balance-reception/balance-reception.component';
+import { FirstAuctionTemplateComponent } from './pages/lawsuit/components/steps/auction/first-auction/first-auction-template.component';
+import { RepeatAuctionTemplateComponent } from './pages/lawsuit/components/steps/auction/repeat-auction/repeat-auction-template';
+import { BalanceReceptionTemplateComponent } from './pages/lawsuit/components/steps/auction/balance-reception/balance-reception-template.component';
+import { LawEnforcementComponent } from './pages/lawsuit/components/steps/law-enforcement/law-enforcement.component';
+import { EnforcementRequestComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-request/enforcement-request.component';
+import { EnforcementResponseComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-response/enforcement-response.component';
+import { EnforcementResponseTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-response/enforcement-response-template.component';
+import { EnforcementRequestTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-request/enforcement-request-template.component';
+import { MainAppealComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal/main-appeal.component';
+import { MainAppealTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal/main-appeal-template.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -172,7 +186,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BureauCompulsoryEnforcementComponent,
     CaseTransferComponent,
     AuctionComponent,
-    StopingAuctionComponent,
     FirstInstanceDecisionComponent,
     ReferralForAppealComponent,
     AppealLawResponseComponent,
@@ -207,6 +220,20 @@ const INTERCEPTOR_PROVIDER: Provider = {
     TableComponent,
     FileDownloaderComponent,
     PopUpTemplateTextComponent,
+    StopProcessComponent,
+    FirstAuctionComponent,
+    RepeatAuctionComponent,
+    BalanceReceptionComponent,
+    FirstAuctionTemplateComponent,
+    RepeatAuctionTemplateComponent,
+    BalanceReceptionTemplateComponent,
+    LawEnforcementComponent,
+    EnforcementRequestComponent,
+    EnforcementResponseComponent,
+    EnforcementResponseTemplateComponent,
+    EnforcementRequestTemplateComponent,
+    MainAppealComponent,
+    MainAppealTemplateComponent,
   ],
   imports: [
     TooltipModule,
@@ -230,6 +257,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
       multi: true,
       deps: [KeycloakService],
     },
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

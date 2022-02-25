@@ -13,58 +13,6 @@
 
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-6">
-      <div class="select-field">
-        <div class="select-field__title">Суды</div>
-        <ng-select
-          appearance="outline"
-          [items]="dictionaries?.courtKind"
-          bindLabel="lang.ru"
-          bindValue="id"
-          placeholder="Суды"
-          #agreeSelect
-          labelForId="yesno"
-          [searchable]="false"
-          formControlName="lawKind"
-        ></ng-select>
-        <div
-          *ngIf="form.get('lawKind')?.touched && form.get('lawKind')?.invalid"
-          class="validation"
-        >
-          <small *ngIf="form.get('lawKind')?.errors?.required">
-            Выберите данные
-          </small>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-6">
-      <div class="select-field">
-        <div class="select-field__title">Подсудность дел</div>
-        <ng-select
-          appearance="outline"
-          [items]="dictionaries?.courtType"
-          bindLabel="lang.ru"
-          bindValue="id"
-          placeholder="Подсудность дел"
-          #agreeSelect
-          labelForId="yesno"
-          [searchable]="false"
-          formControlName="lawType"
-        ></ng-select>
-        <div
-          *ngIf="form.get('lawType')?.touched && form.get('lawType')?.invalid"
-          class="validation"
-        >
-          <small *ngIf="form.get('lawType')?.errors?.required">
-            Выберите данные
-          </small>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
         <div class="input-field__title">Тип суда</div>

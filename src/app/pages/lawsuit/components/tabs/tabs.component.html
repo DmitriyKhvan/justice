@@ -39,6 +39,19 @@
           >Шаг {{ this.lawsuitService.steps.length + 1 }}</span
         >
       </button>
+
+      <button
+        class="step_lawsuit last"
+        [ngClass]="{
+          current: this.lawsuitService.fromStepId == -1
+        }"
+        (click)="lawsuitService.getCurrentStep(-1)"
+      >
+        <span class="step_lawsuit_number">
+          <i class="uil-pause"></i>
+        </span>
+        <span class="step_lawsuit_name">Завершить процесс</span>
+      </button>
     </div>
   </div>
 </div>

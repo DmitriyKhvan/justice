@@ -13,6 +13,11 @@
         *ngIf="this.lawsuitService.isActionForm(15)"
       ></app-stopping-bce>
 
+      <app-main-appeal
+        [action]="this.lawsuitService.isActionForm(22)"
+        *ngIf="this.lawsuitService.isActionForm(22)"
+      ></app-main-appeal>
+
       <app-next-step
         *ngIf="
           lawsuitService.stepIndex === lawsuitService.steps.length &&

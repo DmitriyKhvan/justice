@@ -193,9 +193,47 @@
       [actionData]="formData"
     ></app-making-response-notary-template>
 
+    <app-first-auction-template
+      *ngIf="formData.actionId === 14"
+      [actionData]="formData"
+    ></app-first-auction-template>
+
     <app-stopping-bce-template
       *ngIf="formData.actionId === 15"
       [actionData]="formData"
     ></app-stopping-bce-template>
+
+    <app-repeat-auction-template
+      *ngIf="formData.actionId === 17"
+      [actionData]="formData"
+    ></app-repeat-auction-template>
+
+    <app-balance-reception-template
+      *ngIf="formData.actionId === 18"
+      [actionData]="formData"
+    ></app-balance-reception-template>
+
+    <!-- {{ formData.actionId | json }} -->
+
+    <app-enforcement-request-template
+      *ngIf="formData.actionId === 19"
+      [actionData]="formData"
+    >
+    </app-enforcement-request-template>
+
+    <app-enforcement-response-template
+      *ngIf="formData.actionId === 20"
+      [actionData]="formData"
+    >
+    </app-enforcement-response-template>
+
+    <app-main-appeal-template
+      *ngIf="
+        formData.actionId === 21 ||
+        formData.actionId === 22 ||
+        formData.actionId === 23
+      "
+      [actionData]="formData"
+    ></app-main-appeal-template>
   </div>
 </div>

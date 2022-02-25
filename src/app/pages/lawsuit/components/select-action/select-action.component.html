@@ -48,10 +48,12 @@
   </form>
 
   <ng-template #btnAction>
+    <!-- [disabled]="lawsuitService.historyActions.length > 2" -->
     <button
       *ngIf="!lawsuitService.actions.length"
       class="page-form__actionbtn text-uppercase add"
       (click)="lawsuitService.actions.push(actions[0])"
+      [disabled]="lawsuitService.historyActions.length > 2"
     >
       <!-- {{ actionName }} -->
       {{ actions[0].actionNameLang.ru }}

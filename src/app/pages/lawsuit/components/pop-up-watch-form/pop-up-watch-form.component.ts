@@ -32,6 +32,8 @@ export class PopUpWatchFormComponent implements OnInit, OnDestroy {
       (popUpData: any) => {
         this.formData = popUpData.formData;
         this.isActive = popUpData.isActive;
+
+        console.log('this.formData', this.formData);
       }
     );
   }

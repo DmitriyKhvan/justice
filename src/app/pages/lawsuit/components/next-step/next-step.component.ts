@@ -35,10 +35,21 @@ export class NextStepComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sSub = this.lawsuitService.getSteps().subscribe((steps) => {
-      this.restSteps = steps.filter(
-        (step: any) =>
-          !this.lawsuitService.steps.some((e) => e.stepid === step.id)
-      );
+      if (this.lawsuitService.currentStep.stepid === 1) {
+        this.restSteps = steps.filter(
+          (step: any) =>
+            !this.lawsuitService.steps.some(
+              (e) => e.stepid === step.id || step.id === 6
+            )
+        );
+
+        console.log('this.restSteps1', this.restSteps);
+      } else {
+        this.restSteps = steps.filter(
+          (step: any) =>
+            !this.lawsuitService.steps.some((e) => e.stepid === step.id)
+        );
+      }
     });
 
     // this.lawsuitService.getSteps().subscribe((steps) => {

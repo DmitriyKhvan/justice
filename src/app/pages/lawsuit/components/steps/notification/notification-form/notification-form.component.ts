@@ -98,7 +98,10 @@ export class NotificationFormComponent implements OnInit {
     console.log(text);
     if (text) {
       this.lawsuitService
-        .addTextTemplate(text)
+        .addTextTemplate({
+          text,
+          type: this.lawsuitService.contract.clientType,
+        })
         .subscribe(() => this.alert.success('Текст успешно добавлен.'));
     }
   }

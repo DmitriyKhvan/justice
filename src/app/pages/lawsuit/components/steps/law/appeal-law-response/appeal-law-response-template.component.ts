@@ -22,7 +22,12 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         </div>
       </div>
 
-      <ng-container *ngIf="actionData.data.decisionResult === 36">
+      <ng-container
+        *ngIf="
+          actionData.data.decisionResult === 35 ||
+          actionData.data.decisionResult === 36
+        "
+      >
         <div class="row justify-content-between">
           <div class="col-6">Обжаловать решение суда</div>
           <div class="col-6">
@@ -39,23 +44,35 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Общая сумма</div>
-            <div class="col-6">{{ actionData.data.appealTotalAmount }}</div>
-          </div>
-
-          <div class="row justify-content-between">
             <div class="col-6">Сумма основного долга</div>
-            <div class="col-6">{{ actionData.data.appealMainDebt }}</div>
+            <div class="col-6">{{ actionData.data.appealPrincipalAmount }}</div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Сумма неустойки</div>
-            <div class="col-6">{{ actionData.data.appealPenaltySum }}</div>
+            <div class="col-6">Сумма процента</div>
+            <div class="col-6">{{ actionData.data.appealInterestAmount }}</div>
+          </div>
+
+          <div class="row justify-content-between">
+            <div class="col-6">Сумма пени</div>
+            <div class="col-6">{{ actionData.data.appealPenaltyAmount }}</div>
+          </div>
+
+          <div class="row justify-content-between">
+            <div class="col-6">Сумма штрафа</div>
+            <div class="col-6">{{ actionData.data.appealFineAmount }}</div>
           </div>
 
           <div class="row justify-content-between">
             <div class="col-6">Сумма госпошлины и судебных издержек</div>
-            <div class="col-6">{{ actionData.data.appealOtherAmount }}</div>
+            <div class="col-6">
+              {{ actionData.data.appealStateDutyCourtCostsAmount }}
+            </div>
+          </div>
+
+          <div class="row justify-content-between">
+            <div class="col-6">Общая сумма иска</div>
+            <div class="col-6">{{ actionData.data.appealClaimAmount }}</div>
           </div>
 
           <!-- <div class="row justify-content-between">
@@ -81,7 +98,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
             </div>
           </div>
 
-          <ng-container *ngIf="actionData.data.action == 49">
+          <ng-container *ngIf="actionData.data.action === 49">
             <div class="row justify-content-between">
               <div class="col-6">Отложить до</div>
               <div class="col-6">{{ actionData.data.suspendDate }}</div>

@@ -15,7 +15,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Суды</div>
+        <div class="select-field__title">Подведомственность суда</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.courtKind"
@@ -372,6 +372,83 @@
         >
           <small *ngIf="form.get('totalClaimAmount')?.errors?.required">
             Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ исх. документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="outDocNumber"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('outDocNumber')?.touched &&
+            form.get('outDocNumber')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('outDocNumber')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">Дата исх. документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="outDocDate"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="'ru'"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('outDocDate')?.touched && form.get('outDocDate')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.outDocDate.errors &&
+              form.controls.outDocDate.errors.required &&
+              !form.controls.outDocDate.errors.invalidDateFormat
+            "
+          >
+            Введите данные
+          </small>
+          <small
+            *ngIf="
+              form.controls.outDocDate.errors &&
+              form.controls.outDocDate.errors.invalidDateFormat
+            "
+          >
+            Неккоректные данные
           </small>
         </div>
       </div>
