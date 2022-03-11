@@ -3,7 +3,7 @@
     {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
   </h2>
   <button
-    *ngIf="!formData && !formTemplate"
+    *ngIf="!formTemplate"
     class="remove_action_form__btn"
     (click)="this.lawsuitService.removeActionForm(action.actionId)"
   >
@@ -340,7 +340,6 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <app-file-uploader
-        [formData]="formData"
         [formTemplate]="formTemplate"
         title="Прикрепить файл"
       ></app-file-uploader>
@@ -377,7 +376,7 @@
   <!-- </div> -->
 
   <button
-    *ngIf="!formData && !formTemplate"
+    *ngIf="!formTemplate"
     type="submit"
     class="page-form__actionbtn text-uppercase add"
     [ngClass]="{ disableBtn: form.invalid || submitted }"

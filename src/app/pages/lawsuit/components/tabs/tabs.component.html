@@ -14,8 +14,10 @@
         (click)="lawsuitService.getCurrentStep(step.stepid)"
       >
         <span class="step_lawsuit_number">{{ idx + 1 }}</span>
-        <span class="step_lawsuit_name">{{ step.lang.ru }}</span>
-        <i class="uil-pen"></i>
+        <span class="step_lawsuit_name" [attr.data-tooltip]="step.lang.ru">{{
+          step.lang.ru
+        }}</span>
+        <!-- <i class="uil-pen"></i> -->
       </button>
 
       <!-- <button
@@ -40,18 +42,19 @@
         >
       </button>
 
-      <button
+      <!-- <button
         class="step_lawsuit last"
         [ngClass]="{
-          current: this.lawsuitService.fromStepId == -1
+          current: this.lawsuitService.fromStepId == 8
         }"
-        (click)="lawsuitService.getCurrentStep(-1)"
+        (click)="lawsuitService.getCurrentStep(8)"
       >
         <span class="step_lawsuit_number">
           <i class="uil-pause"></i>
         </span>
         <span class="step_lawsuit_name">Завершить процесс</span>
-      </button>
+      </button> -->
+      <app-stop-process-tab></app-stop-process-tab>
     </div>
   </div>
 </div>

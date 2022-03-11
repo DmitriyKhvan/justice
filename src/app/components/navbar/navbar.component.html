@@ -3,69 +3,84 @@
 >
   <!-- <pre> {{ keycloak.loadUserProfile }}</pre> -->
 
-  <div
-    *ngIf="
-      keycloak.isUserInRole('lawyer') || keycloak.isUserInRole('head-lawyer');
-      else monitoring
-    "
-    class="app-navbar_wrapper row no-gutters justify-content-between"
-  >
+  <div class="app-navbar_menu">
     <div
-      class="app-navbar_item px-2"
-      style="
-        margin-left: 186px;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
+      *ngIf="
+        keycloak.isUserInRole('lawyer') || keycloak.isUserInRole('head-lawyer');
+        else monitoring
       "
-      routerLink="/clients"
+      class="app-navbar_wrapper row no-gutters justify-content-between"
     >
-      <i class="icon-group mr-1" style="font-size: 38px"></i>
-      Клиенты
-    </div>
+      <div
+        class="app-navbar_item px-2"
+        style="
+          margin-left: 186px;
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
+        "
+        routerLink="/clients"
+        routerLinkActive="active-link"
+      >
+        <i class="icon-group mr-1" style="font-size: 38px"></i>
+        Клиенты
+      </div>
 
-    <!-- <div class="app-navbar_item px-2" style="">
+      <!-- <div class="app-navbar_item px-2" style="">
       <i class="icon-document_1 mr-1"></i>
       Документы
       <i class="uil-angle-down"></i>
     </div> -->
-    <!-- <div class="app-navbar_item px-2">
+      <!-- <div class="app-navbar_item px-2">
       <i class="icon-pie_chart mr-1"></i>
       Статистика
     </div> -->
-    <!-- <div class="app-navbar_item px-2" routerLink="/claims">
+      <!-- <div class="app-navbar_item px-2" routerLink="/claims">
       <i class="icon-list mr-1"></i>
       Заявки по ущербам
     </div> -->
+    </div>
+
+    <ng-template #monitoring>
+      <div
+        class="app-navbar_item px-2"
+        style="
+          margin-left: 186px;
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
+        "
+        *ngIf="keycloak.isUserInRole('monitoring'); else adminMenu"
+        class="app-navbar_item px-2"
+        routerLink="/monitoring"
+        routerLinkActive="active-link"
+      >
+        <i class="icon-group mr-1" style="font-size: 38px"></i>
+        Мониторинг
+      </div>
+    </ng-template>
+
+    <ng-template #adminMenu>
+      <div
+        class="app-navbar_item px-2"
+        style="
+          margin-left: 186px;
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
+        "
+        routerLink="/admin/listUser"
+        routerLinkActive="active-link"
+      >
+        <i class="icon-group mr-1" style="font-size: 38px"></i>
+        Доступы
+      </div>
+
+      <div
+        class="app-navbar_item px-2"
+        style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
+        routerLink="/admin/stopProcessMfos"
+        routerLinkActive="active-link"
+      >
+        <i class="uil-pause-circle" style="font-size: 30px"></i>
+        Приостановленные дела
+      </div>
+    </ng-template>
   </div>
-
-  <ng-template #monitoring>
-    <div
-      class="app-navbar_item px-2"
-      style="
-        margin-left: 186px;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
-      "
-      *ngIf="keycloak.isUserInRole('monitoring'); else adminMenu"
-      class="app-navbar_item px-2"
-      routerLink="/monitoring"
-    >
-      <i class="icon-group mr-1" style="font-size: 38px"></i>
-      Мониторинг
-    </div>
-  </ng-template>
-
-  <ng-template #adminMenu>
-    <div
-      class="app-navbar_item px-2"
-      style="
-        margin-left: 186px;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
-      "
-      routerLink="/admin/listUser"
-    >
-      <i class="icon-group mr-1" style="font-size: 38px"></i>
-      Доступы
-    </div>
-  </ng-template>
 
   <div class="app-navbar_wrapper row no-gutters justify-content-between">
     <!-- <div

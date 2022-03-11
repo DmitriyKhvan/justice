@@ -8,9 +8,9 @@ import { environment } from 'src/environments/environment';
     <div
       class="fileList"
       *ngFor="
-        let file of this.formData.data.files
-          ? this.formData.data.files
-          : this.formData.data.stopFiles
+        let file of this.formData.data?.files
+          ? this.formData.data?.files
+          : this.formData.data?.stopFiles
       "
       (click)="downloadFile(file.id, file.name)"
     >

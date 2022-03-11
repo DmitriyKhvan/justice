@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 
@@ -36,7 +36,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   `,
   styles: [],
 })
-export class CaseTransferTemplateComponent implements OnInit {
+export class CaseTransferTemplateComponent implements OnInit, OnDestroy {
   @Input() actionData!: any;
 
   dicSub!: Subscription;
@@ -57,5 +57,9 @@ export class CaseTransferTemplateComponent implements OnInit {
       return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
         .ru;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.dicSub?.unsubscribe();
   }
 }

@@ -1,0 +1,14 @@
+<button
+  class="step_lawsuit last"
+  [ngClass]="{
+    current: this.lawsuitService.fromStepId == 8
+  }"
+  (click)="lawsuitService.getCurrentStep(8)"
+>
+  <span class="step_lawsuit_number">
+    <i class="uil-pause"></i>
+  </span>
+  <span class="step_lawsuit_name">{{
+    lawsuitService.stopProcessStep?.lang.ru
+  }}</span>
+</button>

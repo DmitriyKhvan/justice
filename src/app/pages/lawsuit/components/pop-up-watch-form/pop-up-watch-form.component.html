@@ -12,7 +12,11 @@
 
     <h2 class="lawsuitTitle add">{{ formData.actionNameLang.ru }}</h2>
 
-    <ng-container *ngIf="lawsuitService.fromStepId != 1">
+    <ng-container
+      *ngIf="
+        lawsuitService.fromStepId != 1 && lawsuitService.contract.status !== 5
+      "
+    >
       <h4 class="title">Главный юрист</h4>
       <div class="row justify-content-between mb-2">
         <div *ngIf="formData.actionStatus !== 2" class="col-6">
@@ -203,6 +207,11 @@
       [actionData]="formData"
     ></app-stopping-bce-template>
 
+    <app-mib-response-template
+      *ngIf="formData.actionId === 16"
+      [actionData]="formData"
+    ></app-mib-response-template>
+
     <app-repeat-auction-template
       *ngIf="formData.actionId === 17"
       [actionData]="formData"
@@ -235,5 +244,10 @@
       "
       [actionData]="formData"
     ></app-main-appeal-template>
+
+    <app-stop-process-template
+      *ngIf="formData.actionId === 24"
+      [actionData]="formData"
+    ></app-stop-process-template>
   </div>
 </div>

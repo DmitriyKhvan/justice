@@ -22,6 +22,7 @@ export class NextStepComponent implements OnInit, OnDestroy {
   submitted = false;
 
   restSteps: any[] = [];
+  allStepLength!: null;
   actions: any[] = [];
 
   sSub!: Subscription;
@@ -35,26 +36,24 @@ export class NextStepComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sSub = this.lawsuitService.getSteps().subscribe((steps) => {
+      this.allStepLength = steps.length;
+
       if (this.lawsuitService.currentStep.stepid === 1) {
         this.restSteps = steps.filter(
           (step: any) =>
             !this.lawsuitService.steps.some(
-              (e) => e.stepid === step.id || step.id === 6
+              (e) => e.stepid === step.id || step.id === 6 || step.id === 8
             )
         );
-
-        console.log('this.restSteps1', this.restSteps);
       } else {
         this.restSteps = steps.filter(
           (step: any) =>
-            !this.lawsuitService.steps.some((e) => e.stepid === step.id)
+            !this.lawsuitService.steps.some(
+              (e) => e.stepid === step.id || step.id === 8
+            )
         );
       }
     });
-
-    // this.lawsuitService.getSteps().subscribe((steps) => {
-    //   this.restSteps = steps;
-    // });
 
     this.form = new FormGroup({
       nextStep: new FormControl(null, Validators.required),

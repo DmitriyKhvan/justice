@@ -7,7 +7,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Суды</div>
+        <div class="col-6">Подведомственность суда</div>
         <div class="col-6">
           {{ getValue('courtKind', actionData.data.lawKind) }}
         </div>
@@ -20,22 +20,16 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Регион</div>
+        <div class="col-6">Областной суд</div>
         <div class="col-6">
-          {{ getValue('regionDistrict', actionData.data.region) }}
+          {{ getValue('regionLaw', actionData.data.regionLaw) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Район</div>
+        <div class="col-6">Регион</div>
         <div class="col-6">
-          {{
-            getDistrict(
-              'regionDistrict',
-              actionData.data.region,
-              actionData.data.district
-            )
-          }}
+          {{ getRegionValue('regions', actionData.data.region) }}
         </div>
       </div>
 
@@ -87,13 +81,22 @@ export class ReferralForAppealTemplateComponent implements OnInit, OnDestroy {
     }
   }
 
-  getDistrict(dicName: string, regionId: number, districtId: number): any {
+  getRegionValue(dicName: string, val: any): any {
+    console.log('val', val);
+
     if (this.dictionaries) {
-      return this.dictionaries[dicName]
-        ?.find((region: any) => region.id === regionId)
-        ?.child.find((district: any) => district.id === districtId).lang.ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)
+        ?.nameLocal.ru;
     }
   }
+
+  // getDistrict(dicName: string, regionId: number, districtId: number): any {
+  //   if (this.dictionaries) {
+  //     return this.dictionaries[dicName]
+  //       ?.find((region: any) => region.id === regionId)
+  //       ?.child.find((district: any) => district.id === districtId).lang.ru;
+  //   }
+  // }
 
   ngOnDestroy(): void {
     if (this.dicSub) {

@@ -25,7 +25,9 @@
       class="row history_action__field__title no-gutters"
     >
       <div class="col-4 add">Дата</div>
-      <div class="col-8">Решение Г.Ю.</div>
+      <div *ngIf="lawsuitService.fromStepId != 8" class="col-8">
+        Решение Г.Ю.
+      </div>
     </div>
 
     <div class="row no-gutters history_action__field__data">
@@ -37,7 +39,11 @@
         <span *ngIf="action.actionStatus === 2" class="pending"
           >В ожидании</span
         >
-        <span *ngIf="action.actionStatus === 3" class="approved">Одобрено</span>
+        <span *ngIf="action.actionStatus === 3" class="approved">
+          <ng-container *ngIf="lawsuitService.fromStepId != 8"
+            >Одобрено</ng-container
+          >
+        </span>
         <span *ngIf="action.actionStatus === 4" class="approved"
           >Отправлено</span
         >

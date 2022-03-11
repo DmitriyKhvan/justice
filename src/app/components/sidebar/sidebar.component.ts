@@ -318,6 +318,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log(3331);
     if (this.pushSub) {
       this.pushSub.unsubscribe();
     }

@@ -1,30 +1,37 @@
 <div class="lawsuit_form_content">
   <div class="row">
     <div class="col-4 page-sticky">
-      <app-select-action></app-select-action>
+      <app-stop-process-wrap>
+        <app-select-action></app-select-action>
 
-      <app-case-transfer
-        [action]="this.lawsuitService.isActionForm(11)"
-        *ngIf="this.lawsuitService.isActionForm(11)"
-      ></app-case-transfer>
+        <app-case-transfer
+          [action]="this.lawsuitService.isActionForm(11)"
+          *ngIf="this.lawsuitService.isActionForm(11)"
+        ></app-case-transfer>
 
-      <app-stopping-bce
-        [action]="this.lawsuitService.isActionForm(15)"
-        *ngIf="this.lawsuitService.isActionForm(15)"
-      ></app-stopping-bce>
+        <app-stopping-bce
+          [action]="this.lawsuitService.isActionForm(15)"
+          *ngIf="this.lawsuitService.isActionForm(15)"
+        ></app-stopping-bce>
 
-      <app-main-appeal
-        [action]="this.lawsuitService.isActionForm(22)"
-        *ngIf="this.lawsuitService.isActionForm(22)"
-      ></app-main-appeal>
+        <app-mib-response
+          [action]="this.lawsuitService.isActionForm(16)"
+          *ngIf="this.lawsuitService.isActionForm(16)"
+        ></app-mib-response>
 
-      <app-next-step
-        *ngIf="
-          lawsuitService.stepIndex === lawsuitService.steps.length &&
-          lawsuitService.historyActions.length &&
-          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-        "
-      ></app-next-step>
+        <app-main-appeal
+          [action]="this.lawsuitService.isActionForm(22)"
+          *ngIf="this.lawsuitService.isActionForm(22)"
+        ></app-main-appeal>
+
+        <app-next-step
+          *ngIf="
+            lawsuitService.stepIndex === lawsuitService.steps.length &&
+            lawsuitService.historyActions.length &&
+            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+          "
+        ></app-next-step>
+      </app-stop-process-wrap>
     </div>
     <div class="col-4 page-sticky">
       <app-history-actions></app-history-actions>

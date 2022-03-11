@@ -1,0 +1,372 @@
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">
+    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+  </h2>
+  <button
+    *ngIf="!formTemplate"
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
+  >
+    <i class="uil-times"></i>
+  </button>
+</div>
+
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <div class="select-field">
+        <div class="select-field__title">Тип подачи заявки</div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.formDocType"
+          bindLabel="lang.ru"
+          bindValue="id"
+          placeholder="Тип подачи заявки"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="type"
+        ></ng-select>
+        <div
+          *ngIf="form.get('type')?.touched && form.get('type')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('type')?.errors?.required">
+            Выберите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <div class="input-field">
+        <div class="input-field__title">№ вхд. документа</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input type="text" autocomplete="off" formControlName="inDocNumber" />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('inDocNumber')?.touched && form.get('inDocNumber')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('inDocNumber')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <app-datepicker
+        title="Дата вхд. документа"
+        [form]="form"
+        [formTemplate]="formTemplate"
+        controlName="inDocDate"
+      ></app-datepicker>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <app-select
+        title="Результат решения"
+        placeholder="Результат решения"
+        [form]="form"
+        controlName="decisionResult"
+        [options]="dictionaries?.mibDecision"
+        [bindLabel]="'lang.ru'"
+        [bindValue]="'id'"
+      ></app-select>
+    </div>
+
+    <div
+      class="col-6"
+      *ngIf="
+        form.get('decisionResult')?.value === 155 ||
+        form.get('decisionResult')?.value === 157
+      "
+    >
+      <app-select
+        title="Обжаловать решение суда"
+        placeholder="Обжаловать решение суда"
+        [form]="form"
+        controlName="appeal"
+        [options]="dictionaries?.yesNo"
+        [bindLabel]="'lang.ru'"
+        [bindValue]="'value'"
+      ></app-select>
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      form.get('appeal')?.value === true || form.get('appeal')?.value === false
+    "
+  >
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <app-select
+          title="Действия"
+          placeholder="Действия"
+          [form]="form"
+          controlName="actionType"
+          [options]="actionDic"
+          [bindLabel]="'lang.ru'"
+          [bindValue]="'id'"
+        ></app-select>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      form.get('actionType')?.value === 158 ||
+      form.get('actionType')?.value === 159
+    "
+  >
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">Сумма основного долга</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealPrincipalAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealPrincipalAmount')?.touched &&
+              form.get('appealPrincipalAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealPrincipalAmount')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">Сумма процента</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealInterestAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealInterestAmount')?.touched &&
+              form.get('appealInterestAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealInterestAmount')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">Сумма пени</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealPenaltyAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealPenaltyAmount')?.touched &&
+              form.get('appealPenaltyAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealPenaltyAmount')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">Сумма штрафа</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealFineAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealFineAmount')?.touched &&
+              form.get('appealFineAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealFineAmount')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            Сумма госпошлины и судебных издержек
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealStateDutyCourtCostsAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealStateDutyCourtCostsAmount')?.touched &&
+              form.get('appealStateDutyCourtCostsAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small
+              *ngIf="
+                form.get('appealStateDutyCourtCostsAmount')?.errors?.required
+              "
+            >
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">Общая сумма иска</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealClaimAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealClaimAmount')?.touched &&
+              form.get('appealClaimAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealClaimAmount')?.errors?.required">
+              Введите данные
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="form.get('actionType')?.value === 3"> -->
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <app-file-uploader
+        [formTemplate]="formTemplate"
+        title="Прикрепить файл"
+      ></app-file-uploader>
+    </div>
+  </div>
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Дополнительная информация</div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="Уточните детали"
+            formControlName="addInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="form.get('addInfo')?.touched && form.get('addInfo')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('addInfo')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+  <button
+    *ngIf="!formTemplate"
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    <span *ngIf="this.form.get('appeal')?.value === true; else second"
+      >Продолжить дело</span
+    >
+
+    <ng-template #second>
+      <span *ngIf="this.form.get('actionType')?.value === 160; else third"
+        >Закрыть дело</span
+      >
+    </ng-template>
+
+    <ng-template #third>
+      <span>Отправить</span>
+    </ng-template>
+  </button>
+</form>

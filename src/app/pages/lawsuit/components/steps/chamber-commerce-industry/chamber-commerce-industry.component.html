@@ -1,24 +1,26 @@
 <div class="lawsuit_form_content">
   <div class="row">
     <div class="col-4 page-sticky">
-      <app-select-action></app-select-action>
+      <app-stop-process-wrap>
+        <app-select-action></app-select-action>
 
-      <app-sending-application
-        [action]="this.lawsuitService.isActionForm(2)"
-        *ngIf="this.lawsuitService.isActionForm(2)"
-      ></app-sending-application>
-      <app-making-response
-        [action]="this.lawsuitService.isActionForm(3)"
-        *ngIf="this.lawsuitService.isActionForm(3)"
-      ></app-making-response>
+        <app-sending-application
+          [action]="this.lawsuitService.isActionForm(2)"
+          *ngIf="this.lawsuitService.isActionForm(2)"
+        ></app-sending-application>
+        <app-making-response
+          [action]="this.lawsuitService.isActionForm(3)"
+          *ngIf="this.lawsuitService.isActionForm(3)"
+        ></app-making-response>
 
-      <app-next-step
-        *ngIf="
-          lawsuitService.stepIndex === lawsuitService.steps.length &&
-          lawsuitService.historyActions.length &&
-          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-        "
-      ></app-next-step>
+        <app-next-step
+          *ngIf="
+            lawsuitService.stepIndex === lawsuitService.steps.length &&
+            lawsuitService.historyActions.length &&
+            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+          "
+        ></app-next-step>
+      </app-stop-process-wrap>
     </div>
     <div class="col-4 page-sticky">
       <app-history-actions></app-history-actions>

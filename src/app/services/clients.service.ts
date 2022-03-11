@@ -36,16 +36,18 @@ export class ClientsService {
     private alert: AlertService
   ) {}
 
-  getMfo(): Observable<any> {
+  getMfo(status: any = ''): Observable<any> {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(`${environment.dbUrl}/dictionary/mfo`)
     // );
-    return this.http.get<any>(`${environment.dbUrlBek}/cases/IABSmfo`).pipe(
-      catchError((error) => {
-        this.alert.danger(error.error.message);
-        return throwError(error);
-      })
-    );
+    return this.http
+      .get<any>(`${environment.dbUrlBek}/cases/IABSmfo?status=${status}`)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
   }
 
   getListByMfo({
@@ -62,6 +64,28 @@ export class ClientsService {
     // );
 
     return this.http.post<any>(`${environment.dbUrlBek}/cases/getList`, {
+      page,
+      count,
+      mfo,
+      sortValue,
+      sortType,
+    });
+  }
+
+  getListStopProcess({
+    page,
+    count,
+    mfo,
+    sortValue,
+    sortType,
+  }: any): Observable<any> {
+    // return this.auth.fetchWithAuth(
+    //   this.http.get<any>(
+    //     `${environment.dbUrl}/process/list?page=${this.tablePage}&count=${this.tableCount}&mfo=${mfo}`
+    //   )
+    // );
+
+    return this.http.post<any>(`${environment.dbUrlBek}/admin/getList`, {
       page,
       count,
       mfo,

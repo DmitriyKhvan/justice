@@ -14,28 +14,9 @@ export class LawsuitService {
   stepName!: string;
   stepIndex!: number;
 
-  steps: any[] = [
-    // { id: 1, name: 'Уведомление', status: 'complete' },
-    // { id: 2, name: 'Процесс работы с ТПП', status: 'complete' },
-    // { id: 3, name: 'Процесс работы с судом', status: 'complete' },
-    // { id: 5, name: 'Процесс работы с Нотариусом', status: 'complete' },
-    // { id: 4, name: 'Процесс работы с МИБ', status: 'complete' },
-    // { id: 6, name: 'Процесс работы с Аукционом', status: 'last' },
-    // {
-    //   stepid: 1,
-    //   stepname: 'Notification',
-    //   stepconfirmation: true,
-    //   langname: 'Уведомление',
-    //   actionscount: 2,
-    // },
-    // {
-    //   stepid: 2,
-    //   stepname: 'TPP',
-    //   stepconfirmation: true,
-    //   langname: 'Торгово-промышленная палата',
-    //   actionscount: 1,
-    // },
-  ];
+  stopProcessStep!: any; // Шаг остановка процесса
+
+  steps: any[] = []; // текущие шаги процесса
 
   /** Текущее действие в шаге */
   currentStep: any = {
@@ -274,6 +255,17 @@ export class LawsuitService {
       .get(
         `${environment.dbUrlBek}/notification/sample/find/${this.contract.clientType}`
       )
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(error.error.message);
+          return throwError(error);
+        })
+      );
+  }
+
+  getRenewalProcess(data: any): Observable<any> {
+    return this.http
+      .post(`${environment.dbUrlBek}/process/renewal/add/`, data)
       .pipe(
         catchError((error) => {
           this.alert.danger(error.error.message);

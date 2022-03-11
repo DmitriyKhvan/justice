@@ -18,9 +18,10 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
+  region!: any;
 
   dicSub!: Subscription;
-  regionSub!: Subscription | undefined;
+  regionLawSub!: Subscription | undefined;
 
   dictionaries!: any;
   districtDic: any[] = [];
@@ -72,11 +73,6 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
           disabled: true,
         }),
 
-        district: new FormControl({
-          value: this.formData.data.district,
-          disabled: true,
-        }),
-
         numberDoc: new FormControl({
           value: this.formData.data.outDocNumber,
           disabled: true,
@@ -94,8 +90,8 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
       this.form = new FormGroup({
         lawKind: new FormControl(formTemplateNull, Validators.required),
         lawType: new FormControl(formTemplateNull, Validators.required),
-        region: new FormControl(formTemplateNull, Validators.required),
-        district: new FormControl(
+        regionLaw: new FormControl(formTemplateNull, Validators.required),
+        region: new FormControl(
           { value: null, disabled: true },
           Validators.required
         ),
@@ -104,6 +100,8 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
         dateDoc: new FormControl(formTemplate, Validators.required),
         additionalInfo: new FormControl(formTemplate, Validators.required),
       });
+
+      this.region = this.form.get('region');
     }
 
     this.dicSub = this.dicService
@@ -112,23 +110,23 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
         this.dictionaries = dictionaries;
       });
 
-    this.regionSub = this.form
-      .get('region')
+    this.regionLawSub = this.form
+      .get('regionLaw')
       ?.valueChanges.subscribe((id: number) => {
-        if (id) {
-          this.districtDic = this.dictionaries.regionDistrict.find(
-            (reg: any) => reg.id === id
-          ).child;
+        if (id === 162) {
+          this.region?.setValidators([Validators.required]);
 
-          this.form.get('district')?.enable();
+          this.region?.enable();
         } else {
-          this.districtDic = [];
+          this.region?.clearValidators();
           this.form.patchValue({
-            district: null,
+            region: null,
           });
-          this.form.get('district')?.disable();
+          this.region?.disable();
         }
       });
+
+    this.region?.updateValueAndValidity();
   }
 
   submit(actionId: number) {
@@ -144,7 +142,7 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
       lawKind: this.form.value.lawKind,
       lawType: this.form.value.lawType,
       region: this.form.value.region,
-      district: this.form.value.district,
+      regionLaw: this.form.value.regionLaw,
 
       outDocNumber: this.form.value.numberDoc,
       outDocDate: this.form.value.dateDoc.singleDate.formatted,
@@ -169,12 +167,7 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.regionSub) {
-      this.regionSub.unsubscribe();
-    }
-
-    if (this.dicSub) {
-      this.dicSub.unsubscribe();
-    }
+    this.regionLawSub?.unsubscribe();
+    this.dicSub?.unsubscribe();
   }
 }

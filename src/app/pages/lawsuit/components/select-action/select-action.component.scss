@@ -1,1 +1,13 @@
+.limitNotificationWrap {
+  margin-bottom: 25px;
+  .limitNotification {
+    padding: 10px 55px;
+    background: #f6f9fe;
+    border-radius: 5px;
+  }
 
+  .limitNotificationText {
+    margin: 0;
+    text-align: center;
+  }
+}

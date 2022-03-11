@@ -6,9 +6,12 @@ export class PopUpInfoService {
   public popUpForm$ = new Subject<any>();
   public popUpStepInfo$ = new Subject<any>();
   public popUpListDecision$ = new Subject<any>();
+  public popUpStopProcessDecision$ = new Subject<any>();
   public popUpFormTemplate$ = new Subject<any>();
 
   public popUpTextTemplate$ = new Subject<any>();
+
+  public updateContractList$ = new Subject<any>();
 
   openPopUpHistoryAction(isActive: boolean, formData: any = {}) {
     this.popUpForm$.next({ isActive, formData });
@@ -32,6 +35,10 @@ export class PopUpInfoService {
 
   popUpListDecision(isActive: string, listDecision: any = {}) {
     this.popUpListDecision$.next({ isActive, listDecision });
+  }
+
+  popUpStopProcessDecision(isActive: string, contract: any = {}) {
+    this.popUpStopProcessDecision$.next({ isActive, contract });
   }
 
   popUpTextTemplate(isActive: boolean = false, text: string = '') {

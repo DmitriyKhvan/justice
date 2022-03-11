@@ -77,6 +77,54 @@
         *ngIf="formTemplate.id === 13"
         [formTemplate]="formTemplate"
       ></app-making-response-notary>
+
+      <app-first-auction
+        *ngIf="formTemplate.id === 14"
+        [formTemplate]="formTemplate"
+      ></app-first-auction>
+
+      <app-stopping-bce
+        *ngIf="formTemplate.id === 15"
+        [formTemplate]="formTemplate"
+      ></app-stopping-bce>
+
+      <app-mib-response
+        *ngIf="formTemplate.id === 16"
+        [formTemplate]="formTemplate"
+      ></app-mib-response>
+
+      <app-repeat-auction
+        *ngIf="formTemplate.id === 17"
+        [formTemplate]="formTemplate"
+      ></app-repeat-auction>
+
+      <app-balance-reception
+        *ngIf="formTemplate.id === 18"
+        [formTemplate]="formTemplate"
+      ></app-balance-reception>
+
+      <!-- {{ formData.actionId | json }} -->
+
+      <app-enforcement-request
+        *ngIf="formTemplate.id === 19"
+        [formTemplate]="formTemplate"
+      >
+      </app-enforcement-request>
+
+      <app-enforcement-response
+        *ngIf="formTemplate.id === 20"
+        [formTemplate]="formTemplate"
+      >
+      </app-enforcement-response>
+
+      <app-main-appeal
+        *ngIf="
+          formTemplate.id === 21 ||
+          formTemplate.id === 22 ||
+          formTemplate.id === 23
+        "
+        [formTemplate]="formTemplate"
+      ></app-main-appeal>
     </div>
   </div>
 </div>

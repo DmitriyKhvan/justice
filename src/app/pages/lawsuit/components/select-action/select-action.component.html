@@ -48,7 +48,21 @@
   </form>
 
   <ng-template #btnAction>
+    <div class="limitNotificationWrap">
+      <div class="limitNotification">
+        <p class="limitNotificationText">
+          <i class="uil-info-circle"></i>
+          Отправить уведомление можно 3 раза. Осталось:
+          {{ 3 - lawsuitService.historyActions.length }}
+          {{
+            3 - lawsuitService.historyActions.length
+              | declensionOfWords: ["отправка", "отправки", "отправок"]
+          }}
+        </p>
+      </div>
+    </div>
     <!-- [disabled]="lawsuitService.historyActions.length > 2" -->
+    <!-- *ngIf="!lawsuitService.actions.length" -->
     <button
       *ngIf="!lawsuitService.actions.length"
       class="page-form__actionbtn text-uppercase add"
@@ -58,6 +72,17 @@
       <!-- {{ actionName }} -->
       {{ actions[0].actionNameLang.ru }}
     </button>
+
+    <!-- <ng-template #limitNotification>
+      <div class="limitNotificationWrap">
+        <div class="limitNotification">
+          <i class="uil-info-circle"></i>
+          <p class="limitNotificationText">
+            Отправить уведомление можно 3 раза. Осталось: 0 отправки
+          </p>
+        </div>
+      </div>
+    </ng-template> -->
   </ng-template>
 </div>
 

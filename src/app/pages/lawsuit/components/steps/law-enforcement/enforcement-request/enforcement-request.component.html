@@ -3,7 +3,7 @@
     {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
   </h2>
   <button
-    *ngIf="formTemplate"
+    *ngIf="!formTemplate"
     class="remove_action_form__btn"
     (click)="this.lawsuitService.removeActionForm(action.actionId)"
   >

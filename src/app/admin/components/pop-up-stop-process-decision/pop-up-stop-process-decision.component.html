@@ -1,0 +1,154 @@
+<div
+  [class]="isActive"
+  class="wrap-pop-up-right"
+  data-close="true"
+  #wrapPopUpRight
+>
+  <div *ngIf="isActive === 'open'" class="content-pop-up-right">
+    <div class="closeBtn">
+      <i class="uil-times" data-close="true"></i>
+    </div>
+    <h2 class="title">Процесс по делу №572799</h2>
+
+    <div class="decisions">
+      <h3 class="decisions_title">Остановка процесса</h3>
+
+      <h4 class="decisions_sub_title">
+        {{ userInfo.attributes?.roles.join(", ") }}
+      </h4>
+
+      <div class="row justify-content-between mb-2 mt-2">
+        <div class="col-6">
+          <div class="label-info">ФИО</div>
+          <div class="value-info">
+            {{ userInfo?.lastName }}
+            {{ userInfo?.firstName?.slice(0, 1) }}.
+            {{ userInfo?.attributes?.middleName[0]?.slice(0, 1) }}.
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="label-info">Дата отправки</div>
+          <div class="value-info">
+            {{ contract.stopDate | date: "dd.MM.yyyy HH:mm" }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- *ngIf="formData.actionId === 24" -->
+    <app-stop-process-template
+      [actionData]="formData"
+    ></app-stop-process-template>
+
+    <div *ngIf="renewalForm === 'open'" class="decision-form">
+      <form
+        class="page-form"
+        [formGroup]="form"
+        (ngSubmit)="submitDecisionAction(1, $event)"
+      >
+        <h4 class="decisions_sub_title">Возобновление дела</h4>
+        <div class="row justify-content-between mb-2">
+          <div class="col-6">
+            <div class="select-field">
+              <div class="select-field__title">Инициатор</div>
+              <ng-select
+                appearance="outline"
+                [items]="users"
+                bindLabel="fio"
+                bindValue=""
+                placeholder="Ваше решение"
+                #agreeSelect
+                labelForId="yesno"
+                [searchable]="true"
+                formControlName="initiator"
+              ></ng-select>
+              <div
+                *ngIf="
+                  form.get('initiator')?.touched &&
+                  form.get('initiator')?.invalid
+                "
+                class="validation"
+              >
+                <small *ngIf="form.get('initiator')?.errors?.required">
+                  Выберите данные
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div class="input-field">
+              <div class="input-field__title">Роль</div>
+              <label class="input-field__label readonly">
+                <input type="text" autocomplete="off" formControlName="role" />
+              </label>
+
+              <div
+                *ngIf="form.get('role')?.touched && form.get('role')?.invalid"
+                class="validation"
+              >
+                <small *ngIf="form.get('role')?.errors?.required">
+                  Введите данные
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-between mb-2">
+          <div class="col-12">
+            <div class="text-field">
+              <div class="text-field__title">Дополнительная информация</div>
+              <label class="text-field__label">
+                <textarea
+                  placeholder="Уточните детали"
+                  formControlName="additionalInfo"
+                ></textarea>
+              </label>
+
+              <div
+                *ngIf="
+                  form.get('additionalInfo')?.touched &&
+                  form.get('additionalInfo')?.invalid
+                "
+                class="validation"
+              >
+                <small *ngIf="form.get('additionalInfo')?.errors?.required">
+                  Введите данные
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-between align-items-end mb-2">
+          <div class="col-12">
+            <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="page-form__actionbtn text-uppercase add"
+          [ngClass]="{ disableBtn: form.invalid || submitted }"
+          [disabled]="form.invalid || submitted"
+        >
+          Отправить
+        </button>
+      </form>
+    </div>
+
+    <div class="wrapBtns">
+      <button
+        *ngIf="renewalForm === 'close'"
+        (click)="chengeRenewalForm('open')"
+        class="page-form__actionbtn text-uppercase add"
+      >
+        Возобновить дело
+      </button>
+
+      <div *ngIf="renewalForm === 'send'" class="completeDecision">
+        <i class="icon-check"></i>
+        <span>Дело успешно возобновлено!</span>
+      </div>
+    </div>
+  </div>
+</div>

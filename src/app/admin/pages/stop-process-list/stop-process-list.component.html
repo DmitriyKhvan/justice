@@ -1,0 +1,176 @@
+<div class="h-100">
+  <div
+    class="page-header row no-gutters justify-content-between align-items-center"
+  >
+    <div class="page-title">
+      Список приостановленных дел по {{ filialName }} филиалу на
+      {{ currentDate | date: "dd.MM.yyyy" }}
+    </div>
+    <div
+      class="page-actions row no-gutters justify-content-between align-items-center"
+      [@showAction]="stateName"
+    >
+      <div
+        *ngIf="keycloak.isUserInRole('head-lawyer')"
+        class="page-action__item mr-2 listDecision"
+        (click)="showListDecision()"
+      >
+        <i class="uil-question-circle"></i>
+        Принять решения
+      </div>
+
+      <div class="page-action__item mr-2" (click)="showDetails()">
+        <i class="far fa-eye"></i>
+        Детали
+      </div>
+      <!-- <div class="page-action__item mr-2" (click)="showHistory()">
+        <i class="far fa-clock"></i>
+        История
+      </div>
+      <div class="page-action__item">
+        <i class="fas fa-sliders-h"></i>
+        Редактировать
+      </div> -->
+    </div>
+  </div>
+  <div class="page-table">
+    <div class="page-table__header">
+      <div class="page-table__tr">
+        <div
+          class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
+        >
+          <div class="page-table__th">#</div>
+          <div class="page-table__th">
+            Имя
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('clientFio', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            ИНН
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('clientInn', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Тип клиента
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('clientType', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            ID договора
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('contractId', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Сумма кредита
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('creditSumm', $event)"
+            ></i>
+          </div>
+          <!-- <div class="page-table__th">Валюта</div> -->
+          <div class="page-table__th">
+            Тип остановки
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('stopTypeName', $event)"
+            ></i>
+          </div>
+          <div class="page-table__th">
+            Дата остановки
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('stopDate', $event)"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-table__body">
+      <div
+        class="page-table__tr"
+        *ngFor="
+          let contract of contractList
+            | paginate
+              : {
+                  itemsPerPage: itemsPerPage,
+                  currentPage: currentPage,
+                  totalItems: totalItems
+                };
+          index as i
+        "
+        [class.page-table__tr__active]="selectedItem === i"
+        (click)="selectItem(contract, i)"
+        (dblclick)="showDetails()"
+      >
+        <div
+          class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
+        >
+          <div class="page-table__td">{{ contract.clientId }}</div>
+          <div class="page-table__td text-capitalize">
+            {{ contract.clientFio }}
+          </div>
+          <div class="page-table__td">{{ contract.clientInn }}</div>
+          <!-- <div class="page-table__td" [ngSwitch]="contract.clientType">
+            <span *ngSwitchCase="'F'"> Физическое лицо </span>
+            <span *ngSwitchCase="'Y'"> Юридическое лицо </span>
+          </div> -->
+
+          <div class="page-table__td">
+            {{ contract.clientTypeName.ru }}
+          </div>
+          <div class="page-table__td">{{ contract.contractId }}</div>
+          <div class="page-table__td">{{ contract.creditSumm }}</div>
+          <!-- <div class="page-table__td">{{ contract.creditCurrency }}</div> -->
+          <div class="page-table__td">{{ contract.typeName.ru }}</div>
+          <div class="page-table__td">
+            {{ contract.stopDate | date: "dd.MM.yyyy HH:mm" }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- pagination -->
+  </div>
+
+  <div class="d-flex paginationBlock add">
+    <div class="d-flex align-items-center">
+      <small class="paginationTitle">Строк на странице:</small>
+      <ng-select
+        class="my-select"
+        [items]="pages"
+        [(ngModel)]="itemsPerPage"
+        (change)="pageChanged(1)"
+        bindLabel="label"
+        bindValue="value"
+        [clearable]="false"
+        [searchable]="false"
+        #agreeSelect
+      ></ng-select>
+    </div>
+
+    <pagination-controls
+      class="my-pagination"
+      (pageChange)="pageChanged($event)"
+      previousLabel=""
+      nextLabel=""
+      [autoHide]="true"
+    ></pagination-controls>
+  </div>
+</div>
+
+<app-pop-up-stop-process-decision></app-pop-up-stop-process-decision>

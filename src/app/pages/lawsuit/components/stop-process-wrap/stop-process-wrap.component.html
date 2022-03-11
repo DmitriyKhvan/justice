@@ -1,0 +1,6 @@
+<div *ngIf="lawsuitService.contract?.status !== 5; else stopProcess">
+  <ng-content></ng-content>
+</div>
+<ng-template #stopProcess>
+  <app-stop-process-message></app-stop-process-message>
+</ng-template>

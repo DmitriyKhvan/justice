@@ -1,4 +1,9 @@
-<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+<form
+  *ngIf="allStepLength !== lawsuitService.steps.length"
+  class="page-form"
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+>
   <div class="select-field add">
     <div class="select-field__title">Выбор следующего шага</div>
     <ng-select

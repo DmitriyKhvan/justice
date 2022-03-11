@@ -13,6 +13,8 @@ import { ListUserComponent } from './admin/pages/list-user/list-user.component';
 import { LawsuitComponent } from './pages/lawsuit/lawsuit.component';
 import { AuthGuard } from './guard/auth.guard';
 import { MonitoringComponent } from './pages/monitoring/monitoring.component';
+import { StopProcessListComponent } from './admin/pages/stop-process-list/stop-process-list.component';
+import { StopProcessMfoComponent } from './admin/pages/stop-process-mfo/stop-process-mfo.component';
 
 const routes: Routes = [
   // {
@@ -35,6 +37,14 @@ const routes: Routes = [
       {
         path: 'addUser',
         component: AddUserComponent,
+      },
+      {
+        path: 'stopProcessMfos',
+        component: StopProcessMfoComponent,
+      },
+      {
+        path: 'stopProcessList',
+        component: StopProcessListComponent,
       },
       {
         path: 'editUser/:id',

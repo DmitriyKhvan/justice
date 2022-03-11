@@ -40,30 +40,6 @@
   }
 }
 
-.searchBlock {
-  display: flex;
-  width: 346px;
-  padding-bottom: 13px;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgb(16, 39, 74, 0.3);
-  i {
-    font-size: 24px;
-    color: var(--primary-color);
-
-    &::before {
-      margin: 0 5px 0 0;
-    }
-  }
-
-  input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-  }
-}
-
 .notUserss {
   height: calc(100% - 60px);
 }

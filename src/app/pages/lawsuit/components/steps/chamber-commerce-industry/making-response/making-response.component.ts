@@ -105,7 +105,6 @@ export class MakingResponseComponent implements OnInit {
     const reqId = this.lawsuitService.getReqId(2)?.id;
 
     const data = {
-      active: true,
       type: this.form.value.type,
       inDocNumber: this.form.value.numberDoc,
       inDocDate: this.form.value.dateDoc.singleDate.formatted,

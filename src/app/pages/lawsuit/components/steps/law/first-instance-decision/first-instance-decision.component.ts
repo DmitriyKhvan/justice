@@ -14,7 +14,6 @@ import currencyTransform from 'src/app/utils/format-number';
   styleUrls: ['./first-instance-decision.component.scss'],
 })
 export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
-  @Input() formData: any = null;
   @Input() formTemplate: any = null;
   @Input() action!: any;
   form!: FormGroup;

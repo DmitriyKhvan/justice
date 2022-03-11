@@ -14,7 +14,7 @@ import {
   Provider,
 } from '@angular/core';
 
-import { TooltipModule } from 'ng2-tooltip-directive';
+// import { TooltipModule } from 'ng2-tooltip-directive';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -127,6 +127,16 @@ import { EnforcementResponseTemplateComponent } from './pages/lawsuit/components
 import { EnforcementRequestTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-request/enforcement-request-template.component';
 import { MainAppealComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal/main-appeal.component';
 import { MainAppealTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal/main-appeal-template.component';
+import { MibResponseComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/mib-response/mib-response.component';
+import { MibResponseTemplateComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/mib-response/mib-response-template.component';
+import { StopProcessTypeComponent } from './pages/lawsuit/components/steps/stop-process/stop-process-type/stop-process-type.component';
+import { StopProcessTemplateComponent } from './pages/lawsuit/components/steps/stop-process/stop-process-type/stop-process-type-template.component';
+import { StopProcessMessageComponent } from './pages/lawsuit/components/stop-process-message/stop-process-message.component';
+import { StopProcessWrapComponent } from './pages/lawsuit/components/stop-process-wrap/stop-process-wrap.component';
+import { StopProcessTabComponent } from './pages/lawsuit/components/stop-process-tab/stop-process-tab.component';
+import { StopProcessListComponent } from './admin/pages/stop-process-list/stop-process-list.component';
+import { PopUpStopProcessDecisionComponent } from './admin/components/pop-up-stop-process-decision/pop-up-stop-process-decision.component';
+import { StopProcessMfoComponent } from './admin/pages/stop-process-mfo/stop-process-mfo.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -234,9 +244,19 @@ const INTERCEPTOR_PROVIDER: Provider = {
     EnforcementRequestTemplateComponent,
     MainAppealComponent,
     MainAppealTemplateComponent,
+    MibResponseComponent,
+    MibResponseTemplateComponent,
+    StopProcessTypeComponent,
+    StopProcessTemplateComponent,
+    StopProcessMessageComponent,
+    StopProcessWrapComponent,
+    StopProcessTabComponent,
+    StopProcessListComponent,
+    PopUpStopProcessDecisionComponent,
+    StopProcessMfoComponent,
   ],
   imports: [
-    TooltipModule,
+    // TooltipModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
