@@ -105,8 +105,6 @@ export class MibResponseTemplateComponent implements OnInit, OnDestroy {
   constructor(private dicService: DictionariesService) {}
 
   ngOnInit(): void {
-    console.log('actionData', this.actionData);
-
     this.dicSub = this.dicService
       .getDicByActionId(this.actionData.actionId)
       .subscribe((dictionaries: any) => {

@@ -78,8 +78,6 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setDistrict(region: any) {
-    console.log(region);
-
     this.monitoring = [];
     if (region.code === '00') {
       const AllMfos = region.branches[0].mfo;

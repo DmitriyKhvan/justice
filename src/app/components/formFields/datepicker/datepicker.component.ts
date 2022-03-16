@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { datepickerSettings } from 'src/app/settings';
 
 declare var $: any;
 @Component({
@@ -20,6 +21,7 @@ declare var $: any;
           [formControlName]="controlName"
           [options]="myDpOptions"
           #dp="angular-mydatepicker"
+          closeSelectorOnDateSelect="true"
           [locale]="'ru'"
         />
         <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
@@ -61,12 +63,14 @@ export class DatepickerComponent implements OnInit {
 
   constructor() {}
 
-  myDpOptions: IAngularMyDpOptions = {
-    dateRange: false,
-    dateFormat: 'dd.mm.yyyy',
-    closeSelectorOnDateSelect: false,
-    openSelectorTopOfInput: false,
-  };
+  myDpOptions: IAngularMyDpOptions = datepickerSettings;
+
+  // myDpOptions: IAngularMyDpOptions = {
+  //   dateRange: false,
+  //   dateFormat: 'dd.mm.yyyy',
+  //   closeSelectorOnDateSelect: true,
+  //   openSelectorTopOfInput: false,
+  // };
 
   ngOnInit(): void {
     let d: Date = new Date();

@@ -43,8 +43,6 @@ export class MakingResponseTemplateComponent implements OnInit {
   constructor(private dicService: DictionariesService) {}
 
   ngOnInit(): void {
-    console.log(this.actionData);
-
     this.dicSub = this.dicService
       .getDicByActionId(this.actionData.actionId)
       .subscribe((dictionaries: any) => {

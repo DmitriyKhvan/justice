@@ -95,7 +95,6 @@ export class NotificationFormComponent implements OnInit {
   }
 
   addTemplate(text: string) {
-    console.log(text);
     if (text) {
       this.lawsuitService
         .addTextTemplate({

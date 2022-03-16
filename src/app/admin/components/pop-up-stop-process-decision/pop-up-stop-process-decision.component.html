@@ -4,7 +4,8 @@
   data-close="true"
   #wrapPopUpRight
 >
-  <div *ngIf="isActive === 'open'" class="content-pop-up-right">
+  <!-- *ngIf="isActive === 'open'" -->
+  <div class="content-pop-up-right">
     <div class="closeBtn">
       <i class="uil-times" data-close="true"></i>
     </div>
@@ -36,6 +37,7 @@
     </div>
     <!-- *ngIf="formData.actionId === 24" -->
     <app-stop-process-template
+      *ngIf="isActive === 'open'"
       [actionData]="formData"
     ></app-stop-process-template>
 
@@ -59,16 +61,16 @@
                 #agreeSelect
                 labelForId="yesno"
                 [searchable]="true"
-                formControlName="initiator"
+                formControlName="initiatorFio"
               ></ng-select>
               <div
                 *ngIf="
-                  form.get('initiator')?.touched &&
-                  form.get('initiator')?.invalid
+                  form.get('initiatorFio')?.touched &&
+                  form.get('initiatorFio')?.invalid
                 "
                 class="validation"
               >
-                <small *ngIf="form.get('initiator')?.errors?.required">
+                <small *ngIf="form.get('initiatorFio')?.errors?.required">
                   Выберите данные
                 </small>
               </div>
@@ -79,14 +81,21 @@
             <div class="input-field">
               <div class="input-field__title">Роль</div>
               <label class="input-field__label readonly">
-                <input type="text" autocomplete="off" formControlName="role" />
+                <input
+                  type="text"
+                  autocomplete="off"
+                  formControlName="initiatorPost"
+                />
               </label>
 
               <div
-                *ngIf="form.get('role')?.touched && form.get('role')?.invalid"
+                *ngIf="
+                  form.get('initiatorPost')?.touched &&
+                  form.get('initiatorPost')?.invalid
+                "
                 class="validation"
               >
-                <small *ngIf="form.get('role')?.errors?.required">
+                <small *ngIf="form.get('initiatorPost')?.errors?.required">
                   Введите данные
                 </small>
               </div>
@@ -100,18 +109,17 @@
               <label class="text-field__label">
                 <textarea
                   placeholder="Уточните детали"
-                  formControlName="additionalInfo"
+                  formControlName="addInfo"
                 ></textarea>
               </label>
 
               <div
                 *ngIf="
-                  form.get('additionalInfo')?.touched &&
-                  form.get('additionalInfo')?.invalid
+                  form.get('addInfo')?.touched && form.get('addInfo')?.invalid
                 "
                 class="validation"
               >
-                <small *ngIf="form.get('additionalInfo')?.errors?.required">
+                <small *ngIf="form.get('addInfo')?.errors?.required">
                   Введите данные
                 </small>
               </div>
@@ -131,7 +139,7 @@
           [ngClass]="{ disableBtn: form.invalid || submitted }"
           [disabled]="form.invalid || submitted"
         >
-          Отправить
+          Возобновить
         </button>
       </form>
     </div>

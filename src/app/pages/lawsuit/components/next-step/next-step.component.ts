@@ -22,7 +22,7 @@ export class NextStepComponent implements OnInit, OnDestroy {
   submitted = false;
 
   restSteps: any[] = [];
-  allStepLength!: null;
+  allStepLength!: any;
   actions: any[] = [];
 
   sSub!: Subscription;
@@ -36,7 +36,7 @@ export class NextStepComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sSub = this.lawsuitService.getSteps().subscribe((steps) => {
-      this.allStepLength = steps.length;
+      this.allStepLength = steps.length - 1;
 
       if (this.lawsuitService.currentStep.stepid === 1) {
         this.restSteps = steps.filter(
@@ -104,10 +104,6 @@ export class NextStepComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.sSub) {
-      console.log('next-step-destroy');
-
-      this.sSub.unsubscribe();
-    }
+    this.sSub?.unsubscribe();
   }
 }

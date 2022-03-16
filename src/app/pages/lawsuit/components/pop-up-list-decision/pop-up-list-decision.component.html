@@ -174,7 +174,7 @@
                 </div>
               </div>
 
-              <div class="decision_form">
+              <div class="container decision_form">
                 <!-- {{ action.id }} -->
 
                 <app-notification-form-template
@@ -241,6 +241,56 @@
                   *ngIf="action.id === 13"
                   [actionData]="actionSame"
                 ></app-making-response-notary-template>
+
+                <app-first-auction-template
+                  *ngIf="action.id === 14"
+                  [actionData]="actionSame"
+                ></app-first-auction-template>
+
+                <app-stopping-bce-template
+                  *ngIf="action.id === 15"
+                  [actionData]="actionSame"
+                ></app-stopping-bce-template>
+
+                <app-mib-response-template
+                  *ngIf="action.id === 16"
+                  [actionData]="actionSame"
+                ></app-mib-response-template>
+
+                <app-repeat-auction-template
+                  *ngIf="action.id === 17"
+                  [actionData]="actionSame"
+                ></app-repeat-auction-template>
+
+                <app-balance-reception-template
+                  *ngIf="action.id === 18"
+                  [actionData]="actionSame"
+                ></app-balance-reception-template>
+
+                <app-enforcement-request-template
+                  *ngIf="action.id === 19"
+                  [actionData]="actionSame"
+                >
+                </app-enforcement-request-template>
+
+                <app-enforcement-response-template
+                  *ngIf="action.id === 20"
+                  [actionData]="actionSame"
+                >
+                </app-enforcement-response-template>
+
+                <app-main-appeal-template
+                  *ngIf="
+                    action.id === 21 || action.id === 22 || action.id === 23
+                  "
+                  [actionData]="actionSame"
+                ></app-main-appeal-template>
+
+                <app-stop-process-template
+                  *ngIf="action.id === 24"
+                  [actionId]="action.id"
+                  [actionData]="actionSame"
+                ></app-stop-process-template>
 
                 <form
                   class="page-form"

@@ -66,7 +66,10 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
               </div>
 
               <div
-                *ngIf="notification.type === 'action'"
+                *ngIf="
+                  notification.type === 'action' ||
+                  notification.type === 'decision-action'
+                "
                 class="notifications-name"
               >
                 <p>
@@ -77,6 +80,11 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
                     >отказано</span
                   >
                   <span
+                    *ngIf="notification.data.actionStatus === 2"
+                    class="pending"
+                    >в ожидании</span
+                  >
+                  <span
                     *ngIf="notification.data.actionStatus === 3"
                     class="approved"
                     >одобрено</span
@@ -85,7 +93,10 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
               </div>
 
               <div
-                *ngIf="notification.type === 'step'"
+                *ngIf="
+                  notification.type === 'step' ||
+                  notification.type === 'decision-step'
+                "
                 class="notifications-name"
               >
                 <p>
@@ -93,6 +104,11 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
                   <span *ngIf="notification.data.status === 1" class="rejected"
                     >отказано</span
                   >
+
+                  <span *ngIf="notification.data.status === 2" class="pending"
+                    >в ожидании</span
+                  >
+
                   <span *ngIf="notification.data.status === 3" class="approved"
                     >одобрено</span
                   >
@@ -137,12 +153,18 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
         </div>
 
         <app-notification-action
-          *ngIf="notification?.type === 'action'"
+          *ngIf="
+            notification?.type === 'action' ||
+            notification?.type === 'decision-action'
+          "
           [notification]="notification"
         ></app-notification-action>
 
         <app-notification-step
-          *ngIf="notification?.type === 'step'"
+          *ngIf="
+            notification?.type === 'step' ||
+            notification?.type === 'decision-step'
+          "
           [notification]="notification"
         ></app-notification-step>
       </div>

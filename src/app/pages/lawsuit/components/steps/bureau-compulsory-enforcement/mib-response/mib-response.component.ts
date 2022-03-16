@@ -288,8 +288,6 @@ export class MibResponseComponent implements OnInit, OnDestroy {
   }
 
   private toggleValidatorsAppealLawDecision(appealLawDecision: any) {
-    console.log('appealLawDecision', appealLawDecision);
-
     if (appealLawDecision === true) {
       this.actionDic = this.dictionaries.mibAppealYes;
       this.actionType?.setValidators([Validators.required]);
@@ -404,8 +402,6 @@ export class MibResponseComponent implements OnInit, OnDestroy {
 
   submit(actionId: number) {
     if (this.form.invalid) {
-      console.log(this.form);
-
       return;
     }
 

@@ -82,8 +82,6 @@ export class ReferralForAppealTemplateComponent implements OnInit, OnDestroy {
   }
 
   getRegionValue(dicName: string, val: any): any {
-    console.log('val', val);
-
     if (this.dictionaries) {
       return this.dictionaries[dicName]?.find((i: any) => i.id === val)
         ?.nameLocal.ru;

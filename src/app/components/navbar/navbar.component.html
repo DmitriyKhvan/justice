@@ -111,6 +111,7 @@
       {{ profile?.attributes?.middleName }}
     </div>
     <div
+      *ngIf="!keycloak.isUserInRole('admin')"
       class="app-navbar_item px-2"
       style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
       (click)="showNotifications()"

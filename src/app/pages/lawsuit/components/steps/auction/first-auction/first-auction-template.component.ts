@@ -51,7 +51,6 @@ export class FirstAuctionTemplateComponent implements OnInit {
       .getDicByActionId(this.actionData.actionId)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
-        console.log('this.dictionaries', this.dictionaries);
       });
   }
 

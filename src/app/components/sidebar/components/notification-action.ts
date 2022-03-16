@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainService } from 'src/app/services/main.service';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-notification-action',
@@ -73,13 +74,18 @@ import { MainService } from 'src/app/services/main.service';
 export class NotificationAction implements OnInit {
   @Input() notification!: any;
 
-  constructor(public mainService: MainService, private router: Router) {}
+  constructor(
+    public mainService: MainService,
+    private router: Router,
+    private popUpInfoService: PopUpInfoService
+  ) {}
 
   ngOnInit(): void {}
 
   showStep() {
     this.mainService.sidebar = false;
     this.mainService.sidebarDetail = false;
+    this.popUpInfoService.updateContractList$.next(true);
     this.router.navigate(['/clients/lawsuit'], {
       queryParams: {
         mfo: this.notification?.toMfo,

@@ -85,7 +85,6 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
       .getDicByActionId(this.lawsuitService.stopProcessStep.actions[0].id)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
-        console.log(this.dictionaries);
       });
 
     this.dSub = this.form

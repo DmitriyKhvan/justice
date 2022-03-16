@@ -203,7 +203,6 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
       .get('defendantArray')
       ?.valueChanges.pipe(debounceTime(700))
       .subscribe((value: any) => {
-        console.log(value.some((el: any) => el));
         if (value.some((el: any) => el)) {
           this.thirdPartiesArray.controls.forEach((el) => {
             el.clearValidators();

@@ -86,8 +86,6 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
         }),
         mergeMap((data: any) => {
           if (data.isActive === 'open') {
-            console.log('contract', data.contract);
-
             const getUsers = this.adminService.getUsers({});
             const getUserInfo = this.adminService.getUserById(
               data.contract.stopBy
@@ -102,6 +100,7 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
         this.userInfo = res.getUserInfo;
         this.users = res.getUsers.map((user: any) => {
           return {
+            id: user.id,
             fio: `${user.lastName} ${user.firstName?.slice(
               0,
               1
@@ -121,6 +120,7 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
         tap((event: any) => {
           if (event.dataset.close) {
             this.form.reset();
+            this.chengeRenewalForm('close');
             this.popUpInfoService.popUpStopProcessDecision('close');
             // clearInterval(this.lawsuitService.timerIdDecisions);
           }
@@ -129,21 +129,21 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
       .subscribe();
 
     this.form = new FormGroup({
-      initiator: new FormControl(null, Validators.required),
-      role: new FormControl({ value: null, disabled: true }),
-      additionalInfo: new FormControl(''),
+      initiatorFio: new FormControl(null, Validators.required),
+      initiatorPost: new FormControl({ value: null, disabled: true }),
+      addInfo: new FormControl(''),
     });
 
     this.roleSub = this.form
-      .get('initiator')
+      .get('initiatorFio')
       ?.valueChanges.subscribe((val: any) => {
         if (val) {
           this.form.patchValue({
-            role: val.roles,
+            initiatorPost: val.roles,
           });
         } else {
           this.form.patchValue({
-            role: null,
+            initiatorPost: null,
           });
         }
       });
@@ -154,19 +154,18 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
   }
 
   submitDecisionAction(processId: number, event: any) {
-    console.log('this.contract', this.contract);
-
     if (this.form.invalid) {
       return;
     }
     this.submitted = true;
 
     const data = {
+      userId: this.form.value.initiatorFio.id,
       uniqueId: this.contract.contractId,
       mfo: this.contract.clientMfo,
-      initiator: this.form.value.initiator,
-      role: this.form.value.role,
-      additionalInfo: this.form.value.additionalInfo,
+      initiatorFio: this.form.value.initiatorFio.fio,
+      initiatorPost: this.form.controls.initiatorPost.value,
+      addInfo: this.form.value.addInfo,
       files: this.fileUploadService.transformFilesData(),
     };
 

@@ -1,12 +1,21 @@
 <div class="page-form stopProcessMessage">
-  <label class="checkbox-field__label mb-1">
+  <label class="checkbox-field__label">
     <input type="checkbox" checked disabled />
     <span class="custom-checkbox mr-2">
       <i class="uil-check"></i>
     </span>
-    <span
-      >Процесс приостановлен 15.01.2022 16:00 до 01.03.2022 До возобновление
-      осталось: 5 д.</span
-    >
+    <div>
+      <span
+        >Процесс приостановлен
+        {{ lawsuitService.contract.stopDate | date: "dd.MM.yyyy HH:mm" }}
+        <ng-container *ngIf="lawsuitService.contract.renewalDate">
+          до
+          {{ lawsuitService.contract.renewalDate }}.
+        </ng-container>
+      </span>
+      <span *ngIf="lawsuitService.contract.renewalDate"
+        >До возобновления осталось: {{ leftDays }} д.</span
+      >
+    </div>
   </label>
 </div>

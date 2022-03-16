@@ -91,7 +91,6 @@ export class MakingResponseComponent implements OnInit {
       .getDicByActionId(this.action.actionId)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
-        console.log(this.dictionaries);
       });
   }
 

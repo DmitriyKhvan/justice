@@ -18,6 +18,7 @@
           [action]="this.lawsuitService.isActionForm(1)"
           *ngIf="this.lawsuitService.isActionForm(1)"
         ></app-notification-form>
+
         <app-next-step
           *ngIf="
             lawsuitService.stepIndex === lawsuitService.steps.length &&

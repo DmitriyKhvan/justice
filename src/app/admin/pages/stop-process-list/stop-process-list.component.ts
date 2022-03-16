@@ -58,6 +58,8 @@ import { AdminService } from '../../shared/services/admin.service';
 })
 export class StopProcessListComponent implements OnInit, OnDestroy {
   @ViewChildren('sorting') sortingRef!: QueryList<ElementRef>;
+  @ViewChild('search', { static: true }) inputRef!: ElementRef;
+
   range: any = [];
 
   selectedItem = null;
@@ -73,12 +75,14 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
   itemsPerPage: number = this.pages[0].value;
   sortValue: string = '';
   sortType: string = 'ASC';
+  searchValue: string = '';
   sortClass: string = 'uil-angle-down';
 
   contractList!: any;
 
   timerId!: any;
 
+  searchSub!: Subscription;
   contractsSub!: Subscription;
   mSub!: Subscription;
   upSub!: Subscription;
@@ -116,6 +120,19 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
       this.selectedItem = null;
       this.getContracts();
     });
+
+    this.searchSub = fromEvent(this.inputRef.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(700),
+        map((event: any) => event.target.value.toLowerCase()),
+        // filter((value) => value.length > 2),
+        distinctUntilChanged()
+      )
+      .subscribe((value: any) => {
+        this.currentPage = 1;
+        this.searchValue = value;
+        this.getContracts();
+      });
   }
 
   sort(sortValue: string, event: any) {
@@ -154,6 +171,7 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
       mfo: this.route.snapshot.queryParams['mfo'],
       sortValue: this.sortValue,
       sortType: this.sortType,
+      search: this.searchValue,
     };
 
     this.contractsSub = this.clientsService

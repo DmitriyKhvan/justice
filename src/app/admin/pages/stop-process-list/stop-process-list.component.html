@@ -6,6 +6,12 @@
       Список приостановленных дел по {{ filialName }} филиалу на
       {{ currentDate | date: "dd.MM.yyyy" }}
     </div>
+
+    <div class="searchBlock ml-4">
+      <i class="icon-search"></i>
+      <input type="text" #search placeholder="Поиск" />
+    </div>
+
     <div
       class="page-actions row no-gutters justify-content-between align-items-center"
       [@showAction]="stateName"
@@ -19,10 +25,10 @@
         Принять решения
       </div>
 
-      <div class="page-action__item mr-2" (click)="showDetails()">
+      <!-- <div class="page-action__item mr-2" (click)="showDetails()">
         <i class="far fa-eye"></i>
         Детали
-      </div>
+      </div> -->
       <!-- <div class="page-action__item mr-2" (click)="showHistory()">
         <i class="far fa-clock"></i>
         История
@@ -136,7 +142,7 @@
           <div class="page-table__td">{{ contract.contractId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>
           <!-- <div class="page-table__td">{{ contract.creditCurrency }}</div> -->
-          <div class="page-table__td">{{ contract.typeName.ru }}</div>
+          <div class="page-table__td">{{ contract.typeName?.ru }}</div>
           <div class="page-table__td">
             {{ contract.stopDate | date: "dd.MM.yyyy HH:mm" }}
           </div>

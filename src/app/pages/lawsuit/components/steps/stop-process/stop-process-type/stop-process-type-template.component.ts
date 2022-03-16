@@ -71,13 +71,10 @@ export class StopProcessTemplateComponent implements OnInit {
   constructor(private dicService: DictionariesService) {}
 
   ngOnInit(): void {
-    console.log('this.actionData', this.actionData);
-
     this.dicSub = this.dicService
       .getDicByActionId(this.actionData.actionId)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
-        console.log('this.dictionaries', this.dictionaries);
       });
   }
 
@@ -90,7 +87,7 @@ export class StopProcessTemplateComponent implements OnInit {
 
   reasonStoppingDic(idIndicator: any, idReason: any) {
     if (this.dictionaries) {
-      return this.dictionaries.stopInitiator
+      return this.dictionaries?.stopInitiator
         .find((e: any) => e.id === idIndicator)
         ?.child?.data.find((i: any) => i.id === idReason).lang.ru;
     }

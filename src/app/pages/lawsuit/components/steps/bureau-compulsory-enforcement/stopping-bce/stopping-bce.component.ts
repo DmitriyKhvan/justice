@@ -93,8 +93,6 @@ export class StoppingBCEComponent implements OnInit, OnDestroy {
   }
 
   toggleStopSuspendDateValidators(value: any, field: any): void {
-    console.log(value, field);
-
     this.form.patchValue({
       stopSuspendDate: null,
     });

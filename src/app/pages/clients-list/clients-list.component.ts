@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -19,9 +20,16 @@ import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
 import { KeycloakService } from 'keycloak-angular';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
-import { Subscription } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import * as moment from 'moment';
 
 @Component({
@@ -49,6 +57,8 @@ import * as moment from 'moment';
 })
 export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChildren('sorting') sortingRef!: QueryList<ElementRef>;
+  @ViewChild('search', { static: true }) inputRef!: ElementRef;
+
   range: any = [];
 
   selectedItem = null;
@@ -64,14 +74,17 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   itemsPerPage: number = this.pages[0].value;
   sortValue: string = '';
   sortType: string = 'ASC';
+  searchValue: string = '';
   sortClass: string = 'uil-angle-down';
 
   contractList!: any;
 
   timerId!: any;
 
+  searchSub!: Subscription;
   contractsSub!: Subscription;
   mSub!: Subscription;
+  upSub!: Subscription;
   filialName!: string;
   currentDate: Date = new Date();
 
@@ -124,6 +137,23 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
       });
 
     this.getContracts();
+
+    this.upSub = this.popUpInfoService.updateContractList$.subscribe(() => {
+      this.getContracts();
+    });
+
+    this.searchSub = fromEvent(this.inputRef.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(700),
+        map((event: any) => event.target.value.toLowerCase()),
+        // filter((value) => value.length > 2),
+        distinctUntilChanged()
+      )
+      .subscribe((value: any) => {
+        this.currentPage = 1;
+        this.searchValue = value;
+        this.getContracts();
+      });
   }
 
   sort(sortValue: string, event: any) {
@@ -159,6 +189,7 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   pageChanged(currentPage: number) {
+    this.selectedItem = null;
     this.currentPage = currentPage;
     this.getContracts();
   }
@@ -170,6 +201,7 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
       mfo: this.route.snapshot.queryParams['mfo'],
       sortValue: this.sortValue,
       sortType: this.sortType,
+      search: this.searchValue,
     };
 
     this.contractsSub = this.clientsService
@@ -256,12 +288,9 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.contractsSub) {
-      this.contractsSub.unsubscribe();
-    }
-
-    if (this.mSub) {
-      this.mSub.unsubscribe();
-    }
+    this.contractsSub?.unsubscribe();
+    this.upSub?.unsubscribe();
+    this.mSub?.unsubscribe();
+    this.searchSub?.unsubscribe();
   }
 }

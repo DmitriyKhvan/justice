@@ -56,6 +56,7 @@ export class ClientsService {
     mfo,
     sortValue,
     sortType,
+    search,
   }: any): Observable<any> {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(
@@ -69,6 +70,7 @@ export class ClientsService {
       mfo,
       sortValue,
       sortType,
+      search,
     });
   }
 
@@ -78,6 +80,7 @@ export class ClientsService {
     mfo,
     sortValue,
     sortType,
+    search,
   }: any): Observable<any> {
     // return this.auth.fetchWithAuth(
     //   this.http.get<any>(
@@ -91,6 +94,7 @@ export class ClientsService {
       mfo,
       sortValue,
       sortType,
+      search,
     });
   }
 

@@ -124,6 +124,8 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
         this.submitted = false;
         this.form.reset();
 
+        this.popUpInfoService.updateContractList$.next(true);
+
         setTimeout(() => {
           this.lawsuitService.decisions = decisions;
         }, 3000);
@@ -160,6 +162,7 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
         this.submitted = false;
         this.form.reset();
 
+        this.popUpInfoService.updateContractList$.next(true);
         setTimeout(() => {
           this.lawsuitService.decisions = decisions;
         }, 3000);

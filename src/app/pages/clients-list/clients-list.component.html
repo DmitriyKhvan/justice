@@ -6,6 +6,12 @@
       Список должников по {{ filialName }} филиалу на
       {{ currentDate | date: "dd.MM.yyyy" }}
     </div>
+
+    <div class="searchBlock ml-4">
+      <i class="icon-search"></i>
+      <input type="text" #search placeholder="Поиск" />
+    </div>
+
     <div
       class="page-actions row no-gutters justify-content-between align-items-center"
       [@showAction]="stateName"
@@ -144,7 +150,10 @@
         <div
           class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
         >
-          <div class="page-table__td">{{ contract.clientId }}</div>
+          <div class="page-table__td">
+            <!-- {{ contract.clientId }} -->
+            {{ contract.contractId }}
+          </div>
           <div class="page-table__td text-capitalize">
             {{ contract.clientFio }}
           </div>

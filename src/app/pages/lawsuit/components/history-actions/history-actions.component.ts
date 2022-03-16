@@ -1,13 +1,8 @@
-import {
-  Component,
-  DoCheck,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
@@ -16,13 +11,17 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
   templateUrl: './history-actions.component.html',
   styleUrls: ['./history-actions.component.scss'],
 })
-export class HistoryActionsComponent implements OnInit, DoCheck, OnDestroy {
+export class HistoryActionsComponent implements OnInit, OnDestroy {
   historyActionSub!: Subscription;
+  dicSub!: Subscription;
+
+  dictionaries!: any;
 
   constructor(
     private route: ActivatedRoute,
     public lawsuitService: LawsuitService,
-    public popUpWatchFormService: PopUpInfoService
+    public popUpWatchFormService: PopUpInfoService,
+    private dicService: DictionariesService
   ) {}
 
   ngOnInit(): void {
@@ -57,10 +56,21 @@ export class HistoryActionsComponent implements OnInit, DoCheck, OnDestroy {
     //       (step) => step.status === 1
     //     );
     //   });
+
+    if (this.lawsuitService.fromStepId == 8) {
+      this.dicSub = this.dicService
+        .getDicByActionId(24)
+        .subscribe((dictionaries: any) => {
+          this.dictionaries = dictionaries;
+        });
+    }
   }
 
-  ngDoCheck() {
-    // console.log('DoCheck');
+  getValue(dicName: string, val: any): any {
+    if (this.dictionaries) {
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
+        .ru;
+    }
   }
 
   popUpForm(action: any) {
@@ -68,8 +78,6 @@ export class HistoryActionsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.historyActionSub) {
-      this.historyActionSub.unsubscribe();
-    }
+    this.historyActionSub?.unsubscribe();
   }
 }
