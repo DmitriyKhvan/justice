@@ -10,6 +10,7 @@
     <i class="uil-times"></i>
   </button>
 </div>
+
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
@@ -39,7 +40,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Дата начала первого торга</div>
+        <div class="input-field__title">Дата конца торга</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -49,84 +50,12 @@
             class="input-box"
             angular-mydatepicker
             name="reactiveFormsDate"
-            formControlName="beginDateLot"
+            formControlName="endDateLot"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
             [locale]="'ru'"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
-        </label>
-
-        <div
-          *ngIf="
-            form.get('beginDateLot')?.touched &&
-            form.get('beginDateLot')?.invalid
-          "
-          class="validation"
-        >
-          <small
-            *ngIf="
-              form.controls.beginDateLot.errors &&
-              form.controls.beginDateLot.errors.required &&
-              !form.controls.beginDateLot.errors.invalidDateFormat
-            "
-          >
-            Введите данные
-          </small>
-          <small
-            *ngIf="
-              form.controls.beginDateLot.errors &&
-              form.controls.beginDateLot.errors.invalidDateFormat
-            "
-          >
-            Неккоректные данные
-          </small>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-12">
-      <div class="input-field">
-        <div class="input-field__title">Сумма Лота</div>
-        <label
-          class="input-field__label"
-          [class]="formTemplate ? 'readonly' : ''"
-        >
-          <input type="text" autocomplete="off" formControlName="lotSum" />
-        </label>
-
-        <div
-          *ngIf="form.get('lotSum')?.touched && form.get('lotSum')?.invalid"
-          class="validation"
-        >
-          <small *ngIf="form.get('lotSum')?.errors?.required">
-            Введите данные
-          </small>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- <div class="row justify-content-between align-items-end mb-2">
-    <div class="col-12">
-      <div class="input-field">
-        <div class="input-field__title">Дата конец первого торга</div>
-        <label
-          class="input-field__label"
-          [class]="formTemplate ? 'readonly' : ''"
-        >
-          <input
-            class="input-box"
-            angular-mydatepicker
-            name="reactiveFormsDate"
-            formControlName="endDateLot"
-            [options]="myDpOptions"
-            #dp2="angular-mydatepicker"
-            [locale]="'ru'"
-          />
-          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
         </label>
 
         <div
@@ -155,9 +84,9 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
-  <!-- <div class="row justify-content-between align-items-end mb-2">
+  <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="select-field">
         <div class="select-field__title">Выбор результата Лота</div>
@@ -182,7 +111,34 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Сумма Лота</div>
+        <label
+          class="input-field__label"
+          [class]="
+            formTemplate || form.controls.lotSum.status === 'DISABLED'
+              ? 'readonly'
+              : ''
+          "
+        >
+          <input type="text" autocomplete="off" formControlName="lotSum" />
+        </label>
+
+        <div
+          *ngIf="form.get('lotSum')?.touched && form.get('lotSum')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('lotSum')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">

@@ -7,11 +7,7 @@ import { environment } from 'src/environments/environment';
   template: `
     <div
       class="fileList"
-      *ngFor="
-        let file of this.formData.data?.files
-          ? this.formData.data?.files
-          : this.formData.data?.stopFiles
-      "
+      *ngFor="let file of this.formData"
       (click)="downloadFile(file.id, file.name)"
     >
       <i class="icon-attach mr-1"></i>

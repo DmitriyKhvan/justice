@@ -137,6 +137,10 @@ import { StopProcessTabComponent } from './pages/lawsuit/components/stop-process
 import { StopProcessListComponent } from './admin/pages/stop-process-list/stop-process-list.component';
 import { PopUpStopProcessDecisionComponent } from './admin/components/pop-up-stop-process-decision/pop-up-stop-process-decision.component';
 import { StopProcessMfoComponent } from './admin/pages/stop-process-mfo/stop-process-mfo.component';
+import { GetResponseComponent } from './pages/lawsuit/components/steps/auction/get-response/get-response.component';
+import { NumberTransformPipe } from './pipes/number-transform.pipe';
+import { GetResponseAuctionTemplateComponent } from './pages/lawsuit/components/steps/auction/get-response/get-response-auction-template.component';
+import { ListDecisionComponent } from './pages/lawsuit/components/list-decision/list-decision.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -254,6 +258,10 @@ const INTERCEPTOR_PROVIDER: Provider = {
     StopProcessListComponent,
     PopUpStopProcessDecisionComponent,
     StopProcessMfoComponent,
+    GetResponseComponent,
+    NumberTransformPipe,
+    GetResponseAuctionTemplateComponent,
+    ListDecisionComponent,
   ],
   imports: [
     // TooltipModule,

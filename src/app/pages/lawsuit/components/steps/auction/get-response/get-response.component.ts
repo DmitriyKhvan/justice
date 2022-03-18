@@ -3,37 +3,37 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
-// import { DictionariesService } from 'src/app/services/dictionfries.service';
+import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
 import currencyTransform from 'src/app/utils/format-number';
 
 @Component({
-  selector: 'app-first-auction',
-  templateUrl: './first-auction.component.html',
-  styleUrls: ['./first-auction.component.scss'],
+  selector: 'app-get-response',
+  templateUrl: './get-response.component.html',
+  styleUrls: ['./get-response.component.scss'],
 })
-export class FirstAuctionComponent implements OnInit, OnDestroy {
+export class GetResponseComponent implements OnInit {
   @Input() formTemplate: any = null;
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
-  // dicSub!: Subscription;
-
-  // dictionaries!: any;
-
+  dicSub!: Subscription;
+  resultSub!: Subscription | undefined;
   lotSumSub!: Subscription | undefined;
+
   lotSum!: any;
 
+  dictionaries!: any;
   districtDic: any[] = [];
 
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
-    // private dicService: DictionariesService,
+    private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -52,20 +52,29 @@ export class FirstAuctionComponent implements OnInit, OnDestroy {
 
     this.form = new FormGroup({
       lotNumber: new FormControl(formTemplateNull, Validators.required),
-      beginDateLot: new FormControl(formTemplate, Validators.required),
-      // endDateLot: new FormControl(formTemplateNull, Validators.required),
-      // result: new FormControl(formTemplateNull, Validators.required),
-      lotSum: new FormControl(formTemplate, Validators.required),
+      endDateLot: new FormControl(formTemplate, Validators.required),
+      result: new FormControl(formTemplateNull, Validators.required),
+      lotSum: new FormControl({ value: '', disabled: true }),
       addInfo: new FormControl(formTemplate, Validators.required),
     });
 
     this.lotSum = this.form.get('lotSum');
 
-    // this.dicSub = this.dicService
-    //   .getDicByActionId(this.action.actionId)
-    //   .subscribe((dictionaries: any) => {
-    //     this.dictionaries = dictionaries;
-    //   });
+    this.dicSub = this.dicService
+      .getDicByActionId(this.action.actionId)
+      .subscribe((dictionaries: any) => {
+        this.dictionaries = dictionaries;
+      });
+
+    this.resultSub = this.form
+      .get('result')
+      ?.valueChanges.subscribe((val: any) => {
+        this.form.patchValue({
+          lotSum: '',
+        });
+
+        this.toggleValidatorsLotSum(val);
+      });
 
     this.lotSumSub = this.lotSum?.valueChanges.subscribe((val: any) => {
       this.form.patchValue(
@@ -77,6 +86,18 @@ export class FirstAuctionComponent implements OnInit, OnDestroy {
     });
   }
 
+  toggleValidatorsLotSum(result: any) {
+    if (result === 164) {
+      this.lotSum?.setValidators([Validators.required]);
+      this.lotSum.enable();
+    } else {
+      this.lotSum?.clearValidators();
+      this.lotSum.disable();
+    }
+
+    this.lotSum.updateValueAndValidity();
+  }
+
   submit(actionId: number) {
     if (this.form.invalid) {
       return;
@@ -86,16 +107,15 @@ export class FirstAuctionComponent implements OnInit, OnDestroy {
 
     const data = {
       lotNumber: this.form.value.lotNumber,
-      beginDateLot: this.form.value.beginDateLot.singleDate.formatted,
-      // endDateLot: this.form.value.endDateLot.singleDate.formatted,
-      // result: this.form.value.result,
+      endDateLot: this.form.value.endDateLot.singleDate.formatted,
+      result: this.form.value.result,
       lotSum: this.form.value.lotSum,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.addInfo,
     };
 
     this.lawsuitService
-      .apiFetch(data, 'auction/firstAuction/add', actionId)
+      .apiFetch(data, 'auction/getResponse/add', actionId)
       .subscribe(
         (actions) => {
           // this.lawsuitService.historyActions = actions;
@@ -112,6 +132,6 @@ export class FirstAuctionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.dicSub?.unsubscribe();
+    this.dicSub?.unsubscribe();
   }
 }

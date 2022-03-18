@@ -89,12 +89,34 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
+        <div class="input-field__title">Сумма Лота</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input type="text" autocomplete="off" formControlName="lotSum" />
+        </label>
+
+        <div
+          *ngIf="form.get('lotSum')?.touched && form.get('lotSum')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('lotSum')?.errors?.required">
+            Введите данные
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
         <div class="input-field__title">Дата конец первого торга</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
         >
-          <!--        <input type="text" class="datepicker-here" readonly />-->
           <input
             class="input-box"
             angular-mydatepicker
@@ -133,9 +155,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <div class="row justify-content-between align-items-end mb-2">
+  <!-- <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="select-field">
         <div class="select-field__title">Выбор результата Лота</div>
@@ -160,7 +182,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">

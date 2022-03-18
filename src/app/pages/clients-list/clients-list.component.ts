@@ -251,7 +251,7 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   showListDecision(): void {
-    this.selectDecisions();
+    // this.selectDecisions();
     // this.lawsuitService.timerIdDecisions = setInterval(() => {
     //   this.selectDecisions();
     // }, 5000);

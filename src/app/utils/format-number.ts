@@ -7,8 +7,11 @@ function currencyTransform(value: any) {
   //   'symbol-narrow',
   //   '1.0-0'
   // );
-
-  return new Intl.NumberFormat().format(value.replace(/[^0-9.]/gim, ''));
+  if (value) {
+    return new Intl.NumberFormat().format(value.replace(/[^0-9.]/gim, ''));
+  } else {
+    return '';
+  }
 }
 
 export default currencyTransform;

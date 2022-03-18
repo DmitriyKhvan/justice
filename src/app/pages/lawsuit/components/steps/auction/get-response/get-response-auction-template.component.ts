@@ -3,27 +3,30 @@ import { Subscription } from 'rxjs';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 
 @Component({
-  selector: 'app-making-response-template',
+  selector: 'app-get-response-auction-template',
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Тип ответа</div>
+        <div class="col-6">№ Лота</div>
+        <div class="col-6">{{ actionData.data.lotNumber }}</div>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-6">Дата конца торга</div>
+        <div class="col-6">{{ actionData.data.endDateLot }}</div>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">Выбор результата Лота</div>
         <div class="col-6">
-          {{ getValue('formDocType', actionData.data.type) }}
+          {{ getValue('result', actionData.data.result) }}
         </div>
       </div>
+
       <div class="row justify-content-between">
-        <div class="col-6">№ вх. документа</div>
-        <div class="col-6">{{ actionData.data.inDocNumber }}</div>
+        <div class="col-6">Сумма Лота</div>
+        <div class="col-6">{{ actionData.data.lotSum }}</div>
       </div>
-      <div class="row justify-content-between">
-        <div class="col-6">Дата вх. документа</div>
-        <div class="col-6">{{ actionData.data.inDocDate }}</div>
-      </div>
-      <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
-        <div class="col-6">{{ actionData.data.addInfo }}</div>
-      </div>
+
       <div class="row justify-content-between">
         <div class="col-6">Прикрепленные файлы</div>
         <div class="col-6">
@@ -32,16 +35,20 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           ></app-file-downloader>
         </div>
       </div>
+
+      <div class="row justify-content-between">
+        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ actionData.data.addInfo }}</div>
+      </div>
     </div>
   `,
   styles: [],
 })
-export class MakingResponseTemplateComponent implements OnInit {
+export class GetResponseAuctionTemplateComponent implements OnInit {
   @Input() actionData!: any;
 
   dicSub!: Subscription;
   dictionaries!: any;
-
   constructor(private dicService: DictionariesService) {}
 
   ngOnInit(): void {

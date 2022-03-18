@@ -89,7 +89,9 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       <div class="row justify-content-between">
         <div class="col-6">Прикрепленные файлы</div>
         <div class="col-6">
-          <app-file-downloader [formData]="actionData"></app-file-downloader>
+          <app-file-downloader
+            [formData]="actionData?.data?.files"
+          ></app-file-downloader>
         </div>
       </div>
     </div>

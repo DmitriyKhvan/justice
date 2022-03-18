@@ -43,7 +43,7 @@
         *ngIf="formData.actionStatus !== 2"
         class="row justify-content-between mb-2"
       >
-        <div class="col-12">
+        <div class="col-6">
           <div class="label-info">Комментарий</div>
           <div class="value-info">
             {{
@@ -51,6 +51,21 @@
                 ? formData.headLawyerInfo
                 : "Нет комментарий"
             }}
+          </div>
+        </div>
+
+        <div *ngIf="formData.actionId === 18" class="col-6">
+          <div class="label-info">Прикрепленные файлы</div>
+          <div class="value-info">
+            <!-- {{
+              formData.headLawyerInfo
+                ? formData.headLawyerInfo
+                : "Нет комментарий"
+            }} -->
+
+            <app-file-downloader
+              [formData]="formData.headLawyerFiles"
+            ></app-file-downloader>
           </div>
         </div>
       </div>
@@ -249,5 +264,10 @@
       *ngIf="formData.actionId === 24"
       [actionData]="formData"
     ></app-stop-process-template>
+
+    <app-get-response-auction-template
+      *ngIf="formData.actionId === 26"
+      [actionData]="formData"
+    ></app-get-response-auction-template>
   </div>
 </div>

@@ -3,10 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
-import { DictionariesService } from 'src/app/services/dictionfries.service';
+// import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
+import currencyTransform from 'src/app/utils/format-number';
 
 @Component({
   selector: 'app-repeat-auction',
@@ -20,15 +21,19 @@ export class RepeatAuctionComponent implements OnInit, OnDestroy {
   submitted = false;
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
-  dicSub!: Subscription;
+  // dicSub!: Subscription;
 
-  dictionaries!: any;
+  // dictionaries!: any;
+
+  lotSumSub!: Subscription | undefined;
+  lotSum!: any;
+
   districtDic: any[] = [];
 
   constructor(
     private alert: AlertService,
     public lawsuitService: LawsuitService,
-    private dicService: DictionariesService,
+    // private dicService: DictionariesService,
     public fileUploadService: FileUploadService
   ) {}
 
@@ -47,17 +52,29 @@ export class RepeatAuctionComponent implements OnInit, OnDestroy {
 
     this.form = new FormGroup({
       lotNumber: new FormControl(formTemplateNull, Validators.required),
-      beginDateLot: new FormControl(formTemplateNull, Validators.required),
-      endDateLot: new FormControl(formTemplateNull, Validators.required),
-      result: new FormControl(formTemplateNull, Validators.required),
-      addInfo: new FormControl(formTemplateNull, Validators.required),
+      beginDateLot: new FormControl(formTemplate, Validators.required),
+      // endDateLot: new FormControl(formTemplateNull, Validators.required),
+      // result: new FormControl(formTemplateNull, Validators.required),
+      lotSum: new FormControl(formTemplate, Validators.required),
+      addInfo: new FormControl(formTemplate, Validators.required),
     });
 
-    this.dicSub = this.dicService
-      .getDicByActionId(this.action.actionId)
-      .subscribe((dictionaries: any) => {
-        this.dictionaries = dictionaries;
-      });
+    this.lotSum = this.form.get('lotSum');
+
+    // this.dicSub = this.dicService
+    //   .getDicByActionId(this.action.actionId)
+    //   .subscribe((dictionaries: any) => {
+    //     this.dictionaries = dictionaries;
+    //   });
+
+    this.lotSumSub = this.lotSum?.valueChanges.subscribe((val: any) => {
+      this.form.patchValue(
+        {
+          lotSum: currencyTransform(val),
+        },
+        { emitEvent: false }
+      );
+    });
   }
 
   submit(actionId: number) {
@@ -67,16 +84,14 @@ export class RepeatAuctionComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
 
-    const firstAuctionId = this.lawsuitService.getReqId(14)?.id;
-
     const data = {
-      firstAuctionId,
       lotNumber: this.form.value.lotNumber,
       beginDateLot: this.form.value.beginDateLot.singleDate.formatted,
-      endDateLot: this.form.value.endDateLot.singleDate.formatted,
+      // endDateLot: this.form.value.endDateLot.singleDate.formatted,
+      // result: this.form.value.result,
+      lotSum: this.form.value.lotSum,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.addInfo,
-      result: this.form.value.result,
     };
 
     this.lawsuitService
@@ -97,6 +112,6 @@ export class RepeatAuctionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dicSub?.unsubscribe();
+    // this.dicSub?.unsubscribe();
   }
 }

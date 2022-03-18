@@ -125,6 +125,11 @@
         "
         [formTemplate]="formTemplate"
       ></app-main-appeal>
+
+      <app-get-response
+        *ngIf="formTemplate.id === 26"
+        [formTemplate]="formTemplate"
+      ></app-get-response>
     </div>
   </div>
 </div>
