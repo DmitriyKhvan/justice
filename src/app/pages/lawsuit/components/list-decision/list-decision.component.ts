@@ -22,7 +22,11 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 })
 export class ListDecisionComponent implements OnInit, OnDestroy {
   form!: FormGroup;
+  formm!: FormGroup;
+
   submitted = false;
+
+  sSub!: Subscription;
 
   // decisions!: any;
 
@@ -45,7 +49,11 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
       additionalInfo: new FormControl(''),
     });
 
-    this.lawsuitService
+    this.formm = new FormGroup({
+      actionsForm: new FormArray([]),
+    });
+
+    this.sSub = this.lawsuitService
       .getPending(this.route.snapshot.queryParams)
       .subscribe((decisions) => {
         const resArr = { ...this.lawsuitService.decisions, ...decisions };
@@ -57,23 +65,38 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
         );
 
         this.lawsuitService.decisions = resArr;
+
+        for (let i = 0; i < this.lawsuitService.decisions.actionsCount; i++) {
+          const actionForm = new FormGroup({
+            decision: new FormControl(null, Validators.required),
+            additionalInfo: new FormControl(''),
+          });
+
+          this.actionsForm.push(actionForm);
+        }
+
+        console.log(this.formm);
       });
+  }
+
+  get actionsForm() {
+    return this.formm.get('actionsForm') as FormArray;
   }
 
   toggleDecision(event: any) {
     event.target.closest('.decision_value').classList.toggle('active');
   }
 
-  submitDecisionAction(processId: number, event: any) {
-    if (this.form.invalid) {
+  submitDecisionAction(processId: number, event: any, idx: number) {
+    if (this.actionsForm.controls[idx].invalid) {
       return;
     }
     this.submitted = true;
 
     const data = {
       processId,
-      status: this.form.value.decision,
-      headLawyerInfo: this.form.value.additionalInfo,
+      status: this.actionsForm.controls[idx].value.decision,
+      headLawyerInfo: this.actionsForm.controls[idx].value.additionalInfo,
       headLawyerFiles: this.fileUploadService.transformFilesData(),
     };
 
@@ -86,7 +109,7 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
         el.classList.add('complete');
 
         this.submitted = false;
-        this.form.reset();
+        this.formm.reset();
 
         this.popUpInfoService.updateContractList$.next(true);
 
@@ -139,5 +162,7 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.sSub?.unsubscribe();
+  }
 }
