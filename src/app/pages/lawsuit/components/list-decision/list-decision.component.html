@@ -53,10 +53,14 @@
           </div>
         </div>
 
-        <div class="decision_form">
-          <div class="select-action">
-            <h5 class="select-action__title">Выбранное действие</h5>
-            <span class="select-action__value">{{ step.toActionLang.ru }}</span>
+        <div class="container decision_form">
+          <div class="row select-action">
+            <div class="col-12">
+              <h5 class="select-action__title">Выбранное действие</h5>
+              <span class="select-action__value">{{
+                step.toActionLang.ru
+              }}</span>
+            </div>
           </div>
           <form
             class="page-form"
