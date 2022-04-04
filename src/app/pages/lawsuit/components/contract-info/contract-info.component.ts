@@ -57,7 +57,11 @@ export class ContractInfoComponent implements OnInit {
         })
       )
       .subscribe((contract) => {
-        this.lawsuitService.contract = contract;
+        const guarantees = contract.guarantees.filter(
+          (guarantee: any) => guarantee.type === '41'
+        );
+
+        this.lawsuitService.contract = { ...contract, guarantees };
       });
   }
 

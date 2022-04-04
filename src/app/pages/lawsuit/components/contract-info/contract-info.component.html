@@ -20,7 +20,9 @@
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Валюта кредита</div>
-      <div class="col-7">{{ lawsuitService.contract?.creditCurrency }}</div>
+      <div class="col-7">
+        {{ lawsuitService.contract?.creditCurrencyLang.ru }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Процентная ставка</div>
@@ -66,9 +68,15 @@
       <div class="col-5">ФИО заемщика</div>
       <div class="col-7">{{ lawsuitService.contract?.clientFio }}</div>
     </div>
-    <div class="row page-card__details px-3">
-      <div class="col-5">ФИО поручителя</div>
-      <div class="col-7"></div>
+    <div
+      *ngFor="
+        let guarantee of lawsuitService.contract?.guarantees;
+        let idx = index
+      "
+      class="row page-card__details px-3"
+    >
+      <div class="col-5">ФИО поручителя {{ idx + 1 }}</div>
+      <div class="col-7">{{ guarantee.detail }}</div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Номер договора</div>
