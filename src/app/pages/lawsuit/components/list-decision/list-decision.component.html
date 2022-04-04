@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div [formGroup]="formm" class="decisions">
+  <div class="decisions">
     <ng-container *ngIf="!!lawsuitService?.decisions?.stepsCount">
       <h3 class="decisions_title">Шаги</h3>
 
@@ -135,260 +135,164 @@
       </div>
     </ng-container>
 
-    <ng-container
-      [formGroup]="formm"
-      *ngIf="!!lawsuitService?.decisions?.actionsCount"
-    >
-      <ng-container formArrayName="actionsForm">
-        <h3 class="decisions_title">Действия</h3>
+    <ng-container *ngIf="!!lawsuitService?.decisions?.actionsCount">
+      <h3 class="decisions_title">Действия</h3>
 
-        <div
-          *ngFor="let step of lawsuitService.decisions?.actions"
-          class="decision"
-        >
-          <h4 class="decisions_sub_title">{{ step?.lang?.ru }}</h4>
+      <div
+        *ngFor="let step of lawsuitService.decisions?.actions"
+        class="decision"
+      >
+        <h4 class="decisions_sub_title">{{ step?.lang?.ru }}</h4>
 
-          <div class="decision_title">
-            <span class="title1">Дата</span>
-            <span class="title2">Название действия</span>
-          </div>
+        <div class="decision_title">
+          <span class="title1">Дата</span>
+          <span class="title2">Название действия</span>
+        </div>
 
-          <div *ngFor="let action of step?.actions">
-            <div *ngFor="let actionSame of action?.process">
-              <div class="decision_value" (click)="toggleDecision($event)">
-                <div class="decision_info">
-                  <span class="value1">{{
-                    actionSame.createdAt | date: "dd.MM.yyyy"
-                  }}</span>
-                  <span class="value2">{{ action?.lang?.ru }}</span>
-                  <button class="decision_btn"></button>
-                </div>
-
-                <div class="completeDecision">
-                  <i class="icon-check"></i>
-                  <span>Решение по действию отправлено!</span>
-                </div>
+        <div *ngFor="let action of step?.actions">
+          <div *ngFor="let actionSame of action?.process">
+            <div class="decision_value" (click)="toggleDecision($event)">
+              <div class="decision_info">
+                <span class="value1">{{
+                  actionSame.createdAt | date: "dd.MM.yyyy"
+                }}</span>
+                <span class="value2">{{ action?.lang?.ru }}</span>
+                <button class="decision_btn"></button>
               </div>
 
-              <div class="container decision_form">
-                <!-- {{ action.id }} -->
-
-                <app-notification-form-template
-                  *ngIf="action.id === 1"
-                  [actionData]="actionSame"
-                ></app-notification-form-template>
-
-                <app-sending-application-template
-                  *ngIf="action.id === 2"
-                  [actionData]="actionSame"
-                ></app-sending-application-template>
-
-                <app-making-response-template
-                  *ngIf="action.id === 3"
-                  [actionData]="actionSame"
-                ></app-making-response-template>
-
-                <app-sending-case-law-template
-                  *ngIf="action.id === 4"
-                  [actionData]="actionSame"
-                ></app-sending-case-law-template>
-
-                <app-setting-response-law-template
-                  *ngIf="action.id === 5"
-                  [actionData]="actionSame"
-                ></app-setting-response-law-template>
-
-                <app-first-instance-decision-template
-                  *ngIf="action.id === 6"
-                  [actionData]="actionSame"
-                ></app-first-instance-decision-template>
-
-                <app-referral-for-appeal-template
-                  *ngIf="action.id === 7"
-                  [actionData]="actionSame"
-                ></app-referral-for-appeal-template>
-
-                <app-appeal-law-response-template
-                  *ngIf="action.id === 8"
-                  [actionData]="actionSame"
-                ></app-appeal-law-response-template>
-
-                <app-referral-case-to-cassation-template
-                  *ngIf="action.id === 9"
-                  [actionData]="actionSame"
-                ></app-referral-case-to-cassation-template>
-
-                <app-response-law-of-cassation-template
-                  *ngIf="action.id === 10"
-                  [actionData]="actionSame"
-                ></app-response-law-of-cassation-template>
-
-                <app-case-transfer-template
-                  *ngIf="action.id === 11"
-                  [actionData]="actionSame"
-                ></app-case-transfer-template>
-
-                <app-sending-application-notary-template
-                  *ngIf="action.id === 12"
-                  [actionData]="actionSame"
-                ></app-sending-application-notary-template>
-
-                <app-making-response-notary-template
-                  *ngIf="action.id === 13"
-                  [actionData]="actionSame"
-                ></app-making-response-notary-template>
-
-                <app-first-auction-template
-                  *ngIf="action.id === 14"
-                  [actionData]="actionSame"
-                ></app-first-auction-template>
-
-                <app-stopping-bce-template
-                  *ngIf="action.id === 15"
-                  [actionData]="actionSame"
-                ></app-stopping-bce-template>
-
-                <app-mib-response-template
-                  *ngIf="action.id === 16"
-                  [actionData]="actionSame"
-                ></app-mib-response-template>
-
-                <app-repeat-auction-template
-                  *ngIf="action.id === 17"
-                  [actionData]="actionSame"
-                ></app-repeat-auction-template>
-
-                <app-balance-reception-template
-                  *ngIf="action.id === 18"
-                  [actionData]="actionSame"
-                ></app-balance-reception-template>
-
-                <app-enforcement-request-template
-                  *ngIf="action.id === 19"
-                  [actionData]="actionSame"
-                >
-                </app-enforcement-request-template>
-
-                <app-enforcement-response-template
-                  *ngIf="action.id === 20"
-                  [actionData]="actionSame"
-                >
-                </app-enforcement-response-template>
-
-                <app-main-appeal-template
-                  *ngIf="
-                    action.id === 21 || action.id === 22 || action.id === 23
-                  "
-                  [actionData]="actionSame"
-                ></app-main-appeal-template>
-
-                <app-stop-process-template
-                  *ngIf="action.id === 24"
-                  [actionData]="actionSame"
-                ></app-stop-process-template>
-
-                <app-get-response-auction-template
-                  *ngIf="action.id === 26"
-                  [actionData]="actionSame"
-                ></app-get-response-auction-template>
-
-                <form
-                  class="page-form"
-                  [formGroupName]="actionSame.index"
-                  (ngSubmit)="
-                    submitDecisionAction(
-                      actionSame.id,
-                      $event,
-                      actionSame.index
-                    )
-                  "
-                >
-                  <h4 class="decisions_sub_title">Внесение ответа</h4>
-                  <div class="row justify-content-between mb-2">
-                    <div class="col-6">
-                      <div class="select-field">
-                        <div class="select-field__title">Ваше решение</div>
-                        <ng-select
-                          appearance="outline"
-                          [items]="options"
-                          bindLabel="label"
-                          bindValue="value"
-                          placeholder="Ваше решение"
-                          #agreeSelect
-                          labelForId="yesno"
-                          [searchable]="false"
-                          formControlName="decision"
-                        ></ng-select>
-                        <div
-                          *ngIf="
-                            form.get('decision')?.touched &&
-                            form.get('decision')?.invalid
-                          "
-                          class="validation"
-                        >
-                          <small *ngIf="form.get('decision')?.errors?.required">
-                            Выберите данные
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row justify-content-between align-items-end mb-2">
-                    <div class="col-12">
-                      <app-file-uploader
-                        *ngIf="action.id === 18"
-                        title="Прикрепить файл"
-                      ></app-file-uploader>
-                    </div>
-                  </div>
-
-                  <div class="row justify-content-between mb-2">
-                    <div class="col-12">
-                      <div class="text-field">
-                        <div class="text-field__title">
-                          Дополнительная информация
-                        </div>
-                        <label class="text-field__label">
-                          <textarea
-                            placeholder="Уточните детали"
-                            formControlName="additionalInfo"
-                          ></textarea>
-                        </label>
-
-                        <div
-                          *ngIf="
-                            form.get('additionalInfo')?.touched &&
-                            form.get('additionalInfo')?.invalid
-                          "
-                          class="validation"
-                        >
-                          <small
-                            *ngIf="form.get('additionalInfo')?.errors?.required"
-                          >
-                            Введите данные
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    class="page-form__actionbtn text-uppercase add"
-                    [ngClass]="{ disableBtn: form.invalid || submitted }"
-                    [disabled]="
-                      actionsForm.controls[actionSame.index].invalid ||
-                      submitted
-                    "
-                  >
-                    Отправить
-                  </button>
-                </form>
+              <div class="completeDecision">
+                <i class="icon-check"></i>
+                <span>Решение по действию отправлено!</span>
               </div>
+            </div>
+
+            <div class="container decision_form">
+              <!-- {{ action.id }} -->
+
+              <app-notification-form-template
+                *ngIf="action.id === 1"
+                [actionData]="actionSame"
+              ></app-notification-form-template>
+
+              <app-sending-application-template
+                *ngIf="action.id === 2"
+                [actionData]="actionSame"
+              ></app-sending-application-template>
+
+              <app-making-response-template
+                *ngIf="action.id === 3"
+                [actionData]="actionSame"
+              ></app-making-response-template>
+
+              <app-sending-case-law-template
+                *ngIf="action.id === 4"
+                [actionData]="actionSame"
+              ></app-sending-case-law-template>
+
+              <app-setting-response-law-template
+                *ngIf="action.id === 5"
+                [actionData]="actionSame"
+              ></app-setting-response-law-template>
+
+              <app-first-instance-decision-template
+                *ngIf="action.id === 6"
+                [actionData]="actionSame"
+              ></app-first-instance-decision-template>
+
+              <app-referral-for-appeal-template
+                *ngIf="action.id === 7"
+                [actionData]="actionSame"
+              ></app-referral-for-appeal-template>
+
+              <app-appeal-law-response-template
+                *ngIf="action.id === 8"
+                [actionData]="actionSame"
+              ></app-appeal-law-response-template>
+
+              <app-referral-case-to-cassation-template
+                *ngIf="action.id === 9"
+                [actionData]="actionSame"
+              ></app-referral-case-to-cassation-template>
+
+              <app-response-law-of-cassation-template
+                *ngIf="action.id === 10"
+                [actionData]="actionSame"
+              ></app-response-law-of-cassation-template>
+
+              <app-case-transfer-template
+                *ngIf="action.id === 11"
+                [actionData]="actionSame"
+              ></app-case-transfer-template>
+
+              <app-sending-application-notary-template
+                *ngIf="action.id === 12"
+                [actionData]="actionSame"
+              ></app-sending-application-notary-template>
+
+              <app-making-response-notary-template
+                *ngIf="action.id === 13"
+                [actionData]="actionSame"
+              ></app-making-response-notary-template>
+
+              <app-first-auction-template
+                *ngIf="action.id === 14"
+                [actionData]="actionSame"
+              ></app-first-auction-template>
+
+              <app-stopping-bce-template
+                *ngIf="action.id === 15"
+                [actionData]="actionSame"
+              ></app-stopping-bce-template>
+
+              <app-mib-response-template
+                *ngIf="action.id === 16"
+                [actionData]="actionSame"
+              ></app-mib-response-template>
+
+              <app-repeat-auction-template
+                *ngIf="action.id === 17"
+                [actionData]="actionSame"
+              ></app-repeat-auction-template>
+
+              <app-balance-reception-template
+                *ngIf="action.id === 18"
+                [actionData]="actionSame"
+              ></app-balance-reception-template>
+
+              <app-enforcement-request-template
+                *ngIf="action.id === 19"
+                [actionData]="actionSame"
+              >
+              </app-enforcement-request-template>
+
+              <app-enforcement-response-template
+                *ngIf="action.id === 20"
+                [actionData]="actionSame"
+              >
+              </app-enforcement-response-template>
+
+              <app-main-appeal-template
+                *ngIf="action.id === 21 || action.id === 22 || action.id === 23"
+                [actionData]="actionSame"
+              ></app-main-appeal-template>
+
+              <app-stop-process-template
+                *ngIf="action.id === 24"
+                [actionData]="actionSame"
+              ></app-stop-process-template>
+
+              <app-get-response-auction-template
+                *ngIf="action.id === 26"
+                [actionData]="actionSame"
+              ></app-get-response-auction-template>
+
+              <app-form-decision
+                [processId]="actionSame.id"
+              ></app-form-decision>
             </div>
           </div>
         </div>
-      </ng-container>
+      </div>
     </ng-container>
   </div>
 </div>

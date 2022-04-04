@@ -22,7 +22,7 @@
         <div *ngIf="formData.actionStatus !== 2" class="col-6">
           <div class="label-info">Дата принятия решения</div>
           <div class="value-info">
-            {{ formData.data.updatedAt | date: "dd.MM.yyyy HH:mm" }}
+            {{ formData.processUpdatedAt | date: "dd.MM.yyyy HH:mm" }}
           </div>
         </div>
         <div class="col-6">

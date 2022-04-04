@@ -164,7 +164,6 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
 
     this.uploadFileSub = this.fileUploadService.currentUploaderFiles.subscribe(
       (data) => {
-        console.log(6666);
         // this.fileUploadService.allUploadFiles = [];
 
         this.currentUploadFiles = data;
@@ -223,8 +222,6 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log(9999999999);
-
     if (this.uploadFileSub) {
       this.uploadFileSub.unsubscribe();
       this.fileUploadService.UploaderFiles.next([]);

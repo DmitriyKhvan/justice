@@ -1,0 +1,141 @@
+<div class="file_field">
+  <div class="file-field__title mb-1">{{ title }}</div>
+
+  <div class="file-field__list mb-2">
+    <!-- {{ allFiles | json }}
+    ----------------------
+    {{ progressInfos | json }} -->
+    <div
+      *ngFor="let file of allFiles; let idx = index"
+      class="file-field__list_item py-1"
+    >
+      <i class="icon-attach mr-1"></i>
+      <div class="file-field__list_text ml-1">
+        {{ file.name }}
+      </div>
+      <div class="position-relative">
+        <i class="icon-close_2 ml-1" (click)="showTooltip($event)"></i>
+        <div class="tooltip tooltip-up">
+          <div class="tooltip-content">Удалить файл?</div>
+          <div class="tooltip-action">
+            <button
+              class="btn btn-outlined-white mx-1"
+              (click)="hideTooltip($event)"
+            >
+              Нет
+            </button>
+            <button class="btn btn-filled-white" (click)="deleteFile(file.id)">
+              Да
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 
+
+  *ngFor="let progressInfo of progressInfos; let idx = index"
+ -->
+    <div *ngIf="progressInfos" class="file-field__list_item py-1">
+      <svg
+        viewBox="0 0 36 36"
+        class="circular-chart default"
+        *ngIf="progressInfos?.value < 100"
+      >
+        <path
+          class="circle-bg"
+          d="M18 2.0845
+      a 15.9155 15.9155 0 0 1 0 31.831
+      a 15.9155 15.9155 0 0 1 0 -31.831"
+        ></path>
+        <path
+          class="circle"
+          attr.stroke-dasharray="{{ progressInfos?.value }}, 100"
+          d="M18 2.0845
+      a 15.9155 15.9155 0 0 1 0 31.831
+      a 15.9155 15.9155 0 0 1 0 -31.831"
+        ></path>
+      </svg>
+      <i *ngIf="progressInfos?.value === 100" class="icon-attach mr-1"></i>
+      <div class="file-field__list_text ml-1">
+        {{ progressInfos?.fileName }}
+      </div>
+      <div class="position-relative">
+        <!-- <i class="icon-close_2 ml-1" (click)="showTooltip($event)"></i>
+        <div class="tooltip tooltip-up">
+          <div class="tooltip-content">Удалить файл?</div>
+          <div class="tooltip-action">
+            <button
+              class="btn btn-outlined-white mx-1"
+              (click)="hideTooltip($event)"
+            >
+              Нет
+            </button>
+            <button
+              class="btn btn-filled-white"
+              (click)="deleteFile(progressInfos?.fileId)"
+            >
+              Да
+            </button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <div
+      *ngFor="let file of tempFiles; let idx = index"
+      class="file-field__list_item py-1"
+    >
+      <svg viewBox="0 0 36 36" class="circular-chart default">
+        <path
+          class="circle-bg"
+          d="M18 2.0845
+  a 15.9155 15.9155 0 0 1 0 31.831
+  a 15.9155 15.9155 0 0 1 0 -31.831"
+        ></path>
+        <path
+          class="circle"
+          attr.stroke-dasharray="{{ 0 }}, 100"
+          d="M18 2.0845
+  a 15.9155 15.9155 0 0 1 0 31.831
+  a 15.9155 15.9155 0 0 1 0 -31.831"
+        ></path>
+      </svg>
+      <div class="file-field__list_text ml-1">
+        {{ file.name }}
+      </div>
+      <div class="position-relative">
+        <!-- <i class="icon-close_2 ml-1" (click)="showTooltip($event)"></i>
+        <div class="tooltip tooltip-up">
+          <div class="tooltip-content">Удалить файл?</div>
+          <div class="tooltip-action">
+            <button
+              class="btn btn-outlined-white mx-1"
+              (click)="hideTooltip($event)"
+            >
+              Нет
+            </button>
+            <button class="btn btn-filled-white" (click)="deleteFile(file.id)">
+              Да
+            </button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <label
+    class="file-field__uploadbtn mb-2"
+    [class]="formTemplate ? 'readonly' : ''"
+  >
+    <ng-container *ngIf="allFiles?.length; then elseBtnText; else btnText">
+    </ng-container>
+    <ng-template #btnText> Добавить файл </ng-template>
+    <ng-template #elseBtnText> Добавить еще один файл </ng-template>
+    <!-- accept="image/jpeg, image/jpg, application/pdf" -->
+    <input
+      [disabled]="formTemplate"
+      type="file"
+      multiple
+      (change)="uploadFiles($event)"
+    />
+  </label>
+</div>

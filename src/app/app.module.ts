@@ -141,6 +141,8 @@ import { GetResponseComponent } from './pages/lawsuit/components/steps/auction/g
 import { NumberTransformPipe } from './pipes/number-transform.pipe';
 import { GetResponseAuctionTemplateComponent } from './pages/lawsuit/components/steps/auction/get-response/get-response-auction-template.component';
 import { ListDecisionComponent } from './pages/lawsuit/components/list-decision/list-decision.component';
+import { FormDecisionComponent } from './pages/lawsuit/components/list-decision/components/form-decision/form-decision.component';
+import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -262,6 +264,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     NumberTransformPipe,
     GetResponseAuctionTemplateComponent,
     ListDecisionComponent,
+    FormDecisionComponent,
+    UploadFilesComponent,
   ],
   imports: [
     // TooltipModule,

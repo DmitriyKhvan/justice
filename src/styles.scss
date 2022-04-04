@@ -732,7 +732,7 @@
     height: 10px;
     background: #10274a;
     border-radius: 0.5px;
-    transform: rotate(-45deg);
+    transform: rotate(-45deg) translate(-26%, -50%);
     z-index: -1;
   }
   &-action {
@@ -741,19 +741,29 @@
   }
 }
 
+.tooltip-up {
+  left: -283px;
+  top: -33px;
+  transform-origin: bottom right;
+  transform: scale(0) translate(15px, -50%);
+  &::before {
+    top: 94%;
+    right: 4px;
+  }
+}
+
 .tooltip-right {
   left: 100%;
   top: 50%;
+  transform-origin: top left;
   transform: scale(0) translate(15px, -50%);
   &::before {
     left: 0;
     top: 47%;
-    transform: rotate(-45deg) translate(-26%, -50%);
   }
 }
 
 .tooltip-active {
-  transform-origin: top left;
   transition: transform 0.3s;
   transform: scale(1) translate(15px, -50%);
 }

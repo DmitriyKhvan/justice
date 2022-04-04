@@ -24,21 +24,21 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   formm!: FormGroup;
 
+  options = [
+    { label: 'Отказать', value: 1 },
+    { label: 'Одобрить', value: 3 },
+  ];
+
   submitted = false;
 
   sSub!: Subscription;
 
   // decisions!: any;
 
-  options = [
-    { label: 'Отказать', value: 1 },
-    { label: 'Одобрить', value: 3 },
-  ];
-
   constructor(
     private popUpInfoService: PopUpInfoService,
     public lawsuitService: LawsuitService,
-    public fileUploadService: FileUploadService,
+
     private alert: AlertService,
     private route: ActivatedRoute
   ) {}
@@ -47,10 +47,6 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       decision: new FormControl(null, Validators.required),
       additionalInfo: new FormControl(''),
-    });
-
-    this.formm = new FormGroup({
-      actionsForm: new FormArray([]),
     });
 
     this.sSub = this.lawsuitService
@@ -65,64 +61,11 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
         );
 
         this.lawsuitService.decisions = resArr;
-
-        for (let i = 0; i < this.lawsuitService.decisions.actionsCount; i++) {
-          const actionForm = new FormGroup({
-            decision: new FormControl(null, Validators.required),
-            additionalInfo: new FormControl(''),
-          });
-
-          this.actionsForm.push(actionForm);
-        }
-
-        console.log(this.formm);
       });
-  }
-
-  get actionsForm() {
-    return this.formm.get('actionsForm') as FormArray;
   }
 
   toggleDecision(event: any) {
     event.target.closest('.decision_value').classList.toggle('active');
-  }
-
-  submitDecisionAction(processId: number, event: any, idx: number) {
-    if (this.actionsForm.controls[idx].invalid) {
-      return;
-    }
-    this.submitted = true;
-
-    const data = {
-      processId,
-      status: this.actionsForm.controls[idx].value.decision,
-      headLawyerInfo: this.actionsForm.controls[idx].value.additionalInfo,
-      headLawyerFiles: this.fileUploadService.transformFilesData(),
-    };
-
-    this.lawsuitService.confirmAction(data, 'process/confirmAction').subscribe(
-      (decisions) => {
-        // this.lawsuitService.historyActions = actions;
-        const el = event.target.closest('.decision_form')
-          .previousElementSibling;
-        el.classList.toggle('active');
-        el.classList.add('complete');
-
-        this.submitted = false;
-        this.formm.reset();
-
-        this.popUpInfoService.updateContractList$.next(true);
-
-        setTimeout(() => {
-          this.lawsuitService.decisions = decisions;
-        }, 3000);
-        // this.alert.success('Форма оформлена');
-      },
-      (error) => {
-        this.submitted = false;
-        // this.alert.danger('Форма не оформлена');
-      }
-    );
   }
 
   submitDecisionStep(jumpId: number, event: any) {

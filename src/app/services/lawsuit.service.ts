@@ -36,13 +36,13 @@ export class LawsuitService {
   contractId!: any; // uniqueId
   fromStepId!: any; // текущий шаг
   isDeniedStep: boolean = false;
-  // decisions!: any;
-  decisions: any = {
-    actions: [],
-    actionsCount: 0,
-    steps: [],
-    stepsCount: 0,
-  };
+  decisions!: any;
+  // decisions: any = {
+  //   actions: [],
+  //   actionsCount: 0,
+  //   steps: [],
+  //   stepsCount: 0,
+  // };
 
   timerIdDecisions!: any; // таймер для решений гл. юрист
   contract!: any;
@@ -56,7 +56,12 @@ export class LawsuitService {
   ) {}
 
   monitoring(data: any): Observable<any> {
-    return this.http.post(`${environment.dbUrlBek}/cases/monit`, data);
+    return this.http.post(`${environment.dbUrlBek}/cases/monit`, data).pipe(
+      catchError((error) => {
+        this.alert.danger(error.error.message);
+        return throwError(error);
+      })
+    );
   }
 
   pushNotifications({ page = 1, count = 20, value = '' }): Observable<any> {

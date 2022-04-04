@@ -77,6 +77,7 @@ export class SendingApplicationNotaryComponent implements OnInit {
         numberDoc: new FormControl(formTemplateNull, Validators.required),
         dateDoc: new FormControl(formTemplateNull, Validators.required),
         additionalInfo: new FormControl(formTemplateNull, Validators.required),
+        // files: new FormControl(formTemplateNull),
       });
     }
   }

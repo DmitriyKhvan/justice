@@ -6,7 +6,9 @@
   <div class="page-card__body">
     <div class="row page-card__details px-3">
       <div class="col-5">Сумма кредита по договору</div>
-      <div class="col-7">{{ lawsuitService.contract?.creditSumm }}</div>
+      <div class="col-7">
+        {{ lawsuitService.contract?.creditSumm | numberTransform }}
+      </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Дата начала кредита</div>
@@ -66,7 +68,7 @@
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">ФИО поручителя</div>
-      <div class="col-7">Yunushodjaeva Shakhnoza Faruh...</div>
+      <div class="col-7"></div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">Номер договора</div>

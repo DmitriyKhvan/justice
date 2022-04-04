@@ -1,9 +1,11 @@
 import {
   HttpClient,
   HttpErrorResponse,
+  HttpEvent,
   HttpEventType,
   HttpHeaderResponse,
   HttpHeaders,
+  HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -193,5 +195,22 @@ export class FileUploadService {
       // `http://10.1.1.200:3000/file/download/12`,
       { observe: 'body', responseType: 'arraybuffer' }
     );
+  }
+
+  //Last Version
+  upload(file: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('source', 'Justice');
+    formData.append('files', file);
+    const req = new HttpRequest(
+      'POST',
+      `${this.FileBaseUrl}/file/upload`,
+      formData,
+      {
+        reportProgress: true,
+        responseType: 'json',
+      }
+    );
+    return this.xhttp.request(req);
   }
 }
