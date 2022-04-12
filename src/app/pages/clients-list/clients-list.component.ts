@@ -124,17 +124,17 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     //     this.totalItems = value.count;
     //   });
 
-    this.mSub = this.clientsService
-      .getMfo()
-      .pipe(map((data: any) => data.data))
-      .subscribe((data) => {
-        this.filialName = data
-          .map((filials: any) => filials.branches)
-          .flat()
-          .find(
-            (mfo: any) => mfo.mfo === this.route.snapshot.queryParams['mfo']
-          )?.nameRu;
-      });
+    // this.mSub = this.clientsService
+    //   .getMfo()
+    //   .pipe(map((data: any) => data.data))
+    //   .subscribe((data) => {
+    //     this.filialName = data
+    //       .map((filials: any) => filials.branches)
+    //       .flat()
+    //       .find(
+    //         (mfo: any) => mfo.mfo === this.route.snapshot.queryParams['mfo']
+    //       )?.nameRu;
+    //   });
 
     this.getContracts();
 
@@ -209,6 +209,7 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
       .subscribe((contracts: any) => {
         this.contractList = contracts.contracts;
         this.totalItems = contracts.count;
+        this.filialName = contracts.branchName.nameRus;
       });
   }
 
