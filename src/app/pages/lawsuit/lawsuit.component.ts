@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 import { Subscription } from 'rxjs';
 import { mergeMap, switchMap, tap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
@@ -25,6 +26,7 @@ export class LawsuitComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    public keycloak: KeycloakService,
     private popUpInfoService: PopUpInfoService,
     public lawsuitService: LawsuitService
   ) {}

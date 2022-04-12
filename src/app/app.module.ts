@@ -143,6 +143,7 @@ import { GetResponseAuctionTemplateComponent } from './pages/lawsuit/components/
 import { ListDecisionComponent } from './pages/lawsuit/components/list-decision/list-decision.component';
 import { FormDecisionComponent } from './pages/lawsuit/components/list-decision/components/form-decision/form-decision.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
+import { MakeDecesionsComponent } from './pages/lawsuit/components/make-decesions/make-decesions.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -266,6 +267,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ListDecisionComponent,
     FormDecisionComponent,
     UploadFilesComponent,
+    MakeDecesionsComponent,
   ],
   imports: [
     // TooltipModule,

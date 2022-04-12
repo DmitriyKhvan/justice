@@ -1,0 +1,8 @@
+<div
+  *ngIf="keycloak.isUserInRole('head-lawyer')"
+  class="page-action__item mr-2 listDecision"
+  (click)="showListDecision()"
+>
+  <i class="uil-question-circle"></i>
+  Принять решения
+</div>
