@@ -126,7 +126,10 @@
         <div
           class="page-table__tr__wrapper row no-gutters justify-content-between align-items-center w-100"
         >
-          <div class="page-table__td">{{ contract.clientId }}</div>
+          <div class="page-table__td">
+            <!-- {{ contract.clientId }} -->
+            {{ contract.contractId }}
+          </div>
           <div class="page-table__td text-capitalize">
             {{ contract.clientFio }}
           </div>
@@ -139,7 +142,7 @@
           <div class="page-table__td">
             {{ contract.clientTypeName.ru }}
           </div>
-          <div class="page-table__td">{{ contract.contractId }}</div>
+          <div class="page-table__td">{{ contract.creditId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>
           <!-- <div class="page-table__td">{{ contract.creditCurrency }}</div> -->
           <div class="page-table__td">{{ contract.typeName?.ru }}</div>
