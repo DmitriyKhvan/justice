@@ -102,18 +102,6 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.mSub = this.clientsService
-      .getMfo()
-      .pipe(map((data: any) => data.data))
-      .subscribe((data) => {
-        this.filialName = data
-          .map((filials: any) => filials.branches)
-          .flat()
-          .find(
-            (mfo: any) => mfo.mfo === this.route.snapshot.queryParams['mfo']
-          )?.nameRu;
-      });
-
     this.getContracts();
 
     this.upSub = this.popUpInfoService.updateContractList$.subscribe(() => {
@@ -179,6 +167,7 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
       .subscribe((contracts: any) => {
         this.contractList = contracts.contracts;
         this.totalItems = contracts.count;
+        this.filialName = contracts.branchName.nameRus;
       });
   }
 

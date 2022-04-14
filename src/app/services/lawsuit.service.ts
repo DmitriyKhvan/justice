@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -49,7 +50,8 @@ export class LawsuitService {
 
   constructor(
     public http: HttpClient,
-    public auth: AuthService,
+    // public auth: AuthService,
+    protected keycloakAngular: KeycloakService,
     private router: Router,
     private route: ActivatedRoute,
     private alert: AlertService

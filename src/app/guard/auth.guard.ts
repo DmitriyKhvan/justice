@@ -24,10 +24,11 @@ export class AuthGuard extends KeycloakAuthGuard {
   ): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let permission;
+      console.log('this.authenticated', this.authenticated);
       if (!this.authenticated) {
         this.keycloakAngular
           .login()
-          .catch((e) => console.error('token finished!!!', e));
+          .catch((e) => console.error('token is finished!!!', e));
         return reject(false);
       }
 
