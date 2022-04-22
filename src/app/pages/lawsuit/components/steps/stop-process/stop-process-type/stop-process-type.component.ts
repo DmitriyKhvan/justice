@@ -17,14 +17,14 @@ import { datepickerSettings } from 'src/app/settings';
 })
 export class StopProcessTypeComponent implements OnInit, OnDestroy {
   @Input() formTemplate: any = null;
-  // @Input() action!: any;
+  @Input() action!: any;
 
   sSub!: Subscription;
   dSub!: Subscription | undefined;
   stopInitiatorSub!: Subscription | undefined;
   dictionaries!: any;
   reasonStoppingDic: any[] = [];
-  action!: any;
+  // action!: any;
 
   form!: FormGroup;
   stopReason!: any;
@@ -82,7 +82,7 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
     //     mergeMap((action: any) => this.dicService.getDicByActionId(action?.id))
     //   )
     this.sSub = this.dicService
-      .getDicByActionId(this.lawsuitService.stopProcessStep.actions[0].id)
+      .getDicByActionId(this.action?.id)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
       });

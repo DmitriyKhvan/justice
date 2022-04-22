@@ -7,49 +7,49 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Подведомственность суда</div>
+        <div class="col-6">{{ 'jurisdiction_court' | translate }}</div>
         <div class="col-6">
           {{ getValue('courtKind', actionData.data.lawKind) }}
         </div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Подсудность дел</div>
+        <div class="col-6">{{ 'jurisdiction_cases' | translate }}</div>
         <div class="col-6">
           {{ getValue('courtType', actionData.data.lawType) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Областной суд</div>
+        <div class="col-6">{{ 'regionLaw' | translate }}</div>
         <div class="col-6">
           {{ getValue('regionLaw', actionData.data.regionLaw) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Регион</div>
+        <div class="col-6">{{ 'region' | translate }}</div>
         <div class="col-6">
           {{ getRegionValue('regions', actionData.data.region) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">№ исх. документа</div>
+        <div class="col-6">{{ 'outDocNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.outDocNumber }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дата исх. документа</div>
+        <div class="col-6">{{ 'outDocDate' | translate }}</div>
         <div class="col-6">{{ actionData.data.outDocDate }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -78,15 +78,16 @@ export class ReferralForAppealTemplateComponent implements OnInit, OnDestroy {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 
   getRegionValue(dicName: string, val: any): any {
     if (this.dictionaries) {
       return this.dictionaries[dicName]?.find((i: any) => i.id === val)
-        ?.nameLocal.ru;
+        ?.nameLocal[this.dicService.translate.currentLang];
     }
   }
 
@@ -94,7 +95,7 @@ export class ReferralForAppealTemplateComponent implements OnInit, OnDestroy {
   //   if (this.dictionaries) {
   //     return this.dictionaries[dicName]
   //       ?.find((region: any) => region.id === regionId)
-  //       ?.child.find((district: any) => district.id === districtId).lang.ru;
+  //       ?.child.find((district: any) => district.id === districtId).lang[this.dicService.translate.currentLang];
   //   }
   // }
 

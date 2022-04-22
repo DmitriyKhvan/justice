@@ -144,12 +144,18 @@ import { ListDecisionComponent } from './pages/lawsuit/components/list-decision/
 import { FormDecisionComponent } from './pages/lawsuit/components/list-decision/components/form-decision/form-decision.component';
 import { UploadFilesComponent } from './components/upload-files/upload-files.component';
 import { MakeDecesionsComponent } from './pages/lawsuit/components/make-decesions/make-decesions.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthIntercepter,
 };
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -281,6 +287,14 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AngularMyDatePickerModule,
     NgxPaginationModule,
     KeycloakAngularModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'ru',
+    }),
   ],
   providers: [
     HttpClient,

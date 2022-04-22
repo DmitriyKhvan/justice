@@ -1,6 +1,10 @@
 <div class="lawsuitTitleWrap">
   <h2 class="lawsuitTitle">
-    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+    {{
+      formTemplate
+        ? formTemplate.lang[lawsuitService.translate.currentLang]
+        : action?.actionNameLang[lawsuitService.translate.currentLang]
+    }}
   </h2>
   <button
     *ngIf="!formData && !formTemplate"
@@ -15,13 +19,15 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Подведомственность суда</div>
+        <div class="select-field__title">
+          {{ "jurisdiction_court" | translate }}
+        </div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.courtKind"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Суды"
+          placeholder="{{ 'courts' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -32,20 +38,22 @@
           class="validation"
         >
           <small *ngIf="form.get('kindLaw')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
     </div>
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Подсудность дел</div>
+        <div class="select-field__title">
+          {{ "jurisdiction_cases" | translate }}
+        </div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.courtType"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Подсудность дел"
+          placeholder="{{ 'jurisdiction_cases' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -56,7 +64,7 @@
           class="validation"
         >
           <small *ngIf="form.get('typeLaw')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -85,20 +93,20 @@
           class="validation"
         >
           <small *ngIf="form.get('regionLaw')?.errors?.required">
-            Выберите данные
+            {{'select_data' | translate}}
           </small>
         </div>
       </div>
     </div> -->
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Регион</div>
+        <div class="select-field__title">{{ "region" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.regionDistrict"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Регион"
+          placeholder="{{ 'region' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -109,7 +117,7 @@
           class="validation"
         >
           <small *ngIf="form.get('region')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -117,13 +125,13 @@
 
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Район</div>
+        <div class="select-field__title">{{ "district" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="districtDic"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Район"
+          placeholder="{{ 'district' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -134,7 +142,7 @@
           class="validation"
         >
           <small *ngIf="form.get('district')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -148,7 +156,9 @@
   >
     <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Ответчик {{ idx + 1 }}</div>
+        <div class="input-field__title">
+          {{ "defendant" | translate }} {{ idx + 1 }}
+        </div>
         <div class="input-field__custome">
           <label
             class="input-field__label"
@@ -170,7 +180,9 @@
           *ngIf="defendant?.touched && defendant?.invalid"
           class="validation"
         >
-          <small *ngIf="defendant?.errors?.required"> Введите данные </small>
+          <small *ngIf="defendant?.errors?.required">
+            {{ "enter_data" | translate }}
+          </small>
         </div>
       </div>
     </div>
@@ -184,7 +196,7 @@
         class="btn btn-dashed add"
         (click)="addDefendant()"
       >
-        Добавить
+        {{ "add" | translate }}
       </button>
     </div>
   </div>
@@ -196,7 +208,9 @@
   >
     <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">3-лицо {{ idx + 1 }}</div>
+        <div class="input-field__title">
+          {{ "3rd_person" | translate }} {{ idx + 1 }}
+        </div>
         <div class="input-field__custome">
           <label
             class="input-field__label"
@@ -218,7 +232,9 @@
           *ngIf="thirdParties?.touched && thirdParties?.invalid"
           class="validation"
         >
-          <small *ngIf="thirdParties?.errors?.required"> Введите данные </small>
+          <small *ngIf="thirdParties?.errors?.required">
+            {{ "enter_data" | translate }}
+          </small>
         </div>
       </div>
     </div>
@@ -232,7 +248,7 @@
         class="btn btn-dashed add"
         (click)="addThirdParties()"
       >
-        Добавить
+        {{ "add" | translate }}
       </button>
     </div>
   </div>
@@ -240,7 +256,9 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Сумма основного долга</div>
+        <div class="input-field__title">
+          {{ "principal_amount" | translate }}
+        </div>
         <label
           [class]="formTemplate ? 'readonly' : ''"
           class="input-field__label"
@@ -260,7 +278,7 @@
           class="validation"
         >
           <small *ngIf="form.get('principalAmount')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -268,7 +286,7 @@
 
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Сумма процента</div>
+        <div class="input-field__title">{{ "percent_amount" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -288,7 +306,7 @@
           class="validation"
         >
           <small *ngIf="form.get('percentAmount')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -298,7 +316,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Сумма пени</div>
+        <div class="input-field__title">{{ "penalty_amount" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -318,7 +336,7 @@
           class="validation"
         >
           <small *ngIf="form.get('penaltyAmount')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -326,7 +344,7 @@
 
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Сумма штрафа</div>
+        <div class="input-field__title">{{ "fine_amount" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -341,7 +359,7 @@
           class="validation"
         >
           <small *ngIf="form.get('fineAmount')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -351,7 +369,9 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Общая сумма иска</div>
+        <div class="input-field__title">
+          {{ "total_claim_amount" | translate }}
+        </div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -371,7 +391,7 @@
           class="validation"
         >
           <small *ngIf="form.get('totalClaimAmount')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -381,7 +401,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">№ исх. документа</div>
+        <div class="input-field__title">{{ "outDocNumber" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -401,7 +421,7 @@
           class="validation"
         >
           <small *ngIf="form.get('outDocNumber')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -409,7 +429,7 @@
 
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Дата исх. документа</div>
+        <div class="input-field__title">{{ "outDocDate" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -422,7 +442,7 @@
             formControlName="outDocDate"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
@@ -440,7 +460,7 @@
               !form.controls.outDocDate.errors.invalidDateFormat
             "
           >
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
           <small
             *ngIf="
@@ -448,7 +468,7 @@
               form.controls.outDocDate.errors.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{ "incorrect_data" | translate }}
           </small>
         </div>
       </div>
@@ -466,7 +486,7 @@
       <app-file-uploader
         [formData]="formData"
         [formTemplate]="formTemplate"
-        title="Прикрепить файл"
+        title="{{ 'attach_file' | translate }}"
       ></app-file-uploader>
     </div>
   </div>
@@ -486,7 +506,7 @@
             formControlName="dateLaw"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
@@ -502,7 +522,7 @@
               !form.controls.dateLaw.errors.invalidDateFormat
             "
           >
-            Введите данные
+            {{'enter_data' | translate}}
           </small>
           <small
             *ngIf="
@@ -510,7 +530,7 @@
               form.controls.dateLaw.errors.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{'incorrect_data' | translate}}
           </small>
         </div>
       </div>
@@ -520,13 +540,15 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
         <label
           class="text-field__label"
           [class]="formTemplate ? 'readonly' : ''"
         >
           <textarea
-            placeholder="Уточните детали"
+            placeholder="{{ 'specify_details' | translate }}"
             formControlName="additionalInfo"
           ></textarea>
         </label>
@@ -539,7 +561,7 @@
           class="validation"
         >
           <small *ngIf="form.get('additionalInfo')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -553,6 +575,6 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    Отправить
+    {{ "send" | translate }}
   </button>
 </form>

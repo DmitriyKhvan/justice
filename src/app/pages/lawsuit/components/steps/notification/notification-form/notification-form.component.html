@@ -1,5 +1,7 @@
 <div class="lawsuitTitleWrap">
-  <h2 class="lawsuitTitle">{{ action.actionNameLang.ru }}</h2>
+  <h2 class="lawsuitTitle">
+    {{ action.actionNameLang[lawsuitService.translate.currentLang] }}
+  </h2>
   <!-- <button class="remove_action_form__btn">
     <i class="uil-times"></i>
   </button> -->
@@ -20,7 +22,9 @@
     </div> -->
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Последний срок погашения кредита</div>
+        <div class="input-field__title">
+          {{ "last_loan_repayment_date" | translate }}
+        </div>
         <label class="input-field__label">
           <!--        <input type="text" class="datepicker-here" readonly />-->
           <input
@@ -30,7 +34,7 @@
             formControlName="notificationDate"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
@@ -49,7 +53,7 @@
               !form.controls.notificationDate.errors.invalidDateFormat
             "
           >
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
           <small
             *ngIf="
@@ -57,7 +61,7 @@
               form.controls.notificationDate.errors.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{ "incorrect_data" | translate }}
           </small>
         </div>
       </div>
@@ -67,10 +71,12 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
         <label class="text-field__label template">
           <textarea
-            placeholder="Уточните детали"
+            placeholder="{{ 'specify_details' | translate }}"
             formControlName="additionalInfo"
           ></textarea>
         </label>
@@ -81,14 +87,16 @@
             class="btn-template add"
             (click)="addTemplate(form.get('additionalInfo')?.value)"
           >
-            <i class="uil-plus"></i><span>Добавить в шаблоны</span>
+            <i class="uil-plus"></i
+            ><span>{{ "add_templates" | translate }}</span>
           </button>
           <button
             type="button"
             class="btn-template select"
             (click)="selectTemplate(true)"
           >
-            <i class="uil-file-alt"></i><span>Выбрать шаблонный текст</span>
+            <i class="uil-file-alt"></i
+            ><span>{{ "select_template_text" | translate }}</span>
           </button>
         </div>
 
@@ -100,7 +108,7 @@
           class="validation"
         >
           <small *ngIf="form.get('additionalInfo')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -111,7 +119,7 @@
     <div class="col-12">
       <app-file-uploader
         [formData]="formData"
-        title="Прикрепить файл"
+        title="{{ 'attach_file' | translate }}"
       ></app-file-uploader>
     </div>
   </div>
@@ -123,6 +131,6 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    Отправить
+    {{ "send" | translate }}
   </button>
 </form>

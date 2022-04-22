@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
@@ -20,6 +21,7 @@ export class SelectActionComponent implements OnInit, OnDestroy {
   actions: any[] = [];
 
   actionSub!: Subscription;
+  tSub!: Subscription;
 
   constructor(
     public lawsuitService: LawsuitService,
@@ -50,6 +52,12 @@ export class SelectActionComponent implements OnInit, OnDestroy {
     //   .subscribe((actions) => {
     //     this.actions = actions;
     //   });
+
+    this.tSub = this.lawsuitService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.actions = [...this.actions];
+      }
+    );
   }
 
   submit() {
@@ -69,5 +77,7 @@ export class SelectActionComponent implements OnInit, OnDestroy {
       this.actionSub.unsubscribe();
       this.actions = [];
     }
+
+    this.tSub?.unsubscribe();
   }
 }

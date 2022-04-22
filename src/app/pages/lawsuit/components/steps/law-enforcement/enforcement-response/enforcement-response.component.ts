@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
@@ -13,7 +14,7 @@ import { datepickerSettings } from 'src/app/settings';
   templateUrl: './enforcement-response.component.html',
   styleUrls: ['./enforcement-response.component.scss'],
 })
-export class EnforcementResponseComponent implements OnInit {
+export class EnforcementResponseComponent implements OnInit, OnDestroy {
   @Input() formTemplate: any = null;
   @Input() action!: any;
   form!: FormGroup;
@@ -22,6 +23,7 @@ export class EnforcementResponseComponent implements OnInit {
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
   dicSub!: Subscription;
+  tSub!: Subscription;
   regionSub!: Subscription | undefined;
 
   dictionaries!: any;
@@ -63,9 +65,21 @@ export class EnforcementResponseComponent implements OnInit {
         this.dictionaries = dictionaries;
       });
 
+    this.tSub = this.lawsuitService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.dictionaries = JSON.parse(JSON.stringify(this.dictionaries));
+        this.districtDic = [...this.districtDic];
+      }
+    );
+
     this.regionSub = this.form
       .get('region')
       ?.valueChanges.subscribe((id: number) => {
+        this.districtDic = [];
+        this.form.patchValue({
+          district: null,
+        });
+
         if (id) {
           this.districtDic = this.dictionaries.regionDistrict.find(
             (reg: any) => reg.id === id
@@ -73,10 +87,6 @@ export class EnforcementResponseComponent implements OnInit {
 
           this.form.get('district')?.enable();
         } else {
-          this.districtDic = [];
-          this.form.patchValue({
-            district: null,
-          });
           this.form.get('district')?.disable();
         }
       });
@@ -116,5 +126,11 @@ export class EnforcementResponseComponent implements OnInit {
           this.submitted = false;
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    this.dicSub?.unsubscribe();
+    this.tSub?.unsubscribe();
+    this.regionSub?.unsubscribe();
   }
 }

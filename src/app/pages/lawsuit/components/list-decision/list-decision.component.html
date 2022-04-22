@@ -36,15 +36,17 @@
         class="decision"
       >
         <div class="decision_title">
-          <span class="title1">Дата</span>
-          <span class="title2">Выбранный шаг</span>
+          <span class="title1">{{ "date" | translate }}</span>
+          <span class="title2">{{ "selected_step" | translate }}</span>
         </div>
         <div class="decision_value" (click)="toggleDecision($event)">
           <div class="decision_info">
             <span class="value1">{{
               step.createdAt | date: "dd.MM.yyyy"
             }}</span>
-            <span class="value2">{{ step.toStepLang.ru }}</span>
+            <span class="value2">{{
+              step.toStepLang[lawsuitService.translate.currentLang]
+            }}</span>
             <button class="decision_btn"></button>
           </div>
           <div class="completeDecision">
@@ -56,9 +58,11 @@
         <div class="container decision_form">
           <div class="row select-action">
             <div class="col-12">
-              <h5 class="select-action__title">Выбранное действие</h5>
+              <h5 class="select-action__title">
+                {{ "selected_action" | translate }}
+              </h5>
               <span class="select-action__value">{{
-                step.toActionLang.ru
+                step.toActionLang[lawsuitService.translate.currentLang]
               }}</span>
             </div>
           </div>
@@ -91,7 +95,7 @@
                     class="validation"
                   >
                     <small *ngIf="form.get('decision')?.errors?.required">
-                      Выберите данные
+                      {{ "select_data" | translate }}
                     </small>
                   </div>
                 </div>
@@ -100,10 +104,12 @@
             <div class="row justify-content-between mb-2">
               <div class="col-12">
                 <div class="text-field">
-                  <div class="text-field__title">Дополнительная информация</div>
+                  <div class="text-field__title">
+                    {{ "additional_information" | translate }}
+                  </div>
                   <label class="text-field__label">
                     <textarea
-                      placeholder="Уточните детали"
+                      placeholder="{{ 'specify_details' | translate }}"
                       formControlName="additionalInfo"
                     ></textarea>
                   </label>
@@ -116,7 +122,7 @@
                     class="validation"
                   >
                     <small *ngIf="form.get('additionalInfo')?.errors?.required">
-                      Введите данные
+                      {{ "enter_data" | translate }}
                     </small>
                   </div>
                 </div>
@@ -128,7 +134,7 @@
               [ngClass]="{ disableBtn: form.invalid || submitted }"
               [disabled]="form.invalid || submitted"
             >
-              Отправить
+              {{ "send" | translate }}
             </button>
           </form>
         </div>
@@ -142,10 +148,12 @@
         *ngFor="let step of lawsuitService.decisions?.actions"
         class="decision"
       >
-        <h4 class="decisions_sub_title">{{ step?.lang?.ru }}</h4>
+        <h4 class="decisions_sub_title">
+          {{ step?.lang[lawsuitService.translate.currentLang] }}
+        </h4>
 
         <div class="decision_title">
-          <span class="title1">Дата</span>
+          <span class="title1">{{ "date" | translate }}</span>
           <span class="title2">Название действия</span>
         </div>
 
@@ -156,7 +164,9 @@
                 <span class="value1">{{
                   actionSame.createdAt | date: "dd.MM.yyyy"
                 }}</span>
-                <span class="value2">{{ action?.lang?.ru }}</span>
+                <span class="value2">{{
+                  action?.lang[lawsuitService.translate.currentLang]
+                }}</span>
                 <button class="decision_btn"></button>
               </div>
 

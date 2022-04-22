@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, pairwise } from 'rxjs/operators';
-import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainService } from './services/main.service';
 import { AuthService } from './services/auth.service';
+import { Subscription } from 'rxjs';
+import { LawsuitService } from './services/lawsuit.service';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,20 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'justice-front';
+  tSub!: Subscription;
 
   constructor(
     public mainService: MainService,
     public auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private lawsuitService: LawsuitService
   ) {
+    const currentLang: any = localStorage.getItem('lang')
+      ? localStorage.getItem('lang')
+      : 'ru';
+
+    this.lawsuitService.translate.use(currentLang);
     // this.router.events
     //   .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
     //   .subscribe((events: RoutesRecognized[]) => {

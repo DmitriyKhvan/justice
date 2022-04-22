@@ -5,15 +5,15 @@ import { Component, Input, OnInit } from '@angular/core';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Последний срок погашения кредита</div>
+        <div class="col-6">{{ 'last_loan_repayment_date' | translate }}</div>
         <div class="col-6">{{ actionData.data.lastPaymentDate }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.text }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <!-- <app-file-uploader [formData]="actionData"></app-file-uploader> -->
           <app-file-downloader

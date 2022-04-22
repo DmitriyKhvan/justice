@@ -21,7 +21,7 @@ import { Component, Input, OnInit } from '@angular/core';
         class="validation"
       >
         <small *ngIf="form.get(controlName)?.errors?.required">
-          Выберите данные
+          {{ 'select_data' | translate }}
         </small>
       </div>
     </div>

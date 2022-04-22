@@ -8,41 +8,45 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
   template: `
     <div class="sidebar-content decisionInfo">
       <h2 class="lawsuitTitle add">
-        {{ notification?.data?.action?.lang?.ru }}
+        {{
+          notification?.data?.action?.lang[mainService.translate.currentLang]
+        }}
       </h2>
 
-      <h4 class="title">Главный юрист</h4>
+      <h4 class="title">{{ 'head_lawyer' | translate }}</h4>
       <div class="row justify-content-between mb-2">
         <div class="col-6">
-          <div class="label-info">Дата принятия решения</div>
+          <div class="label-info">{{ 'decision_date' | translate }}</div>
 
           <div class="value-info">
             {{ notification?.data?.updatedAt | date: 'dd.MM.yyyy HH:mm' }}
           </div>
         </div>
         <div class="col-6">
-          <div class="label-info">Решение Г.Ю.</div>
+          <div class="label-info">{{ 'decision_head_lawyer' | translate }}</div>
           <div
             *ngIf="notification?.data?.actionStatus === 1"
             class="value-info rejected"
           >
-            Отказано
+            {{ 'rejected' | translate }}
           </div>
           <div
             *ngIf="notification?.data?.actionStatus === 3"
             class="value-info approved"
           >
-            Одобрено
+            {{ 'approved' | translate }}
           </div>
         </div>
       </div>
 
       <div class="row justify-content-between mb-2">
         <div class="col-12">
-          <div class="label-info">Комментарий</div>
+          <div class="label-info">{{ 'comment' | translate }}</div>
           <div class="value-info">
             {{
-              notification?.message ? notification.message : 'Нет комментарий'
+              notification?.message
+                ? notification.message
+                : ('no_comment' | translate)
             }}
           </div>
         </div>
@@ -50,10 +54,10 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
       <hr class="separater" />
 
-      <h4 class="title">Юрист</h4>
+      <h4 class="title">{{ 'lawyer' | translate }}</h4>
       <div class="row justify-content-between mb-2">
         <div class="col-4">
-          <div class="label-info">Дата отправки</div>
+          <div class="label-info">{{ 'departure_date' | translate }}</div>
           <div class="value-info">
             {{ notification?.data?.createdAt | date: 'dd.MM.yyyy HH:mm' }}
           </div>

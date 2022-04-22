@@ -6,6 +6,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
@@ -32,6 +33,7 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   private actionTypeSupscription!: Subscription | undefined;
 
   dicSub!: Subscription;
+  tSub!: Subscription;
   dictionaries!: any;
 
   constructor(
@@ -138,6 +140,13 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
       });
+
+    this.tSub = this.lawsuitService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.dictionaries = JSON.parse(JSON.stringify(this.dictionaries));
+        // this.districtDic = [...this.districtDic];
+      }
+    );
   }
 
   get datesLaw() {
@@ -287,5 +296,6 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.lawTypeSupscription?.unsubscribe();
     this.actionTypeSupscription?.unsubscribe();
+    this.tSub?.unsubscribe();
   }
 }

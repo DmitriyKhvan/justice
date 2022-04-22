@@ -1,6 +1,10 @@
 <div class="lawsuitTitleWrap">
   <h2 class="lawsuitTitle">
-    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+    {{
+      formTemplate
+        ? formTemplate.lang[lawsuitService.translate.currentLang]
+        : action?.actionNameLang[lawsuitService.translate.currentLang]
+    }}
   </h2>
   <button
     *ngIf="!formData && !formTemplate"
@@ -15,13 +19,13 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Проведение суда</div>
+        <div class="select-field__title">{{ "conductLaw" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.conductingTrial"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Проведение суда"
+          placeholder="{{ 'conductLaw' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -34,7 +38,7 @@
           class="validation"
         >
           <small *ngIf="form.get('conductLaw')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -45,13 +49,13 @@
         *ngIf="this.form.get('conductLaw')?.value === 44"
         class="select-field"
       >
-        <div class="select-field__title">Действие</div>
+        <div class="select-field__title">{{ "action" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.lawAnswerAction"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Действие"
+          placeholder="{{ 'action' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -62,7 +66,7 @@
           class="validation"
         >
           <small *ngIf="form.get('action')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -75,7 +79,7 @@
   >
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">№ дела</div>
+        <div class="input-field__title">{{ "caseNumber" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -90,7 +94,7 @@
           class="validation"
         >
           <small *ngIf="form.get('caseNumber')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -113,7 +117,7 @@
             formControlName="deferTo"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
@@ -129,7 +133,7 @@
               !form.get('deferTo')?.errors?.invalidDateFormat
             "
           >
-            Введите данные
+            {{'enter_data' | translate}}
           </small>
           <small
             *ngIf="
@@ -137,13 +141,13 @@
               form.get('deferTo')?.errors?.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{'incorrect_data' | translate}}
           </small>
         </div>
       </div> -->
 
       <app-datepicker
-        title="Отложить до"
+        title="{{ 'deferTo' | translate }}"
         [form]="form"
         [formTemplate]="formTemplate"
         controlName="deferTo"
@@ -159,7 +163,7 @@
     >
       <div class="col-6">
         <div class="input-field">
-          <div class="input-field__title">Дата и время проведения суда</div>
+          <div class="input-field__title">{{ "dateLaw" | translate }}</div>
 
           <label
             class="input-field__label"
@@ -172,7 +176,7 @@
               [formControlName]="idx"
               [options]="myDpOptions"
               #dp="angular-mydatepicker"
-              [locale]="'ru'"
+              [locale]="lawsuitService.translate.currentLang"
             />
             <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
           </label>
@@ -185,10 +189,10 @@
                 !dateLaw.errors.invalidDateFormat
               "
             >
-              Введите данные
+              {{ "enter_data" | translate }}
             </small>
             <small *ngIf="dateLaw.errors && dateLaw.errors.invalidDateFormat">
-              Неккоректные данные
+              {{ "incorrect_data" | translate }}
             </small>
           </div>
         </div>
@@ -208,7 +212,7 @@
           (click)="addDateLaw()"
           [disabled]="formTemplate"
         >
-          Добавить дату
+          {{ "addDateLaw" | translate }}
         </button>
 
         <div *ngIf="dateLaw.touched && dateLaw.invalid" class="validation">
@@ -224,7 +228,7 @@
         <app-file-uploader
           [formData]="formData"
           [formTemplate]="formTemplate"
-          title="Прикрепить файл"
+          title="{{ 'attach_file' | translate }}"
         ></app-file-uploader>
       </div>
     </div>
@@ -238,13 +242,15 @@
     <div class="row justify-content-between align-items-end mb-2">
       <div class="col-12">
         <div class="text-field">
-          <div class="text-field__title">Дополнительная информация</div>
+          <div class="text-field__title">
+            {{ "additional_information" | translate }}
+          </div>
           <label
             class="text-field__label"
             [class]="formTemplate ? 'readonly' : ''"
           >
             <textarea
-              placeholder="Уточните детали"
+              placeholder="{{ 'specify_details' | translate }}"
               formControlName="additionalInfo"
             ></textarea>
           </label>
@@ -257,7 +263,7 @@
             class="validation"
           >
             <small *ngIf="form.get('additionalInfo')?.errors?.required">
-              Введите данные
+              {{ "enter_data" | translate }}
             </small>
           </div>
         </div>
@@ -272,20 +278,22 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    <span *ngIf="this.form.get('action')?.value === 45; else third"
-      >Отложить на время</span
-    >
+    <span *ngIf="this.form.get('action')?.value === 45; else third">{{
+      "postpone_while" | translate
+    }}</span>
     <ng-template #third>
-      <span *ngIf="this.form.get('action')?.value === 46; else fourth"
-        >Закрыть дело</span
-      >
+      <span *ngIf="this.form.get('action')?.value === 46; else fourth">{{
+        "close_case" | translate
+      }}</span>
     </ng-template>
     <ng-template #fourth>
-      <span *ngIf="this.form.get('action')?.value === 47; else fifth"
-        >Вернуться в предыдущий шаг</span
-      >
+      <span *ngIf="this.form.get('action')?.value === 47; else fifth">{{
+        "return_previous_step" | translate
+      }}</span>
     </ng-template>
 
-    <ng-template #fifth> <span> Отправить</span></ng-template>
+    <ng-template #fifth>
+      <span> {{ "send" | translate }}</span></ng-template
+    >
   </button>
 </form>

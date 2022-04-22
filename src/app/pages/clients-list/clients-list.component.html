@@ -3,13 +3,21 @@
     class="page-header row no-gutters justify-content-between align-items-center"
   >
     <div class="page-title">
-      Список должников по {{ filialName }} филиалу на
-      {{ currentDate | date: "dd.MM.yyyy" }}
+      {{
+        "list_debtors"
+          | translate
+            : {
+                filial_name: filialName,
+                date: currentDate | date: "dd.MM.yyyy"
+              }
+      }}
+      <!-- Список должников по {{ filialName }} филиалу на
+      {{ currentDate | date: "dd.MM.yyyy" }} -->
     </div>
 
     <div class="searchBlock ml-4">
       <i class="icon-search"></i>
-      <input type="text" #search placeholder="Поиск" />
+      <input type="text" #search placeholder="{{ 'search' | translate }}" />
     </div>
 
     <div
@@ -29,11 +37,11 @@
 
       <div class="page-action__item mr-2" (click)="showDetails()">
         <i class="far fa-eye"></i>
-        Детали
+        {{ "details" | translate }}
       </div>
       <!-- <div class="page-action__item mr-2" (click)="showHistory()">
         <i class="far fa-clock"></i>
-        История
+        {{'history' | translate}}
       </div>
       <div class="page-action__item">
         <i class="fas fa-sliders-h"></i>
@@ -49,7 +57,7 @@
         >
           <div class="page-table__th">#</div>
           <div class="page-table__th">
-            Имя
+            {{ "name" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -57,7 +65,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            ИНН
+            {{ "inn" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -65,7 +73,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Тип клиента
+            {{ "client_type" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -73,7 +81,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            ID договора
+            {{ "contract_id" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -81,7 +89,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Сумма кредита
+            {{ "credit_amount" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -90,7 +98,7 @@
           </div>
           <!-- <div class="page-table__th">Валюта</div> -->
           <div class="page-table__th">
-            Начало
+            {{ "start" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -98,7 +106,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Завершение
+            {{ "completion" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -106,7 +114,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Итого долг
+            {{ "total_debt" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -114,7 +122,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Просрочка
+            {{ "delay" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -122,7 +130,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            В ожидании решения
+            {{ "waiting_decision" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -166,7 +174,7 @@
           </div> -->
 
           <div class="page-table__td">
-            {{ contract.clientTypeName.ru }}
+            {{ contract.clientTypeName[lawsuitService.translate.currentLang] }}
           </div>
           <div class="page-table__td">{{ contract.creditId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>
@@ -183,7 +191,12 @@
                 >{{ contract.stepsCount }}
                 {{
                   contract.stepsCount
-                    | declensionOfWords: ["Шаг", "Шага", "Шагов"]
+                    | declensionOfWords
+                      : [
+                          "step1" | translate,
+                          "step2" | translate,
+                          "step3" | translate
+                        ]
                 }}</span
               >
 
@@ -193,7 +206,12 @@
                 {{ contract.actionsCount }}
                 {{
                   contract.actionsCount
-                    | declensionOfWords: ["действие", "действия", "действий"]
+                    | declensionOfWords
+                      : [
+                          "action1" | translate,
+                          "action2" | translate,
+                          "action3" | translate
+                        ]
                 }}
               </span>
             </div>
@@ -207,7 +225,7 @@
 
   <div class="d-flex paginationBlock add">
     <div class="d-flex align-items-center">
-      <small class="paginationTitle">Строк на странице:</small>
+      <small class="paginationTitle">{{ "count_page" | translate }}:</small>
       <ng-select
         class="my-select"
         [items]="pages"
@@ -218,7 +236,13 @@
         [clearable]="false"
         [searchable]="false"
         #agreeSelect
-      ></ng-select>
+      >
+        <ng-template ng-option-tmp let-item="item" ng-label-tmp>
+          <div title="item">
+            {{ item.label | translate }}
+          </div>
+        </ng-template>
+      </ng-select>
     </div>
 
     <pagination-controls

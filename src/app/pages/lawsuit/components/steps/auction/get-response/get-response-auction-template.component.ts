@@ -7,28 +7,28 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">№ Лота</div>
+        <div class="col-6">{{ 'lotNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.lotNumber }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Дата конца торга</div>
+        <div class="col-6">{{ 'endDateLot' | translate }}</div>
         <div class="col-6">{{ actionData.data.endDateLot }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Выбор результата Лота</div>
+        <div class="col-6">{{ 'result' | translate }}</div>
         <div class="col-6">
           {{ getValue('result', actionData.data.result) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма Лота</div>
+        <div class="col-6">{{ 'lotSum' | translate }}</div>
         <div class="col-6">{{ actionData.data.lotSum }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -37,7 +37,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
     </div>
@@ -61,8 +61,9 @@ export class GetResponseAuctionTemplateComponent implements OnInit {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 }

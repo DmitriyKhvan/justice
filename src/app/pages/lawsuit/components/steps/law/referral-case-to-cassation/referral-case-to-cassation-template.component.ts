@@ -7,22 +7,22 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">№ исх. документа</div>
+        <div class="col-6">{{ 'outDocNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.outDocNumber }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дата исх. документа</div>
+        <div class="col-6">{{ 'outDocDate' | translate }}</div>
         <div class="col-6">{{ actionData.data.outDocDate }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -51,8 +51,9 @@ export class ReferralCaseToCassationTemplateComponent implements OnInit {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 

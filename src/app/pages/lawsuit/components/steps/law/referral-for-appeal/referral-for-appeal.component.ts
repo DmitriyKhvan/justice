@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
@@ -21,6 +22,7 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
   region!: any;
 
   dicSub!: Subscription;
+  tSub!: Subscription;
   regionLawSub!: Subscription | undefined;
 
   dictionaries!: any;
@@ -110,6 +112,13 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
         this.dictionaries = dictionaries;
       });
 
+    this.tSub = this.lawsuitService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.dictionaries = JSON.parse(JSON.stringify(this.dictionaries));
+        // this.districtDic = [...this.districtDic];
+      }
+    );
+
     this.regionLawSub = this.form
       .get('regionLaw')
       ?.valueChanges.subscribe((id: number) => {
@@ -169,5 +178,6 @@ export class ReferralForAppealComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.regionLawSub?.unsubscribe();
     this.dicSub?.unsubscribe();
+    this.tSub?.unsubscribe();
   }
 }

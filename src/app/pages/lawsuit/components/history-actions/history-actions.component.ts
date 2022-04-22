@@ -68,8 +68,9 @@ export class HistoryActionsComponent implements OnInit, OnDestroy {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.lawsuitService.translate.currentLang
+      ];
     }
   }
 

@@ -7,27 +7,27 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Подведомственность суда</div>
+        <div class="col-6">{{ 'jurisdiction_court' | translate }}</div>
         <div class="col-6">
           {{ getValue('courtKind', actionData.data.lawKind) }}
         </div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Подсудность дел</div>
+        <div class="col-6">{{ 'jurisdiction_cases' | translate }}</div>
         <div class="col-6">
           {{ getValue('courtType', actionData.data.lawType) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Регион</div>
+        <div class="col-6">{{ 'region' | translate }}</div>
         <div class="col-6">
           {{ getValue('regionDistrict', actionData.data.region) }}
         </div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Район</div>
+        <div class="col-6">{{ 'district' | translate }}</div>
         <div class="col-6">
           {{
             getDistrict(
@@ -46,7 +46,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         "
         class="row justify-content-between"
       >
-        <div class="col-6">Ответчик {{ idx + 1 }}</div>
+        <div class="col-6">{{ 'defendant' | translate }} {{ idx + 1 }}</div>
         <div class="col-6">{{ defendant }}</div>
       </div>
 
@@ -57,47 +57,47 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         "
         class="row justify-content-between"
       >
-        <div class="col-6">3-лицо {{ idx + 1 }}</div>
+        <div class="col-6">{{ '3rd_person' | translate }} {{ idx + 1 }}</div>
         <div class="col-6">{{ thirdParties }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма основного долга</div>
+        <div class="col-6">{{ 'principal_amount' | translate }}</div>
         <div class="col-6">{{ actionData.data.principalAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма процента</div>
+        <div class="col-6">{{ 'percent_amount' | translate }}</div>
         <div class="col-6">{{ actionData.data.percentAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма пени</div>
+        <div class="col-6">{{ 'penalty_amount' | translate }}</div>
         <div class="col-6">{{ actionData.data.penaltyAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Сумма штрафа</div>
+        <div class="col-6">{{ 'fine_amount' | translate }}</div>
         <div class="col-6">{{ actionData.data.fineAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Общая сумма иска</div>
+        <div class="col-6">{{ 'total_claim_amount' | translate }}</div>
         <div class="col-6">{{ actionData.data.totalClaimAmount }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">№ исх. документа</div>
+        <div class="col-6">{{ 'outDocNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.outDocNumber }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дата исх. документа</div>
+        <div class="col-6">{{ 'outDocDate' | translate }}</div>
         <div class="col-6">{{ actionData.data.outDocDate }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -106,7 +106,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
     </div>
@@ -131,8 +131,9 @@ export class SendingCaseLawTemplateComponent implements OnInit, OnDestroy {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 
@@ -140,7 +141,9 @@ export class SendingCaseLawTemplateComponent implements OnInit, OnDestroy {
     if (this.dictionaries) {
       return this.dictionaries[dicName]
         ?.find((region: any) => region.id === regionId)
-        ?.child.find((district: any) => district.id === districtId).lang.ru;
+        ?.child.find((district: any) => district.id === districtId).lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 

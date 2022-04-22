@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   DoCheck,
   ElementRef,
@@ -25,12 +26,13 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  mergeMap,
   switchMap,
   tap,
 } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { fromEvent, Subscription } from 'rxjs';
-import * as moment from 'moment';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-clients-list',
@@ -55,7 +57,7 @@ import * as moment from 'moment';
     ]),
   ],
 })
-export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
+export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('sorting') sortingRef!: QueryList<ElementRef>;
   @ViewChild('search', { static: true }) inputRef!: ElementRef;
 
@@ -69,8 +71,9 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     { label: 10, value: 10 },
     { label: 20, value: 20 },
     { label: 30, value: 30 },
-    { label: 'Все', value: -1 },
+    { label: 'all', value: -1 },
   ];
+
   itemsPerPage: number = this.pages[0].value;
   sortValue: string = '';
   sortType: string = 'ASC';
@@ -85,7 +88,9 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
   contractsSub!: Subscription;
   mSub!: Subscription;
   upSub!: Subscription;
-  filialName!: string;
+  tSub!: Subscription;
+
+  filialName: string = '';
   currentDate: Date = new Date();
 
   constructor(
@@ -154,6 +159,30 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
         this.searchValue = value;
         this.getContracts();
       });
+
+    // this.tSub = this.lawsuitService.translate
+    //   .get(['all'])
+    //   .subscribe((translate) => this.setValidationValue(translate));
+
+    // this.tSub = this.lawsuitService.translate.onLangChange
+    //   .pipe(
+    //     tap(() => console.log(789)),
+    //     mergeMap(() => {
+    //       return this.lawsuitService.translate.get(['all']);
+    //     })
+    //   )
+    //   .subscribe((translate: any) => this.setValidationValue(translate));
+  }
+
+  ngAfterViewInit(): void {}
+
+  setValidationValue(translate: any) {
+    this.pages = [
+      { label: 10, value: 10 },
+      { label: 20, value: 20 },
+      { label: 30, value: 30 },
+      { label: translate.all, value: -1 },
+    ];
   }
 
   sort(sortValue: string, event: any) {
@@ -178,14 +207,6 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     this.sortingRef.forEach((el: any) => {
       el.nativeElement.className = 'uil-angle-down sorting';
     });
-  }
-
-  ngDoCheck(): void {
-    // this.clientsService.listByMfo.subscribe((value: any) => {
-    //   console.log(value);
-    //   this.contractList = value.contracts;
-    //   this.totalItems = value.count;
-    // });
   }
 
   pageChanged(currentPage: number) {
@@ -292,6 +313,7 @@ export class ClientsListComponent implements OnInit, DoCheck, OnDestroy {
     this.contractsSub?.unsubscribe();
     this.upSub?.unsubscribe();
     this.mSub?.unsubscribe();
+    this.tSub?.unsubscribe();
     this.searchSub?.unsubscribe();
   }
 }

@@ -8,7 +8,13 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   styleUrls: ['./stop-process.component.scss'],
 })
 export class StopProcessComponent implements OnInit {
+  action!: any;
+
   constructor(public lawsuitService: LawsuitService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.action = this.lawsuitService.stopProcessStep?.actions.find(
+      (action: any) => action.id === 24
+    );
+  }
 }

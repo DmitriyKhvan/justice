@@ -3,40 +3,21 @@
     class="page-header row no-gutters justify-content-between align-items-center"
   >
     <div class="page-title">
-      Список приостановленных дел по {{ filialName }} филиалу на
-      {{ currentDate | date: "dd.MM.yyyy" }}
+      {{
+        "list_suspended_cases"
+          | translate
+            : {
+                filial_name: filialName,
+                date: currentDate | date: "dd.MM.yyyy"
+              }
+      }}
+      <!-- Список приостановленных дел по {{ filialName }} филиалу на
+      {{ currentDate | date: "dd.MM.yyyy" }} -->
     </div>
 
     <div class="searchBlock ml-4">
       <i class="icon-search"></i>
-      <input type="text" #search placeholder="Поиск" />
-    </div>
-
-    <div
-      class="page-actions row no-gutters justify-content-between align-items-center"
-      [@showAction]="stateName"
-    >
-      <div
-        *ngIf="keycloak.isUserInRole('head-lawyer')"
-        class="page-action__item mr-2 listDecision"
-        (click)="showListDecision()"
-      >
-        <i class="uil-question-circle"></i>
-        Принять решения
-      </div>
-
-      <!-- <div class="page-action__item mr-2" (click)="showDetails()">
-        <i class="far fa-eye"></i>
-        Детали
-      </div> -->
-      <!-- <div class="page-action__item mr-2" (click)="showHistory()">
-        <i class="far fa-clock"></i>
-        История
-      </div>
-      <div class="page-action__item">
-        <i class="fas fa-sliders-h"></i>
-        Редактировать
-      </div> -->
+      <input type="text" #search placeholder="{{ 'search' | translate }}" />
     </div>
   </div>
   <div class="page-table">
@@ -47,7 +28,7 @@
         >
           <div class="page-table__th">#</div>
           <div class="page-table__th">
-            Имя
+            {{ "firstName" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -55,7 +36,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            ИНН
+            {{ "inn" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -63,7 +44,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Тип клиента
+            {{ "client_type" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -71,7 +52,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            ID договора
+            {{ "contract_id" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -79,7 +60,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Сумма кредита
+            {{ "credit_amount" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -88,7 +69,7 @@
           </div>
           <!-- <div class="page-table__th">Валюта</div> -->
           <div class="page-table__th">
-            Тип остановки
+            {{ "stopType" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -96,7 +77,7 @@
             ></i>
           </div>
           <div class="page-table__th">
-            Дата остановки
+            {{ "stopDate" | translate }}
             <i
               #sorting
               class="uil-angle-down sorting"
@@ -140,12 +121,14 @@
           </div> -->
 
           <div class="page-table__td">
-            {{ contract.clientTypeName.ru }}
+            {{ contract.clientTypeName[lawsuitService.translate.currentLang] }}
           </div>
           <div class="page-table__td">{{ contract.creditId }}</div>
           <div class="page-table__td">{{ contract.creditSumm }}</div>
           <!-- <div class="page-table__td">{{ contract.creditCurrency }}</div> -->
-          <div class="page-table__td">{{ contract.typeName?.ru }}</div>
+          <div class="page-table__td">
+            {{ contract.typeName[lawsuitService.translate.currentLang] }}
+          </div>
           <div class="page-table__td">
             {{ contract.stopDate | date: "dd.MM.yyyy HH:mm" }}
           </div>
@@ -158,7 +141,7 @@
 
   <div class="d-flex paginationBlock add">
     <div class="d-flex align-items-center">
-      <small class="paginationTitle">Строк на странице:</small>
+      <small class="paginationTitle">{{ "count_page" | translate }}:</small>
       <ng-select
         class="my-select"
         [items]="pages"
@@ -169,7 +152,13 @@
         [clearable]="false"
         [searchable]="false"
         #agreeSelect
-      ></ng-select>
+      >
+        <ng-template ng-option-tmp let-item="item" ng-label-tmp>
+          <div title="item">
+            {{ item.label | translate }}
+          </div>
+        </ng-template>
+      </ng-select>
     </div>
 
     <pagination-controls

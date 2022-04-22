@@ -43,13 +43,15 @@ import { FileUploadService } from '../../../services/file-upload.service';
           <div class="position-relative">
             <i class="icon-close_2 ml-1" (click)="showTooltip($event)"></i>
             <div class="tooltip tooltip-right">
-              <div class="tooltip-content">Удалить файл?</div>
+              <div class="tooltip-content">
+                {{ 'delete_file' | translate }}?
+              </div>
               <div class="tooltip-action">
                 <button
                   class="btn btn-outlined-white mx-1"
                   (click)="hideTooltip($event)"
                 >
-                  Нет
+                  {{ 'no' | translate }}
                 </button>
                 <button
                   class="btn btn-filled-white"
@@ -92,19 +94,21 @@ import { FileUploadService } from '../../../services/file-upload.service';
           <div class="position-relative">
             <i class="icon-close_2 ml-1" (click)="showTooltip($event)"></i>
             <div class="tooltip tooltip-right">
-              <div class="tooltip-content">Удалить файл?</div>
+              <div class="tooltip-content">
+                {{ 'delete_file' | translate }}?
+              </div>
               <div class="tooltip-action">
                 <button
                   class="btn btn-outlined-white mx-1"
                   (click)="hideTooltip($event)"
                 >
-                  Нет
+                  {{ 'no' | translate }}
                 </button>
                 <button
                   class="btn btn-filled-white"
                   (click)="deleteFile(item.fileName, 'currentUploadFiles')"
                 >
-                  Да
+                  {{ 'yes' | translate }}
                 </button>
               </div>
             </div>
@@ -119,8 +123,10 @@ import { FileUploadService } from '../../../services/file-upload.service';
           *ngIf="currentUploadFiles.length; then elseBtnText; else btnText"
         >
         </ng-container>
-        <ng-template #btnText> Добавить файл </ng-template>
-        <ng-template #elseBtnText> Добавить еще один файл </ng-template>
+        <ng-template #btnText> {{ 'add_file' | translate }} </ng-template>
+        <ng-template #elseBtnText>
+          {{ 'add_another_file' | translate }}
+        </ng-template>
         <!-- accept="image/jpeg, image/jpg, application/pdf" -->
         <input
           [disabled]="formTemplate"

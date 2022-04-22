@@ -14,9 +14,11 @@
         (click)="lawsuitService.getCurrentStep(step.stepid)"
       >
         <span class="step_lawsuit_number">{{ idx + 1 }}</span>
-        <span class="step_lawsuit_name" [attr.data-tooltip]="step.lang.ru">{{
-          step.lang.ru
-        }}</span>
+        <span
+          class="step_lawsuit_name"
+          [attr.data-tooltip]="step.lang[lawsuitService.translate.currentLang]"
+          >{{ step.lang[lawsuitService.translate.currentLang] }}</span
+        >
         <!-- <i class="uil-pen"></i> -->
       </button>
 
@@ -31,7 +33,10 @@
       </button> -->
 
       <button
-        *ngIf="this.lawsuitService.steps.length <= 5"
+        *ngIf="
+          this.lawsuitService.steps.length &&
+          this.lawsuitService.steps.length <= 5
+        "
         class="step_lawsuit"
       >
         <span class="step_lawsuit_number">{{

@@ -2,6 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { forkJoin, Subscription } from 'rxjs';
 import { switchMap, map, tap, delay, mergeMap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
@@ -19,6 +20,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   uSub!: Subscription;
   rSub!: Subscription;
+  tSub!: Subscription;
 
   roles = [];
 
@@ -30,7 +32,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private adminService: AdminService,
+    public adminService: AdminService,
     private alert: AlertService
   ) {}
 
@@ -47,6 +49,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
         tap((res) => this.setRegion.bind(this, res.getUser)())
       )
       .subscribe((res: any) => {
+        // console.log('res.userRoles', res.userRoles);
+        const userRoles = this.userRolesTransform(res.userRoles);
+
         this.user = res.getUser;
 
         this.form = new FormGroup({
@@ -56,7 +61,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
             this.user.attributes.middleName,
             Validators.required
           ),
-          roles: new FormControl(res.userRoles, Validators.required),
+          roles: new FormControl(userRoles, Validators.required),
           region: new FormControl(null, Validators.required),
           district: new FormControl(
             this.user.attributes.mfo,
@@ -72,8 +77,28 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.loading = false;
       });
 
-    this.adminService.getRoles().subscribe((roles) => {
-      this.roles = roles;
+    this.uSub = this.adminService.getRoles().subscribe((roles) => {
+      // this.roles = roles;
+      this.roles = this.userRolesTransform(roles);
+    });
+
+    this.tSub = this.adminService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.regions = JSON.parse(JSON.stringify(this.regions));
+        this.roles = [...this.roles];
+        this.districts = [...this.districts];
+      }
+    );
+  }
+
+  userRolesTransform(roles: any) {
+    return roles.map((role: any) => {
+      const rolesName = role.description.split('##');
+      return {
+        ...role,
+        role_ru: rolesName[0],
+        role_uz: rolesName[1],
+      };
     });
   }
 
@@ -148,10 +173,20 @@ export class EditUserComponent implements OnInit, OnDestroy {
         mfo: this.form.controls.district.value,
         middleName: this.form.value.middleName,
         roles: this.form.value.roles.map((role: any) => role.description),
+        roles_ru: this.form.value.roles.map((role: any) => role.role_ru),
+        roles_uz: this.form.value.roles.map((role: any) => role.role_uz),
       },
     };
 
     const updateUser = this.adminService.updateUser(this.user.id, user);
+
+    this.form.value.roles.forEach((role: any) => {
+      delete role.role_ru;
+      delete role.role_uz;
+    });
+
+    console.log(this.form.value.roles);
+
     const setRole = this.adminService.setUserRoles(
       this.user.id,
       this.form.value.roles
@@ -188,14 +223,17 @@ export class EditUserComponent implements OnInit, OnDestroy {
   remove(event: any) {
     // console.log(event.value);
 
+    delete event.value.role_ru;
+    delete event.value.role_uz;
+
     this.rSub = this.adminService
       .removeUserRoles(this.user.id, event.value)
       .subscribe();
   }
 
   ngOnDestroy(): void {
-    if (this.uSub) {
-      this.uSub.unsubscribe;
-    }
+    this.uSub?.unsubscribe;
+    this.rSub?.unsubscribe;
+    this.tSub?.unsubscribe;
   }
 }

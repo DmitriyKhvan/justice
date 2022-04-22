@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class MainService {
   public sidebar = false;
   public sidebarDetail = false;
 
-  constructor() {}
+  constructor(public translate: TranslateService) {}
 
   getRole(): any {
     if (this.ROLE && this.ROLE.includes(1)) {

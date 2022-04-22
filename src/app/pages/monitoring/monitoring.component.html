@@ -3,13 +3,13 @@
   <div class="funcBlock page-form">
     <div class="filters">
       <div class="select-field filter">
-        <div class="select-field__title">Регион</div>
+        <div class="select-field__title">{{ "region" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="regionsDic"
           bindLabel="nameRu"
           bindValue="regionId"
-          placeholder="Регион"
+          placeholder="{{ 'region' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -41,7 +41,7 @@
           [multiple]="true"
           appearance="outline"
           [items]="statusDic"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="value"
           placeholder="Выберите филиал"
           #agreeSelect
@@ -62,7 +62,7 @@
             name="reactiveFormsDate"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>

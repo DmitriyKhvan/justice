@@ -45,7 +45,9 @@ import { Component, OnInit } from '@angular/core';
                 <div class="col-6">
                   <div class="input-field">
                     <div class="input-field__title">Сумма кредита</div>
-                    <div class="d-flex flex-nowrap align-items-center no-gutters w-100">
+                    <div
+                      class="d-flex flex-nowrap align-items-center no-gutters w-100"
+                    >
                       <div class="flex-fill">
                         <label class="input-field__label">
                           <span class="ml-1">От</span>
@@ -78,7 +80,9 @@ import { Component, OnInit } from '@angular/core';
               <div class="row">
                 <div class="col-6">
                   <div class="select-field mb-2">
-                    <div class="select-field__title">Регион</div>
+                    <div class="select-field__title">
+                      {{ 'region' | translate }}
+                    </div>
                     <ng-select
                       class="custom-select"
                       appearance="outline"

@@ -25,7 +25,7 @@
             class="validation"
           >
             <small *ngIf="form.get('username')?.errors?.required">
-              Введите данные
+              {{ "enter_data" | translate }}
             </small>
           </div>
         </div>
@@ -53,7 +53,7 @@
             class="validation"
           >
             <small *ngIf="form.get('password')?.errors?.required">
-              Введите данные
+              {{ "enter_data" | translate }}
             </small>
           </div>
         </div>

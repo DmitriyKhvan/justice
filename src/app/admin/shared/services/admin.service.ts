@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
@@ -11,6 +12,7 @@ export class AdminService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    public translate: TranslateService,
     private alert: AlertService
   ) {}
 
@@ -64,9 +66,16 @@ export class AdminService {
   // }
 
   getUserById(id: any): Observable<any> {
-    return this.http.get(
-      `${environment.authUrl}/admin/realms/JUSTICE/users/${id}`
-    );
+    return this.http
+      .get(`${environment.authUrl}/admin/realms/JUSTICE/users/${id}`)
+      .pipe(
+        catchError((error) => {
+          console.log('77777777777777');
+
+          this.alert.danger(error.error.message || error.error.error);
+          return throwError(error);
+        })
+      );
   }
 
   updateUser(userId: string, user: object): Observable<any> {

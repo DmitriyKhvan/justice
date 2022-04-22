@@ -59,9 +59,11 @@ import { ClientsService } from '../../../services/clients.service';
         <!--        <ng-content select="[accordion-footer]"></ng-content>-->
         <form action="" class="page-form">
           <div class="text-field mb-2">
-            <div class="text-field__title">Комментарий</div>
+            <div class="text-field__title">{{ 'comment' | translate }}</div>
             <label class="text-field__label bg-white">
-              <textarea placeholder="Уточните детали"></textarea>
+              <textarea
+                placeholder="{{ 'specify_details' | translate }}"
+              ></textarea>
             </label>
           </div>
 

@@ -23,6 +23,7 @@ import {
   distinctUntilChanged,
   switchMap,
   tap,
+  mergeMap,
 } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { ClientsService } from 'src/app/services/clients.service';
@@ -70,7 +71,7 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
     { label: 10, value: 10 },
     { label: 20, value: 20 },
     { label: 30, value: 30 },
-    { label: 'Все', value: -1 },
+    { label: 'all', value: -1 },
   ];
   itemsPerPage: number = this.pages[0].value;
   sortValue: string = '';
@@ -86,6 +87,7 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
   contractsSub!: Subscription;
   mSub!: Subscription;
   upSub!: Subscription;
+  // tSub!: Subscription;
 
   filialName!: string;
   currentDate: Date = new Date();
@@ -121,7 +123,28 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
         this.searchValue = value;
         this.getContracts();
       });
+
+    // this.tSub = this.lawsuitService.translate
+    //   .get(['all'])
+    //   .subscribe((translate) => this.setValidationValue(translate));
+
+    // this.tSub = this.lawsuitService.translate.onLangChange
+    //   .pipe(
+    //     mergeMap(() => {
+    //       return this.lawsuitService.translate.get(['all']);
+    //     })
+    //   )
+    //   .subscribe((translate: any) => this.setValidationValue(translate));
   }
+
+  // setValidationValue(translate: any) {
+  //   this.pages = [
+  //     { label: 10, value: 10 },
+  //     { label: 20, value: 20 },
+  //     { label: 30, value: 30 },
+  //     { label: translate.all, value: -1 },
+  //   ];
+  // }
 
   sort(sortValue: string, event: any) {
     if (event.target.classList.contains('uil-angle-down')) {
@@ -252,5 +275,6 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
     this.contractsSub?.unsubscribe();
     this.mSub?.unsubscribe();
     this.upSub?.unsubscribe();
+    // this.tSub?.unsubscribe();
   }
 }

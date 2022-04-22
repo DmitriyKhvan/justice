@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
@@ -22,6 +23,7 @@ export class EnforcementRequestComponent implements OnInit, OnDestroy {
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
   dicSub!: Subscription;
+  tSub!: Subscription;
   dictionaries!: any;
 
   regionSub!: Subscription | undefined;
@@ -63,9 +65,21 @@ export class EnforcementRequestComponent implements OnInit, OnDestroy {
         this.dictionaries = dictionaries;
       });
 
+    this.tSub = this.lawsuitService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.dictionaries = JSON.parse(JSON.stringify(this.dictionaries));
+        this.districtDic = [...this.districtDic];
+      }
+    );
+
     this.regionSub = this.form
       .get('region')
       ?.valueChanges.subscribe((id: number) => {
+        this.districtDic = [];
+        this.form.patchValue({
+          district: null,
+        });
+
         if (id) {
           this.districtDic = this.dictionaries.regionDistrict.find(
             (reg: any) => reg.id === id
@@ -73,10 +87,6 @@ export class EnforcementRequestComponent implements OnInit, OnDestroy {
 
           this.form.get('district')?.enable();
         } else {
-          this.districtDic = [];
-          this.form.patchValue({
-            district: null,
-          });
           this.form.get('district')?.disable();
         }
       });
@@ -120,6 +130,7 @@ export class EnforcementRequestComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dicSub?.unsubscribe();
+    this.tSub?.unsubscribe();
     this.regionSub?.unsubscribe();
   }
 }

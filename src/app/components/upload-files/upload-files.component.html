@@ -16,16 +16,16 @@
       <div class="position-relative">
         <i class="icon-close_2 ml-1" (click)="showTooltip($event)"></i>
         <div class="tooltip tooltip-up">
-          <div class="tooltip-content">Удалить файл?</div>
+          <div class="tooltip-content">{{ "delete_file" | translate }}?</div>
           <div class="tooltip-action">
             <button
               class="btn btn-outlined-white mx-1"
               (click)="hideTooltip($event)"
             >
-              Нет
+              {{ "no" | translate }}
             </button>
             <button class="btn btn-filled-white" (click)="deleteFile(file.id)">
-              Да
+              {{ "yes" | translate }}
             </button>
           </div>
         </div>
@@ -68,13 +68,13 @@
               class="btn btn-outlined-white mx-1"
               (click)="hideTooltip($event)"
             >
-              Нет
+              {{'no' | translate}}
             </button>
             <button
               class="btn btn-filled-white"
               (click)="deleteFile(progressInfos?.fileId)"
             >
-              Да
+              {{'yes' | translate}}
             </button>
           </div>
         </div> -->
@@ -112,10 +112,10 @@
               class="btn btn-outlined-white mx-1"
               (click)="hideTooltip($event)"
             >
-              Нет
+              {{'no' | translate}}
             </button>
             <button class="btn btn-filled-white" (click)="deleteFile(file.id)">
-              Да
+              {{'yes' | translate}}
             </button>
           </div>
         </div> -->
@@ -128,8 +128,10 @@
   >
     <ng-container *ngIf="allFiles?.length; then elseBtnText; else btnText">
     </ng-container>
-    <ng-template #btnText> Добавить файл </ng-template>
-    <ng-template #elseBtnText> Добавить еще один файл </ng-template>
+    <ng-template #btnText> {{ "add_file" | translate }} </ng-template>
+    <ng-template #elseBtnText>
+      {{ "add_another_file" | translate }}
+    </ng-template>
     <!-- accept="image/jpeg, image/jpg, application/pdf" -->
     <input
       [disabled]="formTemplate"

@@ -21,7 +21,7 @@ export class TableComponent implements OnInit, OnDestroy {
   monSub!: Subscription;
   // monitoring!: any;
 
-  constructor(private lawsuitService: LawsuitService) {}
+  constructor(public lawsuitService: LawsuitService) {}
 
   ngOnInit(): void {
     // const mfos = {

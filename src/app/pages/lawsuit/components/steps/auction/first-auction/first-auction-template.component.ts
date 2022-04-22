@@ -7,15 +7,15 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">№ Лота</div>
+        <div class="col-6">{{ 'lotNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.lotNumber }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Дата начала первого торга</div>
+        <div class="col-6">{{ 'beginDateLot' | translate }}</div>
         <div class="col-6">{{ actionData.data.beginDateLot }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Сумма Лота</div>
+        <div class="col-6">{{ 'lotSum' | translate }}</div>
         <div class="col-6">{{ actionData.data.lotSum }}</div>
       </div>
       <!-- <div class="row justify-content-between">
@@ -25,7 +25,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         </div>
       </div> -->
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -34,7 +34,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
     </div>

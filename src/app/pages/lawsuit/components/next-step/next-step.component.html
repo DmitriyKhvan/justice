@@ -9,7 +9,7 @@
     <ng-select
       appearance="outline"
       [items]="restSteps"
-      bindLabel="lang.ru"
+      bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
       bindValue="id"
       placeholder="Следующий шаг"
       #agreeSelect
@@ -23,7 +23,7 @@
       class="validation"
     >
       <small *ngIf="form.get('nextStep')?.errors?.required">
-        Выберите данные
+        {{ "select_data" | translate }}
       </small>
     </div>
   </div>
@@ -43,7 +43,9 @@
           name="nextAction"
         />
         <span class="radio__box"><i class="point"></i></span>
-        <span class="radio__text">{{ action.lang.ru }}</span>
+        <span class="radio__text">{{
+          action.lang[lawsuitService.translate.currentLang]
+        }}</span>
       </label>
       <i class="uil-eye" (click)="popUpTemplateForm(action)"></i>
     </div>

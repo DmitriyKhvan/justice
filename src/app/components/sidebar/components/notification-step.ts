@@ -7,37 +7,39 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
   selector: 'app-notification-step',
   template: `
     <div class="sidebar-content decisionInfo">
-      <h4 class="title">Главный юрист</h4>
+      <h4 class="title">{{ 'head_lawyer' | translate }}</h4>
       <div class="row justify-content-between mb-2">
         <div class="col-6">
-          <div class="label-info">Дата принятия решения</div>
+          <div class="label-info">{{ 'decision_date' | translate }}</div>
           <div class="value-info">
             {{ notification?.data.updatedAt | date: 'dd.MM.yyyy HH:mm' }}
           </div>
         </div>
         <div class="col-6">
-          <div class="label-info">Решение Г.Ю.</div>
+          <div class="label-info">{{ 'decision_head_lawyer' | translate }}</div>
           <div
             *ngIf="notification?.data?.status === 1"
             class="value-info rejected"
           >
-            Отказано
+            {{ 'rejected' | translate }}
           </div>
           <div
             *ngIf="notification?.data?.status === 3"
             class="value-info approved"
           >
-            Одобрено
+            {{ 'approved' | translate }}
           </div>
         </div>
       </div>
 
       <div class="row justify-content-between mb-2">
         <div class="col-12">
-          <div class="label-info">Комментарий</div>
+          <div class="label-info">{{ 'comment' | translate }}</div>
           <div class="value-info">
             {{
-              notification?.message ? notification?.message : 'Нет комментарий'
+              notification?.message
+                ? notification?.message
+                : ('no_comment' | translate)
             }}
           </div>
         </div>
@@ -45,27 +47,35 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
       <hr class="separater" />
 
-      <h4 class="title">Юрист</h4>
+      <h4 class="title">{{ 'lawyer' | translate }}</h4>
       <div class="row justify-content-between mb-2">
         <div class="col-6">
-          <div class="label-info">Дата отправки</div>
+          <div class="label-info">{{ 'departure_date' | translate }}</div>
           <div class="value-info">
             {{ notification?.data?.createdAt | date: 'dd.MM.yyyy HH:mm' }}
           </div>
         </div>
 
         <div class="col-6">
-          <div class="label-info">Выбранный шаг</div>
+          <div class="label-info">{{ 'selected_step' | translate }}</div>
           <div class="value-info">
-            {{ notification?.data?.toStep?.lang?.ru }}
+            {{
+              notification?.data?.toStep?.lang[
+                mainService.translate.currentLang
+              ]
+            }}
           </div>
         </div>
       </div>
       <div class="row justify-content-between mb-2">
         <div class="col-12">
-          <div class="label-info">Выбранное действие</div>
+          <div class="label-info">{{ 'selected_action' | translate }}</div>
           <div class="value-info">
-            {{ notification?.data?.toAction.lang.ru }}
+            {{
+              notification?.data?.toAction.lang[
+                mainService.translate.currentLang
+              ]
+            }}
           </div>
         </div>
       </div>

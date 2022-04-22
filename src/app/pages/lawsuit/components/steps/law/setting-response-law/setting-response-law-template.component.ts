@@ -7,7 +7,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Проведение суда</div>
+        <div class="col-6">{{ 'conductLaw' | translate }}</div>
         <div class="col-6">
           {{ getValue('conductingTrial', actionData.data.decision) }}
         </div>
@@ -15,7 +15,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
 
       <ng-container *ngIf="actionData.data.decision === 43">
         <div class="row justify-content-between">
-          <div class="col-6">№ дела</div>
+          <div class="col-6">{{ 'caseNumber' | translate }}</div>
           <div class="col-6">{{ actionData.data.docNumber }}</div>
         </div>
 
@@ -23,7 +23,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           *ngFor="let date of actionData.data.lawDatetime"
           class="row justify-content-between"
         >
-          <div class="col-6">Дата и время проведения суда</div>
+          <div class="col-6">{{ 'dateLaw' | translate }}</div>
           <div class="col-6">{{ date }}</div>
         </div>
       </ng-container>
@@ -32,7 +32,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         *ngIf="actionData.data.decision === 44"
         class="row justify-content-between"
       >
-        <div class="col-6">Действие</div>
+        <div class="col-6">{{ 'action' | translate }}</div>
         <div class="col-6">
           {{ getValue('lawAnswerAction', actionData.data.action) }}
         </div>
@@ -40,13 +40,13 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
 
       <ng-container *ngIf="actionData.data.action === 45">
         <div class="row justify-content-between">
-          <div class="col-6">Отложить до</div>
+          <div class="col-6">{{ 'deferTo' | translate }}</div>
           <div class="col-6">{{ actionData.data.suspendDate }}</div>
         </div>
       </ng-container>
 
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -60,7 +60,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           actionData.data.action === 3
         " -->
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
     </div>
@@ -85,8 +85,9 @@ export class SettingResponseLawTemplateComponent implements OnInit {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 }

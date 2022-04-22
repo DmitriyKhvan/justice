@@ -4,21 +4,25 @@
   >
     <div class="page-title">
       <i class="uil-arrow-left" (click)="goToBack()"></i>
-      Назад к списку кредитов
+      {{ "back_to_credit_list" | translate }}
     </div>
     <div
       class="page-header__text"
       *ngIf="lawsuitService.stepIndex; else stopProcess"
     >
-      Шаг {{ lawsuitService.stepIndex }}.
-      {{ lawsuitService.stepName }}
+      {{ "step1" | translate }} {{ lawsuitService.stepIndex }}.
+      {{ lawsuitService.stepName?.lang[lawsuitService.translate.currentLang] }}
     </div>
 
     <app-make-decesions></app-make-decesions>
 
     <ng-template #stopProcess>
       <div class="page-header__text">
-        {{ lawsuitService.stopProcessStep?.lang.ru }}
+        {{
+          lawsuitService.stopProcessStep?.lang[
+            lawsuitService.translate.currentLang
+          ]
+        }}
       </div>
     </ng-template>
 
@@ -27,7 +31,7 @@
     >
       <div class="page-action__item mr-2" (click)="showHistory()">
         <i class="far fa-clock"></i>
-        История
+        {{'history' | translate}}
       </div> 
     </div> -->
   </div>

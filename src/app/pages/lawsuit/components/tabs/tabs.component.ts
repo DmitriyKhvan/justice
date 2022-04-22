@@ -1,14 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 
 @Component({
@@ -25,11 +16,7 @@ export class TabsComponent implements OnInit {
   //   lang: 'ru',
   // };
 
-  constructor(
-    public lawsuitService: LawsuitService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(public lawsuitService: LawsuitService) {}
 
   ngOnInit(): void {}
 }

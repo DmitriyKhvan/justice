@@ -1,21 +1,21 @@
 <h2 class="lawsuitTitle">
   {{
     formTemplate
-      ? formTemplate.lang.ru
-      : this.lawsuitService.stopProcessStep.actions[0]?.lang?.ru
+      ? formTemplate.lang[lawsuitService.translate.currentLang]
+      : action?.lang[lawsuitService.translate.currentLang]
   }}
 </h2>
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="select-field">
-        <div class="select-field__title">Тип остановки</div>
+        <div class="select-field__title">{{ "stopType" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.stopType"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Тип подачи заявки"
+          placeholder="{{ 'stopType' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -26,7 +26,7 @@
           class="validation"
         >
           <small *ngIf="form.get('type')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -40,7 +40,7 @@
         <span class="custom-checkbox mr-2">
           <i class="uil-check"></i>
         </span>
-        <span>Дата возобновления</span>
+        <span>{{ "renewalDateCheck" | translate }}</span>
       </label>
     </div>
   </div>
@@ -65,7 +65,7 @@
             formControlName="renewalDate"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
@@ -83,7 +83,7 @@
               !form.controls.renewalDate.errors.invalidDateFormat
             "
           >
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
           <small
             *ngIf="
@@ -91,7 +91,7 @@
               form.controls.renewalDate.errors.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{ "incorrect_data" | translate }}
           </small>
         </div>
       </div>
@@ -101,7 +101,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">№ документа</div>
+        <div class="input-field__title">{{ "docNumber" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -116,7 +116,7 @@
           class="validation"
         >
           <small *ngIf="form.get('docNumber')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -124,7 +124,7 @@
 
     <div class="col-6">
       <div class="input-field">
-        <div class="input-field__title">Дата документа</div>
+        <div class="input-field__title">{{ "docDate" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -137,7 +137,7 @@
             formControlName="docDate"
             [options]="myDpOptions"
             #dp2="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
         </label>
@@ -153,7 +153,7 @@
               !form.controls.docDate.errors.invalidDateFormat
             "
           >
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
           <small
             *ngIf="
@@ -161,7 +161,7 @@
               form.controls.docDate.errors.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{ "incorrect_data" | translate }}
           </small>
         </div>
       </div>
@@ -171,13 +171,15 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
         <label
           class="text-field__label"
           [class]="formTemplate ? 'readonly' : ''"
         >
           <textarea
-            placeholder="Уточните детали"
+            placeholder="{{ 'specify_details' | translate }}"
             formControlName="addInfo"
           ></textarea>
         </label>
@@ -187,7 +189,7 @@
           class="validation"
         >
           <small *ngIf="form.get('addInfo')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -198,7 +200,7 @@
     <div class="col-12">
       <app-file-uploader
         [formTemplate]="formTemplate"
-        title="Прикрепить файл"
+        title="{{ 'attach_file' | translate }}"
       ></app-file-uploader>
     </div>
   </div>
@@ -206,13 +208,13 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="select-field">
-        <div class="select-field__title">Инициатор остановки</div>
+        <div class="select-field__title">{{ "stopInitiator" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.stopInitiator"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Тип подачи заявки"
+          placeholder="{{ 'stopInitiator' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -226,7 +228,7 @@
           class="validation"
         >
           <small *ngIf="form.get('stopInitiator')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -236,13 +238,13 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="select-field">
-        <div class="select-field__title">Причина остановки</div>
+        <div class="select-field__title">{{ "stopReason" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="reasonStoppingDic"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Тип подачи заявки"
+          placeholder="{{ 'stopReason' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -255,7 +257,7 @@
           class="validation"
         >
           <small *ngIf="form.get('stopReason')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -269,6 +271,6 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    Завершить процесс
+    {{ "end_process" | translate }}
   </button>
 </form>

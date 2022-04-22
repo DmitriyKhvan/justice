@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, tap } from 'rxjs/operators';
@@ -12,7 +13,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class LawsuitService {
-  stepName!: string;
+  stepName!: any;
   stepIndex!: number;
 
   stopProcessStep!: any; // Шаг остановка процесса
@@ -47,6 +48,7 @@ export class LawsuitService {
 
   timerIdDecisions!: any; // таймер для решений гл. юрист
   contract!: any;
+  all!: any;
 
   constructor(
     public http: HttpClient,
@@ -54,7 +56,8 @@ export class LawsuitService {
     protected keycloakAngular: KeycloakService,
     private router: Router,
     private route: ActivatedRoute,
-    private alert: AlertService
+    private alert: AlertService,
+    public translate: TranslateService
   ) {}
 
   monitoring(data: any): Observable<any> {
@@ -143,7 +146,7 @@ export class LawsuitService {
     this.stepIndex =
       this.steps.findIndex((step: any) => step.stepid === +id) + 1;
 
-    this.stepName = this.currentStep?.lang?.ru;
+    this.stepName = this.currentStep;
 
     // console.log(this.stepName);
     // console.log(this.stepIndex);
@@ -221,7 +224,7 @@ export class LawsuitService {
   getReqId(actionId: any) {
     return this.historyActions
       .filter((action) => action.actionId === actionId)
-      .slice(-1)[0]?.data;
+      .slice(0, 1)[0]?.data;
   }
 
   getDic(dicName: string): Observable<any> {

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -9,7 +10,11 @@ import { AlertService } from './alert.service';
   providedIn: 'root',
 })
 export class DictionariesService {
-  constructor(private http: HttpClient, private alert: AlertService) {}
+  constructor(
+    private http: HttpClient,
+    private alert: AlertService,
+    public translate: TranslateService
+  ) {}
 
   getRegions(): Observable<any> {
     return this.http.get(`${environment.dbUrlBek}/references/getTree`).pipe(

@@ -22,6 +22,8 @@
     "@angular/router": "~11.2.9",
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-select/ng-select": "^6.1.0",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "angular-mydatepicker": "^0.11.2",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.0",

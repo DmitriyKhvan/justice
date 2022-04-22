@@ -24,7 +24,6 @@ export class AuthGuard extends KeycloakAuthGuard {
   ): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let permission;
-      console.log('this.authenticated', this.authenticated);
       if (!this.authenticated) {
         this.keycloakAngular
           .login()

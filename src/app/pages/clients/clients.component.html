@@ -1,12 +1,12 @@
 <div class="mx-5 px-5 pt-2 row justify-content-between h-100">
   <div class="main-list h-100">
-    <div class="main-list_header mb-1">Для начала выберите регион</div>
+    <div class="main-list_header mb-1">{{ "select_region" | translate }}</div>
     <div class="main-list_body">
       <div class="main-list_table">
         <div class="main-list_table__header py-1">
           <div class="main-list_table__tr px-2">
-            <div class="main-list_table__th">Регион</div>
-            <div class="main-list_table__th">Количество</div>
+            <div class="main-list_table__th">{{ "region" | translate }}</div>
+            <div class="main-list_table__th">{{ "count" | translate }}</div>
           </div>
         </div>
         <div class="main-list_table__body">
@@ -34,14 +34,16 @@
   </div>
 
   <div class="main-list h-100" [@showBranches]="stateName">
-    <div class="main-list_header mb-1">Теперь выберите филиал</div>
+    <div class="main-list_header mb-1">{{ "select_filial" | translate }}</div>
     <div class="main-list_body">
       <div class="main-list_table">
         <div class="main-list_table__header py-1">
           <div class="main-list_table__tr px-2">
-            <div class="main-list_table__th">МФО</div>
-            <div class="main-list_table__th">Название филиала</div>
-            <div class="main-list_table__th">Количество</div>
+            <div class="main-list_table__th">{{ "MFO" | translate }}</div>
+            <div class="main-list_table__th">
+              {{ "filial_name" | translate }}
+            </div>
+            <div class="main-list_table__th">{{ "count" | translate }}</div>
           </div>
         </div>
         <div class="main-list_table__body">

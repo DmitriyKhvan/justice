@@ -21,7 +21,7 @@
         routerLinkActive="active-link"
       >
         <i class="icon-group mr-1" style="font-size: 38px"></i>
-        Клиенты
+        {{ "clients" | translate }}
       </div>
 
       <!-- <div class="app-navbar_item px-2" style="">
@@ -52,7 +52,7 @@
         routerLinkActive="active-link"
       >
         <i class="icon-group mr-1" style="font-size: 38px"></i>
-        Мониторинг
+        {{ "monitoring" | translate }}
       </div>
     </ng-template>
 
@@ -67,7 +67,7 @@
         routerLinkActive="active-link"
       >
         <i class="icon-group mr-1" style="font-size: 38px"></i>
-        Доступы
+        {{ "access" | translate }}
       </div>
 
       <div
@@ -77,7 +77,7 @@
         routerLinkActive="active-link"
       >
         <i class="uil-pause-circle" style="font-size: 30px"></i>
-        Приостановленные дела
+        {{ "cases_on_hold" | translate }}
       </div>
     </ng-template>
   </div>
@@ -92,6 +92,21 @@
       <i class="uil-search mr-1"></i>
       Поиск
     </div> -->
+    <div class="langBlock">
+      <button
+        [class]="lawsuitService.translate.currentLang === 'ru' ? 'active' : ''"
+        (click)="useLanguage('ru')"
+      >
+        Ру
+      </button>
+      <button
+        [class]="lawsuitService.translate.currentLang === 'uz' ? 'active' : ''"
+        (click)="useLanguage('uz')"
+      >
+        Uz
+      </button>
+    </div>
+
     <div
       class="app-navbar_item px-2"
       style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
@@ -99,9 +114,9 @@
       <i class="icon-user notification mr-1"></i>
       <!-- {{
         keycloak.isUserInRole("head-lawyer")
-          ? "Главный юрист"
+          ? "{{'head_lawyer' | translate}}"
           : keycloak.isUserInRole("lawyer")
-          ? "Юрист"
+          ? "{{'lawyer' | translate}}"
           : keycloak.isUserInRole("monitoring")
           ? "Мониторинг"
           : "Админ"

@@ -24,7 +24,7 @@
           class="validation"
         >
           <small *ngIf="form.get('decision')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -44,10 +44,12 @@
   <div class="row justify-content-between mb-2">
     <div class="col-12">
       <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
         <label class="text-field__label">
           <textarea
-            placeholder="Уточните детали"
+            placeholder="{{ 'specify_details' | translate }}"
             formControlName="additionalInfo"
           ></textarea>
         </label>
@@ -60,7 +62,7 @@
           class="validation"
         >
           <small *ngIf="form.get('additionalInfo')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -72,6 +74,6 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    Отправить
+    {{ "send" | translate }}
   </button>
 </form>

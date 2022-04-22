@@ -32,6 +32,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
   users!: any;
   uSub!: Subscription;
   dSub!: Subscription;
+  // tSub!: Subscription;
   isASub!: Subscription;
   searchSub!: Subscription;
 
@@ -43,7 +44,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
     { label: 5, value: 5 },
     { label: 10, value: 10 },
     { label: 20, value: 20 },
-    { label: 'Все', value: 999999999 },
+    { label: 'all', value: 999999999 },
   ];
   itemsPerPage: number = this.pages[0].value;
   searchValue: string = '';
@@ -71,6 +72,21 @@ export class ListUserComponent implements OnInit, OnDestroy {
         this.searchValue = value;
         this.getUsers();
       });
+
+    // this.tSub = this.adminService.translate.onLangChange
+    //   .pipe(
+    //     mergeMap(() => {
+    //       return this.adminService.translate.get(['all']);
+    //     })
+    //   )
+    //   .subscribe((translate: any) => {
+    //     this.pages = [
+    //       { label: 10, value: 10 },
+    //       { label: 20, value: 20 },
+    //       { label: 30, value: 30 },
+    //       { label: translate.all, value: -1 },
+    //     ];
+    //   });
   }
 
   usersTransform() {
@@ -242,20 +258,10 @@ export class ListUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.uSub) {
-      this.uSub.unsubscribe;
-    }
-
-    if (this.dSub) {
-      this.dSub.unsubscribe;
-    }
-
-    if (this.isASub) {
-      this.isASub.unsubscribe;
-    }
-
-    if (this.searchSub) {
-      this.searchSub.unsubscribe;
-    }
+    this.uSub?.unsubscribe;
+    this.dSub?.unsubscribe;
+    // this.tSub?.unsubscribe;
+    this.isASub?.unsubscribe;
+    this.searchSub?.unsubscribe;
   }
 }

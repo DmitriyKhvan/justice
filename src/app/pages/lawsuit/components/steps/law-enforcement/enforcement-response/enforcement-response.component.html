@@ -1,6 +1,10 @@
 <div class="lawsuitTitleWrap">
   <h2 class="lawsuitTitle">
-    {{ formTemplate ? formTemplate.lang.ru : action?.actionNameLang?.ru }}
+    {{
+      formTemplate
+        ? formTemplate.lang[lawsuitService.translate.currentLang]
+        : action?.actionNameLang[lawsuitService.translate.currentLang]
+    }}
   </h2>
   <button
     *ngIf="!formTemplate"
@@ -14,13 +18,13 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="select-field">
-        <div class="select-field__title">Выбор органа</div>
+        <div class="select-field__title">{{ "organ" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.lawEnforcement"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Выбор"
+          placeholder="{{ 'organ' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -31,7 +35,7 @@
           class="validation"
         >
           <small *ngIf="form.get('organ')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -41,13 +45,13 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Регион</div>
+        <div class="select-field__title">{{ "region" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="dictionaries?.regionDistrict"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Регион"
+          placeholder="{{ 'region' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -58,7 +62,7 @@
           class="validation"
         >
           <small *ngIf="form.get('region')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -66,13 +70,13 @@
 
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Район</div>
+        <div class="select-field__title">{{ "district" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="districtDic"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
-          placeholder="Район"
+          placeholder="{{ 'district' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
@@ -83,7 +87,7 @@
           class="validation"
         >
           <small *ngIf="form.get('district')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -93,7 +97,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Номер документа</div>
+        <div class="input-field__title">{{ "docNumber" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -108,7 +112,7 @@
           class="validation"
         >
           <small *ngIf="form.get('inDocNumber')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -118,7 +122,7 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
-        <div class="input-field__title">Ввод даты документа</div>
+        <div class="input-field__title">{{ "docDate" | translate }}</div>
         <label
           class="input-field__label"
           [class]="formTemplate ? 'readonly' : ''"
@@ -131,7 +135,7 @@
             formControlName="inDocDate"
             [options]="myDpOptions"
             #dp="angular-mydatepicker"
-            [locale]="'ru'"
+            [locale]="lawsuitService.translate.currentLang"
           />
           <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
         </label>
@@ -149,7 +153,7 @@
               !form.controls.inDocDate.errors.invalidDateFormat
             "
           >
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
           <small
             *ngIf="
@@ -157,7 +161,7 @@
               form.controls.inDocDate.errors.invalidDateFormat
             "
           >
-            Неккоректные данные
+            {{ "incorrect_data" | translate }}
           </small>
         </div>
       </div>
@@ -167,13 +171,15 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
         <label
           class="text-field__label"
           [class]="formTemplate ? 'readonly' : ''"
         >
           <textarea
-            placeholder="Уточните детали"
+            placeholder="{{ 'specify_details' | translate }}"
             formControlName="addInfo"
           ></textarea>
         </label>
@@ -183,7 +189,7 @@
           class="validation"
         >
           <small *ngIf="form.get('addInfo')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -194,7 +200,7 @@
     <div class="col-12">
       <app-file-uploader
         [formTemplate]="formTemplate"
-        title="Прикрепить файл"
+        title="{{ 'attach_file' | translate }}"
       ></app-file-uploader>
     </div>
   </div>
@@ -206,6 +212,6 @@
     [ngClass]="{ disableBtn: form.invalid || submitted }"
     [disabled]="form.invalid || submitted"
   >
-    Отправить
+    {{ "send" | translate }}
   </button>
 </form>

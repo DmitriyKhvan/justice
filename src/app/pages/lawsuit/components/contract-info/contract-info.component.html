@@ -1,64 +1,76 @@
 <div *ngIf="flagPageCard; else pageCardMini" class="page-card">
   <i class="uil-times tooglePageCard" (click)="tooglePageCard(false)"></i>
   <div class="page-card__header px-3 pt-2">
-    Проблемный кредит #{{ lawsuitService.contract?.contractId }}
+    {{ "problem_credit" | translate }} #{{
+      lawsuitService.contract?.contractId
+    }}
   </div>
   <div class="page-card__body">
     <div class="row page-card__details px-3">
-      <div class="col-5">Сумма кредита по договору</div>
+      <div class="col-5">
+        {{ "loan_amount_under_the_agreement" | translate }}
+      </div>
       <div class="col-7">
         {{ lawsuitService.contract?.creditSumm | numberTransform }}
       </div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Дата начала кредита</div>
+      <div class="col-5">{{ "loan_start_date" | translate }}</div>
       <div class="col-7">{{ lawsuitService.contract?.creditStart }}</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Дата окончания кредита</div>
+      <div class="col-5">{{ "loan_end_date" | translate }}</div>
       <div class="col-7">{{ lawsuitService.contract?.creditEnd }}</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Валюта кредита</div>
+      <div class="col-5">{{ "loan_currency" | translate }}</div>
       <div class="col-7">
-        {{ lawsuitService.contract?.creditCurrencyLang?.ru }}
+        {{
+          lawsuitService.contract?.creditCurrencyLang?.lawsuitService.translate
+            .currentLang
+        }}
       </div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Процентная ставка</div>
+      <div class="col-5">{{ "interest_rate" | translate }}</div>
       <div class="col-7">{{ lawsuitService.contract?.interestRate }}%</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Статус наращивания/ненаращивания</div>
-      <div class="col-7">Статус наращивания</div>
+      <div class="col-5">{{ "build/non-build_status" | translate }}</div>
+      <div class="col-7">{{ "build_status" | translate }}</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Остаток текущего долга</div>
+      <div class="col-5">{{ "remaining_current_debt" | translate }}</div>
       <div class="col-7">
         {{ lawsuitService.contract?.remainderCurrentDebt }}
       </div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Остаток просроченного основного долга</div>
+      <div class="col-5">
+        {{ "the_balance_of_the_overdue_principal" | translate }}
+      </div>
       <div class="col-7">
         {{ lawsuitService.contract?.remainderOverdueDebt }}
       </div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Остаток начисленных %</div>
+      <div class="col-5">{{ "balance_accrued_%" | translate }}</div>
       <div class="col-7">
         {{ lawsuitService.contract?.remainderOverduePercent }}
       </div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Остаток просроченных %</div>
+      <div class="col-5">{{ "overdue_balance_%" | translate }}</div>
       <div class="col-7">
         {{ lawsuitService.contract?.remainderAccruedPercent }}
       </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">
-        Остаток начисленных % по просроченному основному долгу
+        {{
+          "the_balance_of_accrued_interest_on_the_overdue_principal_debt"
+            | translate
+        }}
       </div>
       <div class="col-7">
         {{ lawsuitService.contract?.remainderAccruedPercentOverdueDebt }}%
@@ -75,35 +87,39 @@
       "
       class="row page-card__details px-3"
     >
-      <div class="col-5">ФИО поручителя {{ idx + 1 }}</div>
+      <div class="col-5">
+        {{ "full_name_of_the_borrowe" | translate }} {{ idx + 1 }}
+      </div>
       <div class="col-7">{{ guarantee.detail }}</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Номер договора</div>
+      <div class="col-5">{{ "number_of_contract" | translate }}</div>
       <div class="col-7">{{ lawsuitService.contract?.contractId }}</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Дата заключения договора</div>
+      <div class="col-5">
+        {{ "date_of_conclusion_of_the_contract" | translate }}
+      </div>
       <div class="col-7">{{ lawsuitService.contract?.contractDate }}</div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Вид залога</div>
+      <div class="col-5">{{ "type_pledge" | translate }}</div>
       <div class="col-7"></div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Наименование залога</div>
+      <div class="col-5">{{ "name_pledge" | translate }}</div>
       <div class="col-7"></div>
     </div>
   </div>
   <div class="page-card__footer py-1">
     <div class="row page-card__details px-3">
-      <div class="col-5">ИТОГО задолженность</div>
+      <div class="col-5">{{ "total_debt2" | translate }}</div>
       <div class="col-7 text-danger">
         {{ lawsuitService.contract?.totalDebt }}
       </div>
     </div>
     <div class="row page-card__details px-3">
-      <div class="col-5">Дата просрочки</div>
+      <div class="col-5">{{ "date_delay" | translate }}</div>
       <div class="col-7">{{ lawsuitService.contract?.delayDate }}</div>
     </div>
   </div>
@@ -116,7 +132,7 @@
       (click)="tooglePageCard(true)"
     ></i>
     <span
-      >Информация о проблемном кредите #{{
+      >{{ "problem_loan_information" | translate }} #{{
         lawsuitService.contract?.contractId
       }}</span
     >

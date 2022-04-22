@@ -7,25 +7,25 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">Тип ответа</div>
+        <div class="col-6">{{ 'type' | translate }}</div>
         <div class="col-6">
           {{ getValue('formDocType', actionData.data.type) }}
         </div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">№ вх. документа</div>
+        <div class="col-6">{{ 'inDocNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.inDocNumber }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Дата вх. документа</div>
+        <div class="col-6">{{ 'inDocDate' | translate }}</div>
         <div class="col-6">{{ actionData.data.inDocDate }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -54,8 +54,9 @@ export class MakingResponseTemplateComponent implements OnInit {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 }

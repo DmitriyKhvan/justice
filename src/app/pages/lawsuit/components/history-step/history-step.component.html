@@ -1,13 +1,15 @@
-<h2 class="title_lawsuit">История решений Г.Ю. по шагам</h2>
+<h2 class="title_lawsuit">
+  {{ "history_decisions_head_lawyer_steps" | translate }}
+</h2>
 
 <div
   *ngFor="let step of this.lawsuitService.historySteps; let idx = index"
   class="history_step__field"
 >
   <div class="row history_step__field__title no-gutters">
-    <div class="col-4 add">Дата</div>
-    <div class="col-4">Выбранный шаг</div>
-    <div class="col-4">Решение Г.Ю.</div>
+    <div class="col-4 add">{{ "date" | translate }}</div>
+    <div class="col-4">{{ "selected_step" | translate }}</div>
+    <div class="col-4">{{ "decision_head_lawyer" | translate }}</div>
   </div>
 
   <div class="wrap_history__step">
@@ -16,18 +18,26 @@
       class="next_step_btn"
       (click)="this.lawsuitService.getCurrentStep(step.toStep.id)"
     ></button>
-    <span *ngIf="step.status === 3" class="next_step_title"
-      >Перейти на следующий шаг</span
-    >
+    <span *ngIf="step.status === 3" class="next_step_title">{{
+      "go_to_next_step" | translate
+    }}</span>
     <div class="row no-gutters history_step__field__data">
       <div class="col-4 add">{{ step.createdAt | date: "dd.MM.yyyy" }}</div>
       <div class="col-4 history_step__field__data__step">
-        <span>{{ step.toStep.lang.ru }}</span>
+        <span>{{
+          step.toStep.lang[lawsuitService.translate.currentLang]
+        }}</span>
       </div>
       <div class="col-4 history_step__field__data__status">
-        <span class="rejected" *ngIf="step.status === 1">Отказано</span>
-        <span class="pending" *ngIf="step.status === 2">В ожидании</span>
-        <span class="approved" *ngIf="step.status === 3">Одобрено</span>
+        <span class="rejected" *ngIf="step.status === 1">{{
+          "rejected" | translate
+        }}</span>
+        <span class="pending" *ngIf="step.status === 2">{{
+          "pending" | translate
+        }}</span>
+        <span class="approved" *ngIf="step.status === 3">{{
+          "approved" | translate
+        }}</span>
         <i class="icon-eye" (click)="popUpStepInfo(step)"></i>
       </div>
     </div>

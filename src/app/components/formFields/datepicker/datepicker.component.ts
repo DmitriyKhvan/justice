@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
 
 declare var $: any;
@@ -22,7 +23,7 @@ declare var $: any;
           [options]="myDpOptions"
           #dp="angular-mydatepicker"
           closeSelectorOnDateSelect="true"
-          [locale]="'ru'"
+          [locale]="lawsuitService.translate.currentLang"
         />
         <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
       </label>
@@ -38,7 +39,7 @@ declare var $: any;
             !form.get(controlName)?.errors?.invalidDateFormat
           "
         >
-          Введите данные
+          {{ 'enter_data' | translate }}
         </small>
         <small
           *ngIf="
@@ -46,7 +47,7 @@ declare var $: any;
             form.get(controlName)?.errors?.invalidDateFormat
           "
         >
-          Неккоректные данные
+          {{ 'incorrect_data' | translate }}
         </small>
       </div>
     </div>
@@ -61,7 +62,7 @@ export class DatepickerComponent implements OnInit {
 
   @Output() onselect: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  constructor(public lawsuitService: LawsuitService) {}
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 

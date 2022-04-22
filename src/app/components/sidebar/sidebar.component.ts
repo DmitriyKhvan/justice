@@ -40,19 +40,27 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
           (click)="mainService.sidebar = false"
         ></i>
         <div class="notifications">
-          <h4 class="notificationTitle">Уведомления</h4>
+          <h4 class="notificationTitle">{{ 'notifications' | translate }}</h4>
           <div class="searchBlock">
             <i class="icon-search"></i>
-            <input type="text" #search placeholder="Поиск по № дела" />
+            <input
+              type="text"
+              #search
+              placeholder="{{ 'searchCaseNumber' | translate }}"
+            />
           </div>
 
           <ng-container *ngIf="notifications.length; else noNotifications">
             <div class="notifications-title">
               <div class="notifications-number">
-                <span class="notifications-number__title">№ Дела</span>
+                <span class="notifications-number__title">{{
+                  'caseNumber' | translate
+                }}</span>
               </div>
               <div class="notifications-name"></div>
-              <div class="notifications-date"><span>Дата</span></div>
+              <div class="notifications-date">
+                <span>{{ 'date' | translate }}</span>
+              </div>
             </div>
 
             <div
@@ -73,21 +81,25 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
                 class="notifications-name"
               >
                 <p>
-                  Действие "{{ notification.data.action.lang.ru }}"
+                  {{ 'action' | translate }} "{{
+                    notification.data.action.lang[
+                      lawsuitService.translate.currentLang
+                    ]
+                  }}"
                   <span
                     *ngIf="notification.data.actionStatus === 1"
                     class="rejected"
-                    >отказано</span
+                    >{{ 'rejected' | translate }}</span
                   >
                   <span
                     *ngIf="notification.data.actionStatus === 2"
                     class="pending"
-                    >в ожидании</span
+                    >{{ 'pending' | translate }}</span
                   >
                   <span
                     *ngIf="notification.data.actionStatus === 3"
                     class="approved"
-                    >одобрено</span
+                    >{{ 'approved' | translate }}</span
                   >
                 </p>
               </div>
@@ -100,17 +112,27 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
                 class="notifications-name"
               >
                 <p>
-                  Переход на шаг "{{ notification.data.toStep.lang.ru }}"
-                  <span *ngIf="notification.data.status === 1" class="rejected"
-                    >отказано</span
+                  {{ 'transitionStep' | translate }} "{{
+                    notification.data.toStep.lang[
+                      lawsuitService.translate.currentLang
+                    ]
+                  }}"
+                  <span
+                    *ngIf="notification.data.status === 1"
+                    class="rejected"
+                    >{{ 'rejected' | translate }}</span
                   >
 
-                  <span *ngIf="notification.data.status === 2" class="pending"
-                    >в ожидании</span
+                  <span
+                    *ngIf="notification.data.status === 2"
+                    class="pending"
+                    >{{ 'pending' | translate }}</span
                   >
 
-                  <span *ngIf="notification.data.status === 3" class="approved"
-                    >одобрено</span
+                  <span
+                    *ngIf="notification.data.status === 3"
+                    class="approved"
+                    >{{ 'approved' | translate }}</span
                   >
                 </p>
               </div>
@@ -126,7 +148,9 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
             <!-- <app-loader></app-loader> -->
 
             <ng-template #message>
-              <h4 class="notificationTitle add">Уведомления не найдены</h4>
+              <h4 class="notificationTitle add">
+                {{ 'notificationsNotFound' | translate }}
+              </h4>
             </ng-template>
           </ng-template>
         </div>
@@ -146,7 +170,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
               (click)="mainService.sidebarDetail = false"
             ></i>
             <span>
-              Процесс по делу
+              {{ 'caseProcess' | translate }}
               <span class="fw-bold">№{{ notification?.data?.uniqueId }}</span>
             </span>
           </div>
@@ -340,21 +364,13 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.pushSub) {
-      this.pushSub.unsubscribe();
-    }
+    this.pushSub?.unsubscribe();
 
-    if (this.searchSub) {
-      this.searchSub.unsubscribe();
-    }
+    this.searchSub?.unsubscribe();
 
-    if (this.scrollSub) {
-      this.scrollSub.unsubscribe();
-    }
+    this.scrollSub?.unsubscribe();
 
-    if (this.pushSub) {
-      this.pushSub.unsubscribe();
-    }
+    this.pushSub?.unsubscribe();
     // clearInterval(this.timerId);
   }
 }

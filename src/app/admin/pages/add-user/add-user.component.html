@@ -1,7 +1,7 @@
 <div class="h-100">
   <div class="page-header row justify-content-between align-items-center">
     <a routerLink="/admin/listUser" class="back">
-      <i class="icon-back"></i><small>Добавить доступ</small>
+      <i class="icon-back"></i><small>{{ "addAccess" | translate }}</small>
     </a>
   </div>
 
@@ -12,7 +12,9 @@
           <div class="row justify-content-between mb-2">
             <div class="col-4">
               <div class="input-field">
-                <div class="input-field__title">Фамилия</div>
+                <div class="input-field__title">
+                  {{ "lastName" | translate }}
+                </div>
                 <label class="input-field__label">
                   <input
                     type="text"
@@ -29,7 +31,7 @@
                   class="validation"
                 >
                   <small *ngIf="form.get('last_name')?.errors?.required">
-                    Введите данные
+                    {{ "enter_data" | translate }}
                   </small>
                 </div>
               </div>
@@ -37,7 +39,9 @@
 
             <div class="col-4">
               <div class="input-field">
-                <div class="input-field__title">Имя</div>
+                <div class="input-field__title">
+                  {{ "firstName" | translate }}
+                </div>
                 <label class="input-field__label">
                   <input
                     type="text"
@@ -54,7 +58,7 @@
                   class="validation"
                 >
                   <small *ngIf="form.get('first_name')?.errors?.required">
-                    Введите данные
+                    {{ "enter_data" | translate }}
                   </small>
                 </div>
               </div>
@@ -62,7 +66,9 @@
 
             <div class="col-4">
               <div class="input-field">
-                <div class="input-field__title">Отчество</div>
+                <div class="input-field__title">
+                  {{ "middleName" | translate }}
+                </div>
                 <label class="input-field__label">
                   <input
                     type="text"
@@ -79,7 +85,7 @@
                   class="validation"
                 >
                   <small *ngIf="form.get('middle_name')?.errors?.required">
-                    Введите данные
+                    {{ "enter_data" | translate }}
                   </small>
                 </div>
               </div>
@@ -89,14 +95,14 @@
           <div class="row justify-content-between mb-2">
             <div class="col-12">
               <div class="select-field">
-                <div class="select-field__title">Роль</div>
+                <div class="select-field__title">{{ "role" | translate }}</div>
                 <ng-select
                   [multiple]="true"
                   appearance="outline"
                   [items]="roles"
-                  bindLabel="description"
+                  bindLabel="{{ 'role_' + adminService.translate.currentLang }}"
                   bindValue=""
-                  placeholder="Выберите роль"
+                  placeholder="{{ 'role' | translate }}"
                   #agreeSelect
                   labelForId="yesno"
                   [searchable]="false"
@@ -108,7 +114,7 @@
                 class="validation"
               >
                 <small *ngIf="form.get('roles')?.errors?.required">
-                  Введите данные
+                  {{ "enter_data" | translate }}
                 </small>
               </div>
             </div>
@@ -117,13 +123,17 @@
           <div class="row justify-content-between mb-2">
             <div class="col-12">
               <div class="select-field">
-                <div class="select-field__title">Регион</div>
+                <div class="select-field__title">
+                  {{ "region" | translate }}
+                </div>
                 <ng-select
                   appearance="outline"
                   [items]="regions"
-                  bindLabel="nameRu"
+                  bindLabel="{{
+                    'name' + (adminService.translate.currentLang | titlecase)
+                  }}"
                   bindValue="regionId"
-                  placeholder="Выберите регион"
+                  placeholder="{{ 'region' | translate }}"
                   #agreeSelect
                   labelForId="yesno"
                   [searchable]="true"
@@ -138,7 +148,7 @@
                 class="validation"
               >
                 <small *ngIf="form.get('region')?.errors?.required">
-                  Введите данные
+                  {{ "enter_data" | translate }}
                 </small>
               </div>
             </div>
@@ -147,14 +157,18 @@
           <div class="row justify-content-between mb-2">
             <div class="col-12">
               <div class="select-field">
-                <div class="select-field__title">Район</div>
+                <div class="select-field__title">
+                  {{ "district" | translate }}
+                </div>
                 <ng-select
                   [multiple]="true"
                   appearance="outline"
                   [items]="districts"
-                  bindLabel="nameRu"
+                  bindLabel="{{
+                    'name' + (adminService.translate.currentLang | titlecase)
+                  }}"
                   bindValue="mfo"
-                  placeholder="Выберите район"
+                  placeholder="{{ 'district' | translate }}"
                   #agreeSelect
                   labelForId="yesno"
                   [searchable]="false"
@@ -168,7 +182,7 @@
                 class="validation"
               >
                 <small *ngIf="form.get('district')?.errors?.required">
-                  Введите данные
+                  {{ "enter_data" | translate }}
                 </small>
               </div>
             </div>
@@ -177,7 +191,7 @@
           <div class="row justify-content-betwee mb-2">
             <div class="col-12">
               <div class="input-field">
-                <div class="input-field__title">Логин</div>
+                <div class="input-field__title">{{ "login" | translate }}</div>
                 <label class="input-field__label">
                   <input
                     type="text"
@@ -194,7 +208,7 @@
                   class="validation"
                 >
                   <small *ngIf="form.get('username')?.errors?.required">
-                    Введите данные
+                    {{ "enter_data" | translate }}
                   </small>
                 </div>
               </div>
@@ -204,7 +218,9 @@
           <div class="row justify-content-betwee mb-2">
             <div class="col-12">
               <div class="input-field">
-                <div class="input-field__title">Пароль</div>
+                <div class="input-field__title">
+                  {{ "password" | translate }}
+                </div>
                 <label class="input-field__label">
                   <input
                     type="text"
@@ -221,7 +237,7 @@
                   class="validation"
                 >
                   <small *ngIf="form.get('password')?.errors?.required">
-                    Введите данные
+                    {{ "enter_data" | translate }}
                   </small>
                 </div>
               </div>
@@ -234,7 +250,7 @@
             [ngClass]="{ disableBtn: form.invalid || submitted }"
             [disabled]="form.invalid || submitted"
           >
-            Добавить
+            {{ "add" | translate }}
           </button>
         </form>
       </div>

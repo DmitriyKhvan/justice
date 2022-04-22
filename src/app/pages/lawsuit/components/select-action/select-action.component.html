@@ -7,7 +7,7 @@
     (ngSubmit)="submit()"
   >
     <div class="select-field add">
-      <div class="select-field__title">Выбор действия</div>
+      <div class="select-field__title">{{ "choice_action" | translate }}</div>
 
       <div class="row no-gutters">
         <div class="col-8 col-md-7">
@@ -15,9 +15,11 @@
             class="custom-select"
             appearance="outline"
             [items]="actions"
-            bindLabel="actionNameLang.ru"
+            bindLabel="{{
+              'actionNameLang.' + lawsuitService.translate.currentLang
+            }}"
             bindValue=""
-            placeholder="Действие"
+            placeholder="{{ 'action1' | translate | titlecase }}"
             #agreeSelect
             labelForId="yesno"
             [searchable]="false"
@@ -28,7 +30,7 @@
             class="validation"
           >
             <small *ngIf="form.get('action')?.errors?.required">
-              Выберите данные
+              {{ "select_data" | translate }}
             </small>
           </div>
         </div>
@@ -40,7 +42,7 @@
             [ngClass]="{ disableBtn: form.invalid || submitted }"
             [disabled]="form.invalid || submitted"
           >
-            Добавить
+            {{ "add" | translate }}
           </button>
         </div>
       </div>
@@ -52,11 +54,17 @@
       <div class="limitNotification">
         <p class="limitNotificationText">
           <i class="uil-info-circle"></i>
-          Отправить уведомление можно 3 раза. Осталось:
+          {{ "you_can_send_a_notification_3_times" | translate }}.
+          {{ "remaining" | translate }}
           {{ 3 - lawsuitService.historyActions.length }}
           {{
             3 - lawsuitService.historyActions.length
-              | declensionOfWords: ["отправка", "отправки", "отправок"]
+              | declensionOfWords
+                : [
+                    "sending1" | translate,
+                    "sending2" | translate,
+                    "sending3" | translate
+                  ]
           }}
         </p>
       </div>
@@ -70,7 +78,7 @@
       [disabled]="lawsuitService.historyActions.length > 2"
     >
       <!-- {{ actionName }} -->
-      {{ actions[0].actionNameLang.ru }}
+      {{ actions[0].actionNameLang[lawsuitService.translate.currentLang] }}
     </button>
 
     <!-- <ng-template #limitNotification>

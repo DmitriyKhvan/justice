@@ -7,16 +7,16 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">№ дела</div>
+        <div class="col-6">{{ 'caseNumber' | translate }}</div>
         <div class="col-6">{{ actionData.data.docNumber }}</div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-6">Дата решения</div>
+        <div class="col-6">{{ 'decisionDate' | translate }}</div>
         <div class="col-6">{{ actionData.data.decisionDate }}</div>
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Результат решения</div>
+        <div class="col-6">{{ 'decisionResult' | translate }}</div>
         <div class="col-6">
           {{ getValue('courtDecision', actionData.data.decisionResult) }}
         </div>
@@ -29,7 +29,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         "
       >
         <div class="row justify-content-between">
-          <div class="col-6">Обжаловать решение суда</div>
+          <div class="col-6">{{ 'appealAgainstLawDesicion' | translate }}</div>
           <div class="col-6">
             {{ getValueYesOrNot('yesNo', actionData.data.appeal) }}
           </div>
@@ -37,46 +37,48 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
 
         <ng-container *ngIf="actionData.data.appeal === true">
           <div class="row justify-content-between">
-            <div class="col-6">Вид обжалование</div>
+            <div class="col-6">{{ 'typeAppeal' | translate }}</div>
             <div class="col-6">
               {{ getValue('appealType', actionData.data.appealKind) }}
             </div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Сумма основного долга</div>
+            <div class="col-6">{{ 'principal_amount' | translate }}</div>
             <div class="col-6">{{ actionData.data.appealPrincipalAmount }}</div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Сумма процента</div>
+            <div class="col-6">{{ 'percent_amount' | translate }}</div>
             <div class="col-6">{{ actionData.data.appealInterestAmount }}</div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Сумма пени</div>
+            <div class="col-6">{{ 'penalty_amount' | translate }}</div>
             <div class="col-6">{{ actionData.data.appealPenaltyAmount }}</div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Сумма штрафа</div>
+            <div class="col-6">{{ 'fine_amount' | translate }}</div>
             <div class="col-6">{{ actionData.data.appealFineAmount }}</div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Сумма госпошлины и судебных издержек</div>
+            <div class="col-6">
+              {{ 'appealStateDutyCourtCostsAmount' | translate }}
+            </div>
             <div class="col-6">
               {{ actionData.data.appealStateDutyCourtCostsAmount }}
             </div>
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Общая сумма иска</div>
+            <div class="col-6">{{ 'total_claim_amount' | translate }}</div>
             <div class="col-6">{{ actionData.data.appealClaimAmount }}</div>
           </div>
 
           <!-- <div class="row justify-content-between">
-            <div class="col-6">Прикрепленные файлы</div>
+            <div class="col-6">{{'attached_files' | translate}}</div>
             <div class="col-6">
               <app-file-downloader
                 [formData]="actionData"
@@ -85,14 +87,14 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           </div>
 
           <div class="row justify-content-between">
-            <div class="col-6">Дополнительная информация</div>
+            <div class="col-6">{{'additional_information' | translate}}</div>
             <div class="col-6">{{ actionData.data.appealAddInfo }}</div>
           </div> -->
         </ng-container>
 
         <ng-container *ngIf="actionData.data.appeal === false">
           <div class="row justify-content-between">
-            <div class="col-6">Действия</div>
+            <div class="col-6">{{ 'action2' | translate | titlecase }}</div>
             <div class="col-6">
               {{ getValue('notAppealAction', actionData.data.action) }}
             </div>
@@ -100,7 +102,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
 
           <ng-container *ngIf="actionData.data.action === 49">
             <div class="row justify-content-between">
-              <div class="col-6">Отложить до</div>
+              <div class="col-6">{{ 'deferTo' | translate }}</div>
               <div class="col-6">{{ actionData.data.suspendDate }}</div>
             </div>
           </ng-container>
@@ -112,14 +114,14 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         class="row justify-content-between"
       >
         <div class="row justify-content-between">
-          <div class="col-6">Дата вступления решения в силу</div>
+          <div class="col-6">{{ 'forceDecisionDate' | translate }}</div>
           <div class="col-6">{{ actionData.data.decisionBeginDate }}</div>
         </div>
       </ng-container>
 
       <!-- <ng-container *ngIf="actionData.data.action == 3"> -->
       <div class="row justify-content-between">
-        <div class="col-6">Прикрепленные файлы</div>
+        <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader
             [formData]="actionData?.data?.files"
@@ -128,7 +130,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
       </div>
 
       <div class="row justify-content-between">
-        <div class="col-6">Дополнительная информация</div>
+        <div class="col-6">{{ 'additional_information' | translate }}</div>
         <div class="col-6">{{ actionData.data.addInfo }}</div>
       </div>
       <!-- </ng-container> -->
@@ -154,15 +156,16 @@ export class AppealLawResponseTemplateComponent implements OnInit {
 
   getValue(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.id === val)?.lang[
+        this.dicService.translate.currentLang
+      ];
     }
   }
 
   getValueYesOrNot(dicName: string, val: any): any {
     if (this.dictionaries) {
-      return this.dictionaries[dicName]?.find((i: any) => i.value === val)?.lang
-        .ru;
+      return this.dictionaries[dicName]?.find((i: any) => i.value === val)
+        ?.lang[this.dicService.translate.currentLang];
     }
   }
 }

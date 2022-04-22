@@ -51,7 +51,9 @@
 
                   <div class="col-6">
                     <div class="input-field">
-                      <div class="input-field__title">Дата</div>
+                      <div class="input-field__title">
+                        {{ "date" | translate }}
+                      </div>
                       <label class="input-field__label readonly">
                         <input
                           type="text"
@@ -67,7 +69,9 @@
                 <div class="row justify-content-between mb-2">
                   <div class="col-12">
                     <div class="input-field">
-                      <div class="input-field__title">Выбранное действие</div>
+                      <div class="input-field__title">
+                        {{ "selected_action" | translate }}
+                      </div>
                       <label class="input-field__label readonly">
                         <input
                           type="text"
@@ -106,7 +110,9 @@
                 </div>
 
                 <div class="text-field mb-2">
-                  <div class="text-field__title">Дополнительная информация</div>
+                  <div class="text-field__title">
+                    {{ "additional_information" | translate }}
+                  </div>
                   <label class="text-field__label readonly">
                     <textarea
                       [value]="
@@ -122,9 +128,9 @@
             <!--            <div accordion-footer>-->
             <!--              <form action="" class="page-form">-->
             <!--                <div class="text-field mb-2">-->
-            <!--                  <div class="text-field__title">Комментарий</div>-->
+            <!--                  <div class="text-field__title">{{'comment' | translate}}</div>-->
             <!--                  <label class="text-field__label bg-white">-->
-            <!--                    <textarea placeholder="Уточните детали"></textarea>-->
+            <!--                    <textarea placeholder="{{'specify_details' | translate}}"></textarea>-->
             <!--                  </label>-->
             <!--                </div>-->
 

@@ -23,13 +23,13 @@
           <span>Удалить шаблонный текст?</span>
           <div class="confirmBtns">
             <button class="templateBtn yes" (click)="cancel($event)">
-              Нет
+              {{ "no" | translate }}
             </button>
             <button
               class="templateBtn no"
               (click)="removeText($event, text.id)"
             >
-              Да
+              {{ "yes" | translate }}
             </button>
           </div>
         </div>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { forkJoin } from 'rxjs';
+import { LangChangeEvent } from '@ngx-translate/core';
+import { forkJoin, Subscription } from 'rxjs';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
 import { AdminService } from '../../shared/services/admin.service';
@@ -10,9 +11,13 @@ import { AdminService } from '../../shared/services/admin.service';
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted = false;
+
+  uSub!: Subscription;
+  rSub!: Subscription;
+  tSub!: Subscription;
 
   roles = [];
 
@@ -20,10 +25,7 @@ export class AddUserComponent implements OnInit {
 
   districts = [];
 
-  constructor(
-    private adminService: AdminService,
-    private alert: AlertService
-  ) {}
+  constructor(public adminService: AdminService, private alert: AlertService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -37,12 +39,32 @@ export class AddUserComponent implements OnInit {
       password: new FormControl(null, Validators.required),
     });
 
-    this.adminService.getRoles().subscribe((roles) => {
-      this.roles = roles;
+    this.uSub = this.adminService.getRoles().subscribe((roles) => {
+      // this.roles = roles;
+      this.roles = this.userRolesTransform(roles);
     });
 
-    this.adminService.getRegions().subscribe((regions) => {
+    this.rSub = this.adminService.getRegions().subscribe((regions) => {
       this.regions = regions.data;
+    });
+
+    this.tSub = this.adminService.translate.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.regions = JSON.parse(JSON.stringify(this.regions));
+        this.roles = [...this.roles];
+        this.districts = [...this.districts];
+      }
+    );
+  }
+
+  userRolesTransform(roles: any) {
+    return roles.map((role: any) => {
+      const rolesName = role.description.split('##');
+      return {
+        ...role,
+        role_ru: rolesName[0],
+        role_uz: rolesName[1],
+      };
     });
   }
 
@@ -86,6 +108,8 @@ export class AddUserComponent implements OnInit {
         middleName: this.form.value.middle_name,
         mfo: this.form.controls.district.value,
         roles: this.form.value.roles.map((role: any) => role.description),
+        roles_ru: this.form.value.roles.map((role: any) => role.role_ru),
+        roles_uz: this.form.value.roles.map((role: any) => role.role_uz),
       },
     };
 
@@ -104,6 +128,13 @@ export class AddUserComponent implements OnInit {
             value: this.form.value.password,
             temporary: false,
           });
+
+          //need delete for keyclock API
+          this.form.value.roles.forEach((role: any) => {
+            delete role.role_ru;
+            delete role.role_uz;
+          });
+
           const setRole = this.adminService.setUserRoles(
             user.id,
             this.form.value.roles
@@ -130,5 +161,11 @@ export class AddUserComponent implements OnInit {
           this.submitted = false;
         }
       );
+  }
+
+  ngOnDestroy(): void {
+    this.uSub?.unsubscribe;
+    this.rSub?.unsubscribe;
+    this.tSub?.unsubscribe;
   }
 }

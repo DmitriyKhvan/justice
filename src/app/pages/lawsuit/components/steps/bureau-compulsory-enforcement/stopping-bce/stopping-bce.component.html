@@ -1,5 +1,7 @@
 <div class="lawsuitTitleWrap">
-  <h2 class="lawsuitTitle">{{ action.actionNameLang.ru }}</h2>
+  <h2 class="lawsuitTitle">
+    {{ action.actionNameLang[lawsuitService.translate.currentLang] }}
+  </h2>
   <button
     class="remove_action_form__btn"
     (click)="this.lawsuitService.removeActionForm(action.actionId)"
@@ -16,7 +18,7 @@
         <ng-select
           appearance="outline"
           [items]="dictionaries?.stopType"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
           placeholder="Тип остановки"
           #agreeSelect
@@ -29,7 +31,7 @@
           class="validation"
         >
           <small *ngIf="form.get('stopType')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -50,7 +52,7 @@
         <ng-select
           appearance="outline"
           [items]="dictionaries?.initiatorType"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
           placeholder="Инициатор остановки"
           #agreeSelect
@@ -66,7 +68,7 @@
           class="validation"
         >
           <small *ngIf="form.get('stopInitiator')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
@@ -82,10 +84,12 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="text-field">
-        <div class="text-field__title">Дополнительная информация</div>
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
         <label class="text-field__label">
           <textarea
-            placeholder="Уточните детали"
+            placeholder="{{ 'specify_details' | translate }}"
             formControlName="additionalInfo"
           ></textarea>
         </label>
@@ -98,7 +102,7 @@
           class="validation"
         >
           <small *ngIf="form.get('additionalInfo')?.errors?.required">
-            Введите данные
+            {{ "enter_data" | translate }}
           </small>
         </div>
       </div>
@@ -107,7 +111,9 @@
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
-      <app-file-uploader title="Прикрепить файл"></app-file-uploader>
+      <app-file-uploader
+        title="{{ 'attach_file' | translate }}"
+      ></app-file-uploader>
     </div>
   </div>
 
@@ -118,7 +124,7 @@
         <ng-select
           appearance="outline"
           [items]="reasonStoppingDic"
-          bindLabel="lang.ru"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
           bindValue="id"
           placeholder="Причина остановки"
           #agreeSelect
@@ -133,7 +139,7 @@
           class="validation"
         >
           <small *ngIf="form.get('stopReason')?.errors?.required">
-            Выберите данные
+            {{ "select_data" | translate }}
           </small>
         </div>
       </div>
