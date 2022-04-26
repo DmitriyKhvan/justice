@@ -20,6 +20,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { environment } from 'src/environments/environment';
 import { AdminService } from '../../shared/services/admin.service';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-user',
@@ -29,10 +30,10 @@ import { AdminService } from '../../shared/services/admin.service';
 export class ListUserComponent implements OnInit, OnDestroy {
   @ViewChild('search', { static: true }) inputRef!: ElementRef;
 
-  users!: any;
+  users: any[] = [];
   uSub!: Subscription;
   dSub!: Subscription;
-  // tSub!: Subscription;
+  tSub!: Subscription;
   isASub!: Subscription;
   searchSub!: Subscription;
 
@@ -54,7 +55,8 @@ export class ListUserComponent implements OnInit, OnDestroy {
   constructor(
     public adminService: AdminService,
     private confirm: ConfirmService,
-    public alert: AlertService
+    public alert: AlertService,
+    private titlecase: TitleCasePipe
   ) {}
 
   ngOnInit(): void {
@@ -73,20 +75,12 @@ export class ListUserComponent implements OnInit, OnDestroy {
         this.getUsers();
       });
 
-    // this.tSub = this.adminService.translate.onLangChange
-    //   .pipe(
-    //     mergeMap(() => {
-    //       return this.adminService.translate.get(['all']);
-    //     })
-    //   )
-    //   .subscribe((translate: any) => {
-    //     this.pages = [
-    //       { label: 10, value: 10 },
-    //       { label: 20, value: 20 },
-    //       { label: 30, value: 30 },
-    //       { label: translate.all, value: -1 },
-    //     ];
+    // this.tSub = this.adminService.translate.onLangChange.subscribe(() => {
+    //   this.users.forEach((user: any) => {
+    //     user.attributes.filials = [];
     //   });
+    //   this.getUsers();
+    // });
   }
 
   usersTransform() {
@@ -96,7 +90,8 @@ export class ListUserComponent implements OnInit, OnDestroy {
           region.branches.forEach((branch: any) => {
             if (user.attributes.mfo.includes(branch.mfo)) {
               // console.log('branch', branch);
-              user.attributes.filials.push(branch.nameRu);
+              user.attributes.filials_ru.push(branch.nameRu);
+              user.attributes.filials_uz.push(branch.nameUz);
             }
           });
         });
@@ -148,7 +143,8 @@ export class ListUserComponent implements OnInit, OnDestroy {
               ...user,
               attributes: {
                 ...user.attributes,
-                filials: [],
+                filials_ru: [],
+                filials_uz: [],
               },
             };
           });
@@ -260,7 +256,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.uSub?.unsubscribe;
     this.dSub?.unsubscribe;
-    // this.tSub?.unsubscribe;
+    this.tSub?.unsubscribe;
     this.isASub?.unsubscribe;
     this.searchSub?.unsubscribe;
   }

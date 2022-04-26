@@ -38,7 +38,6 @@
   "outDocNumber": "№ исх. документа",
   "inDocNumber": "№ вх. документа",
   "action": "Действие",
-  "": "",
 
   "list_debtors": "Список должников по \"{{filial_name}}\" филиалу на {{date}}",
   "list_suspended_cases": "Список приостановленных дел по \"{{filial_name}}\" филиалу на {{date}}",
@@ -190,6 +189,5 @@
   "yourDecision": "Ваше решение",
   "resume": "Возобновить",
   "reopenCase": "Возобновить дело",
-  "caseSuccessfullyReopened": "Дело успешно возобновлено",
-  "": ""
+  "caseSuccessfullyReopened": "Дело успешно возобновлено"
 }

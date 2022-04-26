@@ -116,7 +116,11 @@
               [routerLink]="['/admin', 'editUser', user.id]"
               class="page-table__td"
             >
-              {{ user.attributes?.filials?.join(", ") }}
+              {{
+                user.attributes[
+                  "filials_" + adminService.translate.currentLang
+                ].join(", ")
+              }}
             </div>
             <div
               [routerLink]="['/admin', 'editUser', user.id]"

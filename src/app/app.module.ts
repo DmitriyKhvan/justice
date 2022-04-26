@@ -112,7 +112,7 @@ import { TableComponent } from './pages/monitoring/components/table/table.compon
 import { FileDownloaderComponent } from './components/formFields/file-downloader/file-downloader.component';
 import { PopUpTemplateTextComponent } from './pages/lawsuit/components/pop-up-template-text/pop-up-template-text.component';
 import { StoppingBCETemplateComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/stopping-bce/stopping-bce-template.component';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { StopProcessComponent } from './pages/lawsuit/components/steps/stop-process/stop-process.component';
 import { FirstAuctionComponent } from './pages/lawsuit/components/steps/auction/first-auction/first-auction.component';
 import { RepeatAuctionComponent } from './pages/lawsuit/components/steps/auction/repeat-auction/repeat-auction.component';
@@ -306,6 +306,7 @@ export function createTranslateLoader(http: HttpClient) {
       deps: [KeycloakService],
     },
     CurrencyPipe,
+    TitleCasePipe,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
