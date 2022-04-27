@@ -26,8 +26,9 @@
       <div class="col-5">{{ "loan_currency" | translate }}</div>
       <div class="col-7">
         {{
-          lawsuitService.contract?.creditCurrencyLang?.lawsuitService.translate
-            .currentLang
+          lawsuitService.contract?.creditCurrencyLang[
+            lawsuitService.translate.currentLang
+          ]
         }}
       </div>
     </div>
@@ -42,7 +43,7 @@
     <div class="row page-card__details px-3">
       <div class="col-5">{{ "remaining_current_debt" | translate }}</div>
       <div class="col-7">
-        {{ lawsuitService.contract?.remainderCurrentDebt }}
+        {{ lawsuitService.contract?.remainderCurrentDebt | numberTransform }}
       </div>
     </div>
     <div class="row page-card__details px-3">
@@ -50,19 +51,19 @@
         {{ "the_balance_of_the_overdue_principal" | translate }}
       </div>
       <div class="col-7">
-        {{ lawsuitService.contract?.remainderOverdueDebt }}
+        {{ lawsuitService.contract?.remainderOverdueDebt | numberTransform }}
       </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">{{ "balance_accrued_%" | translate }}</div>
       <div class="col-7">
-        {{ lawsuitService.contract?.remainderOverduePercent }}
+        {{ lawsuitService.contract?.remainderOverduePercent | numberTransform }}
       </div>
     </div>
     <div class="row page-card__details px-3">
       <div class="col-5">{{ "overdue_balance_%" | translate }}</div>
       <div class="col-7">
-        {{ lawsuitService.contract?.remainderAccruedPercent }}
+        {{ lawsuitService.contract?.remainderAccruedPercent | numberTransform }}
       </div>
     </div>
     <div class="row page-card__details px-3">
@@ -73,7 +74,10 @@
         }}
       </div>
       <div class="col-7">
-        {{ lawsuitService.contract?.remainderAccruedPercentOverdueDebt }}%
+        {{
+          lawsuitService.contract?.remainderAccruedPercentOverdueDebt
+            | numberTransform
+        }}
       </div>
     </div>
     <div class="row page-card__details px-3">
@@ -115,7 +119,7 @@
     <div class="row page-card__details px-3">
       <div class="col-5">{{ "total_debt2" | translate }}</div>
       <div class="col-7 text-danger">
-        {{ lawsuitService.contract?.totalDebt }}
+        {{ lawsuitService.contract?.totalDebt | numberTransform }}
       </div>
     </div>
     <div class="row page-card__details px-3">
