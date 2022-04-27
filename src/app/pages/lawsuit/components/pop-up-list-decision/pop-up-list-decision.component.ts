@@ -34,10 +34,10 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
 
   // decisions!: any;
 
-  options = [
-    { label: 'Отказать', value: 1 },
-    { label: 'Одобрить', value: 3 },
-  ];
+  // options = [
+  //   { label: 'Отказать', value: 1 },
+  //   { label: 'Одобрить', value: 3 },
+  // ];
 
   constructor(
     private popUpInfoService: PopUpInfoService,

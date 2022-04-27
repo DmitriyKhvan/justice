@@ -67,6 +67,7 @@
   "step1": "Uz_Шаг",
   "step2": "Uz_Шага",
   "step3": "Uz_Шагов",
+  "steps": "Uz_Шаги",
   "action1": "Uz_действие",
   "action2": "Uz_действия",
   "action3": "Uz_действий",
@@ -177,5 +178,14 @@
   "yourDecision": "Uz_Ваше решение",
   "resume": "Uz_Возобновить",
   "reopenCase": "Uz_Возобновить дело",
-  "caseSuccessfullyReopened": "Uz_Дело успешно возобновлено"
+  "caseSuccessfullyReopened": "Uz_Дело успешно возобновлено",
+
+  "considerApplication": "Uz_Рассмотреть заявку",
+  "makingDecisionsApplication": "Uz_Принятие решений по заявке",
+  "stepSolutionSent": "Uz_Решение по шагу отправлено",
+  "enteringResponse": "Uz_Внесение ответа",
+  "actionName": "Uz_Название действия",
+  "actionDecisionSent": "Uz_Решение по действию отправлено",
+  "refuse": "Uz_Отказать",
+  "approve": "Uz_Одобрить"
 }

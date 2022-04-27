@@ -68,6 +68,7 @@
   "step1": "Шаг",
   "step2": "Шага",
   "step3": "Шагов",
+  "steps": "Шаги",
   "action1": "действие",
   "action2": "действия",
   "action3": "действий",
@@ -189,5 +190,14 @@
   "yourDecision": "Ваше решение",
   "resume": "Возобновить",
   "reopenCase": "Возобновить дело",
-  "caseSuccessfullyReopened": "Дело успешно возобновлено"
+  "caseSuccessfullyReopened": "Дело успешно возобновлено",
+
+  "considerApplication": "Рассмотреть заявку",
+  "makingDecisionsApplication": "Принятие решений по заявке",
+  "stepSolutionSent": "Решение по шагу отправлено",
+  "enteringResponse": "Внесение ответа",
+  "actionName": "Название действия",
+  "actionDecisionSent": "Решение по действию отправлено",
+  "refuse": "Отказать",
+  "approve": "Одобрить"
 }

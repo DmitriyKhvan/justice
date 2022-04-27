@@ -33,10 +33,10 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
   selector: 'app-sidebar',
   template: `
     <!-- *ngIf="mainService.sidebar || mainService.sidebarDetail" -->
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper" (click)="mainService.sidebar = false">
       <div class="sidebar" #sidebar [@showSidebar]="sidebar">
         <i
-          class="uil-times-circle sidebar-close"
+          class="uil-times sidebar-close"
           (click)="mainService.sidebar = false"
         ></i>
         <div class="notifications">
@@ -158,7 +158,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 
       <div class="sidebar" [@showSidebar]="sidebarDetail">
         <i
-          class="uil-times-circle sidebar-close"
+          class="uil-times sidebar-close"
           (click)="
             mainService.sidebar = false; mainService.sidebarDetail = false
           "
@@ -350,8 +350,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   get sidebar(): any {
-    return 'show';
-    // return this.mainService.sidebar ? 'show' : 'hide';
+    // return 'show';
+    return this.mainService.sidebar ? 'show' : 'hide';
   }
   get sidebarDetail(): any {
     return this.mainService.sidebarDetail ? 'show' : 'hide';

@@ -25,8 +25,8 @@ export class ListDecisionComponent implements OnInit, OnDestroy {
   formm!: FormGroup;
 
   options = [
-    { label: 'Отказать', value: 1 },
-    { label: 'Одобрить', value: 3 },
+    { label: 'refuse', value: 1 },
+    { label: 'approve', value: 3 },
   ];
 
   submitted = false;

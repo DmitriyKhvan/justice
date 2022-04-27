@@ -16,8 +16,8 @@ export class FormDecisionComponent implements OnInit {
   submitted = false;
 
   options = [
-    { label: 'Отказать', value: 1 },
-    { label: 'Одобрить', value: 3 },
+    { label: 'refuse', value: 1 },
+    { label: 'approve', value: 3 },
   ];
 
   headLawyerFiles: any[] = [];

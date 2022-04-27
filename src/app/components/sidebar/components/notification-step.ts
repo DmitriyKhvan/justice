@@ -84,7 +84,7 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
         type="button"
         class="page-form__actionbtn text-uppercase"
       >
-        Рассмотреть заявку
+        {{ 'considerApplication' | translate }}
       </button>
     </div>
   `,

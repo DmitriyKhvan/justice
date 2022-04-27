@@ -3,22 +3,28 @@
   [formGroup]="form"
   (ngSubmit)="submitDecisionAction($event)"
 >
-  <h4 class="decisions_sub_title">Внесение ответа</h4>
+  <h4 class="decisions_sub_title">{{ "enteringResponse" | translate }}</h4>
   <div class="row justify-content-between mb-2">
     <div class="col-6">
       <div class="select-field">
-        <div class="select-field__title">Ваше решение</div>
+        <div class="select-field__title">{{ "yourDecision" | translate }}</div>
         <ng-select
           appearance="outline"
           [items]="options"
           bindLabel="label"
           bindValue="value"
-          placeholder="Ваше решение"
+          placeholder="{{ 'yourDecision' | translate }}"
           #agreeSelect
           labelForId="yesno"
           [searchable]="false"
           formControlName="decision"
-        ></ng-select>
+        >
+          <ng-template ng-option-tmp let-item="item" ng-label-tmp>
+            <div title="item">
+              {{ item.label | translate }}
+            </div>
+          </ng-template>
+        </ng-select>
         <div
           *ngIf="form.get('decision')?.touched && form.get('decision')?.invalid"
           class="validation"

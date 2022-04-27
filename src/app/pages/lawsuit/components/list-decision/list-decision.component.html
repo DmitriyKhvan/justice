@@ -2,16 +2,17 @@
   <div class="closeBtn">
     <i class="uil-times" data-close="true"></i>
   </div>
-  <h2 class="title">Принятие решений по заявке</h2>
+  <h2 class="title">{{ "makingDecisionsApplication" | translate }}</h2>
 
   <div class="count">
-    <span class="count_title">В ожидании решения: </span>
+    <span class="count_title">{{ "waiting_decision" | translate }}: </span>
     <div class="count_value">
       <span class="count_item"
         >{{ lawsuitService?.decisions?.stepsCount }}
         {{
           lawsuitService?.decisions?.stepsCount
-            | declensionOfWords: ["Шаг", "Шага", "Шагов"]
+            | declensionOfWords
+              : ["step1" | translate, "step2" | translate, "step3" | translate]
         }}</span
       >
 
@@ -21,7 +22,12 @@
         {{ lawsuitService?.decisions?.actionsCount }}
         {{
           lawsuitService?.decisions?.actionsCount
-            | declensionOfWords: ["действие", "действия", "действий"]
+            | declensionOfWords
+              : [
+                  "action1" | translate,
+                  "action2" | translate,
+                  "action3" | translate
+                ]
         }}
       </span>
     </div>
@@ -29,7 +35,7 @@
 
   <div class="decisions">
     <ng-container *ngIf="!!lawsuitService?.decisions?.stepsCount">
-      <h3 class="decisions_title">Шаги</h3>
+      <h3 class="decisions_title">{{ "steps" | translate }}</h3>
 
       <div
         *ngFor="let step of lawsuitService.decisions?.steps"
@@ -51,7 +57,7 @@
           </div>
           <div class="completeDecision">
             <i class="icon-check"></i>
-            <span>Решение по шагу отправлено!</span>
+            <span>{{ "stepSolutionSent" | translate }}!</span>
           </div>
         </div>
 
@@ -71,22 +77,32 @@
             [formGroup]="form"
             (ngSubmit)="submitDecisionStep(step.jumpId, $event)"
           >
-            <h4 class="decisions_sub_title">Внесение ответа</h4>
+            <h4 class="decisions_sub_title">
+              {{ "enteringResponse" | translate }}
+            </h4>
             <div class="row justify-content-between mb-2">
               <div class="col-6">
                 <div class="select-field">
-                  <div class="select-field__title">Ваше решение</div>
+                  <div class="select-field__title">
+                    {{ "yourDecision" | translate }}
+                  </div>
                   <ng-select
                     appearance="outline"
                     [items]="options"
                     bindLabel="label"
                     bindValue="value"
-                    placeholder="Ваше решение"
+                    placeholder="{{ 'yourDecision' | translate }}"
                     #agreeSelect
                     labelForId="yesno"
                     [searchable]="false"
                     formControlName="decision"
-                  ></ng-select>
+                  >
+                    <ng-template ng-option-tmp let-item="item" ng-label-tmp>
+                      <div title="item">
+                        {{ item.label | translate }}
+                      </div>
+                    </ng-template>
+                  </ng-select>
                   <div
                     *ngIf="
                       form.get('decision')?.touched &&
@@ -142,7 +158,7 @@
     </ng-container>
 
     <ng-container *ngIf="!!lawsuitService?.decisions?.actionsCount">
-      <h3 class="decisions_title">Действия</h3>
+      <h3 class="decisions_title">{{ "action2" | translate | titlecase }}</h3>
 
       <div
         *ngFor="let step of lawsuitService.decisions?.actions"
@@ -154,7 +170,7 @@
 
         <div class="decision_title">
           <span class="title1">{{ "date" | translate }}</span>
-          <span class="title2">Название действия</span>
+          <span class="title2">{{ "actionName" | translate }}</span>
         </div>
 
         <div *ngFor="let action of step?.actions">
@@ -172,7 +188,7 @@
 
               <div class="completeDecision">
                 <i class="icon-check"></i>
-                <span>Решение по действию отправлено!</span>
+                <span>{{ "actionDecisionSent" | translate }}!</span>
               </div>
             </div>
 

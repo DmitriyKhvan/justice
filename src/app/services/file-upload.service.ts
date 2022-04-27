@@ -143,9 +143,11 @@ export class FileUploadService {
             }
           },
           (error) => {
-            console.log('errrrrrror', error);
+            console.log('error', error);
 
             this.alert.danger(error.message);
+            this.UploaderFiles.next([]);
+            this.allUploadFiles = [];
           }
         );
       } catch (error: any) {
