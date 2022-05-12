@@ -30,7 +30,6 @@ import { ClientsService } from 'src/app/services/clients.service';
 import { ConfirmService } from 'src/app/services/confirm.service';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
-import { MainService } from 'src/app/services/main.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 import { AdminService } from '../../shared/services/admin.service';
 
@@ -93,7 +92,6 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
   currentDate: Date = new Date();
 
   constructor(
-    public mainService: MainService,
     public clientsService: ClientsService,
     private dicService: DictionariesService,
     private router: Router,

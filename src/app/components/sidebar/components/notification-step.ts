@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MainService } from 'src/app/services/main.service';
+import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
@@ -61,7 +61,7 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
           <div class="value-info">
             {{
               notification?.data?.toStep?.lang[
-                mainService.translate.currentLang
+                lawsuitService.translate.currentLang
               ]
             }}
           </div>
@@ -73,7 +73,7 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
           <div class="value-info">
             {{
               notification?.data?.toAction.lang[
-                mainService.translate.currentLang
+                lawsuitService.translate.currentLang
               ]
             }}
           </div>
@@ -94,7 +94,7 @@ export class NotificationStep implements OnInit {
   @Input() notification!: any;
 
   constructor(
-    public mainService: MainService,
+    public lawsuitService: LawsuitService,
     private router: Router,
     private popUpInfoService: PopUpInfoService
   ) {}
@@ -102,8 +102,8 @@ export class NotificationStep implements OnInit {
   ngOnInit(): void {}
 
   showStep() {
-    this.mainService.sidebar = false;
-    this.mainService.sidebarDetail = false;
+    this.popUpInfoService.popUpListNotification$.next('close');
+    this.popUpInfoService.popUpNotificationDetail$.next('close');
     this.popUpInfoService.updateContractList$.next(true);
     this.router.navigate(['/clients/lawsuit'], {
       queryParams: {

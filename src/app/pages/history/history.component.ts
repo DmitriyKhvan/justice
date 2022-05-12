@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MainService } from '../../services/main.service';
 
 @Component({
   selector: 'app-history',
@@ -8,11 +7,7 @@ import { MainService } from '../../services/main.service';
   styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnInit {
-  constructor(
-    private router: Router,
-    public route: ActivatedRoute,
-    public mainService: MainService
-  ) {}
+  constructor(private router: Router, public route: ActivatedRoute) {}
 
   params: any;
 

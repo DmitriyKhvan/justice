@@ -146,6 +146,8 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
 import { MakeDecesionsComponent } from './pages/lawsuit/components/make-decesions/make-decesions.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SidebarListComponent } from './components/sidebar/components/sidebar-list.component';
+import { SidebarDetailComponent } from './components/sidebar/components/sidebar-detail.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -274,6 +276,8 @@ export function createTranslateLoader(http: HttpClient) {
     FormDecisionComponent,
     UploadFilesComponent,
     MakeDecesionsComponent,
+    SidebarListComponent,
+    SidebarDetailComponent,
   ],
   imports: [
     // TooltipModule,

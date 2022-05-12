@@ -8,7 +8,6 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientsService } from 'src/app/services/clients.service';
-import { MainService } from 'src/app/services/main.service';
 
 @Component({
   selector: 'app-stop-process-mfo',
@@ -40,7 +39,6 @@ export class StopProcessMfoComponent implements OnInit {
   regListItemIdx = null;
 
   constructor(
-    public mainService: MainService,
     public clientsService: ClientsService,
     private router: Router,
     public route: ActivatedRoute

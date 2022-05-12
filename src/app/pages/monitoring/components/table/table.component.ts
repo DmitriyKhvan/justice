@@ -19,6 +19,8 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() monitoring: any[] = [];
   @Input() loader!: boolean;
   monSub!: Subscription;
+
+  currentYear = new Date().getFullYear();
   // monitoring!: any;
 
   constructor(public lawsuitService: LawsuitService) {}

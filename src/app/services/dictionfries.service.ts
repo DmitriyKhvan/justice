@@ -19,7 +19,11 @@ export class DictionariesService {
   getRegions(): Observable<any> {
     return this.http.get(`${environment.dbUrlBek}/references/getTree`).pipe(
       catchError((error) => {
-        this.alert.danger(error.error.message);
+        this.alert.danger(
+          error.error.message || error.statusText === 'Unknown Error'
+            ? this.translate.instant('serverError')
+            : error.message
+        );
         return throwError(error);
       })
     );
@@ -30,7 +34,11 @@ export class DictionariesService {
       .get(`${environment.dbUrlBek}/references/getSprByType?type=${dicName}`)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -41,7 +49,11 @@ export class DictionariesService {
       .get(`${environment.dbUrlBek}/references/getSprByActionId?actionId=${id}`)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );

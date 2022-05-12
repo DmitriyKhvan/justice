@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { MainService } from './main.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { ContractInfo } from '../interfaces';
 import { AlertService } from './alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +31,9 @@ export class ClientsService {
 
   constructor(
     private http: HttpClient,
-    private mainService: MainService,
     private auth: AuthService,
-    private alert: AlertService
+    private alert: AlertService,
+    public translate: TranslateService
   ) {}
 
   getMfo(status: any = ''): Observable<any> {
@@ -44,7 +44,11 @@ export class ClientsService {
       .get<any>(`${environment.dbUrlBek}/cases/IABSmfo?status=${status}`)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -98,29 +102,6 @@ export class ClientsService {
     });
   }
 
-  // contractDetails(id: any): Observable<any> {
-  //   return this.http.post(`${environment.dbUrl}/process/open`, {
-  //     case_id: id,
-  //   });
-  // }
-
-  // completeTaskStep(body: any): Observable<any> {
-  //   return this.http.post(
-  //     `${environment.dbUrl}/process/task/send?role=${this.mainService.ROLE}`,
-  //     body
-  //   );
-  // }
-
-  // getTask(taskId: number, step: number): Observable<any> {
-  //   return this.http.get(
-  //     `${environment.dbUrl}/process/task/get?task_id=${taskId}&step=${step}`
-  //   );
-  // }
-
-  // addTaskComment(body: any): Observable<any> {
-  //   return this.http.post(`${environment.dbUrl}/comments`, body);
-  // }
-
   downloadFile(id: any): any {
     if (id) {
       window.open(
@@ -130,9 +111,6 @@ export class ClientsService {
     }
   }
 
-  // getFile(id: any): Observable<any> {
-  //   return this.http.get<any>(`${environment.fileBaseUrl}/file/downloadById/${id}`);
-  // }
   getFile(id: any): Promise<any> {
     return new Promise<any>(async (resolve: any, reject: any) => {
       try {

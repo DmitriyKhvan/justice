@@ -17,7 +17,6 @@ import {
   trigger,
 } from '@angular/animations';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
 import { KeycloakService } from 'keycloak-angular';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
@@ -94,7 +93,6 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
   currentDate: Date = new Date();
 
   constructor(
-    public mainService: MainService,
     public clientsService: ClientsService,
     private router: Router,
     public route: ActivatedRoute,

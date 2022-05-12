@@ -21,7 +21,11 @@ export class AdminService {
       .post(`${environment.authUrl}/admin/realms/JUSTICE/users`, user)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -38,7 +42,11 @@ export class AdminService {
       )
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -49,7 +57,11 @@ export class AdminService {
       .get(`${environment.authUrl}/admin/realms/JUSTICE/users/count`)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -70,8 +82,6 @@ export class AdminService {
       .get(`${environment.authUrl}/admin/realms/JUSTICE/users/${id}`)
       .pipe(
         catchError((error) => {
-          console.log('77777777777777');
-
           this.alert.danger(error.error.message || error.error.error);
           return throwError(error);
         })
@@ -83,7 +93,11 @@ export class AdminService {
       .put(`${environment.authUrl}/admin/realms/JUSTICE/users/${userId}`, user)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -94,7 +108,11 @@ export class AdminService {
       .delete<void>(`${environment.authUrl}/admin/realms/JUSTICE/users/${id}`)
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );
@@ -149,7 +167,11 @@ export class AdminService {
       )
       .pipe(
         catchError((error) => {
-          this.alert.danger(error.error.message);
+          this.alert.danger(
+            error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           return throwError(error);
         })
       );

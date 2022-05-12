@@ -14,6 +14,7 @@ import { first, mergeMap, map, catchError } from 'rxjs/operators';
 import { ClientsService } from './clients.service';
 import { environment } from 'src/environments/environment';
 import { AlertService } from './alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface FileError {
   status: boolean;
@@ -44,7 +45,8 @@ export class FileUploadService {
   constructor(
     private xhttp: HttpClient,
     public clientsService: ClientsService,
-    private alert: AlertService
+    private alert: AlertService,
+    private translate: TranslateService
   ) {}
 
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
@@ -152,7 +154,11 @@ export class FileUploadService {
         );
       } catch (error: any) {
         console.warn(error);
-        this.alert.danger(error.error.message);
+        this.alert.danger(
+          error.error.message || error.statusText === 'Unknown Error'
+            ? this.translate.instant('serverError')
+            : error.message
+        );
         reject({
           status: false,
           id: 'none',

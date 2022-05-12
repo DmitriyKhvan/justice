@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
-import { MainService } from '../../services/main.service';
+import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,10 +21,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    public mainService: MainService,
     public keycloak: KeycloakService,
     private alert: AlertService,
     // public translate: TranslateService,
+    private popUpInfoService: PopUpInfoService,
     public lawsuitService: LawsuitService
   ) {}
 
@@ -36,7 +36,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.profile = profile;
       })
       .catch((error) => {
-        this.alert.danger(error.error.message);
+        this.alert.danger(
+          error.error.message || error.statusText === 'Unknown Error'
+            ? this.lawsuitService.translate.instant('serverError')
+            : error.message
+        );
         // alert('Failed to load user profile');
       });
 
@@ -55,7 +59,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   showNotifications(): void {
-    this.mainService.sidebar = true;
+    this.popUpInfoService.popUpListNotification('open', {});
   }
 
   logout(): void {

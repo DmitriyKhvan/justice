@@ -188,5 +188,7 @@
   "actionName": "Uz_Название действия",
   "actionDecisionSent": "Uz_Решение по действию отправлено",
   "refuse": "Uz_Отказать",
-  "approve": "Uz_Одобрить"
+  "approve": "Uz_Одобрить",
+
+  "serverError": "Uz_Сервер не отвечает"
 }

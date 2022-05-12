@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LangChangeEvent } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { forkJoin, Subscription } from 'rxjs';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert.service';
@@ -25,7 +25,11 @@ export class AddUserComponent implements OnInit, OnDestroy {
 
   districts = [];
 
-  constructor(public adminService: AdminService, private alert: AlertService) {}
+  constructor(
+    public adminService: AdminService,
+    private alert: AlertService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -157,7 +161,11 @@ export class AddUserComponent implements OnInit, OnDestroy {
           console.log(error);
 
           // this.alert.danger('Пользователь не добавлен');
-          this.alert.danger(error.error.errorMessage || error.message);
+          this.alert.danger(
+            error.error.errorMessage || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
           this.submitted = false;
         }
       );

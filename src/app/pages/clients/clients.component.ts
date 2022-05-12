@@ -7,9 +7,7 @@ import {
   transition,
 } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-clients',
@@ -41,7 +39,6 @@ export class ClientsComponent implements OnInit, DoCheck {
   regListItemIdx = null;
 
   constructor(
-    public mainService: MainService,
     public clientsService: ClientsService,
     private router: Router,
     public route: ActivatedRoute

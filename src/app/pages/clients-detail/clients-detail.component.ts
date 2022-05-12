@@ -1,7 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { FileUploadService } from '../../services/file-upload.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MainService } from '../../services/main.service';
 import { ClientsService } from '../../services/clients.service';
 
 @Component({
@@ -14,7 +13,6 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
 
   constructor(
     public clientsService: ClientsService,
-    public mainService: MainService,
     public fileUploadService: FileUploadService,
     private router: Router,
     private route: ActivatedRoute

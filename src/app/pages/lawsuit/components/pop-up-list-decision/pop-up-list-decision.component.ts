@@ -72,8 +72,8 @@ export class PopUpListDecisionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.popUpInfoSub) {
-      this.popUpInfoSub.unsubscribe();
-    }
+    this.popUpInfoSub?.unsubscribe();
+
+    this.closePopUpInfoSub?.unsubscribe();
   }
 }
