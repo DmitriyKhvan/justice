@@ -148,6 +148,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SidebarListComponent } from './components/sidebar/components/sidebar-list.component';
 import { SidebarDetailComponent } from './components/sidebar/components/sidebar-detail.component';
+import { StatisticsTableComponent } from './pages/monitoring/components/statistics-table/statistics-table.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -278,6 +279,7 @@ export function createTranslateLoader(http: HttpClient) {
     MakeDecesionsComponent,
     SidebarListComponent,
     SidebarDetailComponent,
+    StatisticsTableComponent,
   ],
   imports: [
     // TooltipModule,

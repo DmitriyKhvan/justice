@@ -1,0 +1,57 @@
+table {
+  th,
+  td {
+    border: 1px solid #ccc;
+  }
+}
+
+.regions {
+  font-weight: bold;
+}
+
+.number {
+  text-align: center;
+}
+
+.filial {
+  td {
+    position: relative;
+    z-index: 100;
+    height: 0;
+    padding: 0;
+    border: none;
+    transition: height, 0.3s ease;
+    span {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+  }
+}
+
+.active {
+  td {
+    height: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    span {
+      opacity: 1;
+      visibility: visible;
+      position: relative;
+      z-index: 1;
+    }
+  }
+}
+
+.accord-row {
+  text-align: center;
+}
+
+.accord::before {
+  transform: rotate(90deg);
+  cursor: pointer;
+  font-size: 20px;
+  color: #10274a;
+  font-weight: bold;
+}

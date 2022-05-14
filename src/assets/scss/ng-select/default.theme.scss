@@ -1,4 +1,4 @@
-@import 'mixins';
+@import "mixins";
 
 $ng-select-highlight: #007eff !default;
 $ng-select-primary-text: #333 !default;
@@ -26,7 +26,7 @@ $ng-select-value-font-size: 0.9em !default;
       }
       .ng-arrow {
         &::before {
-          content: '\e821';
+          content: "\e821";
         }
         &:hover {
           //border-color: transparent transparent darken($ng-select-border, 60);
@@ -210,10 +210,10 @@ $ng-select-value-font-size: 0.9em !default;
     }
     .ng-arrow {
       width: 10px !important;
-      font-family: 'unicons' !important;
+      font-family: "unicons" !important;
       font-size: 22px;
       &::before {
-        content: '\e81d';
+        content: "\e81d";
       }
     }
   }
@@ -235,8 +235,8 @@ $ng-select-value-font-size: 0.9em !default;
       scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
       scrollbar-width: none;
       &::-webkit-scrollbar {
-        width: 5px;
-        height: 100%;
+        width: 10px;
+        height: 10px;
       }
       &::-webkit-scrollbar-track {
         background-color: rgba(0, 0, 0, 0.1);
@@ -263,8 +263,8 @@ $ng-select-value-font-size: 0.9em !default;
       scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
       scrollbar-width: none;
       &::-webkit-scrollbar {
-        width: 5px;
-        height: 100%;
+        width: 10px;
+        height: 10px;
       }
       &::-webkit-scrollbar-track {
         background-color: rgba(0, 0, 0, 0.1);
@@ -296,7 +296,7 @@ $ng-select-value-font-size: 0.9em !default;
       font-weight: 600;
       cursor: pointer;
       font-size: 14px;
-      color: #10274A;
+      color: #10274a;
       &.ng-option-disabled {
         cursor: default;
       }
@@ -317,7 +317,7 @@ $ng-select-value-font-size: 0.9em !default;
       &.ng-option-selected,
       &.ng-option-selected.ng-option-marked {
         background: rgba(25, 37, 59, 0.05);
-        color: #10274A;
+        color: #10274a;
         //color: $ng-select-primary-text;
         //background-color: $ng-select-selected;
         .ng-option-label {
@@ -326,7 +326,7 @@ $ng-select-value-font-size: 0.9em !default;
       }
       &.ng-option-marked {
         background: rgba(25, 37, 59, 0.05);
-        color: #10274A;
+        color: #10274a;
         //background-color: $ng-select-marked;
         //color: $ng-select-primary-text;
       }

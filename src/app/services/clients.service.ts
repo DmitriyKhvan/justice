@@ -45,7 +45,7 @@ export class ClientsService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );

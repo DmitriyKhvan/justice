@@ -20,7 +20,7 @@ export class DictionariesService {
     return this.http.get(`${environment.dbUrlBek}/references/getTree`).pipe(
       catchError((error) => {
         this.alert.danger(
-          error.error.message || error.statusText === 'Unknown Error'
+          !error.error.message || error.statusText === 'Unknown Error'
             ? this.translate.instant('serverError')
             : error.message
         );
@@ -35,7 +35,7 @@ export class DictionariesService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -50,7 +50,7 @@ export class DictionariesService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );

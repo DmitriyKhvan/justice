@@ -1,0 +1,105 @@
+<div *ngIf="statisticsData.length; else loadBlock" class="monitoringTable">
+  <h2 class="title">ОТЧЕТ ПО ПРОБЛЕМНЫМ КРЕДИТАМ</h2>
+
+  <table #table border="1" cellpadding="5" width="100%">
+    <tr>
+      <th colspan="3">{{ currentDate }}</th>
+      <th colspan="2">Информация о кредите</th>
+
+      <!-- Cуд -->
+      <th colspan="4">Суд</th>
+    </tr>
+
+    <tr>
+      <th rowspan="3" colspan="2">№</th>
+      <th rowspan="2">Наименование филиала Банка</th>
+      <th colspan="2">Кредит</th>
+
+      <!-- Cуд -->
+      <th rowspan="2">Общая сумма иска</th>
+      <th colspan="3">Из этого</th>
+    </tr>
+
+    <tr>
+      <th>Количество</th>
+      <th>Сумма</th>
+
+      <!-- Cуд -->
+      <th>Основная сумма долга</th>
+      <th>Процент</th>
+      <th>Пеня</th>
+    </tr>
+
+    <tr>
+      <th>Итог</th>
+      <th></th>
+      <th></th>
+
+      <!-- Cуд -->
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <ng-container *ngFor="let data of statisticsData; let idx = index">
+      <tr>
+        <td class="accord-row">
+          <i (click)="toggleFilials(data.code)" class="uil-code accord"></i>
+        </td>
+        <td class="number" data-toggle="collapse">
+          {{ idx + 1 }}
+        </td>
+        <td>
+          <span class="regions">{{ data.name }}</span>
+        </td>
+        <td>{{ data.credit.count }}</td>
+        <td>{{ data.credit.sum }}</td>
+
+        <!-- Cуд -->
+        <ng-container *ngIf="data.law">
+          <td>{{ data.law.totalAmount }}</td>
+          <td>{{ data.law.main_debt }}</td>
+          <td>{{ data.law.percent }}</td>
+          <td>{{ data.law.fine }}</td>
+        </ng-container>
+      </tr>
+
+      <ng-container *ngFor="let filial of data.branches; let idx2 = index">
+        <tr class="filial" [class]="'f' + data.code">
+          <td></td>
+          <td class="number">
+            <span>{{ idx + 1 }}.{{ idx2 + 1 }}.</span>
+          </td>
+          <td>
+            <span>{{ filial.name }}</span>
+          </td>
+          <td>
+            <span>{{ filial.credit.count }}</span>
+          </td>
+          <td>
+            <span>{{ filial.credit.count }}</span>
+          </td>
+
+          <!-- Cуд -->
+          <td>
+            <span>{{ filial.law.totalAmount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.law.main_debt }}</span>
+          </td>
+          <td>
+            <span>{{ filial.law.percent }}</span>
+          </td>
+          <td>
+            <span>{{ filial.law.fine }}</span>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </table>
+</div>
+
+<ng-template #loadBlock>
+  <app-loader></app-loader>
+</ng-template>

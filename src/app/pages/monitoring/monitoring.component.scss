@@ -2,6 +2,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  margin-bottom: 10px;
 
   .filters {
     display: flex;
@@ -84,11 +85,11 @@
   }
 
   &-body {
-    height: calc(100vh - 280px);
-    overflow-y: auto;
+    height: calc(100vh - 335px);
+    overflow: scroll;
     &::-webkit-scrollbar {
       width: 10px;
-      height: 100%;
+      height: 10px;
       background: transparent;
     }
     &::-webkit-scrollbar-track {
@@ -99,4 +100,10 @@
       border-radius: 5px;
     }
   }
+}
+
+.selectTypeReport {
+  margin: 20px;
+  font-size: 30px;
+  text-align: center;
 }

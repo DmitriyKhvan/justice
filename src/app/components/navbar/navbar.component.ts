@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       })
       .catch((error) => {
         this.alert.danger(
-          error.error.message || error.statusText === 'Unknown Error'
+          !error.error.message || error.statusText === 'Unknown Error'
             ? this.lawsuitService.translate.instant('serverError')
             : error.message
         );

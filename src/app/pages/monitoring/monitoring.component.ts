@@ -21,25 +21,40 @@ import { datepickerSettings } from 'src/app/settings';
   styleUrls: ['./monitoring.component.scss'],
 })
 export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('childComp') childComp!: TableComponent;
+  @ViewChild('monitoring') monitoring!: TableComponent;
+  @ViewChild('statistics') statistics!: TableComponent;
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
 
   regionsSub!: Subscription;
   statusSub!: Subscription;
+  statisticsSub!: Subscription;
 
   titleTab: string = 'Мониторинг';
-  flag: string = 'monitoring';
+  flag: string = '';
   loader: boolean = false;
   dataFilter: any = {};
+  keyFilster: any = null;
+  valueFilter: any = null;
 
   regionsDic = [];
   filialsDic: any[] = [];
   statusDic: any[] = [];
 
   filials: any[] = [];
-  monitoring: any[] = [];
+  monitoringData: any[] = [];
+  statisticsData: any[] = [];
+
   status: any[] = [];
+
+  typeReportDic = [
+    { label: 'Детальный', value: 'monitoring' },
+    { label: 'Статистика', value: 'statistics' },
+  ];
+
+  // selectedTypeReport = this.typeReportDic.find(
+  //   (el) => el.value === 'statistics'
+  // );
 
   constructor(
     public clientService: ClientsService,
@@ -61,9 +76,11 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {}
 
-  fireEvent() {
+  fireEvent(typeReport: any) {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-      this.childComp.table.nativeElement
+      typeReport === 'monitoring'
+        ? this.monitoring.table.nativeElement
+        : this.statistics.table.nativeElement
     );
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Мониторинг');
@@ -73,47 +90,108 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   selectTab(titleTab: string, flag: string) {
-    this.titleTab = titleTab;
-    this.flag = flag;
-  }
+    console.log(titleTab, flag);
 
-  setDistrict(region: any) {
-    this.monitoring = [];
-    if (region.code === '00') {
-      const AllMfos = region.branches[0].mfo;
-      this.setFilterData([AllMfos], 'mfos');
-      this.filialsDic = region.branches;
-      this.filials = [AllMfos];
-    } else if (region.code !== '00') {
-      this.filialsDic = region.branches;
-      this.filials = [];
+    if (flag) {
+      this.titleTab = titleTab;
+      this.flag = flag;
+
+      // if (this.flag === 'statistics') {
+      //   this.getAllFilials();
+      // } else if (this.flag === 'monitoring') {
+
+      // }
+
+      this.setFilterData(this.valueFilter, this.keyFilster);
     } else {
-      this.filialsDic = [];
-      this.filials = [];
-      this.dataFilter = {};
+      this.flag = '';
     }
   }
 
-  setFilterData(data: any, key: string) {
-    this.monitoring = [];
+  getAllFilials() {
+    const data = {};
+    this.statisticsSub = this.lawsuitService
+      .statistics(data)
+      .subscribe((statistics) => {
+        this.statisticsData = statistics;
+      });
+  }
+
+  setDistrict(region: any) {
+    this.monitoringData = [];
+
+    if (region) {
+      if (region.code === '00') {
+        if (this.flag === 'monitoring') {
+          const AllMfos = region.branches[0].mfo;
+          this.setFilterData([AllMfos], 'mfos');
+          this.filialsDic = region.branches;
+          this.filials = [AllMfos];
+        } else if (this.flag === 'statistics') {
+          this.getAllFilials();
+        }
+      } else if (region.code !== '00') {
+        this.filialsDic = region.branches;
+        this.filials = [];
+
+        if (this.flag === 'statistics') {
+          const data = {
+            regionsCode: [region.code],
+          };
+          this.statisticsSub = this.lawsuitService
+            .statistics(data)
+            .subscribe((statistics) => {
+              this.statisticsData = statistics;
+            });
+        }
+      }
+    } else {
+      if (this.flag === 'monitoring') {
+        this.filialsDic = [];
+        this.filials = [];
+        this.dataFilter = {};
+      } else if (this.flag === 'statistics') {
+        this.getAllFilials();
+      }
+    }
+  }
+
+  setFilterData(data: any = {}, key: string = '') {
+    this.monitoringData = [];
     this.loader = true;
     this.dataFilter = {
       ...this.dataFilter,
       [key]: data,
     };
-    // console.log(this.filials);
-    this.lawsuitService
-      .monitoring(this.dataFilter)
-      .pipe(debounceTime(700))
-      .subscribe(
-        (monitoring) => {
-          this.loader = false;
-          this.monitoring = monitoring;
-        },
-        (error) => {
-          this.loader = false;
-        }
-      );
+
+    this.keyFilster = key;
+    this.valueFilter = data;
+
+    if (this.flag === 'monitoring') {
+      if (this.valueFilter) {
+        this.lawsuitService
+          .monitoring(this.dataFilter)
+          .pipe(debounceTime(700))
+          .subscribe((monitoring) => {
+            this.loader = false;
+            this.monitoringData = monitoring;
+          });
+      } else {
+        this.loader = false;
+        this.monitoringData = [];
+      }
+    } else if (this.flag === 'statistics') {
+      if (this.valueFilter) {
+        this.statisticsSub = this.lawsuitService
+          .statistics(this.dataFilter)
+          .subscribe((statistics) => {
+            this.loader = false;
+            this.statisticsData = statistics;
+          });
+      } else {
+        this.getAllFilials();
+      }
+    }
   }
 
   // setFilials(mfos: any) {

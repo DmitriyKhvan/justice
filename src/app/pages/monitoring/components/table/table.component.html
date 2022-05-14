@@ -1,4 +1,4 @@
-<div *ngIf="monitoring.length; else noMonitoring" class="monitoringTable">
+<div *ngIf="monitoringData.length; else noMonitoring" class="monitoringTable">
   <h2 class="title">
     <!--"Trastbank" XAB da-->
     Muammoli kreditlar haqida MA'LUMOT
@@ -17,6 +17,10 @@
       <th>Qarzdorlik</th>
       <th>Qoldiq</th>
       <th>Status</th>
+      <th rowspan="2">Qadam</th>
+      <th rowspan="2">Harakat</th>
+      <th rowspan="2">Tafsilot</th>
+      <th rowspan="2">Bosh yuristning qarori</th>
     </tr>
     <tr>
       <th>A</th>
@@ -29,7 +33,7 @@
       <th>Huquqiy holati, vaziayt</th>
     </tr>
 
-    <tr *ngFor="let data of monitoring; let idx = index">
+    <tr *ngFor="let data of monitoringData; let idx = index">
       <td>{{ idx + 1 }}</td>
       <td>{{ data.clientFio }}</td>
       <td>{{ data.contractDate }}г. №{{ data.contractId }}</td>
@@ -43,13 +47,44 @@
       <td>{{ data.totalDebt | numberTransform }}</td>
       <td>{{ data.remainderCurrentDebt | numberTransform }}</td>
       <td>{{ data.statusName[lawsuitService.translate.currentLang] }}</td>
+      <td>
+        {{
+          data.stepLang
+            ? data.stepLang[lawsuitService.translate.currentLang]
+            : null
+        }}
+      </td>
+      <td>
+        {{
+          data.actionLang
+            ? data.actionLang[lawsuitService.translate.currentLang]
+            : null
+        }}
+      </td>
+      <td>
+        {{
+          data.actionDetail
+            ? data.actionDetail[lawsuitService.translate.currentLang]
+            : null
+        }}
+      </td>
+      <td>
+        {{
+          data.actionStatus
+            ? data.actionStatus[lawsuitService.translate.currentLang]
+            : null
+        }}
+      </td>
     </tr>
   </table>
 </div>
 
 <ng-template #noMonitoring>
-  <h2 class="noFilials" *ngIf="!monitoring.length && !loader; else loaderBlock">
-    Выберите филиал
+  <h2
+    class="noFilials"
+    *ngIf="!monitoringData.length && !loader; else loaderBlock"
+  >
+    Нет данных
   </h2>
 </ng-template>
 

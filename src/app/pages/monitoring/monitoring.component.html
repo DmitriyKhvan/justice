@@ -1,5 +1,26 @@
 <div class="mx-5 px-5 pt-2 h-100">
   <h2>Мониторинг заявок</h2>
+
+  <div class="funcBlock page-form">
+    <div class="filters">
+      <div class="select-field filter">
+        <div class="select-field__title">Отчет</div>
+        <ng-select
+          appearance="outline"
+          [items]="typeReportDic"
+          bindLabel=""
+          bindValue=""
+          placeholder="Отчет"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          (change)="selectTab($event?.label, $event?.value)"
+        ></ng-select>
+        <!-- [(ngModel)]="selectedTypeReport" -->
+      </div>
+    </div>
+  </div>
+
   <div class="funcBlock page-form">
     <div class="filters">
       <div class="select-field filter">
@@ -35,7 +56,7 @@
         ></ng-select>
       </div>
 
-      <div class="select-field filter">
+      <div *ngIf="flag !== 'statistics'" class="select-field filter">
         <div class="select-field__title">Статус</div>
         <ng-select
           [multiple]="true"
@@ -55,7 +76,7 @@
       <!-- <div class="input-field filter">
         <div class="input-field__title">Период</div>
         <label class="input-field__label">
-          
+
           <input
             class="input-box"
             angular-mydatepicker
@@ -68,11 +89,8 @@
         </label>
       </div> -->
     </div>
-    <button
-      [disabled]="filials.length ? false : true"
-      class="exportBtn"
-      (click)="fireEvent()"
-    >
+    <!-- [disabled]="filials.length ? false : true" -->
+    <button class="exportBtn" (click)="fireEvent(flag)">
       <i class="uil-down-arrow"></i><span>Экспортировать</span>
     </button>
   </div>
@@ -99,12 +117,22 @@
 
     <div class="monitoring-body">
       <app-map *ngIf="flag === 'map'"></app-map>
+
       <app-table
         *ngIf="flag === 'monitoring'"
-        [monitoring]="monitoring"
+        [monitoringData]="monitoringData"
         [loader]="loader"
-        #childComp
+        #monitoring
       ></app-table>
+
+      <app-statistics-table
+        *ngIf="flag === 'statistics'"
+        [statisticsData]="statisticsData"
+        [loader]="loader"
+        #statistics
+      ></app-statistics-table>
+
+      <h4 class="selectTypeReport" *ngIf="flag === ''">Выберите тип отчета</h4>
     </div>
   </div>
 </div>

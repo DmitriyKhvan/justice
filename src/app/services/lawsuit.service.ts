@@ -61,16 +61,33 @@ export class LawsuitService {
   ) {}
 
   monitoring(data: any): Observable<any> {
-    return this.http.post(`${environment.dbUrlBek}/cases/monit`, data).pipe(
-      catchError((error) => {
-        this.alert.danger(
-          error.error.message || error.statusText === 'Unknown Error'
-            ? this.translate.instant('serverError')
-            : error.message
-        );
-        return throwError(error);
-      })
-    );
+    return this.http
+      .post(`${environment.dbUrlBek}/cases/monit/detail`, data)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(
+            !error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
+          return throwError(error);
+        })
+      );
+  }
+
+  statistics(data: any): Observable<any> {
+    return this.http
+      .post(`${environment.dbUrlBek}/cases/monit/statistic`, data)
+      .pipe(
+        catchError((error) => {
+          this.alert.danger(
+            !error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
+          return throwError(error);
+        })
+      );
   }
 
   pushNotifications({ page = 1, count = 20, value = '' }): Observable<any> {
@@ -95,7 +112,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -108,7 +125,7 @@ export class LawsuitService {
     return this.http.post(`${environment.dbUrlBek}/${api}`, data).pipe(
       catchError((error) => {
         this.alert.danger(
-          error.error.message || error.statusText === 'Unknown Error'
+          !error.error.message || error.statusText === 'Unknown Error'
             ? this.translate.instant('serverError')
             : error.message
         );
@@ -123,7 +140,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -136,7 +153,7 @@ export class LawsuitService {
     return this.http.get(`${environment.dbUrlBek}/step`).pipe(
       catchError((error) => {
         this.alert.danger(
-          error.error.message || error.statusText === 'Unknown Error'
+          !error.error.message || error.statusText === 'Unknown Error'
             ? this.translate.instant('serverError')
             : error.message
         );
@@ -153,7 +170,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -195,7 +212,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -210,7 +227,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -239,7 +256,7 @@ export class LawsuitService {
       catchError((error) => {
         // console.log(error);
         this.alert.danger(
-          error.error.message || error.statusText === 'Unknown Error'
+          !error.error.message || error.statusText === 'Unknown Error'
             ? this.translate.instant('serverError')
             : error.message
         );
@@ -269,7 +286,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -284,7 +301,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -299,7 +316,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -316,7 +333,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
@@ -331,7 +348,7 @@ export class LawsuitService {
       .pipe(
         catchError((error) => {
           this.alert.danger(
-            error.error.message || error.statusText === 'Unknown Error'
+            !error.error.message || error.statusText === 'Unknown Error'
               ? this.translate.instant('serverError')
               : error.message
           );
