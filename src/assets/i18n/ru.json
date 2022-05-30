@@ -102,7 +102,8 @@
   "last_loan_repayment_date": "Последний срок погашения кредита",
 
   "you_can_send_a_notification_3_times": "Отправить уведомление можно 3 раза",
-  "remaining": "Осталось",
+
+  "remainingShipments": "Осталось {{count}} {{sending}}",
   "sending1": "отправка",
   "sending2": "отправки",
   "sending3": "отправок",
@@ -145,6 +146,7 @@
   "type": "Тип ответа",
   "lotNumber": "№ Лота",
   "beginDateLot": "Дата начала первого торга",
+  "repeatDateLot": "Дата начала повторного торга",
   "lotSum": "Сумма Лота",
   "endDateLot": "Дата конца торга",
   "result": "Выбор результата Лота",

@@ -89,8 +89,11 @@
         </label>
       </div> -->
     </div>
-    <!-- [disabled]="filials.length ? false : true" -->
-    <button class="exportBtn" (click)="fireEvent(flag)">
+    <button
+      [disabled]="filials.length || flag === 'statistics' ? false : true"
+      class="exportBtn"
+      (click)="fireEvent(flag)"
+    >
       <i class="uil-down-arrow"></i><span>Экспортировать</span>
     </button>
   </div>

@@ -55,16 +55,21 @@
         <p class="limitNotificationText">
           <i class="uil-info-circle"></i>
           {{ "you_can_send_a_notification_3_times" | translate }}.
-          {{ "remaining" | translate }}
-          {{ 3 - lawsuitService.historyActions.length }}
+
           {{
-            3 - lawsuitService.historyActions.length
-              | declensionOfWords
-                : [
-                    "sending1" | translate,
-                    "sending2" | translate,
-                    "sending3" | translate
-                  ]
+            "remainingShipments"
+              | translate
+                : {
+                    count: 3 - lawsuitService.historyActions.length,
+                    sending:
+                      3 - lawsuitService.historyActions.length
+                      | declensionOfWords
+                        : [
+                            "sending1" | translate,
+                            "sending2" | translate,
+                            "sending3" | translate
+                          ]
+                  }
           }}
         </p>
       </div>
