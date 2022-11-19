@@ -124,7 +124,7 @@
     </div>
 
     <div class="col-6">
-      <div class="select-field">
+      <div *ngIf="this.form.get('kindLaw')?.value !== 1" class="select-field">
         <div class="select-field__title">{{ "district" | translate }}</div>
         <ng-select
           appearance="outline"

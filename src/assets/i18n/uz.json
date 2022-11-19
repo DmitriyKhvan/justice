@@ -1,5 +1,6 @@
 {
-  "enter_dataUz_": "Ma'lumotlari kiritish",
+  "enter_data": "Ma'lumotlari kiritish",
+  "invalid_data": "Неверные данные UZ",
   "incorrect_data": "Notog'ri ma'lumotlar",
   "additional_information": "Qo'shimcha ma'lumotlar",
   "attach_file": "Uz_Прикрепить файл",
@@ -82,7 +83,7 @@
   "loan_end_date": "Kreditning tugash sanasi",
   "loan_currency": "Kredit valyutasi",
   "interest_rate": "Foiz stavkasi",
-  "build/non-Uz_build_status": "Статус наращивания/ненаращивания",
+  "build/non-build_status": "Статус наращивания/ненаращивания",
   "build_status": "Uz_Статус наращивания",
   "remaining_current_debt": "Joriy qarzlari qoldig'i",
   "the_balance_of_the_overdue_principal": "Muddati o'tgan asosiy qarz qoldig'I",
@@ -129,7 +130,9 @@
   "caseNumber": "Ish raqami",
   "searchCaseNumber": "Uz_Поиск по № дела",
   "deferTo": "Qoldirish",
-  "dateLaw": "Sud jarayonini  sanasi va vaqti",
+  "dateLaw": "Sud jarayonini sanasi",
+  "timeLaw": "Sud jarayonini vaqti",
+  "dateTimeLaw": "Sud jarayonini sanasi va vaqti",
   "addDateLaw": "Sana qoshish",
   "decisionDate": "Qaror sanasi",
   "decisionResult": "Uz_Результат решения",
@@ -147,7 +150,9 @@
   "lotSum": "Lot miqdori",
   "endDateLot": "Savdoning tugash muddati",
   "result": "Lot natijasini tanlash",
+  "result2": "Результат UZ",
   "typeApplication": "Ariza berish turi",
+  "appellant": "Обжаловающее лицо UZ",
   "object": "Uz_Выбор инстанции, на которую подается жалоба",
   "subject": "Uz_Вид обжалования",
   "docNumber": "Uz_Номер документа",
@@ -197,5 +202,6 @@
   "refuse": "Uz_Отказать",
   "approve": "Uz_Одобрить",
 
-  "serverError": "Uz_Сервер не отвечает"
+  "serverError": "Uz_Сервер не отвечает",
+  "request-doesnt-exist": "Uz_Нет соответствующей отправки запроса"
 }

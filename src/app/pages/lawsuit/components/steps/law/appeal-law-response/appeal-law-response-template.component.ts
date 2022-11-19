@@ -42,54 +42,6 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
               {{ getValue('appealType', actionData.data.appealKind) }}
             </div>
           </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">{{ 'principal_amount' | translate }}</div>
-            <div class="col-6">{{ actionData.data.appealPrincipalAmount }}</div>
-          </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">{{ 'percent_amount' | translate }}</div>
-            <div class="col-6">{{ actionData.data.appealInterestAmount }}</div>
-          </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">{{ 'penalty_amount' | translate }}</div>
-            <div class="col-6">{{ actionData.data.appealPenaltyAmount }}</div>
-          </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">{{ 'fine_amount' | translate }}</div>
-            <div class="col-6">{{ actionData.data.appealFineAmount }}</div>
-          </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">
-              {{ 'appealStateDutyCourtCostsAmount' | translate }}
-            </div>
-            <div class="col-6">
-              {{ actionData.data.appealStateDutyCourtCostsAmount }}
-            </div>
-          </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">{{ 'total_claim_amount' | translate }}</div>
-            <div class="col-6">{{ actionData.data.appealClaimAmount }}</div>
-          </div>
-
-          <!-- <div class="row justify-content-between">
-            <div class="col-6">{{'attached_files' | translate}}</div>
-            <div class="col-6">
-              <app-file-downloader
-                [formData]="actionData"
-              ></app-file-downloader>
-            </div>
-          </div>
-
-          <div class="row justify-content-between">
-            <div class="col-6">{{'additional_information' | translate}}</div>
-            <div class="col-6">{{ actionData.data.appealAddInfo }}</div>
-          </div> -->
         </ng-container>
 
         <ng-container *ngIf="actionData.data.appeal === false">
@@ -117,6 +69,61 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           <div class="col-6">{{ 'forceDecisionDate' | translate }}</div>
           <div class="col-6">{{ actionData.data.decisionBeginDate }}</div>
         </div>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          actionData.data.appeal === true ||
+          actionData.data.decisionResult === 34
+        "
+      >
+        <div class="row justify-content-between">
+          <div class="col-6">{{ 'principal_amount' | translate }}</div>
+          <div class="col-6">{{ actionData.data.appealPrincipalAmount }}</div>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-6">{{ 'percent_amount' | translate }}</div>
+          <div class="col-6">{{ actionData.data.appealInterestAmount }}</div>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-6">{{ 'penalty_amount' | translate }}</div>
+          <div class="col-6">{{ actionData.data.appealPenaltyAmount }}</div>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-6">{{ 'fine_amount' | translate }}</div>
+          <div class="col-6">{{ actionData.data.appealFineAmount }}</div>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-6">
+            {{ 'appealStateDutyCourtCostsAmount' | translate }}
+          </div>
+          <div class="col-6">
+            {{ actionData.data.appealStateDutyCourtCostsAmount }}
+          </div>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-6">{{ 'total_claim_amount' | translate }}</div>
+          <div class="col-6">{{ actionData.data.appealClaimAmount }}</div>
+        </div>
+
+        <!-- <div class="row justify-content-between">
+            <div class="col-6">{{'attached_files' | translate}}</div>
+            <div class="col-6">
+              <app-file-downloader
+                [formData]="actionData"
+              ></app-file-downloader>
+            </div>
+          </div>
+
+          <div class="row justify-content-between">
+            <div class="col-6">{{'additional_information' | translate}}</div>
+            <div class="col-6">{{ actionData.data.appealAddInfo }}</div>
+          </div> -->
       </ng-container>
 
       <!-- <ng-container *ngIf="actionData.data.action == 3"> -->

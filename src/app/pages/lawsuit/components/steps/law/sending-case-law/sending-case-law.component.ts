@@ -1,5 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
@@ -28,6 +34,7 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
   tSub!: Subscription;
   regionSub!: Subscription | undefined;
 
+  kindLawSub!: Subscription | undefined;
   principalAmountSub!: Subscription | undefined;
   percentAmountSub!: Subscription | undefined;
   penaltyAmountSub!: Subscription | undefined;
@@ -138,10 +145,9 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
 
         thirdPartiesArray: new FormArray([new FormControl(formTemplate)]),
 
-        district: new FormControl(
-          { value: null, disabled: true },
-          Validators.required
-        ),
+        district: new FormControl({ value: null, disabled: true }, [
+          Validators.required,
+        ]),
         // districtLaw: new FormControl(formTemplateNull, Validators.required),
         // amountClaim: new FormControl({ value: '700 000', disabled: true }),
         // amountClaim: new FormControl(formTemplate, Validators.required),
@@ -176,6 +182,8 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
     //     );
     //   }
     // });
+
+    this.subsribtionKindLaw();
 
     this.dicSub = this.dicService
       .getDicByActionId(this.action.actionId)
@@ -311,6 +319,31 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
     // });
   }
 
+  private subsribtionKindLaw(): void {
+    this.kindLawSub = this.form
+      .get('kindLaw')
+      ?.valueChanges.subscribe((value) => {
+        this.form.patchValue({
+          district: null,
+        });
+
+        this.toggleValidatorsDistrict(value);
+      });
+  }
+
+  private toggleValidatorsDistrict(kindLaw: any): void {
+    const district = this.form.get('district');
+    const validators: ValidatorFn[] = [Validators.required];
+
+    if (kindLaw === 1) {
+      district?.clearValidators();
+    } else {
+      district?.setValidators(validators);
+    }
+
+    district?.updateValueAndValidity();
+  }
+
   getTotalClaimAmount() {
     let totalClaimAmount =
       +Number(
@@ -402,6 +435,7 @@ export class SendingCaseLawComponent implements OnInit, OnDestroy {
     this.dicSub?.unsubscribe();
     this.tSub?.unsubscribe();
     this.regionSub?.unsubscribe();
+    this.kindLawSub?.unsubscribe();
     this.principalAmountSub?.unsubscribe();
     this.percentAmountSub?.unsubscribe();
     this.penaltyAmountSub?.unsubscribe();

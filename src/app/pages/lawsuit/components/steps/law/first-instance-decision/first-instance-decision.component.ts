@@ -37,6 +37,7 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
 
   private resultDecisionSub!: Subscription | undefined;
   private appealLawDecisionSub!: Subscription | undefined;
+  private typeAppealSub!: Subscription | undefined;
   private actionTypeSub!: Subscription | undefined;
 
   private appealPrincipalAmountSub!: Subscription | undefined;
@@ -93,7 +94,8 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
 
       this.subToResultDecision();
       this.subToAppealLawDecision();
-      this.subToActionType();
+      this.subToTypeAppeal();
+      // this.subToActionType();
 
       this.appealPrincipalAmountSub = this.appealPrincipalAmount?.valueChanges.subscribe(
         (val: any) => {
@@ -260,6 +262,28 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       });
   }
 
+  private subToTypeAppeal(): void {
+    this.typeAppealSub = this.form
+      .get('typeAppeal')
+      ?.valueChanges.subscribe((value) => {
+        this.form.patchValue({
+          appealPrincipalAmount: '',
+          appealInterestAmount: '',
+          appealPenaltyAmount: '',
+          appealFineAmount: '',
+          appealStateDutyCourtCostsAmount: '',
+          appealClaimAmount: '',
+          // additionalInfo: '',
+          // appealAddInfo: '',
+
+          actionType: null,
+          postponeUntil: '',
+        });
+
+        this.toggleValidatorsTypeAppeal(value);
+      });
+  }
+
   private subToResultDecision(): void {
     this.resultDecisionSub = this.form
       .get('decisionResult')
@@ -299,21 +323,12 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   private toggleValidatorsAppealLawDecision(appealLawDecision: any) {
     if (appealLawDecision === true) {
       this.typeAppeal?.setValidators([Validators.required]);
-      this.appealPrincipalAmount?.setValidators([Validators.required]);
-      this.appealInterestAmount?.setValidators([Validators.required]);
-      this.appealPenaltyAmount?.setValidators([Validators.required]);
-      this.appealFineAmount?.setValidators([Validators.required]);
-      this.appealStateDutyCourtCostsAmount?.setValidators([
-        Validators.required,
-      ]);
-      this.appealClaimAmount?.setValidators([Validators.required]);
 
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     } else if (appealLawDecision === false) {
-      this.actionType?.setValidators([Validators.required]);
-
       this.typeAppeal?.clearValidators();
+
       this.appealPrincipalAmount?.clearValidators();
       this.appealInterestAmount?.clearValidators();
       this.appealPenaltyAmount?.clearValidators();
@@ -323,14 +338,43 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
     }
 
     this.typeAppeal?.updateValueAndValidity();
+
     this.appealPrincipalAmount?.updateValueAndValidity();
     this.appealInterestAmount?.updateValueAndValidity();
     this.appealPenaltyAmount?.updateValueAndValidity();
     this.appealFineAmount?.updateValueAndValidity();
     this.appealStateDutyCourtCostsAmount?.updateValueAndValidity();
     this.appealClaimAmount?.updateValueAndValidity();
+
     this.actionType?.updateValueAndValidity();
     this.postponeUntil?.updateValueAndValidity();
+  }
+
+  private toggleValidatorsTypeAppeal(typeAppeal: any): void {
+    if (typeAppeal === 51) {
+      this.appealPrincipalAmount?.setValidators([Validators.required]);
+      this.appealInterestAmount?.setValidators([Validators.required]);
+      this.appealPenaltyAmount?.setValidators([Validators.required]);
+      this.appealFineAmount?.setValidators([Validators.required]);
+      this.appealStateDutyCourtCostsAmount?.setValidators([
+        Validators.required,
+      ]);
+      this.appealClaimAmount?.setValidators([Validators.required]);
+    } else if (typeAppeal === 118) {
+      this.appealPrincipalAmount?.clearValidators();
+      this.appealInterestAmount?.clearValidators();
+      this.appealPenaltyAmount?.clearValidators();
+      this.appealFineAmount?.clearValidators();
+      this.appealStateDutyCourtCostsAmount?.clearValidators();
+      this.appealClaimAmount?.clearValidators();
+    }
+
+    this.appealPrincipalAmount?.updateValueAndValidity();
+    this.appealInterestAmount?.updateValueAndValidity();
+    this.appealPenaltyAmount?.updateValueAndValidity();
+    this.appealFineAmount?.updateValueAndValidity();
+    this.appealStateDutyCourtCostsAmount?.updateValueAndValidity();
+    this.appealClaimAmount?.updateValueAndValidity();
   }
 
   private toggleValidatorsDecisionResult(desicionResult: any): void {

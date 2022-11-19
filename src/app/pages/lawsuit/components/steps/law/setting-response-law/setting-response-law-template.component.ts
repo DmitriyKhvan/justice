@@ -23,7 +23,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           *ngFor="let date of actionData.data.lawDatetime"
           class="row justify-content-between"
         >
-          <div class="col-6">{{ 'dateLaw' | translate }}</div>
+          <div class="col-6">{{ 'dateTimeLaw' | translate }}</div>
           <div class="col-6">{{ date }}</div>
         </div>
       </ng-container>

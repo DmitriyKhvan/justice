@@ -6,6 +6,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
+import currencyTransform from 'src/app/utils/format-number';
 
 @Component({
   selector: 'app-referral-case-to-cassation',
@@ -19,7 +20,21 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   submitted = false;
 
+  appealPrincipalAmount!: any;
+  appealInterestAmount!: any;
+  appealPenaltyAmount!: any;
+  appealFineAmount!: any;
+  appealStateDutyCourtCostsAmount!: any;
+  appealClaimAmount!: any;
+
   dicSub!: Subscription;
+
+  private appealPrincipalAmountSub!: Subscription | undefined;
+  private appealInterestAmountSub!: Subscription | undefined;
+  private appealPenaltyAmountSub!: Subscription | undefined;
+  private appealFineAmountSub!: Subscription | undefined;
+  private appealStateDutyCourtCostsAmountSub!: Subscription | undefined;
+  private appealClaimAmountSub!: Subscription | undefined;
 
   dictionaries!: any;
   districtDic: any[] = [];
@@ -84,7 +99,108 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
         numberDoc: new FormControl(formTemplate, Validators.required),
         dateDoc: new FormControl(formTemplate, Validators.required),
         additionalInfo: new FormControl(formTemplate, Validators.required),
+
+        appealPrincipalAmount: new FormControl(
+          formTemplate,
+          Validators.required
+        ),
+        appealInterestAmount: new FormControl(
+          formTemplate,
+          Validators.required
+        ),
+        appealPenaltyAmount: new FormControl(formTemplate, Validators.required),
+        appealFineAmount: new FormControl(formTemplate, Validators.required),
+        appealStateDutyCourtCostsAmount: new FormControl(
+          formTemplate,
+          Validators.required
+        ),
+        appealClaimAmount: new FormControl(formTemplate, Validators.required),
       });
+
+      this.appealPrincipalAmount = this.form.get('appealPrincipalAmount');
+      this.appealInterestAmount = this.form.get('appealInterestAmount');
+      this.appealPenaltyAmount = this.form.get('appealPenaltyAmount');
+      this.appealFineAmount = this.form.get('appealFineAmount');
+      this.appealStateDutyCourtCostsAmount = this.form.get(
+        'appealStateDutyCourtCostsAmount'
+      );
+      this.appealClaimAmount = this.form.get('appealClaimAmount');
+
+      this.appealPrincipalAmountSub = this.appealPrincipalAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealPrincipalAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealInterestAmountSub = this.appealInterestAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealInterestAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealPenaltyAmountSub = this.appealPenaltyAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealPenaltyAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealFineAmountSub = this.appealFineAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealFineAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealStateDutyCourtCostsAmountSub = this.appealStateDutyCourtCostsAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.getTotalClaimAmount();
+
+          this.form.patchValue(
+            {
+              appealStateDutyCourtCostsAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
+
+      this.appealClaimAmountSub = this.appealClaimAmount?.valueChanges.subscribe(
+        (val: any) => {
+          this.form.patchValue(
+            {
+              appealClaimAmount: currencyTransform(val),
+            },
+            { emitEvent: false }
+          );
+        }
+      );
     }
 
     this.dicSub = this.dicService
@@ -92,6 +208,34 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
       });
+  }
+
+  getTotalClaimAmount() {
+    let appealClaimAmount =
+      +Number(
+        this.form.get('appealPrincipalAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(
+        this.form.get('appealInterestAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(
+        this.form.get('appealPenaltyAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      +Number(
+        this.form.get('appealFineAmount')?.value.replace(/[^0-9]/gim, '')
+      ) +
+      Number(
+        this.form
+          .get('appealStateDutyCourtCostsAmount')
+          ?.value.replace(/[^0-9]/gim, '')
+      );
+
+    this.form.patchValue(
+      {
+        appealClaimAmount: currencyTransform(String(appealClaimAmount)),
+      },
+      { emitEvent: false }
+    );
   }
 
   submit(actionId: number) {
@@ -109,6 +253,15 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
       outDocDate: this.form.value.dateDoc.singleDate.formatted,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.additionalInfo,
+
+      appealPrincipalAmount: this.form.value.appealPrincipalAmount,
+      appealInterestAmount: this.form.value.appealInterestAmount,
+      appealPenaltyAmount: this.form.value.appealPenaltyAmount,
+      appealFineAmount: this.form.value.appealFineAmount,
+      appealStateDutyCourtCostsAmount: this.form.value
+        .appealStateDutyCourtCostsAmount,
+      appealClaimAmount: this.form.value.appealClaimAmount,
+
       lawId,
       active: true,
     };
@@ -128,8 +281,12 @@ export class ReferralCaseToCassationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.dicSub) {
-      this.dicSub.unsubscribe();
-    }
+    this.dicSub?.unsubscribe();
+    this.appealPrincipalAmountSub?.unsubscribe();
+    this.appealInterestAmountSub?.unsubscribe();
+    this.appealPenaltyAmountSub?.unsubscribe();
+    this.appealFineAmountSub?.unsubscribe();
+    this.appealStateDutyCourtCostsAmountSub?.unsubscribe();
+    this.appealClaimAmountSub?.unsubscribe();
   }
 }

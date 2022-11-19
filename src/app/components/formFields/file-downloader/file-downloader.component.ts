@@ -40,7 +40,7 @@ export class FileDownloaderComponent implements OnInit {
   ngOnInit(): void {}
 
   downloadFile(id: number, filename: string | null = null) {
-    const url = `${environment.fileBaseUrl}/file/downloadById?id=${id}`;
+    const url = `${environment.fileBaseUrl}/file/downloadById?id=${id}&name=${filename}`;
 
     const downloadLink = document.createElement('a');
 

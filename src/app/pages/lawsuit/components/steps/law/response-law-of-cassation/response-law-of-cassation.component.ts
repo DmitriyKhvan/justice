@@ -21,7 +21,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
   submitted = false;
 
   // caseNumber!: any;
-  forceDecisionDate!: any;
+  // forceDecisionDate!: any;
   appealAgainstLawDesicion!: any;
   typeAppeal!: any;
 
@@ -72,7 +72,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       this.formBuild();
 
       // this.caseNumber = this.form.get('caseNumber');
-      this.forceDecisionDate = this.form.get('forceDecisionDate');
+      // this.forceDecisionDate = this.form.get('forceDecisionDate');
       this.appealAgainstLawDesicion = this.form.get('appealAgainstLawDesicion');
 
       this.typeAppeal = this.form.get('typeAppeal');
@@ -189,7 +189,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
       decisionDate: new FormControl(formTemplate, Validators.required),
       decisionResult: new FormControl(null, Validators.required),
-      forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
+      // forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
 
       appealAgainstLawDesicion: new FormControl(null), // Обжаловать решение суда
       typeAppeal: new FormControl(formTemplate),
@@ -268,7 +268,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
         this.form.patchValue({
           // decisionDate: null,
           // decisionResult: null,
-          forceDecisionDate: '',
+          // forceDecisionDate: '',
           appealAgainstLawDesicion: null,
           typeAppeal: null,
           appealPrincipalAmount: '',
@@ -337,7 +337,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
   private toggleValidatorsDecisionResult(desicionResult: any): void {
     if (desicionResult === 35 || desicionResult === 36) {
       this.appealAgainstLawDesicion?.setValidators([Validators.required]);
-      this.forceDecisionDate?.clearValidators();
+      // this.forceDecisionDate?.clearValidators();
       this.typeAppeal?.clearValidators();
       this.appealPrincipalAmount?.clearValidators();
       this.appealInterestAmount?.clearValidators();
@@ -349,7 +349,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     } else if (desicionResult === 34) {
-      this.forceDecisionDate?.setValidators([Validators.required]);
+      // this.forceDecisionDate?.setValidators([Validators.required]);
       this.appealAgainstLawDesicion?.clearValidators();
       this.typeAppeal?.clearValidators();
       this.appealPrincipalAmount?.clearValidators();
@@ -362,7 +362,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       this.postponeUntil?.clearValidators();
     }
 
-    this.forceDecisionDate?.updateValueAndValidity();
+    // this.forceDecisionDate?.updateValueAndValidity();
     this.appealAgainstLawDesicion?.updateValueAndValidity();
     this.typeAppeal?.updateValueAndValidity();
     this.appealPrincipalAmount?.updateValueAndValidity();
@@ -428,8 +428,8 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       appealStateDutyCourtCostsAmount: this.form.value
         .appealStateDutyCourtCostsAmount,
       appealClaimAmount: this.form.value.appealClaimAmount,
-      decisionBeginDate: this.form.value.forceDecisionDate?.singleDate
-        ?.formatted,
+      // decisionBeginDate: this.form.value.forceDecisionDate?.singleDate
+      //   ?.formatted,
       defendantAppeal: true,
       lawId: this.form.controls.lawId.value,
     };

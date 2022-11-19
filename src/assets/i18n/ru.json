@@ -1,5 +1,6 @@
 {
   "enter_data": "Введите данные",
+  "invalid_data": "Неверные данные",
   "incorrect_data": "Неккоректные данные",
   "additional_information": "Дополнительная информация",
   "attach_file": "Прикрепить файл",
@@ -120,7 +121,7 @@
   "percent_amount": "Сумма процента",
   "penalty_amount": "Сумма пени",
   "fine_amount": "Сумма штрафа",
-  "total_claim_amount": "Общая сумма иска",
+  "total_claim_amount": "Общая сумма",
 
   "continue_case": "Продолжить дело",
   "end_process": "Завершить процесс",
@@ -131,7 +132,9 @@
   "caseNumber": "№ дела",
   "searchCaseNumber": "Поиск по № дела",
   "deferTo": "Отложить до",
-  "dateLaw": "Дата и время проведения суда",
+  "dateLaw": "Дата проведения суда",
+  "timeLaw": "Время проведения суда",
+  "dateTimeLaw": "Дата и время проведения суда",
   "addDateLaw": "Добавить дату",
   "decisionDate": "Дата решения",
   "decisionResult": "Результат решения",
@@ -150,8 +153,10 @@
   "lotSum": "Сумма Лота",
   "endDateLot": "Дата конца торга",
   "result": "Выбор результата Лота",
+  "result2": "Результат",
 
   "typeApplication": "Тип подачи заявки",
+  "appellant": "Обжаловающее лицо",
   "object": "Выбор инстанции, на которую подается жалоба",
   "subject": "Вид обжалования",
   "docNumber": "Номер документа",
@@ -204,5 +209,6 @@
   "refuse": "Отказать",
   "approve": "Одобрить",
 
-  "serverError": "Сервер не отвечает"
+  "serverError": "Сервер не отвечает",
+  "request-doesnt-exist": "Нет соответствующей отправки запроса"
 }

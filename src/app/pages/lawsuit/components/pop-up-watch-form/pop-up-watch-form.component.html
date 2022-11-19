@@ -56,7 +56,8 @@
           </div>
         </div>
 
-        <div *ngIf="formData.actionId === 18" class="col-6">
+        <!-- <div *ngIf="formData.actionId === 18" class="col-6"> -->
+        <div class="col-6">
           <div class="label-info">{{ "attached_files" | translate }}</div>
           <div class="value-info">
             <!-- {{
@@ -271,5 +272,10 @@
       *ngIf="formData.actionId === 26"
       [actionData]="formData"
     ></app-get-response-auction-template>
+
+    <app-main-appeal-response-template
+      *ngIf="formData.actionId === 27"
+      [actionData]="formData"
+    ></app-main-appeal-response-template>
   </div>
 </div>

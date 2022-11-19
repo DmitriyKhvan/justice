@@ -3,38 +3,14 @@ import { Subscription } from 'rxjs';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 
 @Component({
-  selector: 'app-main-appeal-template',
+  selector: 'app-main-appeal-response-template',
   template: `
     <div class="data-lawyer">
       <div class="row justify-content-between">
-        <div class="col-6">{{ 'appellant' | translate }}</div>
+        <div class="col-6">{{ 'result2' | translate }}</div>
         <div class="col-6">
-          {{ getValue('appellant', actionData.data.appellant) }}
+          {{ getValue('appealResult', actionData.data.result) }}
         </div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">{{ 'object' | translate }}</div>
-        <div class="col-6">
-          {{ getValue('mainAppealObject', actionData.data.object) }}
-        </div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">{{ 'subject' | translate }}</div>
-        <div class="col-6">
-          {{ getValue('mainAppealSubject', actionData.data.subject) }}
-        </div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">{{ 'docNumber' | translate }}</div>
-        <div class="col-6">{{ actionData.data.docNumber }}</div>
-      </div>
-
-      <div class="row justify-content-between">
-        <div class="col-6">{{ 'docDate' | translate }}</div>
-        <div class="col-6">{{ actionData.data.docDate }}</div>
       </div>
 
       <div class="row justify-content-between">
@@ -54,7 +30,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   `,
   styles: [],
 })
-export class MainAppealTemplateComponent implements OnInit, OnDestroy {
+export class MainAppeaResponselTemplateComponent implements OnInit, OnDestroy {
   @Input() actionData!: any;
 
   dicSub!: Subscription;

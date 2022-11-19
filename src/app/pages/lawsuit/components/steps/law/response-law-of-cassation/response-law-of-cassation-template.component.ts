@@ -109,7 +109,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         </ng-container>
       </ng-container>
 
-      <ng-container
+      <!-- <ng-container
         *ngIf="actionData.data.decisionResult === 34"
         class="row justify-content-between"
       >
@@ -117,7 +117,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
           <div class="col-6">{{ 'forceDecisionDate' | translate }}</div>
           <div class="col-6">{{ actionData.data.decisionBeginDate }}</div>
         </div>
-      </ng-container>
+      </ng-container> -->
 
       <!-- <ng-container *ngIf="actionData.data.action == 3"> -->
       <div class="row justify-content-between">

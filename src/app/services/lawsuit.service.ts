@@ -249,16 +249,18 @@ export class LawsuitService {
       processId: null,
     };
 
+    console.log('dataFormat', dataFormat);
+
     this.removeActionForm(actionId);
 
     return this.http.post(`${environment.dbUrlBek}/${api}`, dataFormat).pipe(
       tap(this.setHistoryActions.bind(this)),
       catchError((error) => {
-        // console.log(error);
+        console.log(error);
         this.alert.danger(
           !error.error.message || error.statusText === 'Unknown Error'
             ? this.translate.instant('serverError')
-            : error.message
+            : this.translate.instant(error.error.message)
         );
         return throwError(error);
       })

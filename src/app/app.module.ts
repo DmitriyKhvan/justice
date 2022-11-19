@@ -127,6 +127,7 @@ import { EnforcementResponseTemplateComponent } from './pages/lawsuit/components
 import { EnforcementRequestTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-request/enforcement-request-template.component';
 import { MainAppealComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal/main-appeal.component';
 import { MainAppealTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal/main-appeal-template.component';
+import { MainAppeaResponselTemplateComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal-response/main-appeal-response-template.component';
 import { MibResponseComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/mib-response/mib-response.component';
 import { MibResponseTemplateComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/mib-response/mib-response-template.component';
 import { StopProcessTypeComponent } from './pages/lawsuit/components/steps/stop-process/stop-process-type/stop-process-type.component';
@@ -149,6 +150,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SidebarListComponent } from './components/sidebar/components/sidebar-list.component';
 import { SidebarDetailComponent } from './components/sidebar/components/sidebar-detail.component';
 import { StatisticsTableComponent } from './pages/monitoring/components/statistics-table/statistics-table.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { MainAppealResponseComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal-response/main-appeal-response.component';
+
+const maskConfigFunction: () => Partial<IConfig> = () => {
+  return {
+    validation: false,
+  };
+};
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -260,6 +269,7 @@ export function createTranslateLoader(http: HttpClient) {
     EnforcementRequestTemplateComponent,
     MainAppealComponent,
     MainAppealTemplateComponent,
+    MainAppeaResponselTemplateComponent,
     MibResponseComponent,
     MibResponseTemplateComponent,
     StopProcessTypeComponent,
@@ -280,6 +290,7 @@ export function createTranslateLoader(http: HttpClient) {
     SidebarListComponent,
     SidebarDetailComponent,
     StatisticsTableComponent,
+    MainAppealResponseComponent,
   ],
   imports: [
     // TooltipModule,
@@ -301,6 +312,7 @@ export function createTranslateLoader(http: HttpClient) {
       },
       defaultLanguage: 'ru',
     }),
+    NgxMaskModule.forRoot(maskConfigFunction),
   ],
   providers: [
     HttpClient,

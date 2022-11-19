@@ -24,11 +24,11 @@
   </h2>
 
   <h2
-    *ngIf="lawsuitService.fromStepId == 8 && action.data.type; else renewall"
+    *ngIf="lawsuitService.fromStepId == 8 && action.data?.type; else renewall"
     class="subTitle_lawsuit"
   >
     {{ action.actionNameLang[lawsuitService.translate.currentLang] }}:
-    {{ getValue("stopType", action.data.type) }}
+    {{ getValue("stopType", action.data?.type) }}
   </h2>
 
   <ng-template #renewall>
@@ -53,7 +53,7 @@
 
     <div class="row no-gutters history_action__field__data">
       <div class="col-4 add">
-        {{ action.data.createdAt | date: "dd.MM.yyyy" }}
+        {{ action.data?.createdAt | date: "dd.MM.yyyy" }}
       </div>
       <div class="col-8 history_action__field__data__status">
         <span *ngIf="action.actionStatus === 1" class="rejected">{{

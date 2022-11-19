@@ -121,8 +121,13 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       this.form = new FormGroup({
         conductLaw: new FormControl(null, Validators.required),
         caseNumber: new FormControl(formTemplate),
-        datesLaw: new FormArray([
-          new FormControl(formTemplate, Validators.required),
+        // datesLaw: new FormArray([
+        //   new FormControl(formTemplate, Validators.required),
+        // ]),
+        dateLaw: new FormControl(formTemplate, Validators.required),
+        timeLaw: new FormControl(formTemplate, [
+          Validators.required,
+          Validators.pattern(/(?=(^([^\d]*?\d){4}$))/),
         ]),
 
         action: new FormControl(null),
@@ -162,7 +167,9 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
           additionalInfo: '',
           caseNumber: '',
           // conductLaw: null,
-          datesLaw: [],
+          // datesLaw: [],
+          dateLaw: '',
+          timeLaw: '',
           deferTo: '',
         });
         this.toggleValidatorsAction(value);
@@ -179,7 +186,9 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
           additionalInfo: '',
           caseNumber: '',
           // conductLaw: null,
-          datesLaw: [],
+          // datesLaw: [],
+          dateLaw: '',
+          timeLaw: '',
           deferTo: null,
         });
         this.toggleValidatorsLaw(value);
@@ -205,7 +214,9 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   private toggleValidatorsLaw(lawType: any): void {
     const caseNumber = this.form.get('caseNumber');
     // this.addDateLaw();
-    const dateLaw = this.datesLaw.controls[0];
+    // const dateLaw = this.datesLaw.controls[0];
+    const dateLaw = this.form.get('dateLaw');
+    const timeLaw = this.form.get('timeLaw');
 
     const action = this.form.get('action');
     const deferTo = this.form.get('deferTo');
@@ -216,6 +227,10 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     if (lawType === 43) {
       caseNumber?.setValidators([Validators.required]);
       dateLaw?.setValidators(validators);
+      timeLaw?.setValidators([
+        Validators.required,
+        Validators.pattern(/(?=(^([^\d]*?\d){4}$))/),
+      ]);
 
       action?.clearValidators();
       deferTo?.clearValidators();
@@ -226,11 +241,13 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       additionalInfo?.setValidators(validators);
 
       caseNumber?.clearValidators();
-      dateLaw.clearValidators();
+      dateLaw?.clearValidators();
+      timeLaw?.clearValidators();
     }
 
     caseNumber?.updateValueAndValidity();
     dateLaw?.updateValueAndValidity();
+    timeLaw?.updateValueAndValidity();
 
     action?.updateValueAndValidity();
     deferTo?.updateValueAndValidity();
@@ -257,6 +274,8 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   }
 
   submit(actionId: number) {
+    console.log('this.form', this.form);
+
     if (this.form.invalid) {
       return;
     }
@@ -265,9 +284,17 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
     const preId = this.lawsuitService.getReqId(4)?.id;
 
-    const lawDatetime = this.form.value.datesLaw?.map(
-      (date: any) => date?.singleDate?.formatted
-    );
+    // const lawDatetime = this.form.value.datesLaw?.map(
+    //   (date: any) => date?.singleDate?.formatted
+    // );
+
+    const lawDatetime = [
+      `${this.form.value.dateLaw?.singleDate?.formatted} ${
+        this.form.value.timeLaw.slice(0, 2) +
+        ':' +
+        this.form.value.timeLaw.slice(-2)
+      }`,
+    ];
 
     const data = {
       active: true,

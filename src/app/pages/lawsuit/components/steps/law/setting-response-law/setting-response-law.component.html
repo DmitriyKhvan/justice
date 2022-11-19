@@ -156,7 +156,85 @@
   </div>
 
   <div *ngIf="this.form.get('conductLaw')?.value === 43">
-    <div
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">{{ "dateLaw" | translate }}</div>
+
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              class="input-box"
+              angular-mydatepicker
+              name="reactiveFormsDate"
+              formControlName="dateLaw"
+              [options]="myDpOptions"
+              #dp="angular-mydatepicker"
+              [locale]="lawsuitService.translate.currentLang"
+            />
+            <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+          </label>
+
+          <div
+            *ngIf="form.get('dateLaw')?.touched && form.get('dateLaw')?.invalid"
+            class="validation"
+          >
+            <small
+              *ngIf="
+                form.controls.dateLaw.errors &&
+                form.controls.dateLaw.errors.required &&
+                !form.controls.dateLaw.errors.invalidDateFormat
+              "
+            >
+              {{ "enter_data" | translate }}
+            </small>
+            <small
+              *ngIf="
+                form.controls.dateLaw.errors &&
+                form.controls.dateLaw.errors.invalidDateFormat
+              "
+            >
+              {{ "incorrect_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">{{ "timeLaw" | translate }}</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="timeLaw"
+              [leadZeroDateTime]="true"
+              mask="Hh:m0"
+            />
+          </label>
+
+          <div
+            *ngIf="form.get('timeLaw')?.touched && form.get('timeLaw')?.invalid"
+            class="validation"
+          >
+            <!-- <pre>{{ form.get("timeLaw")?.errors | json }}</pre> -->
+            <small *ngIf="form.get('timeLaw')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+
+            <small *ngIf="form.get('timeLaw')?.errors?.pattern">
+              {{ "invalid_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div
       class="row justify-content-between align-items-end mb-2"
       formArrayName="datesLaw"
       *ngFor="let dateLaw of datesLaw.controls; let idx = index"
@@ -219,7 +297,7 @@
           &nbsp;
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <ng-container *ngIf="this.form.get('conductLaw')?.value">

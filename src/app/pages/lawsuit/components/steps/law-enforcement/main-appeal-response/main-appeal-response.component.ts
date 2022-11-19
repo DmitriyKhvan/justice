@@ -9,11 +9,11 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
 
 @Component({
-  selector: 'app-main-appeal',
-  templateUrl: './main-appeal.component.html',
-  styleUrls: ['./main-appeal.component.scss'],
+  selector: 'app-main-appeal-response',
+  templateUrl: './main-appeal-response.component.html',
+  styleUrls: ['./main-appeal-response.component.scss'],
 })
-export class MainAppealComponent implements OnInit, OnDestroy {
+export class MainAppealResponseComponent implements OnInit {
   @Input() formTemplate: any = null;
   @Input() action!: any;
   form!: FormGroup;
@@ -45,12 +45,7 @@ export class MainAppealComponent implements OnInit, OnDestroy {
     }
 
     this.form = new FormGroup({
-      object: new FormControl(formTemplateNull, Validators.required),
-      appellant: new FormControl(formTemplateNull, Validators.required),
-      subject: new FormControl(formTemplateNull, Validators.required),
-      docNumber: new FormControl(formTemplate, Validators.required),
-
-      docDate: new FormControl(formTemplate, Validators.required),
+      result: new FormControl(formTemplateNull, Validators.required),
       addInfo: new FormControl(formTemplateNull, Validators.required),
     });
 
@@ -72,29 +67,25 @@ export class MainAppealComponent implements OnInit, OnDestroy {
 
     const data = {
       actionId: this.action.actionId,
-      appellant: this.form.value.appellant,
-      object: this.form.value.object,
-      subject: this.form.value.subject,
-
-      docNumber: this.form.value.docNumber,
-      docDate: this.form.value.docDate.singleDate.formatted,
-
+      result: this.form.value.result,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.addInfo,
     };
 
-    this.lawsuitService.apiFetch(data, 'mainAppeal/add', actionId).subscribe(
-      (actions) => {
-        // this.lawsuitService.historyActions = actions;
-        this.alert.success('Форма оформлена');
-      },
-      (error) => {
-        // this.alert.danger('Форма не оформлена');
-      },
-      () => {
-        this.submitted = false;
-      }
-    );
+    this.lawsuitService
+      .apiFetch(data, 'mainAppeal/response', actionId)
+      .subscribe(
+        (actions) => {
+          // this.lawsuitService.historyActions = actions;
+          this.alert.success('Форма оформлена');
+        },
+        (error) => {
+          // this.alert.danger('Форма не оформлена');
+        },
+        () => {
+          this.submitted = false;
+        }
+      );
   }
 
   ngOnDestroy(): void {

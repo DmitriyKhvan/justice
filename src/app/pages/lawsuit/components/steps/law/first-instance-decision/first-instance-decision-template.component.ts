@@ -42,7 +42,10 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
               {{ getValue('appealType', actionData.data.appealKind) }}
             </div>
           </div>
+        </ng-container>
 
+        <!-- Апелляция -->
+        <ng-container *ngIf="actionData.data.appealKind === 51">
           <div class="row justify-content-between">
             <div class="col-6">{{ 'principal_amount' | translate }}</div>
             <div class="col-6">{{ actionData.data.appealPrincipalAmount }}</div>

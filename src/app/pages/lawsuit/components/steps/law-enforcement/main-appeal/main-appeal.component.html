@@ -19,6 +19,37 @@
     <div class="col-12">
       <div class="select-field">
         <div class="select-field__title">
+          {{ "appellant" | translate }}
+        </div>
+        <ng-select
+          appearance="outline"
+          [items]="dictionaries?.appellant"
+          bindLabel="{{ 'lang.' + lawsuitService.translate.currentLang }}"
+          bindValue="id"
+          placeholder="Выбор"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="appellant"
+        ></ng-select>
+        <div
+          *ngIf="
+            form.get('appellant')?.touched && form.get('appellant')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('appellant')?.errors?.required">
+            {{ "select_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="select-field">
+        <div class="select-field__title">
           {{ "object" | translate }}
         </div>
         <ng-select

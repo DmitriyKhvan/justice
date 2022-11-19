@@ -45,6 +45,11 @@
           *ngIf="this.lawsuitService.isActionForm(21)"
         ></app-main-appeal>
 
+        <app-main-appeal-response
+          [action]="this.lawsuitService.isActionForm(27)"
+          *ngIf="this.lawsuitService.isActionForm(27)"
+        ></app-main-appeal-response>
+
         <app-next-step
           *ngIf="
             lawsuitService.stepIndex === lawsuitService.steps.length &&

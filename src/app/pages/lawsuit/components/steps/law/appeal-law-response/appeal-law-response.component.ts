@@ -352,12 +352,16 @@ export class AppealLawResponseComponent implements OnInit, OnDestroy {
       this.forceDecisionDate?.setValidators([Validators.required]);
       this.appealAgainstLawDesicion?.clearValidators();
       this.typeAppeal?.clearValidators();
-      this.appealPrincipalAmount?.clearValidators();
-      this.appealInterestAmount?.clearValidators();
-      this.appealPenaltyAmount?.clearValidators();
-      this.appealFineAmount?.clearValidators();
-      this.appealStateDutyCourtCostsAmount?.clearValidators();
-      this.appealClaimAmount?.clearValidators();
+
+      this.appealPrincipalAmount?.setValidators([Validators.required]);
+      this.appealInterestAmount?.setValidators([Validators.required]);
+      this.appealPenaltyAmount?.setValidators([Validators.required]);
+      this.appealFineAmount?.setValidators([Validators.required]);
+      this.appealStateDutyCourtCostsAmount?.setValidators([
+        Validators.required,
+      ]);
+      this.appealClaimAmount?.setValidators([Validators.required]);
+
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     }
