@@ -185,7 +185,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       delete role.role_uz;
     });
 
-    console.log(this.form.value.roles);
+    // console.log(this.form.value.roles);
 
     const setRole = this.adminService.setUserRoles(
       this.user.id,

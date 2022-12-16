@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
+import { ILawIds } from 'src/app/interfaces';
 import { AlertService } from 'src/app/services/alert.service';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -18,6 +19,7 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
+  lawIds: ILawIds[] = [];
 
   // caseNumber!: any;
   forceDecisionDate!: any;
@@ -69,6 +71,8 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
 
       this.formBuild(formTemplate, formTemplateNull);
     } else {
+      this.lawIds = this.lawsuitService.getReqIds(5); //список дел
+
       this.formBuild();
 
       // this.caseNumber = this.form.get('caseNumber');
@@ -185,9 +189,9 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
     formTemplate: any = '',
     formTemplateNull: any = null
   ): void {
-    const law = this.lawsuitService.getReqId(5);
     this.form = new FormGroup({
-      caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
+      // lawId: new FormControl({ value: law?.id, disabled: true }),
+      lawId: new FormControl(null, Validators.required),
       decisionDate: new FormControl(formTemplate, Validators.required),
       decisionResult: new FormControl(null, Validators.required),
       forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
@@ -205,7 +209,6 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       additionalInfo: new FormControl(formTemplate),
       actionType: new FormControl(null),
       postponeUntil: new FormControl(formTemplate),
-      lawId: new FormControl({ value: law?.id, disabled: true }),
     });
   }
 
@@ -335,6 +338,9 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       this.appealFineAmount?.clearValidators();
       this.appealStateDutyCourtCostsAmount?.clearValidators();
       this.appealClaimAmount?.clearValidators();
+
+      this.actionType?.setValidators([Validators.required]);
+      this.postponeUntil?.setValidators([Validators.required]);
     }
 
     this.typeAppeal?.updateValueAndValidity();
@@ -395,12 +401,16 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       this.forceDecisionDate?.setValidators([Validators.required]);
       this.appealAgainstLawDesicion?.clearValidators();
       this.typeAppeal?.clearValidators();
-      this.appealPrincipalAmount?.clearValidators();
-      this.appealInterestAmount?.clearValidators();
-      this.appealPenaltyAmount?.clearValidators();
-      this.appealFineAmount?.clearValidators();
-      this.appealStateDutyCourtCostsAmount?.clearValidators();
-      this.appealClaimAmount?.clearValidators();
+
+      this.appealPrincipalAmount?.setValidators([Validators.required]);
+      this.appealInterestAmount?.setValidators([Validators.required]);
+      this.appealPenaltyAmount?.setValidators([Validators.required]);
+      this.appealFineAmount?.setValidators([Validators.required]);
+      this.appealStateDutyCourtCostsAmount?.setValidators([
+        Validators.required,
+      ]);
+      this.appealClaimAmount?.setValidators([Validators.required]);
+
       this.actionType?.clearValidators();
       this.postponeUntil?.clearValidators();
     }
@@ -474,7 +484,7 @@ export class FirstInstanceDecisionComponent implements OnInit, OnDestroy {
       decisionBeginDate: this.form.value.forceDecisionDate?.singleDate
         ?.formatted,
       defendantAppeal: true,
-      lawId: this.form.controls.lawId.value,
+      lawId: this.form.controls.lawId.value, //номер дела
     };
 
     this.lawsuitService.apiFetch(data, 'law/add/firstInst', actionId).subscribe(

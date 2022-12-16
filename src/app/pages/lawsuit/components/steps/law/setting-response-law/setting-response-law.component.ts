@@ -274,8 +274,6 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
   }
 
   submit(actionId: number) {
-    console.log('this.form', this.form);
-
     if (this.form.invalid) {
       return;
     }

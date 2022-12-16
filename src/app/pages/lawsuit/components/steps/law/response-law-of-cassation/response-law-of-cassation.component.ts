@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { Subscription } from 'rxjs';
+import { ILawIds } from 'src/app/interfaces';
 import { AlertService } from 'src/app/services/alert.service';
 import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -19,6 +20,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
+  lawIds: ILawIds[] = [];
 
   // caseNumber!: any;
   // forceDecisionDate!: any;
@@ -69,6 +71,8 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
 
       this.formBuild(formTemplate, formTemplateNull);
     } else {
+      this.lawIds = this.lawsuitService.getReqIds(5); //список дел
+
       this.formBuild();
 
       // this.caseNumber = this.form.get('caseNumber');
@@ -186,7 +190,7 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
   ): void {
     const law = this.lawsuitService.getReqId(5);
     this.form = new FormGroup({
-      caseNumber: new FormControl({ value: law?.docNumber, disabled: true }),
+      lawId: new FormControl(null, Validators.required),
       decisionDate: new FormControl(formTemplate, Validators.required),
       decisionResult: new FormControl(null, Validators.required),
       // forceDecisionDate: new FormControl(formTemplate), // Дата вступления решения в силу
@@ -204,7 +208,6 @@ export class ResponseLawOfCassationComponent implements OnInit, OnDestroy {
       additionalInfo: new FormControl(formTemplate),
       actionType: new FormControl(null),
       postponeUntil: new FormControl(formTemplate),
-      lawId: new FormControl({ value: law?.id, disabled: true }),
     });
   }
 

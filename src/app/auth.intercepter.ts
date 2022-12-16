@@ -7,13 +7,18 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 
 @Injectable()
 export class AuthIntercepter implements HttpInterceptor {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    protected keycloakAngular: KeycloakService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -45,14 +50,13 @@ export class AuthIntercepter implements HttpInterceptor {
     //   })
     // );
 
-    console.log(11111);
-
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log('[Intercepter Error]: ', error);
-        // if (error.status === 403) {
-        //   this.auth.logout('authFailed');
-        // }
+        if (error.status === 401) {
+          // this.auth.logout('authFailed');
+          this.keycloakAngular.logout();
+        }
 
         return throwError(error);
       })

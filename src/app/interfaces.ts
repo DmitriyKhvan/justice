@@ -24,3 +24,8 @@ export interface ContractInfo {
   sp?: {};
   tasks: [];
 }
+
+export interface ILawIds {
+  label: number | string;
+  value: number;
+}

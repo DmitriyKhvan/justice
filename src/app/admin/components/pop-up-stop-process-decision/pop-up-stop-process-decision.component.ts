@@ -64,7 +64,7 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
         map((popUpData: any) => {
           this.isActive = popUpData.isActive;
           this.contract = popUpData.contract;
-          console.log('this.contract', this.contract);
+          // console.log('this.contract', this.contract);
 
           if (popUpData.isActive === 'open') {
             this.formData = {

@@ -18,11 +18,36 @@
 <form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-6">
-      <div class="input-field">
+      <!-- <div class="input-field">
         <div class="input-field__title">{{ "caseNumber" | translate }}</div>
         <label class="input-field__label readonly">
-          <input type="text" autocomplete="off" formControlName="caseNumber" />
+          <input type="text" autocomplete="off" formControlName="lawId" />
         </label>
+      </div> -->
+
+      <div class="select-field">
+        <div class="select-field__title">
+          {{ "caseNumber" | translate }}
+        </div>
+        <ng-select
+          appearance="outline"
+          [items]="lawIds"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="{{ 'caseNumber' | translate }}"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="lawId"
+        ></ng-select>
+        <div
+          *ngIf="form.get('lawId')?.touched && form.get('lawId')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('lawId')?.errors?.required">
+            {{ "select_data" | translate }}
+          </small>
+        </div>
       </div>
     </div>
 
@@ -91,202 +116,206 @@
         ></app-select>
       </div>
     </div>
-
-    <!-- Апелляция -->
-    <ng-container *ngIf="form.get('typeAppeal')?.value === 51">
-      <div class="row justify-content-between align-items-end mb-2">
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">
-              {{ "principal_amount" | translate }}
-            </div>
-            <label
-              class="input-field__label"
-              [class]="formTemplate ? 'readonly' : ''"
-            >
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="appealPrincipalAmount"
-              />
-            </label>
-
-            <div
-              *ngIf="
-                form.get('appealPrincipalAmount')?.touched &&
-                form.get('appealPrincipalAmount')?.invalid
-              "
-              class="validation"
-            >
-              <small
-                *ngIf="form.get('appealPrincipalAmount')?.errors?.required"
-              >
-                {{ "enter_data" | translate }}
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">
-              {{ "percent_amount" | translate }}
-            </div>
-            <label
-              class="input-field__label"
-              [class]="formTemplate ? 'readonly' : ''"
-            >
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="appealInterestAmount"
-              />
-            </label>
-
-            <div
-              *ngIf="
-                form.get('appealInterestAmount')?.touched &&
-                form.get('appealInterestAmount')?.invalid
-              "
-              class="validation"
-            >
-              <small *ngIf="form.get('appealInterestAmount')?.errors?.required">
-                {{ "enter_data" | translate }}
-              </small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-between align-items-end mb-2">
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">
-              {{ "penalty_amount" | translate }}
-            </div>
-            <label
-              class="input-field__label"
-              [class]="formTemplate ? 'readonly' : ''"
-            >
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="appealPenaltyAmount"
-              />
-            </label>
-
-            <div
-              *ngIf="
-                form.get('appealPenaltyAmount')?.touched &&
-                form.get('appealPenaltyAmount')?.invalid
-              "
-              class="validation"
-            >
-              <small *ngIf="form.get('appealPenaltyAmount')?.errors?.required">
-                {{ "enter_data" | translate }}
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">
-              {{ "fine_amount" | translate }}
-            </div>
-            <label
-              class="input-field__label"
-              [class]="formTemplate ? 'readonly' : ''"
-            >
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="appealFineAmount"
-              />
-            </label>
-
-            <div
-              *ngIf="
-                form.get('appealFineAmount')?.touched &&
-                form.get('appealFineAmount')?.invalid
-              "
-              class="validation"
-            >
-              <small *ngIf="form.get('appealFineAmount')?.errors?.required">
-                {{ "enter_data" | translate }}
-              </small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-between align-items-end mb-2">
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">
-              {{ "appealStateDutyCourtCostsAmount" | translate }}
-            </div>
-            <label
-              class="input-field__label"
-              [class]="formTemplate ? 'readonly' : ''"
-            >
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="appealStateDutyCourtCostsAmount"
-              />
-            </label>
-
-            <div
-              *ngIf="
-                form.get('appealStateDutyCourtCostsAmount')?.touched &&
-                form.get('appealStateDutyCourtCostsAmount')?.invalid
-              "
-              class="validation"
-            >
-              <small
-                *ngIf="
-                  form.get('appealStateDutyCourtCostsAmount')?.errors?.required
-                "
-              >
-                {{ "enter_data" | translate }}
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="input-field">
-            <div class="input-field__title">
-              {{ "total_claim_amount" | translate }}
-            </div>
-            <label
-              class="input-field__label"
-              [class]="formTemplate ? 'readonly' : ''"
-            >
-              <input
-                type="text"
-                autocomplete="off"
-                formControlName="appealClaimAmount"
-              />
-            </label>
-
-            <div
-              *ngIf="
-                form.get('appealClaimAmount')?.touched &&
-                form.get('appealClaimAmount')?.invalid
-              "
-              class="validation"
-            >
-              <small *ngIf="form.get('appealClaimAmount')?.errors?.required">
-                {{ "enter_data" | translate }}
-              </small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-container>
   </div>
+
+  <!-- Апелляция -->
+  <!-- Результат решения - удовлетворено -->
+  <ng-container
+    *ngIf="
+      form.get('typeAppeal')?.value === 51 ||
+      form.get('decisionResult')?.value === 34
+    "
+  >
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "principal_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealPrincipalAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealPrincipalAmount')?.touched &&
+              form.get('appealPrincipalAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealPrincipalAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "percent_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealInterestAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealInterestAmount')?.touched &&
+              form.get('appealInterestAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealInterestAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "penalty_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealPenaltyAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealPenaltyAmount')?.touched &&
+              form.get('appealPenaltyAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealPenaltyAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "fine_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealFineAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealFineAmount')?.touched &&
+              form.get('appealFineAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealFineAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "appealStateDutyCourtCostsAmount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealStateDutyCourtCostsAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealStateDutyCourtCostsAmount')?.touched &&
+              form.get('appealStateDutyCourtCostsAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small
+              *ngIf="
+                form.get('appealStateDutyCourtCostsAmount')?.errors?.required
+              "
+            >
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "total_claim_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealClaimAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealClaimAmount')?.touched &&
+              form.get('appealClaimAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealClaimAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
   <div>
     <div

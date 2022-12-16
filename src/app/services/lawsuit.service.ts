@@ -249,8 +249,6 @@ export class LawsuitService {
       processId: null,
     };
 
-    console.log('dataFormat', dataFormat);
-
     this.removeActionForm(actionId);
 
     return this.http.post(`${environment.dbUrlBek}/${api}`, dataFormat).pipe(
@@ -280,6 +278,16 @@ export class LawsuitService {
     return this.historyActions
       .filter((action) => action.actionId === actionId)
       .slice(0, 1)[0]?.data;
+  }
+
+  getReqIds(actionId: any) {
+    return this.historyActions
+      .filter((action) => action.actionId === actionId)
+      .filter((action) => action.data.decision === 43)
+      .map((action) => {
+        // return { value: action.data.id, label: action.data.id };
+        return { label: action.data.docNumber, value: action.data.id };
+      });
   }
 
   getDic(dicName: string): Observable<any> {

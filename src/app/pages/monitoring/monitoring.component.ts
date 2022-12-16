@@ -50,6 +50,7 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
   typeReportDic = [
     { label: 'Детальный', value: 'monitoring' },
     { label: 'Статистика', value: 'statistics' },
+    { label: 'Обзорный', value: 'overview' },
   ];
 
   // selectedTypeReport = this.typeReportDic.find(
@@ -78,7 +79,7 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fireEvent(typeReport: any) {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-      typeReport === 'monitoring'
+      typeReport === 'monitoring' || typeReport === 'overview'
         ? this.monitoring.table.nativeElement
         : this.statistics.table.nativeElement
     );
@@ -167,7 +168,7 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
     this.keyFilster = key;
     this.valueFilter = data;
 
-    if (this.flag === 'monitoring') {
+    if (this.flag === 'monitoring' || this.flag === 'overview') {
       if (this.valueFilter) {
         this.lawsuitService
           .monitoring(this.dataFilter)

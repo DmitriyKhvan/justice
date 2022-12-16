@@ -17,6 +17,7 @@ import { LawsuitService } from 'src/app/services/lawsuit.service';
 export class TableComponent implements OnInit, OnDestroy {
   @ViewChild('table') table!: ElementRef;
   @Input() monitoringData: any[] = [];
+  @Input() typeReport: string = '';
   @Input() loader!: boolean;
   monSub!: Subscription;
 

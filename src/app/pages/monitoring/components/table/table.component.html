@@ -5,77 +5,86 @@
   </h2>
 
   <table #table border="1" cellpadding="5" width="100%">
-    <tr>
-      <th rowspan="2">№</th>
-      <th rowspan="2">Nomi</th>
-      <th colspan="6">{{ currentYear }}-YIL HOLATIGA KO'RA</th>
-    </tr>
-    <tr>
-      <th>KREDIT SHARTNOMASI</th>
-      <th>Kredit Summasi</th>
-      <th class="guarantee">Ta'minot</th>
-      <th>Qarzdorlik</th>
-      <th>Qoldiq</th>
-      <th>Status</th>
-      <th rowspan="2">Qadam</th>
-      <th rowspan="2">Harakat</th>
-      <th rowspan="2">Tafsilot</th>
-      <th rowspan="2">Bosh yuristning qarori</th>
-    </tr>
-    <tr>
-      <th>A</th>
-      <th>JAMI MUAMMOLI AKTIVLAR</th>
-      <th>Sana-muddati</th>
-      <th>Mln.</th>
-      <th></th>
-      <th>So'm</th>
-      <th>So'm</th>
-      <th>Huquqiy holati, vaziayt</th>
-    </tr>
+    <thead>
+      <tr>
+        <th rowspan="2">№</th>
+        <th rowspan="2">Nomi</th>
+        <th colspan="10">{{ currentYear }}-YIL HOLATIGA KO'RA</th>
+      </tr>
+      <tr>
+        <th>KREDIT SHARTNOMASI</th>
+        <th>Kredit Summasi</th>
+        <th class="guarantee">Ta'minot</th>
+        <th>Qarzdorlik</th>
+        <th>Qoldiq</th>
+        <th>Status</th>
+        <ng-container *ngIf="typeReport !== 'overview'">
+          <th rowspan="2">Qadam</th>
+          <th rowspan="2">Harakat</th>
+          <th rowspan="2">Tafsilot</th>
+          <th rowspan="2">Bosh yuristning qarori</th>
+        </ng-container>
+      </tr>
+      <tr>
+        <th>A</th>
+        <th>JAMI MUAMMOLI AKTIVLAR</th>
+        <th>Sana-muddati</th>
+        <th>Mln.</th>
+        <th></th>
+        <th>So'm</th>
+        <th>So'm</th>
+        <th>Huquqiy holati, vaziayt</th>
+      </tr>
+    </thead>
 
-    <tr *ngFor="let data of monitoringData; let idx = index">
-      <td>{{ idx + 1 }}</td>
-      <td>{{ data.clientFio }}</td>
-      <td>{{ data.contractDate }}г. №{{ data.contractId }}</td>
-      <td>{{ data.creditSumm | numberTransform }}</td>
-      <td>
-        <div *ngFor="let g of data.guarantee">
-          <span>{{ g.detail }}</span> -
-          <span>{{ g.summ | numberTransform }}</span>
-        </div>
-      </td>
-      <td>{{ data.totalDebt | numberTransform }}</td>
-      <td>{{ data.remainderCurrentDebt | numberTransform }}</td>
-      <td>{{ data.statusName[lawsuitService.translate.currentLang] }}</td>
-      <td>
-        {{
-          data.stepLang
-            ? data.stepLang[lawsuitService.translate.currentLang]
-            : null
-        }}
-      </td>
-      <td>
-        {{
-          data.actionLang
-            ? data.actionLang[lawsuitService.translate.currentLang]
-            : null
-        }}
-      </td>
-      <td>
-        {{
-          data.actionDetail
-            ? data.actionDetail[lawsuitService.translate.currentLang]
-            : null
-        }}
-      </td>
-      <td>
-        {{
-          data.actionStatus
-            ? data.actionStatus[lawsuitService.translate.currentLang]
-            : null
-        }}
-      </td>
-    </tr>
+    <tbody>
+      <tr *ngFor="let data of monitoringData; let idx = index">
+        <td>{{ idx + 1 }}</td>
+        <td>{{ data.clientFio }}</td>
+        <td>{{ data.contractDate }}г. №{{ data.contractId }}</td>
+        <td>{{ data.creditSumm | numberTransform }}</td>
+        <td>
+          <div *ngFor="let g of data.guarantee">
+            <span>{{ g.detail }}</span> -
+            <span>{{ g.summ | numberTransform }}</span>
+          </div>
+        </td>
+        <td>{{ data.totalDebt | numberTransform }}</td>
+        <td>{{ data.remainderCurrentDebt | numberTransform }}</td>
+        <td>{{ data.statusName[lawsuitService.translate.currentLang] }}</td>
+
+        <ng-container *ngIf="typeReport !== 'overview'">
+          <td>
+            {{
+              data.stepLang
+                ? data.stepLang[lawsuitService.translate.currentLang]
+                : null
+            }}
+          </td>
+          <td>
+            {{
+              data.actionLang
+                ? data.actionLang[lawsuitService.translate.currentLang]
+                : null
+            }}
+          </td>
+          <td>
+            {{
+              data.actionDetail
+                ? data.actionDetail[lawsuitService.translate.currentLang]
+                : null
+            }}
+          </td>
+          <td>
+            {{
+              data.actionStatus
+                ? data.actionStatus[lawsuitService.translate.currentLang]
+                : null
+            }}
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
   </table>
 </div>
 

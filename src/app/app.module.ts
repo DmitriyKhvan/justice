@@ -316,7 +316,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     HttpClient,
-    // INTERCEPTOR_PROVIDER,
+    INTERCEPTOR_PROVIDER,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

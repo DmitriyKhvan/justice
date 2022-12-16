@@ -122,7 +122,8 @@
       <app-map *ngIf="flag === 'map'"></app-map>
 
       <app-table
-        *ngIf="flag === 'monitoring'"
+        *ngIf="flag === 'monitoring' || flag === 'overview'"
+        [typeReport]="flag"
         [monitoringData]="monitoringData"
         [loader]="loader"
         #monitoring
