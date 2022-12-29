@@ -11,10 +11,10 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         <div class="col-6">{{ actionData.data.lotNumber }}</div>
       </div>
 
-      <!-- <div class="row justify-content-between">
-        <div class="col-6">{{ 'beginDateLot' | translate }}</div>
+      <div class="row justify-content-between">
+        <div class="col-6">Дата начала торга</div>
         <div class="col-6">{{ actionData.data.beginDateLot }}</div>
-      </div> -->
+      </div>
 
       <div class="row justify-content-between">
         <div class="col-6">{{ 'endDateLot' | translate }}</div>
