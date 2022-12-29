@@ -44,6 +44,56 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
+        <div class="input-field__title">Дата начала торга</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="beginDateLot"
+            [options]="myDpOptions"
+            #dp="angular-mydatepicker"
+            [locale]="lawsuitService.translate.currentLang"
+          />
+          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('beginDateLot')?.touched &&
+            form.get('beginDateLot')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.beginDateLot.errors &&
+              form.controls.beginDateLot.errors.required &&
+              !form.controls.beginDateLot.errors.invalidDateFormat
+            "
+          >
+            {{ "enter_data" | translate }}
+          </small>
+          <small
+            *ngIf="
+              form.controls.beginDateLot.errors &&
+              form.controls.beginDateLot.errors.invalidDateFormat
+            "
+          >
+            {{ "incorrect_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
         <div class="input-field__title">{{ "endDateLot" | translate }}</div>
         <label
           class="input-field__label"
@@ -56,10 +106,10 @@
             name="reactiveFormsDate"
             formControlName="endDateLot"
             [options]="myDpOptions"
-            #dp="angular-mydatepicker"
+            #dp2="angular-mydatepicker"
             [locale]="lawsuitService.translate.currentLang"
           />
-          <i class="icon-calendar" (click)="dp.toggleCalendar()"></i>
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
         </label>
 
         <div

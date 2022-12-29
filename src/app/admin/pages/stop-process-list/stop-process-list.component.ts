@@ -194,9 +194,7 @@ export class StopProcessListComponent implements OnInit, OnDestroy {
 
   selectItem(contract: any, idx: any): void {
     this.selectedItem = idx;
-
     this.popUpInfoService.popUpStopProcessDecision('open', contract);
-
     // this.router.navigate([], {
     //   queryParams: {
     //     ...this.route.snapshot.queryParams,

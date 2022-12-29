@@ -1,0 +1,62 @@
+<div #historyFile>
+  <div class="history__file decisionInfo">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="3">Шаг</th>
+        </tr>
+
+        <tr>
+          <th colspan="3">
+            {{
+              lawsuitService.currentStep?.lang[
+                lawsuitService.translate.currentLang
+              ]
+            }}
+          </th>
+        </tr>
+
+        <tr>
+          <th>Действие</th>
+          <th>Дата</th>
+          <th>Решение</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="let action of lawsuitService.historyActions; let idx = index"
+        >
+          <td>
+            {{ action.actionNameLang[lawsuitService.translate.currentLang] }}
+          </td>
+          <td>{{ action.data?.createdAt | date: "dd.MM.yyyy" }}</td>
+          <td>
+            <div class="value-info">
+              <span
+                *ngIf="action.actionStatus === 1"
+                class="value-info rejected"
+                >{{ "rejected" | translate }}</span
+              >
+              <span
+                *ngIf="action.actionStatus === 2"
+                class="value-info pending"
+                >{{ "pending" | translate }}</span
+              >
+              <span
+                *ngIf="action.actionStatus === 3"
+                class="value-info approved"
+                >{{ "approved" | translate }}</span
+              >
+              <span
+                *ngIf="action.actionStatus === 4"
+                class="value-info approved"
+                >{{ "sent" | translate }}</span
+              >
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

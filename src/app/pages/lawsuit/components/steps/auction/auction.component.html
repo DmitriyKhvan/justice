@@ -1,43 +1,35 @@
-<div class="lawsuit_form_content">
-  <div class="row">
-    <div class="col-4 page-sticky">
-      <app-stop-process-wrap>
-        <app-select-action></app-select-action>
+<app-step-wrapper>
+  <ng-container class="action-form">
+    <app-stop-process-wrap>
+      <app-select-action></app-select-action>
 
-        <app-first-auction
-          [action]="this.lawsuitService.isActionForm(14)"
-          *ngIf="this.lawsuitService.isActionForm(14)"
-        ></app-first-auction>
+      <app-first-auction
+        [action]="this.lawsuitService.isActionForm(14)"
+        *ngIf="this.lawsuitService.isActionForm(14)"
+      ></app-first-auction>
 
-        <app-repeat-auction
-          [action]="this.lawsuitService.isActionForm(17)"
-          *ngIf="this.lawsuitService.isActionForm(17)"
-        ></app-repeat-auction>
+      <app-repeat-auction
+        [action]="this.lawsuitService.isActionForm(17)"
+        *ngIf="this.lawsuitService.isActionForm(17)"
+      ></app-repeat-auction>
 
-        <app-balance-reception
-          [action]="this.lawsuitService.isActionForm(18)"
-          *ngIf="this.lawsuitService.isActionForm(18)"
-        ></app-balance-reception>
+      <!-- <app-balance-reception
+        [action]="this.lawsuitService.isActionForm(18)"
+        *ngIf="this.lawsuitService.isActionForm(18)"
+      ></app-balance-reception> -->
 
-        <app-get-response
-          [action]="this.lawsuitService.isActionForm(26)"
-          *ngIf="this.lawsuitService.isActionForm(26)"
-        ></app-get-response>
+      <app-get-response
+        [action]="this.lawsuitService.isActionForm(26)"
+        *ngIf="this.lawsuitService.isActionForm(26)"
+      ></app-get-response>
 
-        <app-next-step
-          *ngIf="
-            lawsuitService.stepIndex === lawsuitService.steps.length &&
-            lawsuitService.historyActions.length &&
-            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-          "
-        ></app-next-step>
-      </app-stop-process-wrap>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-actions></app-history-actions>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-step></app-history-step>
-    </div>
-  </div>
-</div>
+      <app-next-step
+        *ngIf="
+          lawsuitService.stepIndex === lawsuitService.steps.length &&
+          lawsuitService.historyActions.length &&
+          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+        "
+      ></app-next-step>
+    </app-stop-process-wrap>
+  </ng-container>
+</app-step-wrapper>

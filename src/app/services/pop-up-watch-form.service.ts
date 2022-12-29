@@ -17,6 +17,8 @@ export class PopUpInfoService {
 
   public updateContractList$ = new Subject<any>();
 
+  public popUpStepStatusInfo$ = new Subject<any>();
+
   openPopUpHistoryAction(isActive: boolean, formData: any = {}) {
     this.popUpForm$.next({ isActive, formData });
   }
@@ -55,5 +57,9 @@ export class PopUpInfoService {
 
   popUpTextTemplate(isActive: boolean = false, text: string = '') {
     this.popUpTextTemplate$.next({ isActive, text });
+  }
+
+  popUpStepStatusInfo(isActive: boolean = false, statusInfo: any = {}) {
+    this.popUpStepStatusInfo$.next({ isActive, statusInfo });
   }
 }

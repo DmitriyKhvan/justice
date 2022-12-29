@@ -116,10 +116,10 @@ import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { StopProcessComponent } from './pages/lawsuit/components/steps/stop-process/stop-process.component';
 import { FirstAuctionComponent } from './pages/lawsuit/components/steps/auction/first-auction/first-auction.component';
 import { RepeatAuctionComponent } from './pages/lawsuit/components/steps/auction/repeat-auction/repeat-auction.component';
-import { BalanceReceptionComponent } from './pages/lawsuit/components/steps/auction/balance-reception/balance-reception.component';
+import { BalanceReceptionComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/balance-reception/balance-reception.component';
 import { FirstAuctionTemplateComponent } from './pages/lawsuit/components/steps/auction/first-auction/first-auction-template.component';
 import { RepeatAuctionTemplateComponent } from './pages/lawsuit/components/steps/auction/repeat-auction/repeat-auction-template';
-import { BalanceReceptionTemplateComponent } from './pages/lawsuit/components/steps/auction/balance-reception/balance-reception-template.component';
+import { BalanceReceptionTemplateComponent } from './pages/lawsuit/components/steps/bureau-compulsory-enforcement/balance-reception/balance-reception-template.component';
 import { LawEnforcementComponent } from './pages/lawsuit/components/steps/law-enforcement/law-enforcement.component';
 import { EnforcementRequestComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-request/enforcement-request.component';
 import { EnforcementResponseComponent } from './pages/lawsuit/components/steps/law-enforcement/enforcement-response/enforcement-response.component';
@@ -152,6 +152,12 @@ import { SidebarDetailComponent } from './components/sidebar/components/sidebar-
 import { StatisticsTableComponent } from './pages/monitoring/components/statistics-table/statistics-table.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { MainAppealResponseComponent } from './pages/lawsuit/components/steps/law-enforcement/main-appeal-response/main-appeal-response.component';
+import { PrintHistoryComponent } from './pages/lawsuit/components/print-history/print-history.component';
+import { HistoryFileComponent } from './pages/lawsuit/components/history-file/history-file.component';
+import { StepWrapperComponent } from './pages/lawsuit/components/step-wrapper/step-wrapper.component';
+import { StepCurrentStatusComponent } from './pages/lawsuit/components/step-current-status/step-current-status.component';
+import { HistoryCurrentStatusComponent } from './pages/lawsuit/components/history-current-status/history-current-status.component';
+import { PopUpStepStatusInfoComponent } from './pages/lawsuit/components/pop-up-step-status-info/pop-up-step-status-info.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -291,6 +297,12 @@ export function createTranslateLoader(http: HttpClient) {
     SidebarDetailComponent,
     StatisticsTableComponent,
     MainAppealResponseComponent,
+    PrintHistoryComponent,
+    HistoryFileComponent,
+    StepWrapperComponent,
+    StepCurrentStatusComponent,
+    HistoryCurrentStatusComponent,
+    PopUpStepStatusInfoComponent,
   ],
   imports: [
     // TooltipModule,

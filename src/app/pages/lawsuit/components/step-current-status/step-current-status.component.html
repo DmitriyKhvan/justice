@@ -1,0 +1,43 @@
+<h2 class="title_lawsuit">Текущий статус</h2>
+
+<p class="subTitle_lawsuit">
+  {{ lawsuitService.historyCurrentStepStatus[0]?.text }}
+</p>
+
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <!-- <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div> -->
+        <label class="text-field__label">
+          <textarea
+            placeholder="Текущий статус"
+            formControlName="currentStatus"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('currentStatus')?.touched &&
+            form.get('currentStatus')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('currentStatus')?.errors?.required">
+            {{ "enter_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [disabled]="form.invalid || submitted"
+  >
+    {{ "send" | translate }}
+  </button>
+</form>

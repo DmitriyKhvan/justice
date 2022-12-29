@@ -1,4 +1,4 @@
-<div *ngIf="actions.length; else loader">
+<div class="select__action-wrap" *ngIf="actions.length; else loader">
   <!-- <pre>{{ actions | json }}</pre> -->
   <form
     *ngIf="actions.length > 1; else btnAction"

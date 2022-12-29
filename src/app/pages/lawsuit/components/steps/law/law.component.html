@@ -1,69 +1,61 @@
-<div class="lawsuit_form_content">
-  <div class="row">
-    <div class="col-4 page-sticky">
-      <app-stop-process-wrap>
-        <app-select-action></app-select-action>
+<app-step-wrapper>
+  <ng-container class="action-form">
+    <app-stop-process-wrap>
+      <app-select-action></app-select-action>
 
-        <app-sending-case-law
-          [action]="this.lawsuitService.isActionForm(4)"
-          *ngIf="this.lawsuitService.isActionForm(4)"
-        ></app-sending-case-law>
+      <app-sending-case-law
+        [action]="this.lawsuitService.isActionForm(4)"
+        *ngIf="this.lawsuitService.isActionForm(4)"
+      ></app-sending-case-law>
 
-        <app-setting-response-law
-          [action]="this.lawsuitService.isActionForm(5)"
-          *ngIf="this.lawsuitService.isActionForm(5)"
-        ></app-setting-response-law>
+      <app-setting-response-law
+        [action]="this.lawsuitService.isActionForm(5)"
+        *ngIf="this.lawsuitService.isActionForm(5)"
+      ></app-setting-response-law>
 
-        <app-first-instance-decision
-          [action]="this.lawsuitService.isActionForm(6)"
-          *ngIf="this.lawsuitService.isActionForm(6)"
-        ></app-first-instance-decision>
+      <app-first-instance-decision
+        [action]="this.lawsuitService.isActionForm(6)"
+        *ngIf="this.lawsuitService.isActionForm(6)"
+      ></app-first-instance-decision>
 
-        <app-referral-for-appeal
-          [action]="this.lawsuitService.isActionForm(7)"
-          *ngIf="this.lawsuitService.isActionForm(7)"
-        ></app-referral-for-appeal>
+      <app-referral-for-appeal
+        [action]="this.lawsuitService.isActionForm(7)"
+        *ngIf="this.lawsuitService.isActionForm(7)"
+      ></app-referral-for-appeal>
 
-        <app-appeal-law-response
-          [action]="this.lawsuitService.isActionForm(8)"
-          *ngIf="this.lawsuitService.isActionForm(8)"
-        ></app-appeal-law-response>
+      <app-appeal-law-response
+        [action]="this.lawsuitService.isActionForm(8)"
+        *ngIf="this.lawsuitService.isActionForm(8)"
+      ></app-appeal-law-response>
 
-        <app-referral-case-to-cassation
-          [action]="this.lawsuitService.isActionForm(9)"
-          *ngIf="this.lawsuitService.isActionForm(9)"
-        >
-        </app-referral-case-to-cassation>
+      <app-referral-case-to-cassation
+        [action]="this.lawsuitService.isActionForm(9)"
+        *ngIf="this.lawsuitService.isActionForm(9)"
+      >
+      </app-referral-case-to-cassation>
 
-        <app-response-law-of-cassation
-          [action]="this.lawsuitService.isActionForm(10)"
-          *ngIf="this.lawsuitService.isActionForm(10)"
-        ></app-response-law-of-cassation>
+      <app-response-law-of-cassation
+        [action]="this.lawsuitService.isActionForm(10)"
+        *ngIf="this.lawsuitService.isActionForm(10)"
+      ></app-response-law-of-cassation>
 
-        <app-main-appeal
-          [action]="this.lawsuitService.isActionForm(21)"
-          *ngIf="this.lawsuitService.isActionForm(21)"
-        ></app-main-appeal>
+      <app-main-appeal
+        [action]="this.lawsuitService.isActionForm(21)"
+        *ngIf="this.lawsuitService.isActionForm(21)"
+      ></app-main-appeal>
 
-        <app-main-appeal-response
-          [action]="this.lawsuitService.isActionForm(27)"
-          *ngIf="this.lawsuitService.isActionForm(27)"
-        ></app-main-appeal-response>
+      <app-main-appeal-response
+        [action]="this.lawsuitService.isActionForm(27)"
+        *ngIf="this.lawsuitService.isActionForm(27)"
+      ></app-main-appeal-response>
 
-        <app-next-step
-          *ngIf="
-            lawsuitService.stepIndex === lawsuitService.steps.length &&
-            lawsuitService.historyActions.length &&
-            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-          "
-        ></app-next-step>
-      </app-stop-process-wrap>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-actions></app-history-actions>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-step></app-history-step>
-    </div>
-  </div>
-</div>
+      <app-next-step
+        *ngIf="
+          lawsuitService.stepIndex === lawsuitService.steps.length &&
+          lawsuitService.historyActions.length &&
+          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+        "
+      ></app-next-step>
+    </app-stop-process-wrap>
+  </ng-container>
+</app-step-wrapper>

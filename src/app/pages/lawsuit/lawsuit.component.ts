@@ -4,6 +4,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { mergeMap, switchMap, tap } from 'rxjs/operators';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
+import { HistoryFileComponent } from './components/history-file/history-file.component';
 
 @Component({
   selector: 'app-lawsuit',
@@ -18,6 +20,8 @@ import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
   styleUrls: ['./lawsuit.component.scss'],
 })
 export class LawsuitComponent implements OnInit, OnDestroy {
+  @ViewChild('historyFile') historyFileRef!: HistoryFileComponent;
+
   requestTimeout: any = null;
   resize: boolean = true;
 
@@ -110,6 +114,7 @@ export class LawsuitComponent implements OnInit, OnDestroy {
     this.lawsuitService.actions = [];
     this.lawsuitService.historyActions = [];
     this.lawsuitService.historySteps = [];
+    this.lawsuitService.historyCurrentStepStatus = [];
     this.lawsuitService.steps = [];
 
     this.lawsuitService.mfo = this.route.snapshot.queryParams['mfo'];
@@ -156,6 +161,7 @@ export class LawsuitComponent implements OnInit, OnDestroy {
             );
           }
           this.lawsuitService.historySteps = histories.jumps;
+          this.lawsuitService.historyCurrentStepStatus = histories.stepStatus;
           this.lawsuitService.isDeniedStep = this.lawsuitService.historySteps.some(
             (step) => step.status === 1
           );

@@ -1,0 +1,40 @@
+<div class="lawsuit_form_content">
+  <div class="row">
+    <div class="col-lg-4 col-md-6">
+      <!-- <app-stop-process-wrap>
+        <app-select-action></app-select-action>
+        <app-notification-form
+          [action]="this.lawsuitService.isActionForm(1)"
+          *ngIf="this.lawsuitService.isActionForm(1)"
+        ></app-notification-form>
+
+        <app-next-step
+          *ngIf="
+            lawsuitService.stepIndex === lawsuitService.steps.length &&
+            lawsuitService.historyActions.length &&
+            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+          "
+        ></app-next-step>
+      </app-stop-process-wrap> -->
+      <ng-content select=".action-form"></ng-content>
+
+      <app-step-current-status></app-step-current-status>
+    </div>
+    <div class="col-lg-8 col-md-6">
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <app-history-actions></app-history-actions>
+
+          <!-- <ng-content select=".history-actions"></ng-content> -->
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <app-history-step></app-history-step>
+          <app-history-current-status
+            *ngIf="lawsuitService.historyCurrentStepStatus.length"
+          ></app-history-current-status>
+          <!-- <ng-content select=".history-steps"></ng-content> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

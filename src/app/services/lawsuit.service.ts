@@ -13,7 +13,6 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class LawsuitService {
-  stepName!: any;
   stepIndex!: number;
 
   stopProcessStep!: any; // Шаг остановка процесса
@@ -22,6 +21,7 @@ export class LawsuitService {
 
   /** Текущее действие в шаге */
   currentStep: any = {
+    lang: '',
     // stepid: 2,
     //   stepname: 'TPP',
     //   stepconfirmation: true,
@@ -33,6 +33,7 @@ export class LawsuitService {
   actionStart: any = { processId: null }; // начальная форма (действие) в шаге (следующий шаг)
   historyActions: any[] = []; // история действий текущего шага
   historySteps: any[] = []; // история шагов текущего шага
+  historyCurrentStepStatus: any[] = []; // история изменений статусов текущего шага
   activeAction: any[] = [];
   mfo!: string;
   contractId!: any; // uniqueId
@@ -187,9 +188,6 @@ export class LawsuitService {
     this.stepIndex =
       this.steps.findIndex((step: any) => step.stepid === +id) + 1;
 
-    this.stepName = this.currentStep;
-
-    // console.log(this.stepName);
     // console.log(this.stepIndex);
 
     // if (id !== this.fromStepId) {
@@ -234,6 +232,32 @@ export class LawsuitService {
           return throwError(error);
         })
       );
+  }
+
+  setStepStatus(text: string): Observable<any> {
+    const dataFormat = {
+      uniqueId: this.contractId,
+      stepId: this.fromStepId,
+      text,
+    };
+
+    return this.http
+      .post(`${environment.dbUrlBek}/process/stepStatus/add`, dataFormat)
+      .pipe(
+        tap(this.addHistoryStepStatus.bind(this)),
+        catchError((error) => {
+          this.alert.danger(
+            !error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
+          return throwError(error);
+        })
+      );
+  }
+
+  addHistoryStepStatus(status: any) {
+    this.historyCurrentStepStatus.unshift(status);
   }
 
   apiFetch(data: any, api: string, actionId: number | null): Observable<any> {

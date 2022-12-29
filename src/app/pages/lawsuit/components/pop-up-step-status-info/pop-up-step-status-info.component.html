@@ -1,0 +1,28 @@
+<div class="alert-wrap" *ngIf="isActive" (click)="animationAlert()">
+  <div
+    class="alert decisionInfo"
+    [@wrapAlert]="wrapAlertState"
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close"><i class="uil-times" (click)="close()"></i></button>
+
+    <h4 class="title">{{ "head_lawyer" | translate }}</h4>
+    <div class="row justify-content-between mb-2">
+      <div class="col-6">
+        <div class="label-info">Дата изменения статуса</div>
+        <div class="value-info">
+          {{ statusInfo?.updatedAt | date: "dd.MM.yyyy HH:mm" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <div class="label-info">Статус</div>
+        <div class="value-info">
+          {{ statusInfo.text }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

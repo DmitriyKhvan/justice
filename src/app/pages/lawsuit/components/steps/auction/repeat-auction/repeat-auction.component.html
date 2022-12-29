@@ -93,6 +93,55 @@
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
       <div class="input-field">
+        <div class="input-field__title">{{ "endDateLot" | translate }}</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <!--        <input type="text" class="datepicker-here" readonly />-->
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="endDateLot"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="lawsuitService.translate.currentLang"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('endDateLot')?.touched && form.get('endDateLot')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.endDateLot.errors &&
+              form.controls.endDateLot.errors.required &&
+              !form.controls.endDateLot.errors.invalidDateFormat
+            "
+          >
+            {{ "enter_data" | translate }}
+          </small>
+          <small
+            *ngIf="
+              form.controls.endDateLot.errors &&
+              form.controls.endDateLot.errors.invalidDateFormat
+            "
+          >
+            {{ "incorrect_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
         <div class="input-field__title">{{ "lotSum" | translate }}</div>
         <label
           class="input-field__label"

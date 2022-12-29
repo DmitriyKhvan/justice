@@ -100,6 +100,9 @@ export class PopUpStopProcessDecisionComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: any) => {
         this.userInfo = res.getUserInfo;
+
+        console.log('res.getUsers', res.getUsers);
+
         this.users = res.getUsers.map((user: any) => {
           return {
             id: user.id,

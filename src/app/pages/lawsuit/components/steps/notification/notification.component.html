@@ -1,38 +1,19 @@
-<div class="lawsuit_form_content">
-  <div class="row">
-    <div class="col-4 page-sticky">
-      <app-stop-process-wrap>
-        <app-select-action></app-select-action>
+<app-step-wrapper>
+  <ng-container class="action-form"
+    ><app-stop-process-wrap>
+      <app-select-action></app-select-action>
 
-        <!-- <ng-template #btnSelectAction>
-          <button
-            *ngIf="this.lawsuitService.actionIds.length == 1"
-            class="page-form__actionbtn text-uppercase add"
-            (click)="this.lawsuitService.actionIds.push(1)"
-          >
-            Отправить новое уведомление
-          </button>
-        </ng-template> -->
+      <app-notification-form
+        [action]="this.lawsuitService.isActionForm(1)"
+        *ngIf="this.lawsuitService.isActionForm(1)"
+      ></app-notification-form>
 
-        <app-notification-form
-          [action]="this.lawsuitService.isActionForm(1)"
-          *ngIf="this.lawsuitService.isActionForm(1)"
-        ></app-notification-form>
-
-        <app-next-step
-          *ngIf="
-            lawsuitService.stepIndex === lawsuitService.steps.length &&
-            lawsuitService.historyActions.length &&
-            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-          "
-        ></app-next-step>
-      </app-stop-process-wrap>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-actions></app-history-actions>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-step></app-history-step>
-    </div>
-  </div>
-</div>
+      <app-next-step
+        *ngIf="
+          lawsuitService.stepIndex === lawsuitService.steps.length &&
+          lawsuitService.historyActions.length &&
+          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+        "
+      ></app-next-step> </app-stop-process-wrap
+  ></ng-container>
+</app-step-wrapper>

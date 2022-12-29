@@ -1,0 +1,24 @@
+<h2 class="title_lawsuit">История изменения статуса</h2>
+
+<div class="row history_action__field__title no-gutters">
+  <div class="col-4 add">{{ "date" | translate }}</div>
+  <div class="col-4">{{ "decision_head_lawyer" | translate }}</div>
+</div>
+
+<div
+  *ngFor="
+    let curStatus of lawsuitService.historyCurrentStepStatus;
+    let idx = index
+  "
+  class="historyAction"
+>
+  <div class="row no-gutters history_action__field__data">
+    <div class="col-4 add">
+      {{ curStatus.createdAt | date: "dd.MM.yyyy" }}
+    </div>
+    <div class="col-8 history_action__field__data__status">
+      <span class="approved"> Статус изменен </span>
+      <i class="icon-eye" (click)="popUpStepStatus(curStatus)"></i>
+    </div>
+  </div>
+</div>

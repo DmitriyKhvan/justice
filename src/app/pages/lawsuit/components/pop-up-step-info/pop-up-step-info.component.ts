@@ -71,8 +71,6 @@ export class PopUpStepInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.popUpInfoSub) {
-      this.popUpInfoSub.unsubscribe();
-    }
+    this.popUpInfoSub?.unsubscribe();
   }
 }

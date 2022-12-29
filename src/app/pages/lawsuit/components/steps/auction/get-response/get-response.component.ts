@@ -52,6 +52,7 @@ export class GetResponseComponent implements OnInit {
 
     this.form = new FormGroup({
       lotNumber: new FormControl(formTemplateNull, Validators.required),
+      beginDateLot: new FormControl(formTemplate, Validators.required),
       endDateLot: new FormControl(formTemplate, Validators.required),
       result: new FormControl(formTemplateNull, Validators.required),
       lotSum: new FormControl({ value: '', disabled: true }),
@@ -107,6 +108,7 @@ export class GetResponseComponent implements OnInit {
 
     const data = {
       lotNumber: this.form.value.lotNumber,
+      // beginDateLot: this.form.value.beginDateLot.singleDate.formatted,
       endDateLot: this.form.value.endDateLot.singleDate.formatted,
       result: this.form.value.result,
       lotSum: this.form.value.lotSum,

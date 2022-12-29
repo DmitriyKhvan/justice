@@ -91,6 +91,88 @@
 
   <div class="row justify-content-between align-items-end mb-2">
     <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">
+          <!-- {{ "principal_amount" | translate }} -->
+          Предложенная сумма
+        </div>
+        <label
+          [class]="formTemplate ? 'readonly' : ''"
+          class="input-field__label"
+        >
+          <input
+            type="text"
+            autocomplete="off"
+            formControlName="proposedAmount"
+          />
+        </label>
+
+        <div
+          *ngIf="
+            form.get('proposedAmount')?.touched &&
+            form.get('proposedAmount')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('proposedAmount')?.errors?.required">
+            {{ "enter_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="input-field">
+        <div class="input-field__title">Период уведомления до:</div>
+        <label
+          class="input-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <input
+            class="input-box"
+            angular-mydatepicker
+            name="reactiveFormsDate"
+            formControlName="notificationPeriod"
+            [options]="myDpOptions"
+            #dp2="angular-mydatepicker"
+            [locale]="lawsuitService.translate.currentLang"
+          />
+          <i class="icon-calendar" (click)="dp2.toggleCalendar()"></i>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('notificationPeriod')?.touched &&
+            form.get('notificationPeriod')?.invalid
+          "
+          class="validation"
+        >
+          <small
+            *ngIf="
+              form.controls.notificationPeriod.errors &&
+              form.controls.notificationPeriod.errors.required &&
+              !form.controls.notificationPeriod.errors.invalidDateFormat
+            "
+          >
+            {{ "enter_data" | translate }}
+          </small>
+          <small
+            *ngIf="
+              form.controls.notificationPeriod.errors &&
+              form.controls.notificationPeriod.errors.invalidDateFormat
+            "
+          >
+            {{ "incorrect_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
       <app-file-uploader
         [formTemplate]="formTemplate"
         title="{{ 'attach_file' | translate }}"

@@ -7,6 +7,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { datepickerSettings } from 'src/app/settings';
+import currencyTransform from 'src/app/utils/format-number';
 
 @Component({
   selector: 'app-balance-reception',
@@ -18,6 +19,8 @@ export class BalanceReceptionComponent implements OnInit {
   @Input() action!: any;
   form!: FormGroup;
   submitted = false;
+
+  proposedAmountSub!: Subscription | undefined;
 
   myDpOptions: IAngularMyDpOptions = datepickerSettings;
   dicSub!: Subscription;
@@ -48,6 +51,11 @@ export class BalanceReceptionComponent implements OnInit {
     this.form = new FormGroup({
       inDocNumber: new FormControl(formTemplateNull, Validators.required),
       inDocDate: new FormControl(formTemplateNull, Validators.required),
+      proposedAmount: new FormControl(formTemplateNull, Validators.required),
+      notificationPeriod: new FormControl(
+        formTemplateNull,
+        Validators.required
+      ),
       addInfo: new FormControl(formTemplateNull, Validators.required),
     });
 
@@ -55,6 +63,17 @@ export class BalanceReceptionComponent implements OnInit {
       .getDicByActionId(this.action.actionId)
       .subscribe((dictionaries: any) => {
         this.dictionaries = dictionaries;
+      });
+
+    this.proposedAmountSub = this.form
+      .get('proposedAmount')
+      ?.valueChanges.subscribe((val) => {
+        this.form.patchValue(
+          {
+            proposedAmount: currencyTransform(val),
+          },
+          { emitEvent: false }
+        );
       });
   }
 
@@ -68,12 +87,15 @@ export class BalanceReceptionComponent implements OnInit {
     const data = {
       inDocNumber: this.form.value.inDocNumber,
       inDocDate: this.form.value.inDocDate.singleDate.formatted,
+      proposedAmount: this.form.value.proposedAmount,
+      notificationPeriod: this.form.value.notificationPeriod.singleDate
+        .formatted,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.addInfo,
     };
 
     this.lawsuitService
-      .apiFetch(data, 'auction/balanceReception/add', actionId)
+      .apiFetch(data, 'mib/balanceReception/add', actionId)
       .subscribe(
         (actions) => {
           // this.lawsuitService.historyActions = actions;
@@ -91,5 +113,6 @@ export class BalanceReceptionComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.dicSub?.unsubscribe();
+    this.proposedAmountSub?.unsubscribe();
   }
 }

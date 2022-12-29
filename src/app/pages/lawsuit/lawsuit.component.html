@@ -11,10 +11,16 @@
       *ngIf="lawsuitService.stepIndex; else stopProcess"
     >
       {{ "step1" | translate }} {{ lawsuitService.stepIndex }}.
-      {{ lawsuitService.stepName?.lang[lawsuitService.translate.currentLang] }}
+      {{
+        lawsuitService.currentStep?.lang[lawsuitService.translate.currentLang]
+      }}
     </div>
 
-    <app-make-decesions></app-make-decesions>
+    <div class="d-flex">
+      <app-print-history [historyFileRef]="historyFile"></app-print-history>
+
+      <app-make-decesions></app-make-decesions>
+    </div>
 
     <ng-template #stopProcess>
       <div class="page-header__text">
@@ -32,21 +38,18 @@
       <div class="page-action__item mr-2" (click)="showHistory()">
         <i class="far fa-clock"></i>
         {{'history' | translate}}
-      </div> 
+      </div>
     </div> -->
   </div>
 
   <app-tabs></app-tabs>
   <div class="page-content">
     <div class="row align-items-start">
-      <div
-        class="col-md-5 page-sticky"
-        [class]="resize ? 'col-lg-3' : 'col-lg-2'"
-      >
+      <div class="col-md-4 col-sm-6" [class]="resize ? 'col-lg-3' : 'col-lg-2'">
         <app-contract-info (toogleSize)="onAdd($event)"></app-contract-info>
       </div>
       <div
-        class="col-md-5 page-sticky"
+        class="col-md-8 col-sm-6"
         [class]="resize ? 'col-lg-9' : 'col-lg-10'"
       >
         <app-notification
@@ -78,8 +81,11 @@
         ></app-law-enforcement>
 
         <app-stop-process
-          *ngIf="this.lawsuitService.fromStepId == 8"
+          *ngIf="this.lawsuitService.currentStep?.stepid == 8"
         ></app-stop-process>
+
+        <!-- для печати -->
+        <app-history-file #historyFile hidden="true"></app-history-file>
       </div>
     </div>
   </div>

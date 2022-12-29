@@ -14,6 +14,12 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         <div class="col-6">{{ 'beginDateLot' | translate }}</div>
         <div class="col-6">{{ actionData.data.beginDateLot }}</div>
       </div>
+
+      <!-- <div class="row justify-content-between">
+        <div class="col-6">{{ 'endDateLot' | translate }}</div>
+        <div class="col-6">{{ actionData.data.endDateLot }}</div>
+      </div> -->
+
       <div class="row justify-content-between">
         <div class="col-6">{{ 'lotSum' | translate }}</div>
         <div class="col-6">{{ actionData.data.lotSum }}</div>

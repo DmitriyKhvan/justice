@@ -15,6 +15,14 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
         <div class="col-6">{{ actionData.data.inDocDate }}</div>
       </div>
       <div class="row justify-content-between">
+        <div class="col-6">Предложенная сумма</div>
+        <div class="col-6">{{ actionData.data.proposedAmount }}</div>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col-6">Период уведомления до:</div>
+        <div class="col-6">{{ actionData.data.notificationPeriod }}</div>
+      </div>
+      <div class="row justify-content-between">
         <div class="col-6">{{ 'attached_files' | translate }}</div>
         <div class="col-6">
           <app-file-downloader

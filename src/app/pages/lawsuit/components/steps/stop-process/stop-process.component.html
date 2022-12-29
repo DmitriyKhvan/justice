@@ -1,15 +1,16 @@
-<div class="lawsuit_form_content">
-  <div class="row">
-    <div class="col-4 page-sticky">
-      <app-stop-process-wrap>
-        <app-stop-process-type [action]="action"></app-stop-process-type>
-      </app-stop-process-wrap>
-    </div>
-    <div class="col-4 page-sticky">
-      <app-history-actions></app-history-actions>
-    </div>
+<app-step-wrapper>
+  <ng-container class="action-form">
+    <app-stop-process-wrap>
+      <app-stop-process-type [action]="action"></app-stop-process-type>
+    </app-stop-process-wrap>
+  </ng-container>
+
+  <ng-container class="history-actions">
+    <app-history-actions></app-history-actions>
+  </ng-container>
+  <ng-container class="history-steps">
     <!-- <div class="col-4 page-sticky">
       <app-history-step></app-history-step>
     </div> -->
-  </div>
-</div>
+  </ng-container>
+</app-step-wrapper>

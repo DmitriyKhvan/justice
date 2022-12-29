@@ -3,13 +3,13 @@
   <div class="col-12">
     <div class="steps">
       <button
-        *ngFor="let step of this.lawsuitService.steps; let idx = index"
+        *ngFor="let step of lawsuitService.steps.slice(0, -1); let idx = index"
         #stepRef
         class="step_lawsuit"
         [ngClass]="{
-          last: this.lawsuitService.steps.length == idx + 1,
-          complete: !(this.lawsuitService.steps.length == idx + 1),
-          current: step.stepid == this.lawsuitService.fromStepId
+          last: lawsuitService.steps.length == idx + 1,
+          complete: !(lawsuitService.steps.length == idx + 1),
+          current: step.stepid == lawsuitService.currentStep.stepid
         }"
         (click)="lawsuitService.getCurrentStep(step.stepid)"
       >
@@ -43,7 +43,7 @@
           this.lawsuitService.steps.length + 1
         }}</span>
         <span class="step_lawsuit_name"
-          >Шаг {{ this.lawsuitService.steps.length + 1 }}</span
+          >Шаг {{ lawsuitService.steps.length + 1 }}</span
         >
       </button>
 
@@ -59,7 +59,31 @@
         </span>
         <span class="step_lawsuit_name">Завершить процесс</span>
       </button> -->
-      <app-stop-process-tab></app-stop-process-tab>
+
+      <!-- <app-stop-process-tab></app-stop-process-tab> -->
+
+      <button
+        class="step_lawsuit last"
+        [ngClass]="{
+          current:
+            lawsuitService.steps[lawsuitService.steps.length - 1]?.stepid ==
+            lawsuitService.currentStep.stepid
+        }"
+        (click)="
+          lawsuitService.getCurrentStep(
+            lawsuitService.steps[lawsuitService.steps.length - 1]?.stepid
+          )
+        "
+      >
+        <span class="step_lawsuit_number">
+          <i class="uil-pause"></i>
+        </span>
+        <span class="step_lawsuit_name">{{
+          lawsuitService.steps[lawsuitService.steps.length - 1]?.lang[
+            lawsuitService.translate.currentLang
+          ]
+        }}</span>
+      </button>
     </div>
   </div>
 </div>

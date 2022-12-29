@@ -53,7 +53,7 @@ export class FirstAuctionComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       lotNumber: new FormControl(formTemplateNull, Validators.required),
       beginDateLot: new FormControl(formTemplate, Validators.required),
-      // endDateLot: new FormControl(formTemplateNull, Validators.required),
+      endDateLot: new FormControl(formTemplateNull, Validators.required),
       // result: new FormControl(formTemplateNull, Validators.required),
       lotSum: new FormControl(formTemplate, Validators.required),
       addInfo: new FormControl(formTemplate, Validators.required),

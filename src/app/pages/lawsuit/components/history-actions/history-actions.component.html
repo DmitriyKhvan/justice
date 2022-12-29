@@ -1,74 +1,76 @@
-<h2 class="title_lawsuit">
-  <ng-container
-    *ngIf="
-      lawsuitService.fromStepId != 1 && lawsuitService.fromStepId != 8;
-      else notificationTitle
-    "
-    >{{ "history_decisions_head_lawyer_actions" | translate }}</ng-container
-  >
-
-  <ng-template #notificationTitle>
-    <h2 class="title_lawsuit">{{ "history" | translate }}</h2>
-  </ng-template>
-</h2>
-
-<div
-  class="historyAction"
-  *ngFor="let action of lawsuitService.historyActions; let idx = index"
->
-  <h2
-    *ngIf="lawsuitService.fromStepId != 1 && lawsuitService.fromStepId != 8"
-    class="subTitle_lawsuit"
-  >
-    {{ action.actionNameLang[lawsuitService.translate.currentLang] }}
-  </h2>
-
-  <h2
-    *ngIf="lawsuitService.fromStepId == 8 && action.data?.type; else renewall"
-    class="subTitle_lawsuit"
-  >
-    {{ action.actionNameLang[lawsuitService.translate.currentLang] }}:
-    {{ getValue("stopType", action.data?.type) }}
-  </h2>
-
-  <ng-template #renewall>
-    <h2 *ngIf="lawsuitService.fromStepId == 8" class="subTitle_lawsuit">
-      {{ "resumption" | translate }}
-    </h2>
-  </ng-template>
-
-  <div class="history_action__field">
-    <div
+<div class="history">
+  <h2 class="title_lawsuit">
+    <ng-container
       *ngIf="
-        (lawsuitService.fromStepId == 1 && idx === 0) ||
-        lawsuitService.fromStepId != 1
+        lawsuitService.fromStepId != 1 && lawsuitService.fromStepId != 8;
+        else notificationTitle
       "
-      class="row history_action__field__title no-gutters"
+      >{{ "history_decisions_head_lawyer_actions" | translate }}</ng-container
     >
-      <div class="col-4 add">{{ "date" | translate }}</div>
-      <div *ngIf="lawsuitService.fromStepId != 8" class="col-8">
-        {{ "decision_head_lawyer" | translate }}
-      </div>
-    </div>
 
-    <div class="row no-gutters history_action__field__data">
-      <div class="col-4 add">
-        {{ action.data?.createdAt | date: "dd.MM.yyyy" }}
+    <ng-template #notificationTitle>
+      <h2 class="title_lawsuit">{{ "history" | translate }}</h2>
+    </ng-template>
+  </h2>
+
+  <div
+    class="historyAction"
+    *ngFor="let action of lawsuitService.historyActions; let idx = index"
+  >
+    <h2
+      *ngIf="lawsuitService.fromStepId != 1 && lawsuitService.fromStepId != 8"
+      class="subTitle_lawsuit"
+    >
+      {{ action.actionNameLang[lawsuitService.translate.currentLang] }}
+    </h2>
+
+    <h2
+      *ngIf="lawsuitService.fromStepId == 8 && action.data?.type; else renewall"
+      class="subTitle_lawsuit"
+    >
+      {{ action.actionNameLang[lawsuitService.translate.currentLang] }}:
+      {{ getValue("stopType", action.data?.type) }}
+    </h2>
+
+    <ng-template #renewall>
+      <h2 *ngIf="lawsuitService.fromStepId == 8" class="subTitle_lawsuit">
+        {{ "resumption" | translate }}
+      </h2>
+    </ng-template>
+
+    <div class="history_action__field">
+      <div
+        *ngIf="
+          (lawsuitService.fromStepId == 1 && idx === 0) ||
+          lawsuitService.fromStepId != 1
+        "
+        class="row history_action__field__title no-gutters"
+      >
+        <div class="col-4 add">{{ "date" | translate }}</div>
+        <div *ngIf="lawsuitService.fromStepId != 8" class="col-8">
+          {{ "decision_head_lawyer" | translate }}
+        </div>
       </div>
-      <div class="col-8 history_action__field__data__status">
-        <span *ngIf="action.actionStatus === 1" class="rejected">{{
-          "rejected" | translate
-        }}</span>
-        <span *ngIf="action.actionStatus === 2" class="pending">{{
-          "pending" | translate
-        }}</span>
-        <span *ngIf="action.actionStatus === 3" class="approved">{{
-          "approved" | translate
-        }}</span>
-        <span *ngIf="action.actionStatus === 4" class="approved">{{
-          "sent" | translate
-        }}</span>
-        <i class="icon-eye" (click)="popUpForm(action)"></i>
+
+      <div class="row no-gutters history_action__field__data">
+        <div class="col-4 add">
+          {{ action.data?.createdAt | date: "dd.MM.yyyy" }}
+        </div>
+        <div class="col-8 history_action__field__data__status">
+          <span *ngIf="action.actionStatus === 1" class="rejected">{{
+            "rejected" | translate
+          }}</span>
+          <span *ngIf="action.actionStatus === 2" class="pending">{{
+            "pending" | translate
+          }}</span>
+          <span *ngIf="action.actionStatus === 3" class="approved">{{
+            "approved" | translate
+          }}</span>
+          <span *ngIf="action.actionStatus === 4" class="approved">{{
+            "sent" | translate
+          }}</span>
+          <i class="icon-eye" (click)="popUpForm(action)"></i>
+        </div>
       </div>
     </div>
   </div>

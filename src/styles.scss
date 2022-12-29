@@ -262,6 +262,7 @@
 
 .page-form {
   //width: 492px;
+  margin-bottom: 20px;
   & .text-field {
     flex: 1;
     &__title {
@@ -1390,7 +1391,7 @@
     .step_lawsuit {
       display: flex;
       align-items: center;
-      width: 265px;
+      min-width: 215px;
       height: 80px;
       padding: 0 20px;
       margin-left: -1px;
@@ -1854,3 +1855,48 @@
 }
 
 /** MFOS End**/
+
+// @media print {
+//   // body {
+//   //   visibility: hidden;
+//   // }
+
+//   .history__file {
+//     visibility: visible;
+//   }
+// }
+
+/* history file Start*/
+.history__file {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    .number {
+      width: 10px;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      line-height: 1.42857143;
+      border: 1px solid #f4f4f4;
+    }
+
+    th {
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 1px;
+      background-color: #f9f9f9;
+    }
+
+    tr {
+      border: 1px solid #ddd;
+    }
+
+    tbody > tr:nth-of-type(even) {
+      background-color: #f9f9f9;
+    }
+  }
+}
+/* history file End*/
