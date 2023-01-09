@@ -17,7 +17,7 @@
         <th class="guarantee">Ta'minot</th>
         <th>Qarzdorlik</th>
         <th>Qoldiq</th>
-        <th>Status</th>
+        <th colspan="2">Status</th>
         <ng-container *ngIf="typeReport !== 'overview'">
           <th rowspan="2">Qadam</th>
           <th rowspan="2">Harakat</th>
@@ -34,6 +34,7 @@
         <th>So'm</th>
         <th>So'm</th>
         <th>Huquqiy holati, vaziayt</th>
+        <th>Joriy holat</th>
       </tr>
     </thead>
 
@@ -52,6 +53,7 @@
         <td>{{ data.totalDebt | numberTransform }}</td>
         <td>{{ data.remainderCurrentDebt | numberTransform }}</td>
         <td>{{ data.statusName[lawsuitService.translate.currentLang] }}</td>
+        <td>{{ data.lastStepStatus }}</td>
 
         <ng-container *ngIf="typeReport !== 'overview'">
           <td>

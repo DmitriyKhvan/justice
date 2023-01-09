@@ -87,7 +87,7 @@ export class FirstAuctionComponent implements OnInit, OnDestroy {
     const data = {
       lotNumber: this.form.value.lotNumber,
       beginDateLot: this.form.value.beginDateLot.singleDate.formatted,
-      // endDateLot: this.form.value.endDateLot.singleDate.formatted,
+      endDateLot: this.form.value.endDateLot.singleDate.formatted,
       // result: this.form.value.result,
       lotSum: this.form.value.lotSum,
       files: this.fileUploadService.transformFilesData(),
