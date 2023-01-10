@@ -49,6 +49,16 @@
         *ngIf="this.lawsuitService.isActionForm(27)"
       ></app-main-appeal-response>
 
+      <app-re-cassation-request
+        [action]="this.lawsuitService.isActionForm(30)"
+        *ngIf="this.lawsuitService.isActionForm(30)"
+      ></app-re-cassation-request>
+
+      <app-re-cassation-response
+        [action]="this.lawsuitService.isActionForm(31)"
+        *ngIf="this.lawsuitService.isActionForm(31)"
+      ></app-re-cassation-response>
+
       <app-next-step
         *ngIf="
           lawsuitService.stepIndex === lawsuitService.steps.length &&

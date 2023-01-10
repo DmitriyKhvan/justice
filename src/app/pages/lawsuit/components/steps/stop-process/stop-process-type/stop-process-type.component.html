@@ -264,6 +264,38 @@
     </div>
   </div>
 
+  <div
+    *ngIf="form.value.stopReason === 154"
+    class="row justify-content-between align-items-end mb-2"
+  >
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">Причина остановки</div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="Причина остановки"
+            formControlName="otherStopReason"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('otherStopReason')?.touched &&
+            form.get('otherStopReason')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('otherStopReason')?.errors?.required">
+            {{ "enter_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button
     *ngIf="!formTemplate"
     type="submit"

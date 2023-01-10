@@ -22,6 +22,8 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
   sSub!: Subscription;
   dSub!: Subscription | undefined;
   stopInitiatorSub!: Subscription | undefined;
+  stopReasonSub!: Subscription | undefined;
+
   dictionaries!: any;
   reasonStoppingDic: any[] = [];
   // action!: any;
@@ -66,6 +68,7 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
         { value: null, disabled: true },
         Validators.required
       ),
+      otherStopReason: new FormControl(formTemplate, Validators.required),
       addInfo: new FormControl(formTemplate, Validators.required),
     });
 
@@ -122,6 +125,23 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
           this.stopReason?.disable();
         }
       });
+
+    this.stopReasonSub = this.form
+      .get('stopReason')
+      ?.valueChanges.subscribe((id) => {
+        this.form.patchValue({
+          otherStopReason: '',
+        });
+
+        if (id === 154) {
+          this.form
+            .get('otherStopReason')
+            ?.setValidators([Validators.required]);
+        } else {
+          this.form.get('otherStopReason')?.clearValidators();
+        }
+        this.form.get('otherStopReason')?.updateValueAndValidity();
+      });
   }
 
   submit() {
@@ -138,6 +158,7 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
       docNumber: this.form.value.docNumber,
       stopInitiator: this.form.value.stopInitiator,
       stopReason: this.form.value.stopReason,
+      // otherStopReason: this.form.value.otherStopReason,
       files: this.fileUploadService.transformFilesData(),
       addInfo: this.form.value.addInfo,
     };
