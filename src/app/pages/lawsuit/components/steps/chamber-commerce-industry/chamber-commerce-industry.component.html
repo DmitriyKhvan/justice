@@ -11,14 +11,6 @@
         [action]="this.lawsuitService.isActionForm(3)"
         *ngIf="this.lawsuitService.isActionForm(3)"
       ></app-making-response>
-
-      <app-next-step
-        *ngIf="
-          lawsuitService.stepIndex === lawsuitService.steps.length &&
-          lawsuitService.historyActions.length &&
-          (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-        "
-      ></app-next-step>
     </app-stop-process-wrap>
   </ng-container>
 </app-step-wrapper>

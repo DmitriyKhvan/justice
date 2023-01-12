@@ -160,7 +160,8 @@ import { HistoryCurrentStatusComponent } from './pages/lawsuit/components/histor
 import { PopUpStepStatusInfoComponent } from './pages/lawsuit/components/pop-up-step-status-info/pop-up-step-status-info.component';
 import { ReCassationRequestComponent } from './pages/lawsuit/components/steps/law/re-cassation-request/re-cassation-request.component';
 import { ReCassationResponseComponent } from './pages/lawsuit/components/steps/law/re-cassation-response/re-cassation-response.component';
-import { ReCassationRequestTemplate } from './pages/lawsuit/components/steps/law/re-cassation-request/re-cassation-request-template.component';
+import { ReCassationRequestTemplateComponent } from './pages/lawsuit/components/steps/law/re-cassation-request/re-cassation-request-template.component';
+import { ReCassationResponseTemplateComponent } from './pages/lawsuit/components/steps/law/re-cassation-response/re-cassation-response-template.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -308,7 +309,8 @@ export function createTranslateLoader(http: HttpClient) {
     PopUpStepStatusInfoComponent,
     ReCassationRequestComponent,
     ReCassationResponseComponent,
-    ReCassationRequestTemplate,
+    ReCassationRequestTemplateComponent,
+    ReCassationResponseTemplateComponent,
   ],
   imports: [
     // TooltipModule,

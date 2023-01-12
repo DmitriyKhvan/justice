@@ -45,6 +45,25 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.sSub = this.lawsuitService
+      .getSteps()
+      .pipe(
+        map((steps: any) => {
+          const stopProcessStep = steps.find((step: any) => step.id === 8);
+          return stopProcessStep?.actions.find(
+            (action: any) => action.id === 24
+          );
+        })
+      )
+      .subscribe((action: any) => {
+        this.dicService
+          .getDicByActionId(action?.id)
+          .subscribe((dictionaries: any) => {
+            this.dictionaries = dictionaries;
+            console.log('this.dictionaries', this.dictionaries);
+          });
+      });
+
     let formTemplate: any = '';
     let formTemplateNull: any = null;
 
@@ -84,11 +103,6 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
     //     }),
     //     mergeMap((action: any) => this.dicService.getDicByActionId(action?.id))
     //   )
-    this.sSub = this.dicService
-      .getDicByActionId(this.action?.id)
-      .subscribe((dictionaries: any) => {
-        this.dictionaries = dictionaries;
-      });
 
     this.dSub = this.form
       .get('renewalDateCheck')
@@ -177,12 +191,13 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
           // this.lawsuitService.historyActions = actions;
           this.lawsuitService.contract = contract;
 
-          this.submitted = false;
           this.alert.success('Форма оформлена');
         },
         (error) => {
-          this.submitted = false;
           // this.alert.danger('Форма не оформлена');
+        },
+        () => {
+          this.submitted = false;
         }
       );
   }

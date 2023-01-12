@@ -1,5 +1,15 @@
 <div *ngIf="lawsuitService.contract?.status !== 5; else stopProcess">
   <ng-content></ng-content>
+
+  <app-next-step
+    *ngIf="
+      lawsuitService.stepIndex === lawsuitService.steps.length - 1 &&
+      lawsuitService.historyActions.length &&
+      (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
+    "
+  ></app-next-step>
+
+  <app-step-current-status></app-step-current-status>
 </div>
 <ng-template #stopProcess>
   <app-stop-process-message></app-stop-process-message>

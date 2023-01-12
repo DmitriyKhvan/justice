@@ -8,17 +8,8 @@
           *ngIf="this.lawsuitService.isActionForm(1)"
         ></app-notification-form>
 
-        <app-next-step
-          *ngIf="
-            lawsuitService.stepIndex === lawsuitService.steps.length &&
-            lawsuitService.historyActions.length &&
-            (lawsuitService.isDeniedStep || !lawsuitService.historySteps.length)
-          "
-        ></app-next-step>
       </app-stop-process-wrap> -->
       <ng-content select=".action-form"></ng-content>
-
-      <app-step-current-status></app-step-current-status>
     </div>
     <div class="col-lg-8 col-md-6">
       <div class="row">

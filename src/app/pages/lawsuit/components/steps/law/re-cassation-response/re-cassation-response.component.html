@@ -1,1 +1,449 @@
-<p>re-cassation-response works!</p>
+<div class="lawsuitTitleWrap">
+  <h2 class="lawsuitTitle">
+    {{
+      formTemplate
+        ? formTemplate.lang[lawsuitService.translate.currentLang]
+        : action?.actionNameLang[lawsuitService.translate.currentLang]
+    }}
+  </h2>
+  <button
+    *ngIf="!formData && !formTemplate"
+    class="remove_action_form__btn"
+    (click)="this.lawsuitService.removeActionForm(action.actionId)"
+  >
+    <i class="uil-times"></i>
+  </button>
+</div>
+
+<form class="page-form" [formGroup]="form" (ngSubmit)="submit(action.actionId)">
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <!-- <div class="input-field">
+        <div class="input-field__title">{{ "caseNumber" | translate }}</div>
+        <label class="input-field__label readonly">
+          <input type="text" autocomplete="off" formControlName="caseNumber" />
+        </label>
+      </div> -->
+
+      <div class="select-field">
+        <div class="select-field__title">
+          {{ "caseNumber" | translate }}
+        </div>
+        <ng-select
+          appearance="outline"
+          [items]="lawIds"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="{{ 'caseNumber' | translate }}"
+          #agreeSelect
+          labelForId="yesno"
+          [searchable]="false"
+          formControlName="lawId"
+        ></ng-select>
+        <div
+          *ngIf="form.get('lawId')?.touched && form.get('lawId')?.invalid"
+          class="validation"
+        >
+          <small *ngIf="form.get('lawId')?.errors?.required">
+            {{ "select_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <app-datepicker
+        title="{{ 'decisionDate' | translate }}"
+        [form]="form"
+        [formTemplate]="formTemplate"
+        controlName="decisionDate"
+      ></app-datepicker>
+    </div>
+  </div>
+
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-6">
+      <app-select
+        title="{{ 'decisionResult' | translate }}"
+        placeholder="{{ 'decisionResult' | translate }}"
+        [form]="form"
+        controlName="decisionResult"
+        [options]="dictionaries?.courtDecision"
+        [bindLabel]="'lang.' + lawsuitService.translate.currentLang"
+        [bindValue]="'id'"
+      ></app-select>
+    </div>
+
+    <!-- <div class="col-6" *ngIf="form.get('decisionResult')?.value === 34">
+      <app-datepicker
+        title="{{ 'forceDecisionDate' | translate }}"
+        [form]="form"
+        [formTemplate]="formTemplate"
+        controlName="forceDecisionDate"
+      ></app-datepicker>
+    </div> -->
+
+    <div
+      class="col-6"
+      *ngIf="
+        form.get('decisionResult')?.value === 35 ||
+        form.get('decisionResult')?.value === 36
+      "
+    >
+      <app-select
+        title="{{ 'appealAgainstLawDesicion' | translate }}"
+        placeholder="{{ 'appealAgainstLawDesicion' | translate }}"
+        [form]="form"
+        controlName="appealAgainstLawDesicion"
+        [options]="dictionaries?.yesNo"
+        [bindLabel]="'lang.' + lawsuitService.translate.currentLang"
+        [bindValue]="'value'"
+      ></app-select>
+    </div>
+  </div>
+
+  <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <app-select
+          title="{{ 'typeAppeal' | translate }}"
+          placeholder="{{ 'typeAppeal' | translate }}"
+          [form]="form"
+          controlName="typeAppeal"
+          [options]="dictionaries?.appealType"
+          [bindLabel]="'lang.' + lawsuitService.translate.currentLang"
+          [bindValue]="'id'"
+        ></app-select>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "principal_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealPrincipalAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealPrincipalAmount')?.touched &&
+              form.get('appealPrincipalAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealPrincipalAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "percent_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealInterestAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealInterestAmount')?.touched &&
+              form.get('appealInterestAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealInterestAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "penalty_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealPenaltyAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealPenaltyAmount')?.touched &&
+              form.get('appealPenaltyAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealPenaltyAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">{{ "fine_amount" | translate }}</div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealFineAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealFineAmount')?.touched &&
+              form.get('appealFineAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealFineAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-between align-items-end mb-2">
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "appealStateDutyCourtCostsAmount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealStateDutyCourtCostsAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealStateDutyCourtCostsAmount')?.touched &&
+              form.get('appealStateDutyCourtCostsAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small
+              *ngIf="
+                form.get('appealStateDutyCourtCostsAmount')?.errors?.required
+              "
+            >
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="input-field">
+          <div class="input-field__title">
+            {{ "total_claim_amount" | translate }}
+          </div>
+          <label
+            class="input-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <input
+              type="text"
+              autocomplete="off"
+              formControlName="appealClaimAmount"
+            />
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealClaimAmount')?.touched &&
+              form.get('appealClaimAmount')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealClaimAmount')?.errors?.required">
+              {{ "enter_data" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="row justify-content-between align-items-end mb-2">
+      <div
+        class="col-6"
+        *ngIf="form.get('appealAgainstLawDesicion')?.value === false"
+      >
+        <app-select
+          title="{{ 'action2' | translate | titlecase }}"
+          placeholder="{{ 'action2' | translate | titlecase }}"
+          [form]="form"
+          controlName="actionType"
+          [options]="dictionaries?.notAppealAction"
+          [bindLabel]="'lang.' + lawsuitService.translate.currentLang"
+          [bindValue]="'id'"
+        ></app-select>
+      </div>
+      <div class="col-6" *ngIf="form.get('actionType')?.value === 49">
+        <app-datepicker
+          title="{{ 'deferTo' | translate }}"
+          [form]="form"
+          controlName="postponeUntil"
+        ></app-datepicker>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="form.get('appealAgainstLawDesicion')?.value === true">
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <app-file-uploader
+          [formData]="formData"
+          [formTemplate]="formTemplate"
+          title="{{'attach_file' | translate}}"
+        ></app-file-uploader>
+      </div>
+    </div>
+
+    <div class="row justify-content-between mb-2">
+      <div class="col-12">
+        <div class="text-field">
+          <div class="text-field__title">{{'additional_information' | translate}}</div>
+          <label
+            class="text-field__label"
+            [class]="formTemplate ? 'readonly' : ''"
+          >
+            <textarea
+              placeholder="{{'specify_details' | translate}}"
+              formControlName="appealAddInfo"
+            ></textarea>
+          </label>
+
+          <div
+            *ngIf="
+              form.get('appealAddInfo')?.touched &&
+              form.get('appealAddInfo')?.invalid
+            "
+            class="validation"
+          >
+            <small *ngIf="form.get('appealAddInfo')?.errors?.required">
+              {{'enter_data' | translate}}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div *ngIf="form.get('actionType')?.value === 3"> -->
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <app-file-uploader
+        [formData]="formData"
+        [formTemplate]="formTemplate"
+        title="{{ 'attach_file' | translate }}"
+      ></app-file-uploader>
+    </div>
+  </div>
+  <div class="row justify-content-between align-items-end mb-2">
+    <div class="col-12">
+      <div class="text-field">
+        <div class="text-field__title">
+          {{ "additional_information" | translate }}
+        </div>
+        <label
+          class="text-field__label"
+          [class]="formTemplate ? 'readonly' : ''"
+        >
+          <textarea
+            placeholder="{{ 'specify_details' | translate }}"
+            formControlName="additionalInfo"
+          ></textarea>
+        </label>
+
+        <div
+          *ngIf="
+            form.get('additionalInfo')?.touched &&
+            form.get('additionalInfo')?.invalid
+          "
+          class="validation"
+        >
+          <small *ngIf="form.get('additionalInfo')?.errors?.required">
+            {{ "enter_data" | translate }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+
+  <button
+    *ngIf="!formData && !formTemplate"
+    type="submit"
+    class="page-form__actionbtn text-uppercase add"
+    [ngClass]="{ disableBtn: form.invalid || submitted }"
+    [disabled]="form.invalid || submitted"
+  >
+    <span
+      *ngIf="
+        this.form.get('appealAgainstLawDesicion')?.value === true;
+        else second
+      "
+      >{{ "continue_case" | translate }}</span
+    >
+
+    <ng-template #second>
+      <span *ngIf="this.form.get('actionType')?.value === 49; else third">{{
+        "postpone_while" | translate
+      }}</span>
+    </ng-template>
+
+    <ng-template #third>
+      <span *ngIf="this.form.get('actionType')?.value === 50; else fourth">{{
+        "close_case" | translate
+      }}</span>
+    </ng-template>
+
+    <ng-template #fourth>
+      <span>{{ "send" | translate }}</span>
+    </ng-template>
+  </button>
+</form>

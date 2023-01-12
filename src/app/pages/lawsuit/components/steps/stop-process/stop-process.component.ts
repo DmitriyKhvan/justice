@@ -13,8 +13,8 @@ export class StopProcessComponent implements OnInit {
   constructor(public lawsuitService: LawsuitService) {}
 
   ngOnInit(): void {
-    this.action = this.lawsuitService.stopProcessStep?.actions.find(
-      (action: any) => action.id === 24
-    );
+    // this.action = this.lawsuitService.stopProcessStep?.actions.find(
+    //   (action: any) => action.id === 24
+    // );
   }
 }

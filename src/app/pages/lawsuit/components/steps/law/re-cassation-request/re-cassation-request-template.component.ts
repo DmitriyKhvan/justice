@@ -67,7 +67,7 @@ import { DictionariesService } from 'src/app/services/dictionfries.service';
   `,
   styles: [],
 })
-export class ReCassationRequestTemplate implements OnInit {
+export class ReCassationRequestTemplateComponent implements OnInit {
   @Input() actionData!: any;
 
   dicSub!: Subscription;

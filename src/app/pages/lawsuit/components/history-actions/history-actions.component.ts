@@ -56,7 +56,6 @@ export class HistoryActionsComponent implements OnInit, OnDestroy {
     //       (step) => step.status === 1
     //     );
     //   });
-
     if (this.lawsuitService.fromStepId == 8) {
       this.dicSub = this.dicService
         .getDicByActionId(24)
