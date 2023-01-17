@@ -45,8 +45,6 @@ export class DictionariesService {
   }
 
   getDicByActionId(id: number): Observable<any> {
-    debugger;
-
     return this.http
       .get(`${environment.dbUrlBek}/references/getSprByActionId?actionId=${id}`)
       .pipe(

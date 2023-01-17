@@ -4,6 +4,13 @@
   background: #10274a;
   color: #ffffff;
 
+  #logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 370px;
+  }
+
   &_menu {
     display: flex;
   }
