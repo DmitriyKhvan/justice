@@ -4,6 +4,9 @@
   <!-- <pre> {{ keycloak.loadUserProfile }}</pre> -->
 
   <div class="app-navbar_menu">
+    <div id="logo">
+      <img src="../../../assets/img/logo.png" alt="logo" />
+    </div>
     <div
       *ngIf="
         keycloak.isUserInRole('lawyer') || keycloak.isUserInRole('head-lawyer');
@@ -13,10 +16,7 @@
     >
       <div
         class="app-navbar_item px-2"
-        style="
-          margin-left: 186px;
-          border-left: 1px solid rgba(255, 255, 255, 0.1);
-        "
+        style="border-left: 1px solid rgba(255, 255, 255, 0.1)"
         routerLink="/clients"
         routerLinkActive="active-link"
       >

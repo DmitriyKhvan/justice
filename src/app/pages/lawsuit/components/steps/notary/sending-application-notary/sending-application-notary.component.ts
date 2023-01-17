@@ -95,6 +95,8 @@ export class SendingApplicationNotaryComponent implements OnInit {
       files: this.fileUploadService.transformFilesData(),
     };
 
+    this.submitted = true;
+
     this.lawsuitService
       .apiFetch(data, 'notary/add/request', actionId)
       .subscribe(
