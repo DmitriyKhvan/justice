@@ -46,7 +46,8 @@
         <td>{{ data.creditSumm | numberTransform }}</td>
         <td>
           <div *ngFor="let g of data.guarantee">
-            <span>{{ g.detail }}</span> -
+            <span>{{ g.detail ? g.detail : getGuarantee(idx, g.type) }}</span>
+            -
             <span>{{ g.summ | numberTransform }}</span>
           </div>
         </td>

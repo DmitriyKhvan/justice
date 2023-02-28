@@ -65,6 +65,7 @@
   "completion": "Tugatish",
   "total_debt": "Jami qarzdorlik",
   "delay": "Mudat O'tkan qarizdorlik",
+  "delayDays": "Uz_Дней просрочено",
   "waiting_decision": "Qarorni kutish",
   "step1": "Qadam",
   "step2": "Qadam",
@@ -204,5 +205,6 @@
 
   "serverError": "Uz_Сервер не отвечает",
   "request-doesnt-exist": "Uz_Нет соответствующей отправки запроса",
-  "export_data": "Uz_Экспорт данных"
+  "export_data": "Uz_Экспорт данных",
+  "accrued_interest": "Uz_Начислено пени"
 }

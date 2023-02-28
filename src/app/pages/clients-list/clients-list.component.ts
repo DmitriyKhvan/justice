@@ -75,7 +75,7 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   itemsPerPage: number = this.pages[0].value;
   sortValue: string = '';
-  sortType: string = 'ASC';
+  sortType: string = '';
   searchValue: string = '';
   sortClass: string = 'uil-angle-down';
 
@@ -188,6 +188,8 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.resetSortClass();
 
       event.target.className = 'uil-angle-up sorting';
+      console.log(sortValue);
+
       this.sortValue = sortValue;
       this.sortType = 'ASC';
     } else {

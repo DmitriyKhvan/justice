@@ -65,6 +65,7 @@
   "completion": "Завершение",
   "total_debt": "Итого долг",
   "delay": "Просрочка",
+  "delayDays": "Дней просрочено",
   "waiting_decision": "В ожидании решения",
   "step1": "Шаг",
   "step2": "Шага",
@@ -211,5 +212,6 @@
 
   "serverError": "Сервер не отвечает",
   "request-doesnt-exist": "Нет соответствующей отправки запроса",
-  "export_data": "Экспорт данных"
+  "export_data": "Экспорт данных",
+  "accrued_interest": "Начислено пени"
 }

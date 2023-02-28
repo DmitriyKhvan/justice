@@ -129,6 +129,16 @@
               (click)="sort('delayDate', $event)"
             ></i>
           </div>
+
+          <div class="page-table__th">
+            {{ "delayDays" | translate }}
+            <i
+              #sorting
+              class="uil-angle-down sorting"
+              (click)="sort('delayDays', $event)"
+            ></i>
+          </div>
+
           <div class="page-table__th">
             {{ "waiting_decision" | translate }}
             <i
@@ -177,13 +187,20 @@
             {{ contract.clientTypeName[lawsuitService.translate.currentLang] }}
           </div>
           <div class="page-table__td">{{ contract.creditId }}</div>
-          <div class="page-table__td">{{ contract.creditSumm }}</div>
+          <div class="page-table__td">
+            {{ contract.creditSumm | numberTransform }}
+          </div>
           <!-- <div class="page-table__td">{{ contract.creditCurrency }}</div> -->
           <div class="page-table__td">{{ contract.creditStart }}</div>
           <div class="page-table__td">{{ contract.creditEnd }}</div>
-          <div class="page-table__td">{{ contract.totalDebt }}</div>
+          <div class="page-table__td">
+            {{ contract.totalDebt | numberTransform }}
+          </div>
           <div class="page-table__td text-danger fw-bold">
             {{ contract.delayDate }}
+          </div>
+          <div class="page-table__td text-danger fw-bold">
+            {{ contract.delayDays }}
           </div>
           <div class="page-table__td">
             <div class="count_value">

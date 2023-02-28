@@ -86,7 +86,7 @@
 
   &-body {
     height: calc(100vh - 335px);
-    overflow: scroll;
+    overflow: auto;
     &::-webkit-scrollbar {
       width: 10px;
       height: 10px;
