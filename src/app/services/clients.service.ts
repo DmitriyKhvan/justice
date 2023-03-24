@@ -68,14 +68,25 @@ export class ClientsService {
     //   )
     // );
 
-    return this.http.post<any>(`${environment.dbUrlBek}/cases/getList`, {
-      page,
-      count,
-      mfo,
-      sortValue,
-      sortType,
-      search,
-    });
+    return this.http
+      .post<any>(`${environment.dbUrlBek}/cases/getList`, {
+        page,
+        count,
+        mfo,
+        sortValue,
+        sortType,
+        search,
+      })
+      .pipe(
+        catchError((error: any) => {
+          this.alert.danger(
+            !error.error.message || error.statusText === 'Unknown Error'
+              ? this.translate.instant('serverError')
+              : error.message
+          );
+          return throwError(error);
+        })
+      );
   }
 
   getListStopProcess({

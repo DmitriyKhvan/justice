@@ -134,7 +134,7 @@
   "searchCaseNumber": "Поиск по № дела",
   "deferTo": "Отложить до",
   "dateLaw": "Дата проведения суда",
-  "timeLaw": "Время проведения суда",
+  "timeLaw": "Время",
   "dateTimeLaw": "Дата и время проведения суда",
   "addDateLaw": "Добавить дату",
   "decisionDate": "Дата решения",
@@ -213,5 +213,7 @@
   "serverError": "Сервер не отвечает",
   "request-doesnt-exist": "Нет соответствующей отправки запроса",
   "export_data": "Экспорт данных",
-  "accrued_interest": "Начислено пени"
+  "accrued_interest": "Начислено пени",
+
+  "emptyList": "Список пуст"
 }

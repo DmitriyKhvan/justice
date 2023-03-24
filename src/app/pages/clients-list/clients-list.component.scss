@@ -11,3 +11,14 @@
 .sorting {
   cursor: pointer;
 }
+
+.loader {
+  height: calc(100vh - 262px);
+}
+
+.emptyList {
+  height: calc(100vh - 262px);
+  .title {
+    font-size: 32px;
+  }
+}

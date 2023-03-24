@@ -282,13 +282,10 @@
         </label>
 
         <div
-          *ngIf="
-            form.get('otherStopReason')?.touched &&
-            form.get('otherStopReason')?.invalid
-          "
+          *ngIf="form.get('other')?.touched && form.get('other')?.invalid"
           class="validation"
         >
-          <small *ngIf="form.get('otherStopReason')?.errors?.required">
+          <small *ngIf="form.get('other')?.errors?.required">
             {{ "enter_data" | translate }}
           </small>
         </div>

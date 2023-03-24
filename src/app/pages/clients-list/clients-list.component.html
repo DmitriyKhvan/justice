@@ -150,7 +150,7 @@
         </div>
       </div>
     </div>
-    <div class="page-table__body">
+    <div *ngIf="!loader; else loaderBlock" class="page-table__body">
       <div
         class="page-table__tr"
         *ngFor="
@@ -237,10 +237,22 @@
       </div>
     </div>
 
-    <!-- pagination -->
+    <ng-template #loaderBlock>
+      <div class="loader d-flex justify-content-center align-items-center">
+        <app-loader></app-loader>
+      </div>
+    </ng-template>
+
+    <div
+      *ngIf="!loader && !contractList.length"
+      class="emptyList d-flex justify-content-center align-items-center"
+    >
+      <h2 class="title">{{ "emptyList" | translate }}</h2>
+    </div>
   </div>
 
-  <div class="d-flex paginationBlock add">
+  <!-- pagination -->
+  <div *ngIf="itemsPerPage < totalItems" class="d-flex paginationBlock add">
     <div class="d-flex align-items-center">
       <small class="paginationTitle">{{ "count_page" | translate }}:</small>
       <ng-select

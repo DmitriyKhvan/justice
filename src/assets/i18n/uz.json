@@ -132,7 +132,7 @@
   "searchCaseNumber": "Uz_Поиск по № дела",
   "deferTo": "Qoldirish",
   "dateLaw": "Sud jarayonini sanasi",
-  "timeLaw": "Sud jarayonini vaqti",
+  "timeLaw": "Vaqti",
   "dateTimeLaw": "Sud jarayonini sanasi va vaqti",
   "addDateLaw": "Sana qoshish",
   "decisionDate": "Qaror sanasi",
@@ -206,5 +206,7 @@
   "serverError": "Uz_Сервер не отвечает",
   "request-doesnt-exist": "Uz_Нет соответствующей отправки запроса",
   "export_data": "Uz_Экспорт данных",
-  "accrued_interest": "Uz_Начислено пени"
+  "accrued_interest": "Uz_Начислено пени",
+
+  "emptyList": "Uz_Список пуст"
 }

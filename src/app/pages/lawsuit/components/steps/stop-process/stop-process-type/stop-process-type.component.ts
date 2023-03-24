@@ -147,7 +147,7 @@ export class StopProcessTypeComponent implements OnInit, OnDestroy {
           other: '',
         });
 
-        if (id === 154) {
+        if (id === 183) {
           this.form.get('other')?.setValidators([Validators.required]);
         } else {
           this.form.get('other')?.clearValidators();

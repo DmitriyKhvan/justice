@@ -197,17 +197,24 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
 
   private toggleValidatorsAction(actionType: any): void {
     const deferTo = this.form.get('deferTo');
+    const timeLaw = this.form.get('timeLaw');
     const additionalInfo = this.form.get('additionalInfo');
     const validators: ValidatorFn[] = [Validators.required];
 
     if (actionType === 45) {
       deferTo?.setValidators(validators);
+      timeLaw?.setValidators([
+        Validators.required,
+        Validators.pattern(/(?=(^([^\d]*?\d){4}$))/),
+      ]);
       additionalInfo?.setValidators(validators);
     } else if (actionType === 46 || actionType === 47) {
       deferTo?.clearValidators();
+      timeLaw?.clearValidators();
     }
 
     deferTo?.updateValueAndValidity();
+    timeLaw?.updateValueAndValidity();
     additionalInfo?.updateValueAndValidity();
   }
 
@@ -287,13 +294,18 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
     // );
 
     const lawDatetime = [
-      `${this.form.value.dateLaw?.singleDate?.formatted} ${
-        this.form.value.timeLaw.slice(0, 2) +
-        ':' +
-        this.form.value.timeLaw.slice(-2)
-      }`,
+      `${
+        this.form.value.dateLaw?.singleDate?.formatted
+      } ${this.form.value.timeLaw.slice(0, 2)}:${this.form.value.timeLaw.slice(
+        -2
+      )}`,
     ];
 
+    const suspendDate = `${
+      this.form.value.deferTo?.singleDate?.formatted
+    } ${this.form.value.timeLaw.slice(0, 2)}:${this.form.value.timeLaw.slice(
+      -2
+    )}`;
     const data = {
       active: true,
       decision: this.form.value.conductLaw,
@@ -301,7 +313,8 @@ export class SettingResponseLawComponent implements OnInit, OnDestroy {
       lawDatetime,
       files: this.fileUploadService.transformFilesData(),
       action: this.form.value.action,
-      suspendDate: this.form.value.deferTo?.singleDate?.formatted,
+      // suspendDate: this.form.value.deferTo?.singleDate?.formatted,
+      suspendDate,
       addInfo: this.form.value.additionalInfo,
       preId,
     };

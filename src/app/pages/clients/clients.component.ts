@@ -37,6 +37,7 @@ export class ClientsComponent implements OnInit, DoCheck {
 
   branchList: any = [];
   regListItemIdx = null;
+  loader = true;
 
   constructor(
     public clientsService: ClientsService,
@@ -45,9 +46,13 @@ export class ClientsComponent implements OnInit, DoCheck {
   ) {}
 
   ngOnInit(): void {
-    this.clientsService.getMfo().subscribe((resp) => {
-      this.regionList = resp.data;
-    });
+    this.clientsService.getMfo().subscribe(
+      (resp) => {
+        this.regionList = resp.data;
+        this.loader = false;
+      },
+      () => (this.loader = false)
+    );
   }
 
   ngDoCheck(): void {

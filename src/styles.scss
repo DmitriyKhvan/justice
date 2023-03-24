@@ -193,6 +193,7 @@
     z-index: 10;
     & .page-table__tr__wrapper {
       border-bottom: 2px solid #10274a;
+      flex-wrap: nowrap;
     }
   }
   &__body {
@@ -206,6 +207,7 @@
     & .page-table__tr__wrapper {
       cursor: pointer;
       border-bottom: 1px solid rgba(16, 39, 74, 0.2);
+      flex-wrap: nowrap;
       //&:hover :not(page-table__tr__active) {
       //  transition: background 0.2s;
       //  background: rgba(16, 39, 74, 0.05);

@@ -64,7 +64,9 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedItem = null;
 
-  currentPage: number = 1;
+  currentPage: number = sessionStorage.getItem('currentPage')
+    ? Number(sessionStorage.getItem('currentPage'))
+    : 1;
   totalItems!: number;
   pages: Array<any> = [
     { label: 10, value: 10 },
@@ -73,7 +75,9 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
     { label: 'all', value: -1 },
   ];
 
-  itemsPerPage: number = this.pages[0].value;
+  itemsPerPage: number = sessionStorage.getItem('itemsPerPage')
+    ? Number(sessionStorage.getItem('itemsPerPage'))
+    : this.pages[0].value;
   sortValue: string = '';
   sortType: string = '';
   searchValue: string = '';
@@ -91,6 +95,8 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   filialName: string = '';
   currentDate: Date = new Date();
+
+  loader = true;
 
   constructor(
     public clientsService: ClientsService,
@@ -154,6 +160,7 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe((value: any) => {
         this.currentPage = 1;
+
         this.searchValue = value;
         this.getContracts();
       });
@@ -212,26 +219,44 @@ export class ClientsListComponent implements OnInit, AfterViewInit, OnDestroy {
   pageChanged(currentPage: number) {
     this.selectedItem = null;
     this.currentPage = currentPage;
+
+    sessionStorage.setItem('currentPage', this.currentPage.toString());
+    sessionStorage.setItem('itemsPerPage', this.itemsPerPage.toString());
+
+    this.currentPage = sessionStorage.getItem('currentPage')
+      ? Number(sessionStorage.getItem('currentPage'))
+      : currentPage;
+    this.itemsPerPage = sessionStorage.getItem('itemsPerPage')
+      ? Number(sessionStorage.getItem('itemsPerPage'))
+      : this.itemsPerPage;
+
     this.getContracts();
   }
 
   getContracts() {
+    this.loader = true;
     const data = {
       page: this.currentPage,
       count: this.itemsPerPage,
+
       mfo: this.route.snapshot.queryParams['mfo'],
       sortValue: this.sortValue,
       sortType: this.sortType,
       search: this.searchValue,
     };
 
-    this.contractsSub = this.clientsService
-      .getListByMfo(data)
-      .subscribe((contracts: any) => {
+    this.contractsSub = this.clientsService.getListByMfo(data).subscribe(
+      (contracts: any) => {
         this.contractList = contracts.contracts;
         this.totalItems = contracts.count;
         this.filialName = contracts.branchName.nameRus;
-      });
+
+        this.loader = false;
+      },
+      () => {
+        this.loader = false;
+      }
+    );
   }
 
   selectItem(pld: any, idx: any): void {

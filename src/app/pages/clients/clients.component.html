@@ -9,7 +9,7 @@
             <div class="main-list_table__th">{{ "count" | translate }}</div>
           </div>
         </div>
-        <div class="main-list_table__body">
+        <div *ngIf="!loader; else loaderBlock" class="main-list_table__body">
           <div
             *ngFor="let region of regionList; index as i"
             (click)="getBranchList(region.regionId, i)"
@@ -29,6 +29,12 @@
             </div>
           </div>
         </div>
+
+        <ng-template #loaderBlock>
+          <div class="mt-2">
+            <app-loader></app-loader>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

@@ -7,6 +7,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { LawsuitService } from 'src/app/services/lawsuit.service';
 import { PopUpInfoService } from 'src/app/services/pop-up-watch-form.service';
+import { Print } from 'universal-print-js-ts';
 
 @Component({
   selector: 'app-navbar',
@@ -52,6 +53,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
         localStorage.setItem('lang', event.lang);
       }
     );
+  }
+
+  print() {
+    Print('problem_credit');
   }
 
   useLanguage(language: string): void {
