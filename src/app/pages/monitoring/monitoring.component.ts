@@ -53,6 +53,11 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
     { label: 'Обзорный', value: 'overview' },
   ];
 
+  statisticData: any = {
+    regionsCode: [],
+    mfos: [],
+  };
+
   // selectedTypeReport = this.typeReportDic.find(
   //   (el) => el.value === 'statistics'
   // );
@@ -109,17 +114,19 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  getAllFilials() {
-    const data = {};
+  getAllFilials(statisticData: any) {
+    // const data = {};
     this.statisticsSub = this.lawsuitService
-      .statistics(data)
+      .statistics(statisticData)
       .subscribe((statistics) => {
         this.statisticsData = statistics;
       });
   }
 
   setDistrict(region: any) {
+    debugger;
     this.monitoringData = [];
+    // this.statisticData.regionsCode = [region?.code];
 
     if (region) {
       if (region.code === '00') {
@@ -129,7 +136,7 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
           this.filialsDic = region.branches;
           this.filials = [AllMfos];
         } else if (this.flag === 'statistics') {
-          this.getAllFilials();
+          this.getAllFilials(this.statisticData);
         }
       } else if (region.code !== '00') {
         this.filialsDic = region.branches;
@@ -147,12 +154,13 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     } else {
+      debugger;
       if (this.flag === 'monitoring') {
         this.filialsDic = [];
         this.filials = [];
         this.dataFilter = {};
       } else if (this.flag === 'statistics') {
-        this.getAllFilials();
+        this.getAllFilials(this.statisticData);
       }
     }
   }
@@ -182,7 +190,8 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
         this.monitoringData = [];
       }
     } else if (this.flag === 'statistics') {
-      if (this.valueFilter) {
+      debugger;
+      if (this.valueFilter?.length) {
         this.statisticsSub = this.lawsuitService
           .statistics(this.dataFilter)
           .subscribe((statistics) => {
@@ -190,7 +199,8 @@ export class MonitoringComponent implements OnInit, OnDestroy, AfterViewInit {
             this.statisticsData = statistics;
           });
       } else {
-        this.getAllFilials();
+        debugger;
+        this.getAllFilials(this.statisticData);
       }
     }
   }

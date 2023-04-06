@@ -2,6 +2,10 @@ table {
   th,
   td {
     border: 1px solid #ccc;
+
+    &:not(:first-child) {
+      min-width: 100px;
+    }
   }
 }
 
@@ -10,6 +14,7 @@ table {
 }
 
 .number {
+  min-width: 40px !important;
   text-align: center;
 }
 

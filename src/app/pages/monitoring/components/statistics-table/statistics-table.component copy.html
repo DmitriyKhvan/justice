@@ -171,220 +171,216 @@
         <td>{{ data.amount | numberTransform }}</td> -->
       </tr>
 
-      <ng-container *ngIf="isFilial.includes(data.regionCode)">
-        <ng-container *ngFor="let filial of data.branches; let idx2 = index">
-          <!-- <tr class="filial" [class]="'f' + data.regionCode"> -->
-          <tr>
-            <td class="accord-row">
-              <span>
-                <i
-                  (click)="toggleFilials2(filial.branchMfo)"
-                  class="uil-code accord"
-                ></i>
-              </span>
-            </td>
-            <td class="number">
-              <span>{{ idx + 1 }}.{{ idx2 + 1 }}.</span>
-            </td>
-            <td>
-              <span>{{ filial.branchNameRus }}</span>
-            </td>
-            <td>
-              <span>{{ filial.count }}</span>
-            </td>
-            <td>
-              <span>{{ filial.amount | numberTransform }}</span>
-            </td>
+      <ng-container *ngFor="let filial of data.branches; let idx2 = index">
+        <!-- <tr class="filial" [class]="'f' + data.regionCode"> -->
+        <tr *ngIf="isFilial === data.regionCode">
+          <td class="accord-row">
+            <span>
+              <i
+                (click)="toggleFilials2(filial.branchMfo)"
+                class="uil-code accord"
+              ></i>
+            </span>
+          </td>
+          <td class="number">
+            <span>{{ idx + 1 }}.{{ idx2 + 1 }}.</span>
+          </td>
+          <td>
+            <span>{{ filial.branchNameRus }}</span>
+          </td>
+          <td>
+            <span>{{ filial.count }}</span>
+          </td>
+          <td>
+            <span>{{ filial.amount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.tppCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.tppAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.tppCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.tppAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.lawCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.lawAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.lawCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.lawAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.mibCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.mibAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.mibCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.mibAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.notarCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.notarAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.notarCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.notarAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.lawEnfCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.lawEnfAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.lawEnfCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.lawEnfAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.stopPercentCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.stopPercentAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.stopPercentCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.stopPercentAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.tppStopCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.tppStopAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.tppStopCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.tppStopAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.lawStopCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.lawStopAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.lawStopCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.lawStopAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.mibStopCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.mibStopAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.mibStopCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.mibStopAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.notarStopCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.notarStopAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.notarStopCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.notarStopAmount | numberTransform }}</span>
+          </td>
 
-            <td>
-              <span>{{ filial.lawEnfStopCount }}</span>
-            </td>
-            <td>
-              <span>{{ filial.lawEnfStopAmount | numberTransform }}</span>
-            </td>
+          <td>
+            <span>{{ filial.lawEnfStopCount }}</span>
+          </td>
+          <td>
+            <span>{{ filial.lawEnfStopAmount | numberTransform }}</span>
+          </td>
 
-            <!-- <td>
+          <!-- <td>
             <span>{{ filial.count }}</span>
           </td>
           <td>
             <span>{{ filial.amount }}</span>
           </td> -->
-          </tr>
+        </tr>
 
-          <ng-container *ngIf="isClient.includes(filial.branchMfo)">
-            <ng-container
-              *ngFor="let client of filial.clients; let idx3 = index"
-            >
-              <tr>
-                <td></td>
-                <td class="number">
-                  <span>{{ idx + 1 }}.{{ idx2 + 1 }}.{{ idx3 + 1 }}</span>
-                </td>
-                <td>
-                  <span>{{ client.clientFio }}</span>
-                </td>
-                <td>
-                  <span>{{ client.count }}</span>
-                </td>
-                <td>
-                  <span>{{ client.amount | numberTransform }}</span>
-                </td>
+        <ng-container *ngFor="let client of filial.clients; let idx3 = index">
+          <ng-container *ngIf="isClient === filial.branchMfo">
+            <tr>
+              <td></td>
+              <td class="number">
+                <span>{{ idx + 1 }}.{{ idx2 + 1 }}.{{ idx3 + 1 }}</span>
+              </td>
+              <td>
+                <span>{{ client.clientFio }}</span>
+              </td>
+              <td>
+                <span>{{ client.count }}</span>
+              </td>
+              <td>
+                <span>{{ client.amount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.tppCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.tppAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.tppCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.tppAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.lawCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.lawAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.lawCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.lawAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.mibCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.mibAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.mibCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.mibAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.notarCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.notarAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.notarCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.notarAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.lawEnfCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.lawEnfAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.lawEnfCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.lawEnfAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.stopPercentCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.stopPercentAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.stopPercentCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.stopPercentAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.tppStopCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.tppStopAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.tppStopCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.tppStopAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.lawStopCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.lawStopAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.lawStopCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.lawStopAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.mibStopCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.mibStopAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.mibStopCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.mibStopAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.notarStopCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.notarStopAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.notarStopCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.notarStopAmount }}</span>
+              </td>
 
-                <td>
-                  <span>{{ client.lawEnfStopCount }}</span>
-                </td>
-                <td>
-                  <span>{{ client.lawEnfStopAmount | numberTransform }}</span>
-                </td>
+              <td>
+                <span>{{ client.lawEnfStopCount }}</span>
+              </td>
+              <td>
+                <span>{{ client.lawEnfStopAmount }}</span>
+              </td>
 
-                <!-- <td>
+              <!-- <td>
                 <span>{{ filial.count }}</span>
               </td>
               <td>
                 <span>{{ filial.amount }}</span>
               </td> -->
-              </tr>
-            </ng-container>
+            </tr>
           </ng-container>
         </ng-container>
       </ng-container>

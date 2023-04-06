@@ -162,6 +162,7 @@ import { ReCassationRequestComponent } from './pages/lawsuit/components/steps/la
 import { ReCassationResponseComponent } from './pages/lawsuit/components/steps/law/re-cassation-response/re-cassation-response.component';
 import { ReCassationRequestTemplateComponent } from './pages/lawsuit/components/steps/law/re-cassation-request/re-cassation-request-template.component';
 import { ReCassationResponseTemplateComponent } from './pages/lawsuit/components/steps/law/re-cassation-response/re-cassation-response-template.component';
+import { FilialComponent } from './pages/monitoring/components/statistics-table/components/fililal.component';
 
 const maskConfigFunction: () => Partial<IConfig> = () => {
   return {
@@ -311,6 +312,7 @@ export function createTranslateLoader(http: HttpClient) {
     ReCassationResponseComponent,
     ReCassationRequestTemplateComponent,
     ReCassationResponseTemplateComponent,
+    FilialComponent,
   ],
   imports: [
     // TooltipModule,
