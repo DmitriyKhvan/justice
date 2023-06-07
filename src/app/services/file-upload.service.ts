@@ -52,6 +52,8 @@ export class FileUploadService {
   public UploaderFiles = new BehaviorSubject<Array<any>>([]);
   currentUploaderFiles = this.UploaderFiles.asObservable();
 
+  uploadedFiles: any = [];
+
   pushFiles(files: Array<SingleFile>): void {
     this.UploaderFiles.next(files);
   }

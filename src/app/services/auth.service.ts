@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { AuthResponse, refreshTokenContent, User } from '../interfaces';
 import { Router } from '@angular/router';
+import { MainService } from './main.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,7 +20,11 @@ export class AuthService {
   public time: number = 1000 * 1000;
   private helper = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private mainService: MainService
+  ) {}
 
   get currentUser(): any {
     // debugger;

@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div class="row flex-nowrap align-items-end mb-1">
+        <div class="col-6">
+          <div class="form-field__title mb-1">№ дело</div>
+          <div class="form-field__disabled">
+            {{ taskInfo?.body?.case_number }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата внесение в суд или прокуратуру </div>
+          <div class="form-field__disabled">
+            {{ lastAction?.entry_date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field__title mb-1">Скан документа</div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.files; index as i"
+          class="py-1 d-flex align-items-center"
+          (click)="clientsService.downloadFile(item?.id)"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1 cursor-pointer">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="form-field__title mb-2">Дополнительная информация</div>
+        <div class="form-field__disabled">
+          {{ lastAction?.add_info }}
+        </div>
+      </div>
+    </div>
+
+    <form
+      action=""
+      class="page-form pb-2 "
+      [formGroup]="stepForm"
+      (ngSubmit)="nextStep()"
+      *ngIf="stepStatus === 0 && mainService.ROLE?.includes(1)"
+    >
+      <div class="row flex-nowrap align-items-end mb-2">
+        <div class="col-6">
+          <div class="form-field__title">№ дело</div>
+          <div class="form-field__disabled">
+            {{ taskInfo?.body?.case_number }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <app-form-field
+            formControlName="entry_date"
+            [type]="'datepicker'"
+            [title]="'Дата внесение в суд или прокуратуру '"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="files"
+            [type]="'file'"
+            [title]="'Скан документа'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-12">
+          <app-form-field
+            formControlName="add_info"
+            [type]="'textarea'"
+            [title]="'Дополнительная информация'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <button type="submit" class="page-form__actionbtn text-uppercase" [disabled]="stepForm.invalid">
+        следующий шаг
+      </button>
+    </form>
+  </div>
+</div>
+
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE?.includes(2)"
+></app-alert-info>

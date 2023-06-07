@@ -18,21 +18,23 @@ export class ClientsDetailComponent implements OnInit, DoCheck {
     private route: ActivatedRoute
   ) {}
 
-  uploadFiles!: Array<any>;
+  tasks: Array<any> = [];
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((val) => {
       this.clientsService.currentStep = val.step;
-      // this.clientsService
-      //   .contractDetails(val.contract)
-      //   .subscribe((value) => {
-      //     console.log(value);
-      //   });
+    });
+    this.clientsService.taskList.subscribe((list) => {
+      this.tasks = list;
     });
 
-    this.fileUploadService.currentUploaderFiles.subscribe((data) => {
-      this.uploadFiles = data;
-    });
+    // this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
+    //   this.clientsService.contractInfo.next(value);
+    //   this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
+    //   this.clientsService.taskList.subscribe(list => {
+    //     this.tasks = list;
+    //   });
+    // });
   }
 
   ngDoCheck(): void {}

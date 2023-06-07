@@ -1,0 +1,260 @@
+<div class="row">
+  <div class="col-lg-7">
+    <div
+      class="p-2 mb-2 bg-gray-primary"
+      style="border-radius: 5px"
+      *ngIf="lastAction"
+    >
+      <div
+        class="d-flex align-items-center flex-nowrap mb-2"
+        *ngIf="lastAction?.auction !== null"
+      >
+        <div
+          class="custom-toggle-track mr-1"
+          [class.custom-toggle-disabled]="!lastAction?.auction"
+        >
+          <div
+            class="custom-toggle-thumb"
+            [class.custom-toggle-thumb_active]="lastAction?.auction"
+          ></div>
+        </div>
+        <div class="form-field__title m-0">Аукцион</div>
+      </div>
+
+      <div class="row flex-nowrap mb-2" *ngIf="lastAction?.auction">
+        <div class="col-6">
+          <div class="form-field__title mb-1">№ дело МИБ</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ taskInfo?.body?.mib_case_number }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap align-items-end mb-2" *ngIf="lastAction?.lot_begin_date && lastAction?.lot_end_date">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата начало лота</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.lot_begin_date }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-field__title mb-1">Дата окончание лота</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.lot_end_date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="form-field__title mb-2">Дополнительная информация</div>
+        <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+          {{ lastAction?.add_info }}
+        </div>
+      </div>
+
+      <div class="form-field__title mb-2">Скан документа</div>
+      <div class="mb-2">
+        <div
+          *ngFor="let item of lastAction?.files; index as i"
+          class="py-1 d-flex align-items-center"
+          (click)="clientsService.downloadFile(item?.id)"
+        >
+          <i class="icon-attach mr-1" style="font-size: 22px"></i>
+          <div class="ml-1 cursor-pointer">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row flex-nowrap mb-2" *ngIf="lastAction?.realization !== null">
+        <div class="col-6">
+          <div class="form-field__title mb-1">Лот реализован</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.realization ? 'Да' : 'Нет' }}
+          </div>
+        </div>
+
+        <div class="col-6" *ngIf="lastAction?.realization">
+          <div class="form-field__title mb-1">Сумма реализации</div>
+          <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+            {{ lastAction?.realization_sum }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="stepForm"
+      *ngIf="
+        (stepStatus === 0 &&
+          mainService.ROLE?.includes(1) &&
+          taskInfo?.body?.auction_count === 0) ||
+        (stepStatus === -1 &&
+          mainService.ROLE?.includes(1) &&
+          !taskInfo?.body?.auction)
+      "
+      (ngSubmit)="nextStep()"
+    >
+      <div
+        class="row justify-content-between mb-2"
+        *ngIf="stepStatus === 0 && !taskInfo?.body?.auction_count"
+      >
+        <div class="col-12">
+          <app-form-field
+            formControlName="auction"
+            [type]="'checkbox'"
+            [checkboxType]="'toggle'"
+            [title]="'Аукцион'"
+          ></app-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="stepStatus === 0 || stepStatus === -1">
+        <div
+          class="row justify-content-between mb-2"
+          *ngIf="stepForm.value.auction"
+        >
+          <div class="col-6">
+            <div class="form-field__title mb-1">№ дело МИБ</div>
+            <div class="p-2 bg-gray-secondary" style="border-radius: 5px">
+              {{ taskInfo?.body?.mib_case_number }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="row justify-content-between align-items-end mb-2"
+          *ngIf="stepForm.value.auction"
+        >
+          <div class="col-6">
+            <app-form-field
+              formControlName="lot_begin_date"
+              [type]="'datepicker'"
+              [title]="'Дата начало лота'"
+            ></app-form-field>
+          </div>
+          <div class="col-6">
+            <app-form-field
+              formControlName="lot_end_date"
+              [type]="'datepicker'"
+              [title]="'Дата окончание лота'"
+            ></app-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-between mb-2">
+          <div class="col-12">
+            <app-form-field
+              formControlName="add_info"
+              [type]="'textarea'"
+              [title]="'Дополнительная информация'"
+            ></app-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-between mb-2">
+          <div class="col-12">
+            <app-form-field
+              formControlName="files"
+              [type]="'file'"
+              [title]="'Скан документа'"
+            ></app-form-field>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="stepForm.invalid"
+      >
+        {{ stepForm?.value.auction ? "В ожидание" : "следующий шаг" }}
+      </button>
+    </form>
+
+    <form
+      action=""
+      class="page-form"
+      [formGroup]="stepForm"
+      *ngIf="
+        (stepStatus === 0 &&
+        mainService.ROLE?.includes(1) &&
+        taskInfo?.body?.auction_count === 1) ||
+        (stepStatus === 0 &&
+        mainService.ROLE?.includes(1) &&
+        taskInfo?.body?.auction_count === 2)
+      "
+      (ngSubmit)="nextStep()"
+    >
+      <div class="row justify-content-between mb-2">
+        <div class="col-6">
+          <app-form-field
+            formControlName="realization"
+            [type]="'select'"
+            [title]="'Лот реализован'"
+            [selectOptions]="realizationAction"
+          ></app-form-field>
+        </div>
+
+        <div class="col-6" *ngIf="stepForm?.value.realization">
+          <app-form-field
+            formControlName="realization_sum"
+            [type]="'text'"
+            [title]="'Сумма реализации'"
+          ></app-form-field>
+        </div>
+
+        <div class="col-12">
+          <div
+            class="py-1 d-flex align-items-center"
+            style="border-radius: 5px"
+          >
+            <i
+              class="uil-info-circle text-primary mr-2"
+              style="font-size: 20px"
+            ></i>
+            <div style="font-size: 12px">
+              {{
+                taskInfo?.body?.auction_count === 2
+                  ? "Невозможно выставить лот на повторный аукцио"
+                  : "Выставить лот на повторный аукцио можно только один раз"
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="page-form__actionbtn text-uppercase"
+        [disabled]="stepForm.invalid"
+      >
+        {{
+          taskInfo?.body?.auction_count === 1
+            ? "Выставление имущества на повторный аукцион"
+            : "следующий шаг"
+        }}
+      </button>
+    </form>
+
+    <div
+      class="p-2 mb-2 d-flex justify-content-center align-items-center bg-gray-secondary"
+      style="border-radius: 5px"
+      *ngIf="stepStatus === 2"
+    >
+      <i class="uil-info-circle text-danger mr-2" style="font-size: 20px"></i>
+      <div style="text-align: left">
+        <div>Шаг заблокирован до {{ taskInfo?.body?.lot_end_date }}  </div>
+        <div>До разблокировки осталось {{ getRelativeTime() }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-alert-info
+  [text]="'Подождите, данные еще не внесены исполнительным юристом.'"
+  [icon]="'uil-clock-three'"
+  [iconColorClass]="'text-warning'"
+  *ngIf="stepStatus === 0 && mainService.ROLE?.includes(2)"
+></app-alert-info>

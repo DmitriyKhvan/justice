@@ -2,11 +2,15 @@ import {
   AfterContentInit,
   Component,
   ContentChildren,
+  OnDestroy,
   OnInit,
   QueryList,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccordionItemComponent } from '../accordion-item/accordion-item.component';
+import { ClientsService } from '../../../services/clients.service';
+import { Subscription } from 'rxjs';
+import { StepComponent } from '../../stepper/step/step.component';
 
 @Component({
   selector: 'app-accordion-wrapper',
@@ -18,17 +22,9 @@ export class AccordionWrapperComponent implements OnInit, AfterContentInit {
   accordionItemComponent!: QueryList<AccordionItemComponent>;
   currentStep = 1;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.currentStep = val.step;
-    });
-  }
+  ngOnInit(): void {}
 
   ngAfterContentInit(): void {
-    // console.log(this.stepComponent);
-    this.accordionItemComponent.first.isFirst = true;
     this.accordionItemComponent.last.isLast = true;
     this.accordionItemComponent
       .toArray()
