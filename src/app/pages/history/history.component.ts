@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MainService } from '../../services/main.service';
-import { ClientsService } from '../../services/clients.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-history',
@@ -10,38 +7,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnInit {
-  constructor(
-    private router: Router,
-    public route: ActivatedRoute,
-    public mainService: MainService,
-    public clientsService: ClientsService
-  ) {}
+  constructor(private router: Router, public route: ActivatedRoute) {}
 
   params: any;
-  tasks: Array<any> = [];
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((val) => {
-      this.params = val;
+    this.route.queryParams.subscribe((value) => {
+      this.params = value;
     });
-    this.clientsService.taskList.subscribe((list) => {
-      this.tasks = list;
-    });
-    // this.clientsService.contractDetails(this.route.snapshot.queryParams.contract).subscribe(value => {
-    //   this.clientsService.contractInfo.next(value);
-    //   console.log(value);
-    //   this.clientsService.taskList.next(value.tasks.map((el: any) => el.task_step));
-    //   this.clientsService.taskList.subscribe(list => {
-    //     this.tasks = list;
-    //     console.log(this.tasks);
-    //   });
-    // });
-    // this.route.queryParams.subscribe((val) => {
-    //   this.params = val;
-    //   this.clientsService.contractDetails(val.contract).subscribe(value => {
-    //     this.clientsService.contractInfo.next(value);
-    //   });
-    // });
   }
 
   goToBack(): void {
@@ -49,21 +22,4 @@ export class HistoryComponent implements OnInit {
       queryParams: { ...this.route.snapshot.queryParams },
     });
   }
-
-  isActive(step: any): any {
-    return this.tasks.includes(String(step));
-  }
-
-  // addComment(): void {
-  //   const body = {
-  //     step: this.route.snapshot.queryParams.step,
-  //     task_id: Number(this.route.snapshot.queryParams.id),
-  //     text: this.commentForm.value.comment
-  //   };
-  //
-  //   this.clientsService.addTaskComment(body).subscribe(value => {
-  //     console.log(value);
-  //   });
-  //
-  // }
 }
